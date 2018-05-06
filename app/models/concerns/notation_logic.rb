@@ -21,14 +21,22 @@ module NotationLogic
     new_position[0] == 'c' ? 'O-O-O.' : 'O-O.'
   end
 
-  def start_notation(piece, new_position)
-    # needs start
-    ''
+  def start_notation(piece, next_move)
+    same_pieces = matching_pieces(piece, next_move)
+
+    index_is_unique?(same_pieces, piece) ? next_move[0] : next_move[1]
   end
 
-  def piece_code(piece_type)
-    {
-      king: 'K', queen: 'Q', bishop: 'B', knight: 'N', rook: 'R', pawn: ''
-    }[piece_type.to_sym]
+  def matching_pieces(piece, new_position)
+    pieces.where(piece_type: piece.piece_type, color: piece.color).select do |game_piece|
+        game_piece.moves_for_piece.include?(new_position) &&
+          game_piece.valid_move?(new_position)
+    end
+  end
+
+  def index_is_unique?(same_pieces, piece)
+    same_pieces.select do |game_piece|
+      game_piece.position[0] == piece.position[0]
+    end.count == 1
   end
 end

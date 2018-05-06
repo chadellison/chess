@@ -172,5 +172,15 @@ RSpec.describe Game, type: :model do
       xit 'test' do
       end
     end
+
+    describe '#matching_piece' do
+      xit 'test' do
+      end
+    end
+
+    describe '#index_is_unique?' do
+      xit 'test' do
+      end
+    end
   end
 end
