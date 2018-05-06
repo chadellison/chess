@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 2018_05_06_030830) do
     t.integer "position_index"
     t.string "color"
     t.string "piece_type"
+    t.boolean "moved_two", default: false
+    t.boolean "has_moved", default: false
     t.integer "game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

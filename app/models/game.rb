@@ -5,11 +5,20 @@ class Game < ApplicationRecord
 
   after_commit :add_pieces, on: :create
 
-  def move(position_index, new_position)
+  include NotationLogic
+
+  def move(position_index, new_position, upgraded_type = '')
+    update_notation(position_index, new_position, upgraded_type)
     pieces.find_by(position_index: position_index)
           .update(position: new_position)
 
     update_board
+  end
+
+  def update_notation(position_index, new_position, upgraded_type)
+    new_notation = create_notation(position_index, new_position, upgraded_type)
+
+    update(notation: (notation.to_s + new_notation.to_s))
   end
 
   def update_board
