@@ -2,7 +2,6 @@ module MoveLogic
   extend ActiveSupport::Concern
 
   def moves_for_rook
-    # vertical_moves
     moves_up + moves_down + moves_left + moves_right
   end
 
@@ -80,18 +79,6 @@ module MoveLogic
       (move_pair[0][0] + move_pair[1][1]) unless move_pair.include?(nil)
     end.compact
   end
-
-  # def vertical_moves
-  #   possible_moves = []
-  #   row = position[1].to_i
-  #
-  #   8.times do |count|
-  #     row += 1
-  #     row %= 9
-  #     possible_moves << (position[0] + row.to_s) unless row == 0
-  #   end
-  #   possible_moves
-  # end
 
   def moves_up(count = 8)
     possible_moves = []
