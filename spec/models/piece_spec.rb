@@ -174,12 +174,41 @@ RSpec.describe Piece, type: :model do
     end
 
     describe '#remove_out_of_bounds_moves' do
-      xit 'returns an array of all possible moves for a pawn (of either color) in a given position' do
+      let(:piece) { Piece.new }
+
+      it 'removes coordinates that are greater than 8 and less than 1' do
+        actual = piece.remove_out_of_bounds_moves(['a0', 'a2', 'a9'])
+        expect(actual).to eq ['a2']
+      end
+
+      it 'removes coordinates that are greater than h and less than a' do
+        actual = piece.remove_out_of_bounds_moves(['`0', 'a2', 'i9'])
+        expect(actual).to eq ['a2']
+      end
+
+      it 'does not remove coordinates that are within bounds' do
+        actual = piece.remove_out_of_bounds_moves(['a1', 'a2', 'a3'])
+        expect(actual).to eq ['a1', 'a2', 'a3']
       end
     end
 
     describe '#vertical_collision?' do
-      xit 'returns an array of all possible moves for a pawn (of either color) in a given position' do
+      it 'returns true when there is a piece above in the path of the destination' do
+        piece = Piece.new(position: 'a1')
+        actual = piece.vertical_collision?('a8', ['a4'])
+        expect(actual).to eq true
+      end
+
+      it 'returns true when there is a piece below in the path of the destination' do
+        piece = Piece.new(position: 'b8')
+        actual = piece.vertical_collision?('b1', ['b4'])
+        expect(actual).to eq true
+      end
+
+      it 'returns false when there is no piece in the path of the destination' do
+        piece = Piece.new(position: 'b8')
+        actual = piece.vertical_collision?('b7', ['b4'])
+        expect(actual).to eq false
       end
     end
 
@@ -312,9 +341,7 @@ RSpec.describe Piece, type: :model do
 
     describe '#valid_destination' do
       context 'when the destination is a different color than the piece moving' do
-        let(:game) {
-          Game.create
-        }
+        let(:game) { Game.create }
 
         it 'returns true' do
 
@@ -326,9 +353,7 @@ RSpec.describe Piece, type: :model do
       end
 
       context 'when the destination is empty' do
-        let(:game) {
-          Game.create
-        }
+        let(:game) { Game.create }
         it 'returns true' do
           piece = game.pieces.create(
             color: 'white',
@@ -526,9 +551,7 @@ RSpec.describe Piece, type: :model do
       context 'when the king is in checkmate' do
         it 'returns an empty array' do
           allow_any_instance_of(Game).to receive(:add_pieces).and_return(nil)
-
           game = Game.create
-
           piece = game.pieces.create(
             piece_type: 'king',
             color: 'black',
@@ -683,7 +706,6 @@ RSpec.describe Piece, type: :model do
         end
 
         it 'returns false when the next move is a castle' do
-          game.pieces.reload
           king = game.pieces.find_by(position_index: 29)
 
           expect(king.valid_for_piece?('g1', game.pieces)).to be false
@@ -691,7 +713,19 @@ RSpec.describe Piece, type: :model do
       end
 
       context 'when a king cannot castle due to moving through check' do
-        xit 'returns false when the next move is a castle' do
+        it 'returns false when the next move is a castle' do
+          allow_any_instance_of(Game).to receive(:add_pieces)
+
+          game_pieces = [
+            Piece.create(piece_type: 'rook', position: 'd8', color: 'black'),
+            Piece.create(piece_type: 'king', position: 'e1', color: 'white'),
+            Piece.create(piece_type: 'rook', position: 'a8', color: 'white')
+          ]
+
+          game = Game.create
+          game.pieces = game_pieces
+          king = game.pieces.find_by(piece_type: 'king')
+          expect(king.valid_for_piece?('c1', game.pieces)).to be false
         end
       end
     end
@@ -898,11 +932,6 @@ RSpec.describe Piece, type: :model do
       it 'returns false' do
         piece = game.pieces.find_by(position: 'd5')
         expect(piece.valid_for_pawn?('e4', game.pieces)).to be false
-      end
-    end
-
-    describe '#move_two?' do
-      xit 'test' do
       end
     end
 
