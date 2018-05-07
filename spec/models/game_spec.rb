@@ -107,10 +107,9 @@ RSpec.describe Game, type: :model do
 
   describe 'notation_logic_methods' do
     describe '#create_notation' do
-      let(:game) { Game.create }
-
       context 'for a pawn move' do
         it 'returns the notation' do
+          game = Game.create
           actual = game.create_notation(20, 'd4', '')
           expect(actual).to eq 'd4.'
         end
@@ -118,6 +117,7 @@ RSpec.describe Game, type: :model do
 
       context 'when a pawn kills another piece' do
         it 'returns the notation' do
+          game = Game.create
           game.pieces.find_by(position: 'e7').update(position: 'e5')
           game.pieces.find_by(position: 'd2').update(position: 'd4')
           actual = game.create_notation(20, 'e5', '')
@@ -125,27 +125,43 @@ RSpec.describe Game, type: :model do
         end
       end
 
-      context 'for a castle on theking side' do
-        it 'returns the notation' do
+      context 'for a castle' do
+        it 'calls the notation' do
+          game = Game.create
           game.pieces.find_by(position: 'f1').update(position: '')
           game.pieces.find_by(position: 'g1').update(position: '')
-          actual = game.create_notation(29, 'g1', '')
-          expect(actual).to eq 'O-O.'
+
+          expect_any_instance_of(Game).to receive(:castle_notation)
+            .with('g1')
+          game.create_notation(29, 'g1', '')
+        end
+
+        context 'on the king side' do
+          it 'returns the notation' do
+            game = Game.create
+            game.pieces.find_by(position: 'f1').update(position: '')
+            game.pieces.find_by(position: 'g1').update(position: '')
+            actual = game.create_notation(29, 'g1', '')
+            expect(actual).to eq 'O-O.'
+          end
+        end
+
+        context 'on the queen side' do
+          it 'returns the notation' do
+            game = Game.create
+            game.pieces.find_by(position: 'd1').update(position: '')
+            game.pieces.find_by(position: 'c1').update(position: '')
+            game.pieces.find_by(position: 'b1').update(position: '')
+            actual = game.create_notation(29, 'c1', '')
+            expect(actual).to eq 'O-O-O.'
+          end
         end
       end
 
-      context 'for a castle on the queen side' do
-        it 'returns the notation' do
-          game.pieces.find_by(position: 'd1').update(position: '')
-          game.pieces.find_by(position: 'c1').update(position: '')
-          game.pieces.find_by(position: 'b1').update(position: '')
-          actual = game.create_notation(29, 'c1', '')
-          expect(actual).to eq 'O-O-O.'
-        end
-      end
 
       context 'for a knight' do
         it 'returns the notation' do
+          game = Game.create
           actual = game.create_notation(26, 'c3', '')
           expect(actual).to eq 'Nc3.'
         end
@@ -153,6 +169,7 @@ RSpec.describe Game, type: :model do
 
       context 'for a knight when both knights can move on a given position' do
         it 'returns the notation' do
+          game = Game.create
           game.pieces.find_by(position: 'b1').update(position: 'c3')
           game.pieces.find_by(position: 'g1').update(position: 'e3')
 
@@ -166,6 +183,7 @@ RSpec.describe Game, type: :model do
 
       context 'for a rook' do
         it 'returns the notation' do
+          game = Game.create
           game.pieces.find_by(position: 'a2').update(position: '')
           actual = game.create_notation(25, 'a6', '')
           expect(actual).to eq 'Ra6.'
@@ -174,6 +192,7 @@ RSpec.describe Game, type: :model do
 
       context 'for a rook when two rooks are on the same column' do
         it 'returns the notation' do
+          game = Game.create
           game.pieces.find_by(position: 'a1').update(position: 'a3')
           game.pieces.find_by(position: 'h1').update(position: 'h3')
           actual = game.create_notation(25, 'd3', '')
@@ -183,6 +202,7 @@ RSpec.describe Game, type: :model do
 
       context 'for a rook when two rooks are on the same row' do
         it 'returns the notation' do
+          game = Game.create
           game.pieces.find_by(position: 'a1').update(position: 'a3')
           game.pieces.find_by(position: 'h1').update(position: 'h3')
           actual = game.create_notation(32, 'd3', '')
@@ -192,6 +212,7 @@ RSpec.describe Game, type: :model do
 
       context 'for a crossed pawn' do
         it 'returns the notation' do
+          game = Game.create
           game.pieces.find_by(position: 'a2').update(position: 'a7')
           game.pieces.find_by(position: 'a7').destroy
           game.pieces.find_by(position: 'a8').destroy
@@ -202,6 +223,7 @@ RSpec.describe Game, type: :model do
 
       context 'for a crossed pawn that captures a piece' do
         it 'returns the notation' do
+          game = Game.create
           game.pieces.find_by(position_index: 17).update(position: 'a7')
           game.pieces.find_by(position_index: 9).destroy
           game.pieces.find_by(position_index: 1).destroy
@@ -212,32 +234,142 @@ RSpec.describe Game, type: :model do
     end
 
     describe 'start_notation' do
-      xit 'test' do
+      it 'calls matching_pieces' do
+        game = Game.new
+        piece = Piece.new
+        expect_any_instance_of(Game).to receive(:matching_pieces)
+          .with(piece, 'd4').and_return([piece])
+
+          game.start_notation(piece, 'd4')
+      end
+
+      context 'when only one piece can move to the destination' do
+        it 'returns an empty string' do
+          game = Game.new
+          piece = Piece.new
+          allow_any_instance_of(Game).to receive(:matching_pieces)
+            .with(piece, 'd4').and_return([piece])
+
+          actual = game.start_notation(piece, 'd4')
+          expect(actual).to eq ''
+        end
+      end
+
+      context 'when more than one piece can move to the destination' do
+        it 'calls index_is_unique' do
+          game = Game.new
+          piece = Piece.new(position: 'd2')
+          allow_any_instance_of(Game).to receive(:matching_pieces)
+            .with(piece, 'd4').and_return([piece, piece])
+
+          expect_any_instance_of(Game).to receive(:index_is_unique?)
+            .with([piece, piece], piece)
+          game.start_notation(piece, 'd4')
+        end
       end
     end
 
     describe 'capture_notation' do
-      xit 'test' do
-      end
-    end
+      context 'when no pieces are present on the destination' do
+        it 'returns an empty string' do
+          allow_any_instance_of(Game).to receive(:add_pieces)
 
-    describe 'piece_code' do
-      xit 'test' do
+          game = Game.create
+          piece = Piece.new(position: 'd4')
+          actual = game.capture_notation('abc123', piece, 'd5')
+          expect(actual).to eq ''
+        end
+      end
+
+      context 'when a piece is present on the destination' do
+        it 'returns an x' do
+          allow_any_instance_of(Game).to receive(:add_pieces)
+
+          game = Game.create
+          piece1 = game.pieces.create(position: 'd4')
+          piece2 = game.pieces.create(position: 'c3')
+          actual = game.capture_notation('abc123', piece1, 'c3')
+          expect(actual).to eq 'x'
+        end
+      end
+
+      context 'when a piece is present on the destination and the notation is blank' do
+        it 'returns a the column and an x' do
+          allow_any_instance_of(Game).to receive(:add_pieces)
+
+          game = Game.create
+          piece1 = game.pieces.create(position: 'd4')
+          piece2 = game.pieces.create(position: 'c3')
+          actual = game.capture_notation('', piece1, 'c3')
+          expect(actual).to eq 'dx'
+        end
       end
     end
 
     describe 'castle_notation' do
-      xit 'test' do
+      context 'on the king side' do
+        it 'returns O-O.' do
+          game = Game.create
+          game.pieces.find_by(position: 'f1').update(position: '')
+          game.pieces.find_by(position: 'g1').update(position: '')
+          actual = game.create_notation(29, 'g1', '')
+          expect(actual).to eq 'O-O.'
+        end
+      end
+
+      context 'for a castle on the queen side' do
+        it 'returns O-O-O.' do
+          game = Game.create
+          game.pieces.find_by(position: 'd1').update(position: '')
+          game.pieces.find_by(position: 'c1').update(position: '')
+          game.pieces.find_by(position: 'b1').update(position: '')
+          actual = game.create_notation(29, 'c1', '')
+          expect(actual).to eq 'O-O-O.'
+        end
       end
     end
 
-    describe '#matching_piece' do
-      xit 'test' do
+    describe '#matching_pieces' do
+      it 'returns all the pieces that can move on the same square' do
+        game = Game.create
+        knight1 = game.pieces.find_by(position: 'b1', color: 'white')
+        knight2 = game.pieces.find_by(position: 'g1', color: 'white')
+
+        knight1.update(position: 'e3')
+        knight2.update(position: 'c3')
+
+        actual = game.matching_pieces(knight1, 'd5')
+        expect(actual.pluck(:id)).to eq [knight1.id, knight2.id]
       end
     end
 
     describe '#index_is_unique?' do
-      xit 'test' do
+      context 'when the pieces are on the same column' do
+        it 'returns true' do
+          game = Game.create
+          rook1 = game.pieces.find_by(position: 'a1', color: 'white')
+          rook2 = game.pieces.find_by(position: 'h1', color: 'white')
+
+          rook1.update(position: 'e3')
+          rook2.update(position: 'e6')
+
+          actual = game.index_is_unique?([rook1, rook2], rook1)
+          expect(actual).to be false
+        end
+      end
+
+      context 'when the pieces are not on the same column' do
+        it 'returns true' do
+          game = Game.create
+          knight1 = game.pieces.find_by(position: 'b1', color: 'white')
+          knight2 = game.pieces.find_by(position: 'g1', color: 'white')
+
+          knight1.update(position: 'e3')
+          knight2.update(position: 'c3')
+
+          actual = game.index_is_unique?([knight1, knight2], knight1)
+          expect(actual).to be true
+        end
       end
     end
   end
