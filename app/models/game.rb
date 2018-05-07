@@ -24,7 +24,7 @@ class Game < ApplicationRecord
   def update_board
     position_signature = pieces.order(:position_index).map do |piece|
       piece.position_index.to_s + piece.position
-    end.join('')
+    end.join('.')
 
     setups.find_or_create_by(position_signature: position_signature)
   end

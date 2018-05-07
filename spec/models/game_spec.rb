@@ -61,10 +61,10 @@ RSpec.describe Game, type: :model do
       game = Game.create
       game.update_board
 
-      expected = "1a82b83c84d85e86f87g88h89a310b711c712d713e714f715g716h717a218b219c220d221e222f223g224h225a126b127c128d129e130f131g132h1"
+      expected = '1a8.2b8.3c8.4d8.5e8.6f8.7g8.8h8.9a7.10b7.11c7.12d7.13e7.14f7.15g7.16h7.17a2.18b2.19c2.20d2.21e2.22f2.23g2.24h2.25a1.26b1.27c1.28d1.29e1.30f1.31g1.32h1'
 
       actual = game.setups.first.position_signature
-      expect(actual[0..10]).to eq expected[0..10]
+      expect(actual).to eq expected
     end
 
     it 'creates a setup on the game if it does not already exist' do
