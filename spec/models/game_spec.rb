@@ -106,19 +106,21 @@ RSpec.describe Game, type: :model do
 
   describe 'notation_logic_methods' do
     describe '#create_notation' do
-      before do
-        allow_any_instance_of(Game).to receive(:add_pieces)
-      end
-
       let(:game) { Game.create }
 
       context 'for a pawn move' do
-        xit 'test' do
+        it 'returns the notation' do
+          actual = game.create_notation(20, 'd4', '')
+          expect(actual).to eq 'd4.'
         end
       end
 
       context 'when a pawn kills another piece' do
-        xit 'test' do
+        it 'returns the notation' do
+          game.pieces.find_by(position: 'e7').update(position: 'e5')
+          game.pieces.find_by(position: 'd2').update(position: 'd4')
+          actual = game.create_notation(20, 'e5', '')
+          expect(actual).to eq 'dxe5.'
         end
       end
 
@@ -156,9 +158,19 @@ RSpec.describe Game, type: :model do
         xit 'test' do
         end
       end
+
+      context 'for a crossed pawn that captures a piece' do
+        xit 'test' do
+        end
+      end
     end
 
     describe 'start_notation' do
+      xit 'test' do
+      end
+    end
+
+    describe 'capture_notation' do
       xit 'test' do
       end
     end

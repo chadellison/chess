@@ -10,8 +10,8 @@ module NotationLogic
 
     return castle_notation if piece.king_moved_two?(new_position)
     new_notation = PIECE_CODE[piece.piece_type.to_sym]
-    new_notation += start_notation(piece, new_position) if ['rook', 'knight', 'bishop', 'pawn'].include?(piece.piece_type)
-    new_notation += 'x' if pieces.where(position: new_position).present?
+    new_notation += start_notation(piece, new_position) unless ['king', 'queen'].include?(piece.piece_type)
+    new_notation += capture_notation(new_notation, piece, new_position)
     new_notation += new_position
     new_notation += '=' + PIECE_CODE(upgraded_type.to_sym) if upgraded_type.present?
     new_notation + '.'
@@ -23,6 +23,7 @@ module NotationLogic
 
   def start_notation(piece, next_move)
     same_pieces = matching_pieces(piece, next_move)
+    return '' if same_pieces.count == 1
 
     index_is_unique?(same_pieces, piece) ? next_move[0] : next_move[1]
   end
@@ -31,6 +32,14 @@ module NotationLogic
     pieces.where(piece_type: piece.piece_type, color: piece.color).select do |game_piece|
         game_piece.moves_for_piece.include?(new_position) &&
           game_piece.valid_move?(new_position)
+    end
+  end
+
+  def capture_notation(notation, piece, new_position)
+    if pieces.where(position: new_position).present?
+      notation.blank? ? piece.position[0] + 'x' : 'x'
+    else
+      ''
     end
   end
 
