@@ -54,8 +54,9 @@ module MoveLogic
     up_count = position[1].to_i + 1
     down_count = position[1].to_i - 1
 
-    possible_moves = moves_up(up_count + 1) +
-    moves_down((down_count - 1).abs) + [
+    possible_moves = color == 'white' ? moves_up(up_count + 1) : moves_down((down_count - 1).abs)
+
+    possible_moves += [
       moves_left(left_letter).last[0] +
       moves_up(up_count).last[1],
       moves_right(right_letter).last[0] + moves_up(up_count).last[1],

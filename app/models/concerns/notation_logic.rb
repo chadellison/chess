@@ -7,13 +7,12 @@ module NotationLogic
 
   def create_notation(position_index, new_position, upgraded_type)
     piece = pieces.find_by(position_index: position_index)
-
-    return castle_notation if piece.king_moved_two?(new_position)
+    return castle_notation(new_position) if piece.king_moved_two?(new_position)
     new_notation = PIECE_CODE[piece.piece_type.to_sym]
     new_notation += start_notation(piece, new_position) unless ['king', 'queen'].include?(piece.piece_type)
     new_notation += capture_notation(new_notation, piece, new_position)
     new_notation += new_position
-    new_notation += '=' + PIECE_CODE(upgraded_type.to_sym) if upgraded_type.present?
+    new_notation += '=' + PIECE_CODE[upgraded_type.to_sym] if upgraded_type.present?
     new_notation + '.'
   end
 
@@ -25,7 +24,7 @@ module NotationLogic
     same_pieces = matching_pieces(piece, next_move)
     return '' if same_pieces.count == 1
 
-    index_is_unique?(same_pieces, piece) ? next_move[0] : next_move[1]
+    index_is_unique?(same_pieces, piece) ? piece.position[0] : piece.position[1]
   end
 
   def matching_pieces(piece, new_position)

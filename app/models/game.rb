@@ -10,7 +10,7 @@ class Game < ApplicationRecord
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
     pieces.find_by(position_index: position_index)
-          .update(position: new_position)
+          .update(position: new_position, has_moved: true) #(moved_two...)
 
     update_board
   end

@@ -167,7 +167,7 @@ RSpec.describe Piece, type: :model do
           piece_type: 'rook',
           color: 'black'
         )
-        expected = ['d5', 'd6', 'd3', 'd2', 'c5', 'e5', 'c3', 'e3']
+        expected = ['d3', 'd2', 'c5', 'e5', 'c3', 'e3']
 
         expect(piece.moves_for_pawn).to eq expected
       end
