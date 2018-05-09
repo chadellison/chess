@@ -1,0 +1,1951 @@
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "1"]
+[White "Baron"]
+[Black "Neurone"]
+[Result "1-0"]
+[WhiteElo "1837"]
+[ECO "C11"]
+[Time "13:30:22"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e6 2.d4 d5 3.Nc3 Nf6 4.e5 Nfd7 5.f4 c5 6.Nf3 Nc6 7.Be3 a6 8.a3 cxd4 
+9.Nxd4 Bc5 10.Qd2 O-O 11.Nce2 Nxd4 12.Nxd4 Qh4+ 13.g3 Qh5 14.c4 dxc4 15.
+Bxc4 b5 16.Be2 Qg6 17.Bf3 Rb8 18.Nc6 Rb7 19.Rc1 Nxe5 20.Nxe5 Bxe3 21.Qxe3 
+Qf5 22.Be4 Qh5 23.Rxc8 Rxc8 24.Bxb7 Rc2 25.Qd3 Rc1+ 26.Kf2 h6 27.Rxc1 
+Qxh2+ 28.Bg2 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "1"]
+[White "Deuterium"]
+[Black "Raptor"]
+[Result "1-0"]
+[WhiteElo "1681"]
+[ECO "D43"]
+[Time "13:30:34"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 e6 3.Nf3 d5 4.Nc3 c6 5.Bg5 h6 6.Bxf6 Qxf6 7.e3 Nd7 8.Bd3 
+dxc4 9.Bxc4 g6 10.O-O Bg7 11.Qb3 O-O 12.Qa3 e5 13.Ne4 Qd8 14.Rfe1 Nb6 15.
+Bb3 exd4 16.exd4 Nd5 17.Bxd5 Qxd5 18.Rac1 Bg4 19.Ne5 Bc8 20.Rcd1 Bxe5 21.
+dxe5 Qxe5 22.f3 a5 23.b3 h5 24.Qc1 Qh8 25.Qf4 Qb2 26.Nf6+ Kg7 27.Nxh5+ Kg8
+28.Re5 Bf5 29.Rxf5 Rad8 30.Re1 Rd2 31.Nf6+ Kg7 32.Ng4 Rxg2+ 33.Kh1 Rxg4 
+34.fxg4 a4 35.Qe5+ Qxe5 36.Rfxe5 axb3 37.axb3 Rh8 38.Re7 b5 39.Rf1 Kh6 40.
+Rfxf7 Kg5 41.Re6 Rh3 42.Re5+ Kh4 43.Rh7+ Kxg4 44.Rxh3 Kxh3 45.Rg5 Kh4 46.
+Rxg6 c5 47.Kg2 c4 48.b4 Kh5 49.Rg3 Kh4 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "1"]
+[White "Telepath"]
+[Black "FairyMaxCCT"]
+[Result "1-0"]
+[WhiteElo "1496"]
+[ECO "A40"]
+[Time "13:30:38"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nh6 2.e4 c6 3.Nc3 a5 4.Nf3 d5 5.exd5 cxd5 6.Bf4 Be6 7.Qe2 Qb6 8.O-O-O
+Nc6 9.Ng5 Nxd4 10.Qe1 f6 11.Bc7 Qxc7 12.Nxe6 Nxe6 13.Qxe6 Ra6 14.Bb5+ Rc6 
+15.Nxd5 Qe5 16.Bxc6+ bxc6 17.Qxc6+ Kf7 18.Nc7 Kg6 19.Ne6 Nf7 20.Rhe1 Qb8 
+21.Qe4+ f5 22.Nf4+ Kh6 23.Qxf5 g6 24.Re6 Ne5 25.Rd8 Qb5 26.Qh3+ Kg7 27.Qc3
+Kf7 28.Rxe5 Qb4 29.Qe3 Bh6 30.Rd7 Re8 31.Re4 Bg5 32.Rxb4 axb4 33.Kb1 Kg8 
+34.Qe6+ Kf8 35.Nd5 b3 36.cxb3 Kg7 37.Qe5+ Kh6 38.f4 Bxf4 39.Nxf4 Rf8 40.
+Rxe7 Rf5 41.Qg7+ Kg5 42.Ne6+ Kg4 43.Qd4+ Rf4 44.Qxf4+ Kh5 45.Rxh7# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "1"]
+[White "Goldbar"]
+[Black "ProChess"]
+[Result "1-0"]
+[WhiteElo "1824"]
+[ECO "A46"]
+[Time "13:30:26"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.Nf3 e6 3.g3 c5 4.Bg2 cxd4 5.Nxd4 d5 6.O-O Nc6 7.c4 Bc5 8.Nb3 
+Be7 9.cxd5 Nxd5 10.Qd2 O-O 11.Nc3 Nxc3 12.Qxc3 Bf6 13.Qc5 Bd7 14.Rd1 Qc8 
+15.Bg5 Bxb2 16.Rab1 Be5 17.Bxc6 Bxc6 18.Qxe5 f6 19.Bxf6 gxf6 20.Qf4 Rf7 
+21.Nc5 e5 22.Qc4 Qh3 23.f3 b5 24.Qb3 a5 25.Rd6 a4 26.Qd1 Rc8 27.Rd8+ Rf8 
+28.Rxf8+ Kxf8 29.Qd6+ Kg7 30.Rb4 Qh6 31.Rh4 Qe3+ 32.Kf1 Qc1+ 33.Kf2 h5 34.
+Rxh5 Kg6 35.Nd3 Bxf3 36.Nxc1 Bxh5 37.Qd3+ Kh6 38.Qd2+ Kg6 39.h3 Rc4 40.g4 
+Bxg4 41.hxg4 Rxg4 42.Qd3+ Kg5 43.Qxb5 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "1"]
+[White "ArasanX"]
+[Black "Nebula"]
+[Result "1-0"]
+[WhiteElo "1700"]
+[ECO "D48"]
+[Time "13:30:36"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.c4 c6 2.Nc3 d5 3.e3 Nf6 4.d4 e6 5.Nf3 Nbd7 6.Bd3 dxc4 7.Bxc4 b5 8.Bd3 
+Bb7 9.O-O a6 10.e4 c5 11.d5 Qc7 12.dxe6 fxe6 13.Bc2 Bd6 14.Ng5 Nf8 15.f4 
+O-O-O 16.Qe1 e5 17.f5 h6 18.Nf3 N8d7 19.Bd2 c4 20.Kh1 Kb8 21.Nd1 Qc6 22.
+Nf2 Nc5 23.Ba5 Rd7 24.Qe2 Re8 25.Rfe1 Bc7 26.Bxc7+ Rxc7 27.Qd2 Qb6 28.Re2 
+a5 29.a3 Rd7 30.Qc3 h5 31.Ng5 Ree7 32.Rc1 Rd6 33.Qg3 a4 34.Rce1 Qc7 35.Qe3
+Re8 36.Rd1 Rg8 37.Rxd6 Qxd6 38.Rd2 Qc7 39.Nf3 Re8 40.Ng5 Rg8 41.h3 g6 42.
+fxg6 Rxg6 43.Nd1 Qe7 44.Nc3 Bc6 45.Nf3 Nfd7 46.Nd5 Qf8 47.Qc3 Re6 48.Qa5 
+Qc8 49.Ng5 Re8 50.Nf7 Nb7 51.Qc3 h4 52.Nb4 Re6 53.Qf3 Nbc5 54.Qg4 Kc7 55.
+Qxh4 Qg8 56.Rf2 Qa8 57.Kh2 Bb7 58.Na2 Kb6 59.Nc3 Bc6 60.g4 Kc7 61.Qg3 Kb6 
+62.Rf5 Nf6 63.g5 Qe8 64.g6 Ncd7 65.Nd5+ Kb7 66.Qg5 Bxd5 67.exd5 Rb6 68.
+Nxe5 Rd6 69.Nxd7 Nxd7 70.Rf7 Qe2+ 71.Qg2 Qe8 72.Qe4 Qg8 73.Qf4 Rxd5 74.Bf5
+Kc8 75.Be6 c3 76.bxc3 Qxg6 77.Rf8+ Kb7 78.Bxd5+ Ka6 79.Ra8+ Kb6 80.Rc8 Ka6
+81.Bb7+ Ka7 82.Qc7 Qd6+ 83.Qxd6 Nb8 84.Qxb8+ Kb6 85.Rc6+ Ka5 86.Qa8# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "1"]
+[White "EXchess"]
+[Black "Jabba"]
+[Result "1-0"]
+[BlackElo "1868"]
+[ECO "A29"]
+[Time "13:30:20"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.c4 Nf6 2.Nc3 e5 3.Nf3 Nc6 4.g3 Bc5 5.Bg2 O-O 6.d3 h6 7.O-O d6 8.a3 a5 9.
+e3 Be6 10.d4 Bxc4 11.dxc5 Bxf1 12.Qxf1 d5 13.Qd1 Rb8 14.b3 Qd7 15.Bb2 Rfe8
+16.Rc1 Rbc8 17.h3 Rb8 18.Nb5 Ra8 19.Nd2 Rad8 20.Qf3 Re7 21.g4 Qe6 22.Qf5 
+Qxf5 23.gxf5 Red7 24.Nf1 h5 25.Nd2 Re7 26.Rd1 Nh7 27.Nf3 Rdd7 28.Bh1 e4 
+29.Nfd4 Ne5 30.Bc3 a4 31.bxa4 h4 32.a5 Re8 33.Ne6 fxe6 34.Bxe5 exf5 35.
+Bxc7 Nf6 36.Bb6 g6 37.Bg2 Rh7 38.Nc7 Rd8 39.Bf1 Rf7 40.a6 bxa6 41.Bxa6 Rb8
+42.Nxd5 Kh7 43.a4 Nd7 44.a5 Ne5 45.Bb5 Nf3+ 46.Kg2 Ng5 47.a6 Nxh3 48.Kxh3 
+g5 49.Nc7 g4+ 50.Kxh4 g3 51.fxg3 Rh8 52.Kg5 Rg8+ 53.Kf4 Rff8 54.a7 Rg4+ 
+55.Ke5 Rg6 56.Ne8 Kh6 57.a8=Q Rgf6 58.Kf4 Kg6 59.Qa1 R6f7 60.Rd6+ Rf6 61.
+Rxf6+ Kh7 62.Qa7+ Rf7 63.Qxf7+ Kh8 64.Qg7# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "1"]
+[White "Gaviota"]
+[Black "KomodoX"]
+[Result "0-1"]
+[WhiteElo "1741"]
+[ECO "E54"]
+[Time "13:30:30"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Bd3 d5 6.Nf3 c5 7.O-O cxd4 8.exd4 
+dxc4 9.Bxc4 b6 10.Bg5 Bb7 11.Re1 Nbd7 12.Rc1 h6 13.Bh4 a6 14.Bd3 b5 15.Ne5
+Be7 16.a4 b4 17.Ne4 Nxe4 18.Bxe4 Bxe4 19.Bxe7 Qxe7 20.Rxe4 Nxe5 21.Rxe5 
+Rfd8 22.Rec5 Qd7 23.R5c4 a5 24.Qc2 Ra6 25.f4 Rd6 26.Rd1 Rd5 27.h3 Rf5 28.
+g3 Rd5 29.Kh2 f6 30.Rd2 e5 31.Rc7 Qe8 32.fxe5 fxe5 33.Re2 Rxd4 34.Qf5 e4 
+35.h4 Rd2 36.Rxd2 Rxd2+ 37.Kh3 Rd8 38.Rc4 Qxa4 39.Rxe4 Qa1 40.Re7 Qxb2 41.
+Qxa5 Rf8 42.Rb7 Qb1 43.Qd5+ Kh7 44.Qd7 Qf1+ 45.Kg4 Qf6 46.Qd5 Qa6 47.Qe4+ 
+Kh8 48.h5 b3 49.Kh4 Qf6+ 50.Kh3 Qf1+ 51.Kh4 b2 52.Rb6 Qf2 53.Rb3 Rd8 54.
+Rb7 Qh2+ 55.Kg4 Qd2 56.Kh3 Qc1 57.Rb6 Qc8+ 58.Qg4 Qc2 59.Qg6 Qf2 60.Rb4 
+Qf1+ 61.Kg4 Qd1+ 62.Kh3 Qh1+ 63.Kg4 Qg2 64.Qf5 Qd2 65.Rxb2 Qxb2 66.Qf3 Qc2
+67.Kh3 Rd2 68.Qf4 Rh2+ 69.Kg4 Rf2 70.Kh3 Qc8+ 71.Qg4 Qc6 72.Qf4 Qh1+ 73.
+Kg4 Qd1+ 74.Kh3 Qxh5+ 75.Qh4 Qe2 76.Qd8+ Kh7 77.Qh8+ Kxh8 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "1"]
+[White "Rookie"]
+[Black "Chexa"]
+[Result "1-0"]
+[WhiteElo "1759"]
+[ECO "C43"]
+[Time "14:07:23"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nf6 3.d4 exd4 4.e5 Ne4 5.Qxd4 d5 6.exd6 Nxd6 7.Nc3 Nc6 8.Qf4
+Be7 9.Bd3 Be6 10.Be3 Bf6 11.O-O O-O 12.Rfd1 Re8 13.Ne4 Bxb2 14.Rab1 Bf6 
+15.Nxd6 cxd6 16.Qe4 g6 17.Rxb7 Ne5 18.Nxe5 dxe5 19.Rb5 Bf5 20.Qf3 e4 21.
+Bxe4 Bxe4 22.Rxd8 Rexd8 23.Qe2 Rac8 24.Rc5 Rb8 25.f3 Rb1+ 26.Kf2 Bf5 27.
+Rc6 Be5 28.Bh6 Re8 29.Qd2 Rb7 30.g4 Be6 31.Kg2 Rbe7 32.h4 f5 33.gxf5 Bxf5 
+34.Qd5+ Be6 35.Qc5 Bf5 36.Bg5 Rf7 37.Qd5 a5 38.Ra6 Bg7 39.Ra8 Rxa8 40.
+Qxa8+ Rf8 41.Qd5+ Kh8 42.c4 Re8 43.h5 Be6 44.Qb5 Bf7 45.h6 Be5 46.c5 Kg8 
+47.c6 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "1"]
+[White "Crafty"]
+[Black "Tinker"]
+[Result "1-0"]
+[WhiteElo "1951"]
+[BlackElo "1460"]
+[ECO "E33"]
+[Time "13:30:28"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 Nc6 3.Nf3 e6 4.Nc3 Bb4 5.Qc2 O-O 6.Bg5 d5 7.e3 h6 8.Bh4 a6 
+9.a3 Be7 10.Rc1 g5 11.Bg3 Nh5 12.Bd3 Nxg3 13.hxg3 Kg7 14.g4 Bd6 15.Be2 
+dxc4 16.Bxc4 f5 17.gxf5 exf5 18.Bd5 Bd7 19.Nd2 Qe8 20.Qd3 Be6 21.Bf3 Qf7 
+22.g3 Qd7 23.Nc4 Bg8 24.Bxc6 bxc6 25.Rd1 Rfe8 26.d5 c5 27.Kd2 Bf7 28.f4 
+Bg6 29.Kc1 Qd8 30.Rh2 h5 31.Rdh1 Qd7 32.Rxh5 Bxh5 33.Rxh5 gxf4 34.Rxf5 Rg8
+35.Nxd6 cxd6 36.Rh5 Kf8 37.Qe4 Qe7 38.Qxf4+ Ke8 39.Ne4 Rf8 40.Nxd6+ Kd8 
+41.Nf5 Qd7 42.e4 Kc8 43.Nd6+ Kc7 44.Ne8+ Kb7 45.Qxf8 Rxe8 46.Qf3 Ka7 47.e5
+Rd8 48.e6 Qb7 49.Qd3 Qb6 50.Rh7+ Ka8 51.d6 Qc6 52.e7 Rb8 53.d7 c4 54.Qd4 
+c3 55.bxc3 Qb5 56.d8=Q Qb2+ 57.Kd1 Qb3+ 58.Ke2 Qb5+ 59.c4 Qb1 60.Q4d5+ Ka7
+61.e8=Q+ Qb7 62.Qxb8+ Kb6 63.Rxb7# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "1"]
+[White "DjinnX"]
+[Black "Nightmare"]
+[Result "1/2-1/2"]
+[BlackElo "1857"]
+[ECO "B90"]
+[Time "13:30:24"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Be3 e5 7.Nb3 Be6 8.f3 h5 
+9.Qd2 Nbd7 10.O-O-O Be7 11.Kb1 b5 12.Nd5 Bxd5 13.exd5 Nb6 14.Bxb6 Qxb6 15.
+Na5 Rc8 16.Nc6 Nxd5 17.Nxe7 Nxe7 18.Qxd6 Qxd6 19.Rxd6 Nc6 20.Rd2 Ke7 21.
+Bd3 Rhd8 22.Rhd1 Rd6 23.c3 Na5 24.Kc2 Nc4 25.Bxc4 Rxd2+ 26.Kxd2 Rxc4 27.
+Ke3 g5 28.h3 g4 29.fxg4 hxg4 30.h4 f5 31.h5 Rc6 32.Rh1 Rh6 33.b3 a5 34.Rh4
+Kf7 35.Kd3 Rd6+ 36.Ke3 Rd1 37.h6 Kg8 38.Rh5 f4+ 39.Ke2 Ra1 40.Rg5+ Kh7 41.
+Rxg4 Rxa2+ 42.Kd3 Rb2 43.Rg5 Rxb3 44.Rxe5 Rb2 45.Re4 a4 46.Rxf4 Rxg2 47.
+Rb4 Rg3+ 48.Kc2 Kxh6 49.Rxb5 Rg2+ 50.Kb1 Kg7 51.Rb4 a3 52.Ra4 Rb2+ 53.Kc1 
+Rb3 54.Kc2 Rb2+ 55.Kc1 Ra2 56.Kb1 Rb2+ 57.Kc1 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "2"]
+[White "FairyMaxCCT"]
+[Black "Sjeng"]
+[Result "0-1"]
+[BlackElo "1589"]
+[ECO "D27"]
+[Time "15:46:56"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 d5 2.c4 dxc4 3.e3 Nf6 4.Bxc4 e6 5.Nf3 c5 6.O-O a6 7.Bd3 b6 8.e4 Nc6 
+9.dxc5 Bxc5 10.Nc3 Bb7 11.Qe2 e5 12.Rd1 O-O 13.Nd5 h6 14.Nxf6+ Qxf6 15.Bd2
+Rfd8 16.Bc3 b5 17.h3 Rac8 18.Rac1 Nd4 19.Nxd4 Bxd4 20.Bxd4 Rxd4 21.Rc3 
+Rcd8 22.Rdc1 b4 23.Rc7 Rxd3 24.Rxb7 Rd2 25.Qe3 Rxb2 26.Rb6 Rd6 27.Rb8+ Kh7
+28.Re1 Rd3 29.Qc5 Rc3 30.Qa7 Qf4 31.Rd8 Rg3 32.Kf1 Rxh3 33.g3 Qf3 34.Rh8+ 
+Kxh8 35.Qa8+ Kh7 36.Qg8+ Kxg8 37.g4 Qxf2# 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "2"]
+[White "Neurone"]
+[Black "DjinnX"]
+[Result "0-1"]
+[ECO "A07"]
+[Time "15:42:17"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.g3 d5 2.Nf3 Nf6 3.Bg2 c6 4.d3 Bg4 5.Nbd2 e6 6.O-O Bd6 7.e3 e5 8.c4 e4 9.
+dxe4 dxe4 10.Qb3 exf3 11.Nxf3 Qc7 12.Rd1 O-O 13.Qd3 Rd8 14.e4 Na6 15.Qe3 
+Re8 16.Rxd6 Qxd6 17.e5 Qd1+ 18.Qe1 Bxf3 19.Qxd1 Bxd1 20.Bf4 Nh5 21.Rxd1 
+Nxf4 22.gxf4 Rad8 23.Bf3 Nc5 24.Rd6 Rxd6 25.exd6 Nd3 26.d7 Rd8 27.Bg4 Nxb2
+28.h4 Nxc4 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "2"]
+[White "Nebula"]
+[Black "Hannibal"]
+[Result "1/2-1/2"]
+[BlackElo "1983"]
+[ECO "B77"]
+[Time "15:44:01"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 g6 5.Nc3 Bg7 6.Be3 Nf6 7.Bc4 O-O 8.Bb3 
+d6 9.f3 Bd7 10.Qd2 Nxd4 11.Bxd4 b5 12.a4 b4 13.Nd5 Nxd5 14.exd5 Bxd4 15.
+Qxd4 a5 16.O-O Qc7 17.Rfe1 Rfe8 18.Re2 Qa7 19.Qxa7 Rxa7 20.Rae1 Kf8 21.g4 
+Rc7 22.Kf2 Bc8 23.Re4 Ba6 24.h4 h5 25.gxh5 gxh5 26.Rg1 f6 27.Ke3 Rec8 28.
+Rg2 Bc4 29.Bxc4 Rxc4 30.Kd3 R4c5 31.Rd4 Kf7 32.f4 f5 33.Rg5 Rxc2 34.Rxf5+ 
+Kg8 35.Rg5+ Kf8 36.Rf5+ Ke8 37.Rxh5 R8c5 38.Rh8+ Kd7 39.b3 R2c3+ 40.Ke4 
+Rxb3 41.Kf5 Rbc3 42.h5 b3 43.Rd2 R5c4 44.Rb8 Kc7 45.Re8 Rc2 46.Rxe7+ Kb6 
+47.Rd1 b2 48.Rb1 Rf2 49.Re4 Rc1 50.Re1 Rc4 51.Re4 Rc1 52.Re1 Rc4 53.Re4 
+1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "2"]
+[White "Rookie"]
+[Black "Goldbar"]
+[Result "1/2-1/2"]
+[WhiteElo "1759"]
+[BlackElo "1824"]
+[ECO "A58"]
+[Time "15:39:34"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 c5 3.d5 b5 4.cxb5 a6 5.bxa6 e6 6.Nc3 exd5 7.Nxd5 Bxa6 8.e4 
+c4 9.Nf3 Bc5 10.Nxf6+ Qxf6 11.Qd5 Bb4+ 12.Nd2 Nc6 13.Bxc4 Bxc4 14.Qxc4 Qg5
+15.g3 O-O 16.f4 Qa5 17.a3 Bc5 18.Rb1 Ba7 19.b4 Qb6 20.Bb2 d5 21.exd5 Ne7 
+22.Ne4 Nxd5 23.Nc5 Ne3 24.Qc3 Qg6 25.Qd3 Qc6 26.Qe4 Qxe4 27.Nxe4 Nc4 28.
+Kd1 Rfd8+ 29.Kc2 Bd4 30.Bc1 Nxa3+ 31.Bxa3 Rxa3 32.Rhe1 f5 33.Nc5 Rc3+ 34.
+Kd2 Rf3 35.Nb7 Bc3+ 36.Kc2 Rd2+ 37.Kb3 Rxh2 38.Re8+ Kf7 39.Nd6+ Kf6 40.Ka4
+Rxg3 41.Rc8 Rd3 42.Rc6 Ke7 43.Nxf5+ Kd7 44.Rc5 g6 45.Rc1 Rhh3 46.Nh6 Bxb4 
+47.Kxb4 Rxh6 48.f5 gxf5 49.Rxf5 Rh4+ 50.Rc4 Rhh3 51.Rcf4 Rde3 52.Rf7+ Kc6 
+53.R4f6+ Kd5 54.Rf5+ Kd4 55.Rf4+ Kd5 56.R4f5+ Re5 57.Rd7+ Kc6 58.Rxe5 Kxd7
+59.Rg5 h5 60.Rg8 h4 61.Rg6 Rh1 62.Rh6 h3 63.Kc3 h2 64.Rh7+ Ke6 65.Rh6+ Kf5
+66.Kb2 Kf4 67.Rh8 Ke4 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "2"]
+[White "Nightmare"]
+[Black "Crafty"]
+[Result "1-0"]
+[WhiteElo "1857"]
+[BlackElo "1951"]
+[ECO "C99"]
+[Time "15:39:19"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 d6 8.c3 O-O 
+9.h3 Na5 10.Bc2 c5 11.d4 Qc7 12.Nbd2 cxd4 13.cxd4 Nc6 14.a3 Bd7 15.d5 Na5 
+16.Nf1 Rfc8 17.Bd3 Bd8 18.Ng3 Qa7 19.Re2 Rc7 20.Be3 Qb7 21.b3 Rc3 22.Rb2 
+h6 23.Rab1 Bb6 24.Qd2 Rc7 25.Bxh6 gxh6 26.Qxh6 Ne8 27.Ng5 Bc8 28.Qh7+ Kf8 
+29.Qh8+ Ke7 30.Qg8 Rc3 31.b4 Rxd3 32.Qh8 Bc5 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "2"]
+[White "KomodoX"]
+[Black "Telepath"]
+[Result "1-0"]
+[BlackElo "1496"]
+[ECO "B90"]
+[Time "15:39:14"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Be3 e5 7.Nb3 Be6 8.h3 Be7
+9.f4 Nc6 10.f5 Bd7 11.g4 a5 12.Nd2 O-O 13.g5 Nxe4 14.Ndxe4 Bxf5 15.Qf3 
+Bxe4 16.Qxe4 Bxg5 17.O-O-O Bxe3+ 18.Qxe3 a4 19.a3 Nd4 20.Kb1 Ra5 21.Bc4 
+Kh8 22.Rxd4 exd4 23.Qxd4 f5 24.Bd5 Qd7 25.Ne2 Qe7 26.Nf4 Re8 27.Rg1 Rc5 
+28.c4 Qf6 29.Qxf6 gxf6 30.Ne6 Rcc8 31.Rf1 Rb8 32.Nd4 b6 33.Nxf5 Rbd8 34.
+Rg1 Rf8 35.Kc2 Rde8 36.Rg2 Re5 37.Nxd6 Re7 38.Kc3 Rg7 39.Rf2 f5 40.Kb4 f4 
+41.Kxa4 Rg3 42.Kb5 Rxh3 43.Kxb6 Kg7 44.c5 Rf6 45.a4 Rd3 46.Kc6 Rf8 47.a5 
+h5 48.a6 Ra8 49.Bc4 Rd1 50.b4 Kg6 51.Rxf4 Kg5 52.Rf5+ Kh4 53.b5 Rc1 54.Kb7
+Rd8 55.b6 Kg3 56.Rxh5 Kg4 57.Rd5 Rd7+ 58.Kc6 Rd8 59.a7 Ra1 60.Kc7 Rh8 61.
+c6 Kf3 62.Kb7 Kf4 63.c7 Kg4 64.Bb5 Kg3 65.Be8 Rh7 66.a8=Q Rxa8 67.Kxa8 
+Rxc7 68.bxc7 Kf2 69.c8=Q Kg3 70.Rd3+ Kh2 71.Qg4 Kh1 72.Rh3# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "2"]
+[White "ProChess"]
+[Black "Capivara"]
+[Result "1/2-1/2"]
+[BlackElo "1493"]
+[ECO "E04"]
+[Time "15:50:19"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.c4 Nf6 2.Nf3 e6 3.g3 d5 4.d4 dxc4 5.Bg2 Nc6 6.Qa4 Bb4+ 7.Bd2 Nd5 8.Bxb4 
+Nxb4 9.Nc3 Bd7 10.O-O a6 11.Ne5 b5 12.Qa3 Rb8 13.Nxc6 Nxc6 14.d5 b4 15.
+Qxa6 Nd4 16.Qxc4 e5 17.Ne4 Bb5 18.Qc5 Qe7 19.d6 cxd6 20.Nxd6+ Kd7 21.Rfd1 
+Qxd6 22.Qxd6+ Kxd6 23.e3 f5 24.f4 Ke6 25.exd4 e4 26.Kf2 g6 27.Ke3 Bc6 28.
+Rac1 Bd5 29.b3 Ra8 30.Rd2 Ra5 31.g4 Kd6 32.h3 Rha8 33.Rcc2 R5a6 34.Bf1 Rc6
+35.Rxc6+ Kxc6 36.Rc2+ Kd6 37.Rc6+ 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "2"]
+[White "EXchess"]
+[Black "Deuterium"]
+[Result "1-0"]
+[BlackElo "1681"]
+[ECO "E97"]
+[Time "15:39:38"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.c4 Nf6 2.Nf3 g6 3.d4 Bg7 4.Nc3 O-O 5.e4 d6 6.Be2 e5 7.O-O Nc6 8.d5 Ne7 
+9.b4 Nh5 10.Re1 f5 11.Ng5 Nf6 12.Bf3 fxe4 13.Ngxe4 Nf5 14.Nxf6+ Bxf6 15.
+Be4 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "2"]
+[White "Tinker"]
+[Black "Gaviota"]
+[Result "1/2-1/2"]
+[WhiteElo "1460"]
+[BlackElo "1741"]
+[ECO "B80"]
+[Time "15:40:14"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 e6 3.Nc3 Nc6 4.d4 cxd4 5.Nxd4 d6 6.Be3 Nf6 7.f3 Be7 8.Qd2 
+O-O 9.O-O-O a6 10.g4 Nxd4 11.Qxd4 Nd7 12.h4 b5 13.Bg5 Ne5 14.Bxe7 Qxe7 15.
+Be2 Rd8 16.h5 f6 17.h6 g5 18.Qd2 b4 19.Na4 Rb8 20.b3 Bd7 21.Qxd6 Qxd6 22.
+Rxd6 Bxa4 23.Rxd8+ Rxd8 24.bxa4 a5 25.Rd1 Rxd1+ 26.Kxd1 Kf7 27.Kc1 f5 28.
+gxf5 exf5 29.exf5 Kf6 30.Kd2 Nf7 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "2"]
+[White "ArasanX"]
+[Black "Baron"]
+[Result "1/2-1/2"]
+[WhiteElo "1700"]
+[BlackElo "1837"]
+[ECO "E59"]
+[Time "15:39:07"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Bd3 d5 6.Nf3 c5 7.O-O Nc6 8.a3 Bxc3 
+9.bxc3 dxc4 10.Bxc4 Qc7 11.Bb2 e5 12.h3 Bf5 13.Qe2 Rac8 14.Nh4 Be6 15.Bxe6
+fxe6 16.Nf3 e4 17.Nd2 Na5 18.a4 cxd4 19.exd4 Nc4 20.Bc1 Qc6 21.a5 Nxd2 22.
+Bxd2 Ne8 23.Bc1 Rf5 24.Re1 Kf7 25.Qc2 Rc7 26.c4 Qxc4 27.Qxe4 Nf6 28.Qe3 
+Qa6 29.g4 Nd5 30.Qg3 Rf6 31.Bg5 Rg6 32.Qe5 h6 33.Bh4 Kg8 34.Rec1 Rc6 35.
+Rxc6 Qxc6 36.Kh2 Kh7 37.Ra3 b5 38.axb6 Qxb6 39.Ra1 a5 40.Qe4 Qb4 41.Qc2 
+Nf4 42.Bg3 Qxd4 43.Rxa5 Qd3 44.Qxd3 Nxd3 45.Ra3 Nc5 46.Re3 Rf6 47.Kg2 Nd7 
+48.h4 Kg8 49.f3 Kf7 50.h5 g6 51.Rd3 Ke7 52.Ra3 e5 53.Ra5 Ke6 54.hxg6 Rxg6 
+55.Kh3 Rf6 56.Ra3 Kd5 57.Rd3+ Kc6 58.Kh4 Re6 59.Kh5 e4 60.fxe4 Nf6+ 61.Kg6
+Rxe4 62.Kxf6 Rxg4 63.Be5 h5 64.Rh3 h4 65.Kf5 Rg8 66.Rh2 h3 67.Rh1 h2 68.
+Bd4 Ra8 69.Bb2 Rb8 70.Bf6 Ra8 71.Bg5 Rb8 72.Bf6 Ra8 73.Bg5 Rb8 74.Bf4 Ra8 
+75.Ke5 Rb8 76.Kf6 Ra8 77.Ke5 Rb8 78.Ke4 Ra8 79.Kd4 Rc8 80.Be5 Ra8 81.Bf6 
+Rb8 82.Be7 Ra8 83.Bg5 Rb8 84.Bf4 Ra8 85.Ke4 Rc8 86.Bg3 Ra8 87.Rc1+ Kb5 88.
+Rb1+ Kc4 89.Rh1 Rc8 90.Be5 Ra8 91.Rc1+ Kb3 92.Rb1+ Kc4 93.Rh1 Rc8 94.Kf5 
+Ra8 95.Bf6 Rb8 96.Kg6 Ra8 97.Bg7 Rb8 98.Be5 Ra8 99.Kf7 Rc8 100.Bd6 Ra8 
+101.Be5 Rc8 102.Kf6 Ra8 103.Kg7 Rc8 104.Bd6 Ra8 105.Kf7 Rc8 106.Ke6 Ra8 
+107.Bf4 Rc8 108.Be5 Ra8 109.Bf4 Rc8 110.Bd6 Ra8 111.Be5 Rc8 112.Bf4 Ra8 
+113.Bd6 Rc8 114.Kf5 Ra8 115.Bf4 Rc8 116.Ke5 Ra8 117.Bg3 Rb8 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "2"]
+[White "Jabba"]
+[Black "LimeRA"]
+[Result "1-0"]
+[WhiteElo "1868"]
+[BlackElo "1654"]
+[ECO "E05"]
+[Time "15:40:13"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.Nf3 d5 2.d4 Nf6 3.c4 e6 4.g3 Be7 5.Bg2 dxc4 6.O-O Nc6 7.Qa4 O-O 8.Qxc4 
+Na5 9.Qd3 c5 10.e3 cxd4 11.exd4 Nc6 12.Re1 Bc5 13.Rd1 Bd6 14.Na3 Nd5 15.
+Nc4 Be7 16.Bd2 Ncb4 17.Qe2 b6 18.a3 Nc6 19.Nce5 Bb7 20.Nxc6 Bxc6 21.Ne5 
+Bb7 22.Rac1 Rc8 23.Bf3 Rxc1 24.Rxc1 Qa8 25.Be4 Nf6 26.Bc6 Rc8 27.Qf3 Bxc6 
+28.Rxc6 Rd8 29.Rc7 Qxf3 30.Nxf3 Rd7 31.Rc4 Ne4 32.Bf4 f6 33.Rc6 Kf7 34.g4 
+g5 35.Bb8 Bd8 36.h3 Ke7 37.Rc2 Nd6 38.Kg2 Nb5 39.Rd2 Bc7 40.Bxc7 Rxc7 41.
+d5 e5 42.Nh2 Kd6 43.Nf1 Nd4 44.Ne3 Rc1 45.f3 Kc5 46.Rd3 Re1 47.Nd1 Kc4 48.
+Rd2 Nb3 49.d6 Nxd2 50.d7 Re2+ 51.Nf2 Ne4 52.d8=Q Rxf2+ 53.Kg1 Rxf3 54.Qg8+
+1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "2"]
+[White "Raptor"]
+[Black "Chexa"]
+[Result "1/2-1/2"]
+[ECO "B12"]
+[Time "15:39:45"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c6 2.d4 d5 3.e5 Bf5 4.Nf3 e6 5.Be2 Ne7 6.O-O c5 7.c4 Nbc6 8.dxc5 d4 
+9.Qa4 Ng6 10.Rd1 d3 11.Be3 Be7 12.Bxd3 Bxd3 13.Qb3 Ncxe5 14.Nxe5 Nxe5 15.
+f4 Ng4 16.Rxd3 Qc7 17.Qa4+ Kf8 18.Rd7 Qc8 19.c6 Qxc6 20.Qxc6 bxc6 21.Bd4 
+Ke8 22.Rxa7 Rd8 23.Rxe7+ Kxe7 24.Bc5+ Kd7 25.Nd2 Kc7 26.Nf3 Rhg8 27.a4 Rd3
+28.a5 Ra8 29.b4 Rc3 30.Ng5 Nh6 31.Nxh7 Rxc4 32.g3 Rc2 33.Ng5 Kb7 34.Rd1 
+Rh8 35.Rd7+ Kc8 36.Ra7 Rd8 37.Ra8+ Kd7 38.Rxd8+ Kxd8 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "LimeRA"]
+[Black "Neurone"]
+[Result "1-0"]
+[WhiteElo "1654"]
+[ECO "C26"]
+[Time "17:37:23"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Bc4 Nf6 3.Nc3 Bc5 4.f4 Qe7 5.fxe5 Qxe5 6.Nf3 Qe7 7.d4 Nxe4 8.Nd5
+Bb4+ 9.Kf1 Qd6 10.Bf4 Qc6 11.Ne5 Qd6 12.Nxf7 Qc6 13.Qe2 O-O 14.Nxb4 Qa4 
+15.Ng5+ Kh8 16.Qxe4 Rxf4+ 17.Qxf4 Qxb4 18.Re1 Qxc4+ 19.Kg1 h5 20.Qf8+ Qg8 
+21.Qxg8+ Kxg8 22.Re8# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "KomodoX"]
+[Black "EXchess"]
+[Result "1-0"]
+[Time "17:37:17"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 Nc6 3.Bb5 g6 4.Bxc6 bxc6 5.O-O Bg7 6.Re1 e5 7.c3 Ne7 8.d4 
+cxd4 9.cxd4 exd4 10.Nxd4 O-O 11.Nc3 Rb8 12.Rb1 c5 13.Nde2 d6 14.Bf4 Be5 
+15.b3 Be6 16.Rc1 Re8 17.h3 a6 18.Qd3 Nc6 19.Red1 Nb4 20.Qe3 f6 21.Bxe5 
+fxe5 22.Qd2 c4 23.bxc4 Bxc4 24.Qxd6 Nxa2 25.Nxa2 Bxe2 26.Qd5+ Kh8 27.Rd2 
+Bb5 28.Nb4 Qf6 29.Rc7 Qf8 30.Rb2 g5 31.Qd2 Qf4 32.Qc2 Qf8 33.Nd5 Qd6 34.
+Rb3 Rf8 35.Rg3 Rg8 36.Rf3 Rgf8 37.Rxf8+ Rxf8 38.Qc3 Bd7 39.Rb7 Bc6 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "Goldbar"]
+[Black "Nightmare"]
+[Result "1/2-1/2"]
+[WhiteElo "1824"]
+[BlackElo "1857"]
+[ECO "D43"]
+[Time "17:36:48"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 e6 3.Nf3 d5 4.Nc3 c6 5.Bg5 h6 6.Bxf6 Qxf6 7.e3 Nd7 8.Qc2 g6 
+9.Bd3 Bg7 10.h4 O-O 11.cxd5 exd5 12.h5 g5 13.O-O-O Qd6 14.Kb1 Nb6 15.Ne2 
+f5 16.Rhf1 Bd7 17.Nd2 Nc8 18.Nf3 Qe7 19.Nc1 a5 20.Be2 g4 21.Ne5 Bxe5 22.
+dxe5 Qxe5 23.Nd3 Qg7 24.Nc5 Nd6 25.f3 Rad8 26.e4 fxe4 27.fxe4 Nxe4 28.
+Rxf8+ Rxf8 29.Nxd7 Rf2 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "Capivara"]
+[Black "Nebula"]
+[Result "0-1"]
+[WhiteElo "1493"]
+[ECO "B90"]
+[Time "17:38:13"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Be3 e5 7.Nb3 Be6 8.f3 Be7
+9.Qd2 O-O 10.O-O-O Nbd7 11.Be2 b5 12.g4 b4 13.Nd5 Bxd5 14.exd5 a5 15.g5 a4
+16.Na1 Nh5 17.Bb5 a3 18.b3 Nb8 19.Rhg1 Qa5 20.Ba4 Na6 21.Qg2 Bd8 22.Bc6 
+Rb8 23.Qd2 Bb6 24.Rg4 Bxe3 25.Qxe3 Nf4 26.h4 Nc7 27.Rxf4 exf4 28.Qxf4 Nb5 
+29.Bxb5 Rxb5 30.Qd4 Re8 31.c4 bxc3 32.Nc2 Rc5 33.Ne3 Qb5 34.Rd3 Qd7 35.Qf4
+Qh3 36.Rd4 c2 37.Rc4 Rxc4 38.Nxc4 Qg2 39.Nd2 Qe2 40.Kxc2 Rc8+ 41.Qc4 Rxc4+
+0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "Gaviota"]
+[Black "FairyMaxCCT"]
+[Result "1-0"]
+[WhiteElo "1741"]
+[BlackElo "1715"]
+[ECO "B19"]
+[Time "17:45:05"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Bf5 5.Ng3 Bg6 6.h4 h6 7.Nf3 Nd7 8.h5 Bh7
+9.Bd3 Qa5+ 10.Bd2 Qb6 11.Bxh7 Rxh7 12.O-O Qxb2 13.Rb1 Qxa2 14.Rxb7 Qa6 15.
+Rb3 Ngf6 16.Ne5 Nxe5 17.dxe5 Nd7 18.e6 Nf6 19.Bc3 fxe6 20.Qf3 Rh8 21.Ne4 
+Rc8 22.Qg3 g5 23.Qe5 c5 24.Nxf6+ exf6 25.Qxf6 Rh7 26.Re1 Re7 27.Qg6+ Kd8 
+28.Bf6 Kc7 29.Be5+ Kd8 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "Hannibal"]
+[Black "ProChess"]
+[Result "1-0"]
+[WhiteElo "1983"]
+[Time "17:36:43"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nc3 a6 3.Nf3 e6 4.d4 cxd4 5.Nxd4 Qc7 6.Be2 Nc6 7.Be3 Nf6 8.O-O 
+d6 9.f4 Be7 10.Qe1 O-O 11.Kh1 Bd7 12.a4 Rfe8 13.Qf2 d5 14.e5 Ne4 15.Nxe4 
+dxe4 16.Nxc6 Qxc6 17.c4 f6 18.b3 Rf8 19.exf6 Rxf6 20.Bd4 Rf7 21.Qe3 Raf8 
+22.Rad1 Bd6 23.g3 Rc8 24.Kg2 Re7 25.Qc3 Bc5 26.Be5 Qb6 27.a5 Qb4 28.Qxb4 
+Bxb4 29.Bd6 Bxd6 30.Rxd6 Kf7 31.Kf2 Bc6 32.Ke3 Ree8 33.c5 Red8 34.Rfd1 
+Rxd6 35.Rxd6 Bd5 36.b4 Kf6 37.Bf1 Rg8 38.Bg2 Kf5 39.Bxe4+ Bxe4 40.g4+ Kxg4
+41.Kxe4 g6 42.Rd7 Rf8 43.Rxb7 Rxf4+ 44.Ke5 Rc4 45.Kxe6 h5 46.Rb6 Rc2 47.
+Rxa6 Rxh2 48.c6 Rc2 49.Kd7 Rd2+ 50.Kc8 h4 51.c7 Kg5 52.Kb7 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "DjinnX"]
+[Black "ArasanX"]
+[Result "1/2-1/2"]
+[BlackElo "1700"]
+[Time "17:36:54"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Bf5 5.Ng3 Bg6 6.h4 h6 7.Nf3 Nd7 8.h5 Bh7
+9.Bd3 Bxd3 10.Qxd3 e6 11.Bd2 Ngf6 12.O-O-O Be7 13.Kb1 O-O 14.Qe2 c5 15.
+dxc5 Bxc5 16.Ne5 Nxe5 17.Bc3 Ned7 18.Bxf6 Qxf6 19.Rxd7 Qxf2 20.Qxf2 Bxf2 
+21.Ne4 Bb6 22.Rxb7 Rad8 23.a4 Rd4 24.a5 Bxa5 25.Rxa7 Bb6 26.Ra6 Rxe4 27.
+Rxb6 Rg4 28.Rg1 Rd8 29.b3 Rd5 30.Rb8+ Kh7 31.Rb7 f5 32.c4 Re5 33.Rc1 Rxg2 
+34.c5 Ree2 35.Ra7 Rb2+ 36.Ka1 f4 37.c6 f3 38.c7 Rbc2 39.c8=Q Rxc8 40.Rxc8 
+f2 41.Rf7 Rg1+ 42.Kb2 f1=Q 43.Rxf1 Rxf1 44.b4 g5 45.hxg6+ Kxg6 46.Rg8+ Kf7
+47.Rh8 Kg7 48.Re8 Kf7 49.Rh8 Rf6 50.Kc3 e5 51.b5 e4 52.Rh7+ Ke8 53.Kd4 e3 
+54.Kxe3 Rb6 55.Rh8+ Kf7 56.Kd4 Rxb5 57.Rxh6 Ra5 58.Rh8 Rb5 59.Ra8 Rb6 60.
+Rc8 Rb5 61.Ra8 Rb6 62.Rc8 Rb7 63.Ra8 Ke6 64.Rc8 Rb5 65.Ra8 Rb7 66.Rc8 Rb5 
+67.Ra8 Rh5 68.Rb8 Ra5 69.Rc8 Ra7 70.Rb8 Ra5 71.Rc8 Ra7 72.Rb8 Rh7 73.Ra8 
+Rh5 74.Rb8 Rh7 75.Ra8 Rg7 76.Rb8 Rg5 77.Ra8 Rg7 78.Rb8 Rg5 79.Ra8 Rf5 80.
+Rb8 Rh5 81.Ra8 Rh7 82.Rb8 Rh5 83.Ra8 Rh7 84.Rb8 Rg7 85.Ra8 Rg5 86.Rb8 Rg7 
+87.Ra8 Rg5 88.Rb8 Rf5 89.Ra8 Rd5+ 90.Kc4 Rd7 91.Rb8 Rh7 92.Ra8 Rh4+ 93.Kb5
+Rh7 94.Rb8 Rh4 95.Ra8 Rh7 96.Rb8 Rg7 97.Ra8 Rg4 98.Rb8 Kf7 99.Ra8 Rg5+ 
+100.Ka6 Rh5 101.Rb8 Rh6+ 102.Rb6 Rh4 103.Rb8 Rh6+ 104.Rb6 Rh4 105.Rb8 Rh5 
+106.Ra8 Rh6+ 107.Ka7 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "Chexa"]
+[Black "Tinker"]
+[Result "0-1"]
+[BlackElo "1460"]
+[Time "17:36:45"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.Nf3 c5 2.e4 d6 3.Bb5+ Bd7 4.Bxd7+ Nxd7 5.O-O e6 6.d4 cxd4 7.Qxd4 Ngf6 8.
+Nc3 Be7 9.Rd1 O-O 10.Bg5 h6 11.Bxf6 Nxf6 12.a4 Qa5 13.Nd2 Rfd8 14.Nb5 d5 
+15.Nb3 Qb6 16.Qxb6 axb6 17.e5 Nd7 18.f4 Rdc8 19.N3d4 g6 20.g3 Nc5 21.Nc3 
+f5 22.Kf1 Kf7 23.Re1 Ne4 24.Ncb5 g5 25.Ke2 Rc4 26.b3 Rcc8 27.Rf1 g4 28.
+Rfd1 h5 29.Ke3 h4 30.Rh1 Bc5 31.c3 Rh8 32.Rag1 Ke7 33.Nc7 Bxd4+ 34.cxd4 
+Rag8 35.Rc1 hxg3 36.hxg3 Nxg3 37.Rxh8 Rxh8 38.Nb5 Rh3 39.Rc7+ Kf8 40.Kf2 
+Nh5 41.Rc3 Rh2+ 42.Kf1 Nxf4 43.Kg1 Ra2 44.Kf1 Rh2 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "Baron"]
+[Black "Rookie"]
+[Result "1-0"]
+[WhiteElo "1837"]
+[BlackElo "1759"]
+[Time "17:36:46"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 d6 8.c3 O-O 
+9.h3 Bb7 10.d4 Re8 11.Nbd2 Bf8 12.a3 h6 13.Bc2 d5 14.Nxe5 Nxe5 15.dxe5 
+Rxe5 16.Nf3 Rxe4 17.Bxe4 dxe4 18.Qxd8 Rxd8 19.Nd4 c5 20.Ne2 Bd5 21.a4 Bc4 
+22.axb5 axb5 23.Ng3 Bd3 24.Ra7 b4 25.cxb4 cxb4 26.Be3 Nd5 27.Nf5 Nxe3 28.
+fxe3 g6 29.Ne7+ Kg7 30.Rc1 h5 31.Nc6 Rd5 32.Nd4 Bd6 33.Kf2 b3 34.g4 hxg4 
+35.hxg4 Be5 36.Rb7 Rxd4 37.exd4 Bxd4+ 38.Kg2 Bxb2 39.Rcc7 Kh6 40.Rxb3 Bf6 
+41.Rxf7 Bc4 42.g5+ Kxg5 43.Rg3+ Kf5 44.Rf8 Bd3 45.Kf2 g5 46.Ke3 Ke6 47.Rh3
+Bb2 48.Rh6+ Ke5 49.Re8+ Kd5 50.Rd8+ Ke5 51.Rc6 Ba3 52.Rd4 g4 53.Ra4 Kd5 
+54.Rc8 Bc5+ 55.Kf4 Bb6 56.Rc1 Bd4 57.Ra5+ Kd6 58.Rh1 g3 59.Kxg3 Be3 60.Rh2
+Kd7 61.Rhh5 Bd2 62.Ra2 Be3 63.Ra8 Bd2 64.Rh2 Be3 65.Rg8 Ke6 66.Rh5 Be2 67.
+Re8+ Kd7 68.Rhh8 Bd3 69.Reg8 Ke6 70.Rd8 Bg5 71.Rde8+ Kd6 72.Reg8 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "Baron"]
+[Black "Rookie"]
+[Result "1-0"]
+[WhiteElo "1837"]
+[BlackElo "1759"]
+[Time "17:36:46"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 d6 8.c3 O-O 
+9.h3 Bb7 10.d4 Re8 11.Nbd2 Bf8 12.a3 h6 13.Bc2 d5 14.Nxe5 Nxe5 15.dxe5 
+Rxe5 16.Nf3 Rxe4 17.Bxe4 dxe4 18.Qxd8 Rxd8 19.Nd4 c5 20.Ne2 Bd5 21.a4 Bc4 
+22.axb5 axb5 23.Ng3 Bd3 24.Ra7 b4 25.cxb4 cxb4 26.Be3 Nd5 27.Nf5 Nxe3 28.
+fxe3 g6 29.Ne7+ Kg7 30.Rc1 h5 31.Nc6 Rd5 32.Nd4 Bd6 33.Kf2 b3 34.g4 hxg4 
+35.hxg4 Be5 36.Rb7 Rxd4 37.exd4 Bxd4+ 38.Kg2 Bxb2 39.Rcc7 Kh6 40.Rxb3 Bf6 
+41.Rxf7 Bc4 42.g5+ Kxg5 43.Rg3+ Kf5 44.Rf8 Bd3 45.Kf2 g5 46.Ke3 Ke6 47.Rh3
+Bb2 48.Rh6+ Ke5 49.Re8+ Kd5 50.Rd8+ Ke5 51.Rc6 Ba3 52.Rd4 g4 53.Ra4 Kd5 
+54.Rc8 Bc5+ 55.Kf4 Bb6 56.Rc1 Bd4 57.Ra5+ Kd6 58.Rh1 g3 59.Kxg3 Be3 60.Rh2
+Kd7 61.Rhh5 Bd2 62.Ra2 Be3 63.Ra8 Bd2 64.Rh2 Be3 65.Rg8 Ke6 66.Rh5 Be2 67.
+Re8+ Kd7 68.Rhh8 Bd3 69.Reg8 Ke6 70.Rd8 Bg5 71.Rde8+ Kd6 72.Reg8 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "Telepath"]
+[Black "Raptor"]
+[Result "1-0"]
+[WhiteElo "1496"]
+[Time "17:38:25"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.Nf3 d5 3.Bf4 c5 4.c3 Nc6 5.e3 Qb6 6.Qb3 c4 7.Qc2 Bf5 8.Qc1 e6 
+9.h3 Be7 10.Nbd2 O-O 11.Be2 Rfc8 12.O-O Qd8 13.Nh4 Be4 14.Nxe4 Nxe4 15.Nf3
+Bd6 16.Bxd6 Nxd6 17.Nd2 e5 18.dxe5 Nxe5 19.Nf3 Nd7 20.Nd4 Nf6 21.Bf3 Qd7 
+22.a4 a5 23.h4 Re8 24.Qc2 Re5 25.Ne2 Nf5 26.g3 Rae8 27.Nf4 Nd6 28.Rfd1 
+Nde4 29.Rd4 g5 30.hxg5 Nxg5 31.Bg2 Ne6 32.Nxe6 Qxe6 33.b3 cxb3 34.Qxb3 Re7
+35.Qb5 Ne4 36.Qxa5 Qc6 37.Rc1 Qf6 38.Rc2 Kg7 39.c4 dxc4 40.Qb4 R5e6 41.
+Qxc4 Rc6 42.Qe2 Rxc2 43.Qxc2 Ng5 44.Rf4 Qa1+ 45.Kh2 b6 46.Rh4 Qf6 47.f4 
+Ne6 48.Qxh7+ Kf8 49.Qd3 Nc7 50.e4 Ne8 51.e5 Qg7 52.Qf5 Rc7 53.Qh3 Qg6 54.
+f5 Qg5 55.Rh5 Qg7 56.Rh8+ Ke7 57.Qh4+ f6 58.Rh7 Qxh7 59.Qxh7+ 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "Deuterium"]
+[Black "Crafty"]
+[Result "0-1"]
+[WhiteElo "1681"]
+[BlackElo "1951"]
+[Time "17:42:20"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.g3 Ba6 5.b3 Bb4+ 6.Bd2 Be7 7.Bg2 c6 8.Bc3 d5 
+9.Ne5 Nfd7 10.Nxd7 Nxd7 11.Nd2 O-O 12.O-O Rc8 13.e4 b5 14.Re1 dxc4 15.bxc4
+bxc4 16.Qa4 Bb5 17.Qc2 Re8 18.a4 Ba6 19.Rad1 Bf8 20.a5 Nf6 21.Nf3 Bb5 22.
+Ne5 Nd7 23.Ng4 Qc7 24.Bf1 Qb7 25.Ne3 Nf6 26.Rb1 Qa6 27.f3 Rb8 28.Qa2 c5 
+29.Bxc4 cxd4 30.Bxb5 Rxb5 31.Rxb5 Qxb5 32.Bxd4 Qb4 33.Rd1 Bc5 34.Bxc5 Qxc5
+35.Qd2 Rc8 36.a6 Ne8 37.Kf2 Rc6 38.Qa2 Qb6 39.Rd7 h6 40.Rb7 Qd4 41.Qe2 Nd6
+42.Rb2 Rc3 43.Rd2 Qb6 44.Rb2 Qd4 45.Rd2 Qb6 46.Rb2 Qc5 47.Qd2 Ra3 48.Rc2 
+Qb6 49.h4 Rxa6 50.Rb2 Qc7 51.e5 Nb7 52.Kg2 Rc6 53.Qd4 Nc5 54.Kh3 a5 55.Kg2
+h5 56.Rb5 a4 57.Qb4 Qxe5 58.Qxa4 Qxg3+ 59.Kxg3 Nxa4 60.Rxh5 Nc5 61.Rg5 f5 
+62.Ng2 Nb3 63.Nf4 Nd4 64.Nh5 Rc7 65.f4 Kh7 66.Kf2 Ra7 67.Ke3 Nb5 68.Kd3 
+Kh6 69.Ng3 Ra3+ 70.Ke2 Nd4+ 71.Kf2 Rb3 72.Kf1 Kh7 73.Rh5+ Kg8 74.Rg5 Nf3 
+75.Rg6 Nxh4 76.Rg5 Kf7 77.Ne2 Rf3+ 78.Kg1 Kf6 79.Rg3 Rxg3+ 80.Nxg3 g5 81.
+fxg5+ Kxg5 82.Ne2 e5 83.Kf2 f4 84.Nc3 Kf5 85.Ke2 e4 86.Nd5 Ke5 87.Ne7 e3 
+88.Kd3 Ke6 89.Nc8 Nf5 90.Ke2 Nd4+ 91.Kd3 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "3"]
+[White "Sjeng"]
+[Black "Jabba"]
+[Result "1-0"]
+[WhiteElo "1714"]
+[BlackElo "1868"]
+[Time "17:39:16"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nf6 3.Nxe5 d6 4.Nf3 Nxe4 5.d4 d5 6.Bd3 Nc6 7.O-O Be7 8.Nc3 
+Bf5 9.Re1 Nxc3 10.bxc3 Bxd3 11.Qxd3 O-O 12.c4 Re8 13.Bd2 a5 14.c3 Qd7 15.
+cxd5 Qxd5 16.Rab1 b6 17.Bf4 Rac8 18.Re2 h6 19.h3 Red8 20.Nh2 Qd7 21.Ng4 h5
+22.Ne3 g6 23.Rb5 Bc5 24.Qb1 Na7 25.Rbb2 Ba3 26.Rbd2 Nb5 27.Qd3 Nxc3 28.
+Qxc3 Bb4 29.Qc2 Bxd2 30.Rxd2 Qe7 31.d5 h4 32.Ng4 f5 33.Re2 Qg7 34.Re6 Qa1+
+35.Kh2 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "4"]
+[White "Jabba"]
+[Black "Hannibal"]
+[Result "0-1"]
+[WhiteElo "1868"]
+[BlackElo "1983"]
+[Time "19:46:13"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 g6 5.c4 Nf6 6.Nc3 Bg7 7.Be3 b6 8.Nxc6 
+dxc6 9.Qxd8+ Kxd8 10.Bd4 Kc7 11.O-O-O Nh5 12.Bxg7 Nxg7 13.e5 a5 14.Be2 h5 
+15.c5 b5 16.Bf3 Bg4 17.a3 Ne6 18.Ne4 Bxf3 19.gxf3 h4 20.Rhg1 Rh5 21.f4 Rf5
+22.Rg4 Rh8 23.Ng5 Nxf4 24.e6 fxe6 25.Kb1 Rh5 26.Ne4 Nh3 27.Rd2 Rf4 28.Rxf4
+Nxf4 29.Rd1 Re5 30.f3 Nh3 31.Rd3 Ng1 32.Re3 Nxf3 33.Rxf3 Rxe4 34.Rf7 Kd7 
+35.Rf1 e5 36.Rg1 Re2 37.h3 Rh2 38.Rxg6 Rxh3 39.Ka2 Rh1 40.Rg5 Ke6 41.Rg7 
+a4 42.Rg6+ Kd5 43.Rg7 e4 44.b4 h3 45.Rxe7 h2 46.Rd7+ Kc4 47.Rd2 e3 48.Rc2+
+Kd4 49.Re2 Kd3 50.Rb2 e2 51.Rxe2 Kxe2 52.Kb2 Kd3 53.Ka2 Rc1 54.Kb2 Rc2+ 
+55.Ka1 h1=Q# 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "4"]
+[White "Neurone"]
+[Black "FairyMaxCCT"]
+[Result "0-1"]
+[BlackElo "1615"]
+[Time "20:05:24"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.g3 Nf6 2.Bg2 d5 3.Nf3 c6 4.O-O Bg4 5.c4 e6 6.cxd5 Bxf3 7.Bxf3 cxd5 8.d4 
+Nc6 9.Bg5 Qb6 10.Bxf6 gxf6 11.e3 Qxb2 12.Nd2 O-O-O 13.Qc1 Qxc1 14.Raxc1 h6
+15.Bh5 Rd7 16.Rc2 Bd6 17.Rb1 f5 18.Bf3 f6 19.Bg2 h5 20.Rc3 h4 21.gxh4 Rxh4
+22.Nf3 Rg4 23.Rc2 Rh7 24.a4 f4 25.exf4 Rhg7 26.Ne1 Rxf4 27.Rd1 Bc7 28.Rcd2
+Ba5 29.Rc2 Kd8 30.Rc5 Bxe1 31.Rxe1 Rfg4 32.Rxe6 Rxg2+ 33.Kf1 Rg1+ 34.Ke2 
+0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "4"]
+[White "Nebula"]
+[Black "Gaviota"]
+[Result "1/2-1/2"]
+[WhiteElo "1816"]
+[BlackElo "1808"]
+[Time "19:47:05"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 d6 6.Bg5 e6 7.Qd2 Be7 8.O-O-O
+Nxd4 9.Qxd4 O-O 10.f4 Qa5 11.Kb1 Rd8 12.Qd2 Bd7 13.Qe1 h6 14.Bh4 Qc5 15.g4
+d5 16.e5 Ne4 17.Nxe4 dxe4 18.Bxe7 Qxe7 19.Bg2 Bc6 20.Rc1 Rd4 21.c3 Rd7 22.
+Bxe4 Rad8 23.Bxc6 bxc6 24.Rc2 Rd3 25.a3 a5 26.Qe4 Qc5 27.Re1 Qb5 28.Qe2 
+Qa4 29.f5 Qb3 30.Rg1 c5 31.h4 Qd5 32.f6 g6 33.Re1 c4 34.Qe4 Qb5 35.Rec1 
+R8d5 36.Qf4 Kh7 37.Re2 a4 38.h5 g5 39.Qe4+ Kg8 40.Ka1 Qb3 41.Rec2 Rg3 42.
+Kb1 Rgd3 43.Qe2 Qb6 44.Re1 Qb3 45.Qg2 Qb6 46.Qh2 Qb5 47.Qh1 Rd2 48.Rxd2 
+Rxd2 49.Qa8+ Kh7 50.b4 cxb3 51.Qe4+ Kg8 52.Qa8+ Kh7 53.Qe4+ Kg8 54.Qa8+ 
+1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "4"]
+[White "DjinnX"]
+[Black "Goldbar"]
+[Result "1/2-1/2"]
+[BlackElo "1824"]
+[Time "19:48:50"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.Nc3 e6 5.Bg5 dxc4 6.e4 b5 7.e5 h6 8.Bh4 g5 9.
+Nxg5 hxg5 10.Bxg5 Nbd7 11.exf6 Bb7 12.g3 c5 13.d5 Nxf6 14.Bg2 Bh6 15.Bxh6 
+Rxh6 16.Nxb5 Qb6 17.Qc1 Rh5 18.Qf4 Qxb5 19.Qxf6 Qb4+ 20.Kf1 Rf5 21.Qh8+ 
+Ke7 22.Qh4+ Kf8 23.Qh6+ Kg8 24.dxe6 Qxb2 25.exf7+ Rxf7 26.Qg6+ Kh8 27.Qh6+
+Rh7 28.Qc1 Qd4 29.Bxb7 Rf8 30.Qh6 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "4"]
+[White "Sjeng"]
+[Black "EXchess"]
+[Result "1-0"]
+[WhiteElo "1714"]
+[Time "19:46:50"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 d6 2.d4 g6 3.Nc3 Bg7 4.Be3 c6 5.Nf3 Nf6 6.Qd2 b5 7.Bd3 Nbd7 8.O-O Qc7
+9.Ne2 Rb8 10.a4 b4 11.c3 bxc3 12.Nxc3 Ng4 13.Bg5 f6 14.Bf4 g5 15.Bg3 h5 
+16.Rfc1 Qb7 17.h3 h4 18.Bxd6 exd6 19.hxg4 O-O 20.b4 Qxb4 21.a5 Qb2 22.Qxb2
+Rxb2 23.Nd1 Rb4 24.Rxc6 f5 25.Rb1 Rxb1 26.Bxb1 fxg4 27.Nxg5 Bxd4 28.Ba2+ 
+Kh8 29.Nf7+ Kh7 30.Nxd6 Rf6 31.e5 Nxe5 32.Bb1+ Kg7 33.Ne8+ Kf7 34.Rxf6+ 
+Kxe8 35.Rf4 Bc5 36.Bf5 Bxf5 37.Rxf5 Bd6 38.Rh5 h3 39.gxh3 gxh3 40.Rxh3 a6 
+41.Rh6 Nf7 42.Rg6 Kd7 43.Ne3 Ne5 44.Rg7+ Kc6 45.Ra7 Kb5 46.Rb7+ Ka4 47.Rb6
+Bc7 48.Rxa6 Kb5 49.Rh6 Kxa5 50.Nc4+ Nxc4 51.Rc6 Bd6 52.Rxc4 Kb5 53.Rc8 Kb4
+54.Kg2 Be5 55.Kf3 Bd4 56.Ke2 Be5 57.Ke3 Bf6 58.f4 Bg7 59.f5 Kb5 60.Ke4 Kb6
+61.Rg8 Bc3 62.f6 Bxf6 63.Rg6 Kc6 64.Rxf6+ Kc5 65.Rf5+ Kd6 66.Rb5 Kd7 67.
+Kd5 Ke7 68.Rb6 Kf7 69.Re6 Kf8 70.Kd6 Kf7 71.Kd7 Kf8 72.Re7 Kg8 73.Ke8 Kh8 
+74.Kf7 Kh7 75.Re6 Kh8 76.Rh6# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "4"]
+[White "Crafty"]
+[Black "Telepath"]
+[Result "1-0"]
+[WhiteElo "1951"]
+[BlackElo "1677"]
+[Time "19:52:17"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Be3 e5 7.Nb3 Be6 8.f3 Be7
+9.Qd2 O-O 10.O-O-O Nbd7 11.g4 b5 12.g5 b4 13.Ne2 Ne8 14.f4 a5 15.f5 a4 16.
+Nbd4 exd4 17.Nxd4 b3 18.Kb1 bxc2+ 19.Nxc2 Bb3 20.axb3 axb3 21.Na3 Ne5 22.
+h4 Ra5 23.Qc3 Qa8 24.Bg2 Ra6 25.Bd4 Qb7 26.Rh3 f6 27.Qxb3+ Qxb3 28.Rxb3 
+fxg5 29.Bf1 Ra8 30.Rb7 Bf6 31.hxg5 Bxg5 32.Bxe5 dxe5 33.Nc4 Rf7 34.Rxf7 
+Kxf7 35.Nxe5+ Kf6 36.Nd7+ Ke7 37.e5 Rd8 38.Bb5 Nc7 39.Ba4 Kf7 40.Rd6 Ke7 
+41.b4 Bf4 42.Rd1 Bg5 43.Kb2 Na6 44.Rd6 Nc7 45.Kc3 Bf4 46.Rd3 Rc8 47.Kb3 
+Rd8 48.Bc6 h5 49.b5 h4 50.Kc4 Na8 51.Rd6 h3 52.Re6+ Kf7 53.Rg6 h2 54.e6+ 
+Ke7 55.Rxg7+ Kd6 56.Rh7 Rc8 57.Kb3 Rxc6 58.bxc6 Nc7 59.e7 Kxc6 60.Nf6 Kd6 
+61.Ne4+ Kd5 62.f6 Bd6 63.e8=Q Nxe8 64.f7 Nf6 65.Nxf6+ Ke6 66.Nd7 h1=Q 67.
+f8=N+ Kd5 68.Rxh1 Bxf8 69.Rh5+ Ke6 70.Nxf8+ Kf7 71.Rf5+ Ke7 72.Kb4 Kd6 73.
+Kb5 Kc7 74.Rd5 Kb7 75.Rd7+ Kb8 76.Kc5 Ka8 77.Kb6 Kb8 78.Rd8# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "4"]
+[White "ProChess"]
+[Black "Chexa"]
+[Result "0-1"]
+[Time "19:45:41"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 e6 2.e4 d5 3.e5 c5 4.c3 Nc6 5.Nf3 Nh6 6.Bxh6 gxh6 7.Be2 Qb6 8.Qd2 Bd7
+9.O-O Bg7 10.Re1 O-O-O 11.Na3 cxd4 12.cxd4 Bf8 13.Nb5 Rg8 14.Red1 Kb8 15.
+Nd6 Bxd6 16.exd6 f6 17.a4 Be8 18.Qxh6 Bg6 19.Bb5 Be4 20.Ra3 Rg6 21.Qd2 
+Rxd6 22.Nh4 Rg7 23.f3 Bg6 24.Nxg6 hxg6 25.Bxc6 Rxc6 26.f4 Rgc7 27.a5 Qb5 
+28.Rh3 Rc8 29.b3 Rc2 30.Qe3 Qxa5 31.Rg3 Qa3 32.h3 Qd6 33.Rxg6 R2c3 34.Qd2 
+Qc7 35.Re1 Rxb3 36.Rxf6 Rxh3 37.Rfxe6 Rh4 38.g3 Rhh8 39.Re7 Qc3 40.Qxc3 
+Rxc3 41.Rg7 Rc7 42.Ree7 Rxe7 43.Rxe7 a5 44.Rd7 a4 45.Rxd5 Rh6 46.Ra5 Ra6 
+47.Re5 a3 48.Re8+ Kc7 49.Re7+ Kd8 50.Re1 a2 51.Kf2 b5 52.Ra1 b4 53.Ke3 b3 
+54.Kd2 Rc6 55.d5 Rc8 56.Ke3 b2 57.Rxa2 b1=Q 58.Ra6 Rc3+ 59.Kd4 Qd3+ 60.Ke5
+Qxa6 61.g4 Qd3 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "4"]
+[White "Tinker"]
+[Black "Rookie"]
+[Result "0-1"]
+[WhiteElo "1460"]
+[BlackElo "1759"]
+[Time "19:45:57"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 e6 3.g3 c5 4.d5 exd5 5.cxd5 d6 6.Bg2 Be7 7.Nc3 O-O 8.Nf3 h6 
+9.O-O Qc7 10.e4 a6 11.a4 Nbd7 12.h3 Rb8 13.a5 b6 14.axb6 Qxb6 15.Re1 Re8 
+16.e5 Nxe5 17.Nxe5 dxe5 18.Rxe5 Bd7 19.Bf1 a5 20.Bf4 Bf8 21.Qc1 c4 22.Rxe8
+Rxe8 23.Be3 Qb4 24.Qd2 a4 25.Ra2 Qb8 26.Qd4 Bd6 27.Nxa4 Be5 28.Qd2 Ne4 29.
+Qc2 Bf5 30.Qxc4 Bxg3 31.Qb5 Qe5 32.d6 Re6 33.Qxe5 Bxe5 34.Bd3 Rg6+ 35.Kf1 
+Rxd6 36.Nc5 Ng3+ 37.fxg3 Bxd3+ 38.Nxd3 Rxd3 39.Ra3 Rd1+ 40.Ke2 Rb1 41.b3 
+Bxg3 42.Bc5 h5 43.Kf3 h4 44.Kg4 Kh7 45.Ra7 Kg6 46.Ra6+ f6 47.Rb6 Be5 48.
+Bf2 Rf1 49.Be3 Re1 50.Bc5 Re2 51.Rb7 Rc2 52.Be3 Rg2+ 53.Kf3 Rg3+ 54.Ke4 
+Rxh3 55.Bf4 Bxf4 56.Kxf4 Rd3 57.b4 h3 58.Ke4 Rd1 59.Rb8 f5+ 60.Kf4 h2 61.
+Rh8 h1=Q 62.Rxh1 Rxh1 63.Kf3 Kg5 64.Ke2 Rb1 65.Kd3 Rxb4 66.Kc3 Rb6 67.Kd3 
+Re6 68.Kd4 f4 69.Kd5 Re2 70.Kd4 f3 71.Kd3 Kg4 72.Kd4 f2 73.Kc5 f1=Q 74.Kd4
+Qd1+ 75.Kc4 Rc2+ 76.Kb4 Qb1+ 77.Ka4 Ra2# 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "4"]
+[White "Baron"]
+[Black "KomodoX"]
+[Result "0-1"]
+[WhiteElo "1837"]
+[Time "19:46:30"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 b5 5.Bb3 Nf6 6.O-O Bb7 7.d3 Be7 8.c3 O-O 
+9.Re1 d6 10.Nbd2 Na5 11.Bc2 c5 12.Nf1 Re8 13.Bg5 h6 14.Bh4 Bc8 15.Ne3 Be6 
+16.h3 Rc8 17.d4 cxd4 18.cxd4 Nc4 19.Nxc4 Bxc4 20.Bg3 Nh5 21.Bh2 Bf6 22.d5 
+b4 23.Ba4 Bb5 24.Bxb5 axb5 25.Re2 Qa5 26.Rc2 Rxc2 27.Qxc2 Be7 28.Ne1 Qa7 
+29.Kf1 Nf4 30.b3 Ra8 31.Qd2 Qa3 32.Bxf4 exf4 33.e5 dxe5 34.d6 Bf6 35.d7 
+Rd8 36.Rc1 Qa6 37.Qd5 Qe6 38.Rd1 e4 39.Nc2 Bc3 40.Qc5 Qf6 41.Qxb5 e3 42.
+Rd5 Qh4 43.Qe2 Bd2 44.Kg1 Qe7 45.Qd3 g6 46.g3 exf2+ 47.Kxf2 Bc1 48.g4 Bb2 
+49.Kg2 Bc3 50.Kf2 Qe6 51.Kf3 Qc6 52.Kxf4 Qc7+ 53.Kf3 Qh2 54.Ne3 Qxh3+ 55.
+Kf2 Qh2+ 56.Ng2 Qc7 57.Ke2 Bf6 58.Kf3 Qb7 59.Qb5 Qa8 60.Kg3 Qa7 61.Qc6 Be7
+62.Rd3 Qg1 63.Qc7 Kg7 64.Rd2 Qa1 65.Rd3 Bf6 66.Qc5 Be5+ 67.Kf2 Qxa2+ 68.
+Kf1 Qa1+ 69.Ke2 Bc3 70.Ne3 Qe1+ 71.Kf3 Qb1 72.Qd6 Qh1+ 73.Ke2 Qe4 74.Rd5 
+Bf6 75.Qc7 Kg8 76.Qd6 Bg5 77.Re5 Qa8 78.Nd5 Bh4 79.Kd3 Kh7 80.Re4 Qb7 81.
+Nc7 Bg5 82.Kd4 h5 83.gxh5 gxh5 84.Re8 Qf3 85.Kc5 Qxb3 86.Nd5 Qc2+ 87.Kxb4 
+Qf5 88.Nb6 Qf2 89.Qc7 Qb2+ 90.Ka5 Qf6 91.Rxd8 Qxd8 92.Qc2+ Kg7 93.Ka6 h4 
+94.Kb7 Qf6 95.Qd3 Qe5 96.d8=Q Bxd8 97.Qxd8 h3 98.Nd7 Qe4+ 99.Kc8 Qc6+ 100.
+Kb8 Qd6+ 101.Kc8 f6 102.Qe8 h2 103.Qe4 f5 104.Qg2+ Kh6 105.Kd8 Qf4 106.
+Qh3+ Kg5 107.Qg2+ Kh4 108.Qc6 Qe3 109.Kc7 f4 110.Qf6+ Kh3 111.Qh8+ Kg2 
+112.Qg8+ Qg3 113.Qa2+ Qf2 114.Qg8+ Kf1 115.Qh8 f3 116.Ne5 Kg2 117.Nxf3 
+Qc5+ 118.Kb8 Qb6+ 119.Kc8 Qc6+ 120.Kb8 h1=Q 121.Nh4+ Kf2 122.Qd4+ Ke2 123.
+Qb2+ 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "4"]
+[White "Nightmare"]
+[Black "ArasanX"]
+[Result "1-0"]
+[WhiteElo "1857"]
+[BlackElo "1700"]
+[Time "19:44:28"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e6 2.d4 d5 3.Nc3 Bb4 4.e5 c5 5.a3 Bxc3+ 6.bxc3 Ne7 7.Qg4 Qc7 8.Qxg7 
+Rg8 9.Qxh7 cxd4 10.Ne2 Nbc6 11.f4 Bd7 12.Qd3 dxc3 13.Qxc3 Nf5 14.Rb1 d4 
+15.Qc4 O-O-O 16.Rg1 f6 17.exf6 Rg6 18.c3 Nd6 19.Qd3 Rxf6 20.cxd4 Be8 21.
+Rb3 Bg6 22.Qe3 Qa5+ 23.Qc3 Qd5 24.g4 Ne4 25.Qb2 Qa5+ 26.Bd2 Qxd2+ 27.Qxd2 
+Nxd2 28.Kxd2 Nxd4 29.Rc3+ Kb8 30.Ke3 Nb5 31.Rb3 a6 32.h4 Rf7 33.Kf2 Bd3 
+34.h5 Bxe2 35.Bxe2 Nd4 36.Rb2 Rxf4+ 37.Ke3 Rf7 38.h6 Ka7 39.Rg3 b5 40.Bd3 
+Nc6 41.Be4 Ne5 42.Rc2 Nc4+ 43.Rxc4 bxc4 44.g5 Rfd7 45.g6 Rd3+ 46.Kf4 e5+ 
+47.Kg4 R3d4 48.Kf5 Rd2 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "4"]
+[White "LimeRA"]
+[Black "Deuterium"]
+[Result "0-1"]
+[WhiteElo "1654"]
+[BlackElo "1681"]
+[Time "20:03:31"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nc3 d6 3.g3 Nc6 4.Bg2 g6 5.Nge2 Bg7 6.O-O h5 7.h3 Bd7 8.d3 h4 9.
+g4 Nf6 10.Re1 Qa5 11.Bd2 Qb6 12.Nd5 Qd8 13.Rb1 Rb8 14.Bg5 Kf8 15.Nxf6 Bxf6
+16.Bxf6 exf6 17.d4 cxd4 18.Nxd4 Kg7 19.Nb5 Qb6 20.Nxd6 Ne5 21.Qd2 Be6 22.
+Red1 Bxa2 23.Ra1 Qxb2 24.c3 Qxd2 25.Rxd2 Be6 26.Rxa7 Nc4 27.Nxc4 Bxc4 28.
+Rd7 Rhc8 29.Raxb7 Rxb7 30.Rxb7 Be6 31.f4 Rxc3 32.f5 Bb3 33.fxg6 Kxg6 34.
+Rb8 Bc4 35.Rd8 Rc1+ 36.Kf2 Kg5 37.Ra8 Rc2+ 38.Kf3 Rc3+ 39.Kf2 Kf4 40.Ra5 
+Rc2+ 41.Kg1 Be2 42.Kh1 Rb2 43.Kg1 Bb5 44.Kh1 Ke3 45.Ra7 Bc4 46.Rc7 Kd4 47.
+Rd7+ Ke5 48.Rc7 Rb1+ 49.Kh2 Kd4 50.Ra7 Rb5 51.Rd7+ Ke3 52.Rd6 Be6 53.Rd8 
+Rb2 54.Rd6 Rd2 55.Rb6 Rc2 56.Kg1 Kf4 57.Rd6 Rc3 58.Kf2 Rb3 59.Rc6 Rd3 60.
+Ke2 Rd4 61.Kf2 Rd1 62.Rc7 Rd3 63.Rc5 Ra3 64.Rc7 Ra2+ 65.Kg1 Ra1+ 66.Kh2 
+Ra5 67.Kg1 Ke3 68.Rc1 Kd4 69.Rc7 Ra3 70.Kf1 Rg3 71.Ra7 Ke3 72.Ra4 Bb3 73.
+Ra3 Kf4 74.Ra7 Rc3 75.Kf2 Rc2+ 76.Kf1 Kg3 77.Ra3 Rc3 78.Kg1 Rc1+ 79.Bf1 
+Rb1 80.Ra5 Bc4 81.Rf5 Bxf1 82.Rxf1 Rxf1+ 83.Kxf1 Kxh3 84.Kf2 Kxg4 85.Kg1 
+Kf3 86.Kh2 Kxe4 87.Kh3 Kf3 88.Kxh4 Kf4 89.Kh5 Ke4 90.Kh6 f5 91.Kg7 Ke5 92.
+Kxf7 f4 93.Kg6 f3 94.Kh5 f2 95.Kg4 f1=Q 96.Kg3 Qe2 97.Kh4 Kf4 98.Kh3 Qd2 
+99.Kh4 Qh2# 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.23"]
+[Round "4"]
+[White "Raptor"]
+[Black "Capivara"]
+[Result "1/2-1/2"]
+[WhiteElo "1461"]
+[BlackElo "1453"]
+[Time "19:47:41"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Be3 e6 7.f3 b5 8.Qd2 Nbd7
+9.g4 Nb6 10.a4 Nc4 11.Bxc4 bxc4 12.g5 Nd7 13.f4 Bb7 14.f5 e5 15.Nf3 Qa5 
+16.O-O Rc8 17.Rfd1 Be7 18.Qg2 Qb4 19.Ra2 h5 20.Qe2 Bd8 21.Kf1 Bc7 22.Kg2 
+Bd8 23.Nd5 Bxd5 24.c3 Qb8 25.Rxd5 Bb6 26.Bxb6 Nxb6 27.Rd1 a5 28.Kh1 Qc7 
+29.g6 f6 30.Kg2 Qc6 31.Re1 Rb8 32.Qd1 Nd7 33.Nd2 Ke7 34.Qe2 Rbc8 35.Nf3 
+Rb8 36.Kg1 Nb6 37.Qd1 Qc5+ 38.Kg2 Nd7 39.Qd2 Qc6 40.Qe2 Nb6 41.Qc2 Nd7 42.
+Nd2 d5 43.Nf3 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "5"]
+[White "FairyMaxCCT"]
+[Black "Raptor"]
+[Result "0-1"]
+[WhiteElo "1615"]
+[BlackElo "1458"]
+[Time "13:00:32"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e6 2.d4 d5 3.Nc3 Nf6 4.Bg5 dxe4 5.Nxe4 Be7 6.Bxf6 gxf6 7.Nf3 f5 8.Nc3
+a6 9.Bc4 c5 10.O-O b5 11.Bd3 O-O 12.a4 b4 13.Ne2 Bb7 14.c3 Bxf3 15.gxf3 
+Nc6 16.dxc5 Ne5 17.Nd4 Bxc5 18.Be2 Ng6 19.Qd2 bxc3 20.bxc3 Qh4 21.Nc6 Rac8
+22.Nb4 Rfd8 23.Nd3 Bd6 24.h3 Qxh3 25.f4 Nh4 26.Ne1 Kh8 27.Bg4 Qxg4+ 28.Kh2
+Bxf4+ 29.Qxf4 Qxf4+ 30.Kh1 Nf3 31.Nxf3 Qxf3+ 32.Kg1 Rg8+ 33.Kh2 Qg2# 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "5"]
+[White "Nightmare"]
+[Black "Sjeng"]
+[Result "1/2-1/2"]
+[WhiteElo "1857"]
+[BlackElo "1714"]
+[Time "13:00:14"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 Nf6 4.O-O Nxe4 5.d4 Nd6 6.Bxc6 dxc6 7.dxe5 Nf5 8.
+Qxd8+ Kxd8 9.Nc3 Bd7 10.Rd1 Kc8 11.Ng5 Be8 12.Rd3 b6 13.g4 Ne7 14.f4 Kb7 
+15.h3 h5 16.Kg2 hxg4 17.hxg4 f5 18.exf6 gxf6 19.Ne6 Rg8 20.Kh3 Nd5 21.Nxd5
+cxd5 22.f5 Bb5 23.Rxd5 Be2 24.g5 Bc4 25.Rd4 Bxe6 26.fxe6 fxg5 27.Kg4 Re8 
+28.Re4 Be7 29.Bd2 Rh8 30.Rae1 Rh4+ 31.Kf3 Rf8+ 32.Kg2 Kc6 33.c4 Rfh8 34.
+Bc3 Rh2+ 35.Kf3 R2h3+ 36.Kg4 R3h4+ 37.Kf3 Rh3+ 38.Kf2 Rh2+ 39.Kf3 Rf8+ 40.
+Kg3 Rff2 41.Kg4 Rh4+ 42.Kg3 Rhh2 43.Kg4 Rh4+ 44.Kg3 Rhh2 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "5"]
+[White "Neurone"]
+[Black "ProChess"]
+[Result "0-1"]
+[Time "13:01:57"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.Nf3 e6 3.c4 b6 4.g3 Ba6 5.b3 Bb4+ 6.Bd2 Be7 7.Nc3 O-O 8.e4 d5 
+9.cxd5 Bxf1 10.Kxf1 exd5 11.e5 Ne4 12.Kg2 Nc6 13.h3 f5 14.Rc1 Ba3 15.Nxe4 
+Bxc1 16.Nc3 Bxd2 17.Qxd2 Qd7 18.Qf4 Nd8 19.Rd1 Ne6 20.Qc1 f4 21.b4 b5 22.
+Qc2 Qc6 23.Qb3 Rad8 24.g4 h6 25.Qc2 a5 26.Qb3 a4 27.Qc2 Ng5 28.Nxg5 hxg5 
+29.f3 Rb8 30.Qd2 Rb6 31.Rc1 Qe6 32.Qd1 Rc6 33.Nxb5 Rb8 34.Nxc7 Qd7 35.Rxc6
+Qxc6 36.a3 Qxc7 37.Qd2 Qc4 38.Qb2 Rc8 39.e6 Qb3 40.Qxb3 axb3 41.e7 Rc2+ 
+42.Kg1 Kf7 43.h4 Kxe7 44.a4 b2 45.hxg5 b1=Q# 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "5"]
+[White "ArasanX"]
+[Black "Gaviota"]
+[Result "1-0"]
+[WhiteElo "1700"]
+[BlackElo "1808"]
+[Time "13:00:52"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.c4 e6 2.g3 d5 3.Bg2 c6 4.Qc2 Nf6 5.Nf3 Be7 6.O-O O-O 7.b3 b6 8.Bb2 Bb7 
+9.d3 c5 10.e3 Nc6 11.Nc3 Qd7 12.Ne2 Nb4 13.Qc3 Nc6 14.Nf4 Rfd8 15.cxd5 
+exd5 16.Rfe1 a5 17.e4 d4 18.Qc4 Ba6 19.Qc1 Ng4 20.e5 g5 21.e6 fxe6 22.Nxe6
+Nb4 23.Nfxg5 Nxd3 24.Qd2 h6 25.Nh3 Bf6 26.Re4 h5 27.Nhf4 Ndxf2 28.Ree1 h4 
+29.h3 hxg3 30.hxg4 Qf7 31.Qc2 Rab8 32.Qf5 Rd6 33.Ng5 Bxg5 34.Qxg5+ Kf8 35.
+Re5 Qg7 36.Qh5 Nxg4 37.Ne6+ Rxe6 38.Rxe6 Qf7 39.Qxg4 Re8 40.Rxe8+ Qxe8 41.
+Qf4+ Kg7 42.Rc1 Bc4 43.Be4 Qh5 44.Qxg3+ Kh8 45.bxc4 Qe2 46.Qe5+ Kg8 47.
+Bd5+ Kh7 48.Qxe2 Kg6 49.Qg4+ Kf6 50.Rf1+ 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "5"]
+[White "Telepath"]
+[Black "Nebula"]
+[Result "0-1"]
+[WhiteElo "1677"]
+[BlackElo "1816"]
+[Time "13:01:28"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 d5 2.Nf3 Nf6 3.Bf4 c5 4.c3 Nc6 5.e3 Qb6 6.Qb3 c4 7.Qc2 Bf5 8.Qc1 e6 
+9.h3 h6 10.Nbd2 Qd8 11.Be2 Be7 12.O-O O-O 13.Re1 b5 14.a4 bxa4 15.Rxa4 Qb6
+16.Kf1 a5 17.Ne5 Nxe5 18.Bxe5 Ne4 19.Nxe4 Bxe4 20.Qd2 Bd6 21.Bxd6 Qxd6 22.
+f3 Bg6 23.Rea1 Qh2 24.Kf2 Bf5 25.Rxa5 Bxh3 26.Bf1 Rxa5 27.Rxa5 Bf5 28.Qe1 
+Rb8 29.Ra2 Qh4+ 30.Ke2 Qxe1+ 31.Kxe1 Bb1 32.Ra4 Rxb2 33.Rb4 Rxb4 34.cxb4 
+Kf8 35.Kd2 Ke7 36.e4 dxe4 37.Bxc4 exf3 38.gxf3 Kd6 39.Ke3 h5 40.f4 h4 41.
+Bb5 Bf5 42.Be8 f6 43.b5 Kc7 44.Bh5 g5 45.fxg5 fxg5 46.Bf3 g4 47.Bc6 g3 48.
+Kf3 Kb6 49.Ke3 Bb1 50.Bg2 Ba2 51.Bh3 Bd5 52.Ke2 g2 53.Kf2 Kxb5 54.Kg1 Kc4 
+55.Kf2 Kd3 56.Bxg2 Bxg2 57.Kxg2 Kxd4 58.Kh2 e5 59.Kh3 e4 60.Kxh4 e3 61.Kg3
+Kd3 62.Kf3 e2 63.Kf2 Kd2 64.Kg3 e1=Q+ 65.Kg2 Ke3 66.Kh3 Qg1 67.Kh4 Kf4 68.
+Kh3 Qg3# 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "5"]
+[White "Goldbar"]
+[Black "Deuterium"]
+[Result "1-0"]
+[WhiteElo "1824"]
+[BlackElo "1681"]
+[Time "13:00:26"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.g3 Ba6 5.b3 Bb4+ 6.Bd2 Be7 7.Bg2 c6 8.Bc3 d5 
+9.Ne5 Nfd7 10.Nxd7 Nxd7 11.Nd2 O-O 12.O-O Rc8 13.e4 b5 14.Re1 dxc4 15.bxc4
+bxc4 16.Qa4 Bb5 17.Qc2 Re8 18.a4 Ba6 19.Rad1 Nf6 20.Bf1 c5 21.d5 exd5 22.
+exd5 Qxd5 23.Nxc4 Qa8 24.Qf5 Rcd8 25.Bxf6 Rxd1 26.Rxd1 Bxc4 27.Bxc4 Bxf6 
+28.Bd3 Rd8 29.Rd2 h6 30.Qh7+ Kf8 31.Bc4 Qc8 32.Re2 Rd1+ 33.Kg2 Qb7+ 34.f3 
+g6 35.Qxh6+ Bg7 36.Qg5 Qc7 37.Bb5 Rd8 38.h4 Qd6 39.h5 gxh5 40.Qxh5 Qc7 41.
+Re4 Bf6 42.Bc6 Bd4 43.Bd5 Rd7 44.Rg4 Be5 45.Qh6+ Ke7 46.Bc6 Rd6 47.Qg5+ 
+Kf8 48.Qg8+ Ke7 49.Bb5 Rd2+ 50.Kh3 Rd8 51.Qg5+ f6 52.Qh6 Kd6 53.Qd2+ Ke7 
+54.Rg7+ Kf8 55.Rxc7 Rxd2 56.Rxa7 Bd4 57.Kg4 Bc3 58.a5 Rb2 59.Bc6 c4 60.a6 
+Rb6 61.Ra8+ Kf7 62.Be8+ Kg7 63.f4 Ba1 64.Ra7+ Kh8 65.Kh5 Bd4 66.Rd7 Rxa6 
+67.Rxd4 Kg7 68.Bb5 Rb6 69.Bxc4 Kf8 70.f5 Ke7 71.Kg6 Rb7 72.Be6 Ra7 73.Rd7+
+Rxd7 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "5"]
+[White "Chexa"]
+[Black "LimeRA"]
+[Result "1-0"]
+[BlackElo "1654"]
+[Time "13:00:50"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.Nf3 Nf6 2.c4 e6 3.g3 b6 4.Bg2 Bb7 5.O-O c5 6.Nc3 Be7 7.d4 cxd4 8.Qxd4 
+O-O 9.Bg5 h6 10.Bf4 d6 11.Qd2 e5 12.Be3 Nbd7 13.Nh4 Bxg2 14.Nxg2 Rc8 15.b3
+Nb8 16.f3 Qd7 17.g4 Nc6 18.Ne1 Nb4 19.a3 Nc6 20.Nd3 Rfd8 21.Rac1 Qb7 22.g5
+hxg5 23.Bxg5 Nd4 24.Rb1 Ne6 25.Bxf6 Bxf6 26.Nb4 Qd7 27.Nbd5 Bh4 28.Kh1 Kh8
+29.Rg1 f5 30.Nb5 Qf7 31.Rg2 a6 32.Nbc3 Rb8 33.e3 Nc5 34.Qc2 Qh5 35.Rf1 
+Rdc8 36.b4 Ne6 37.Qa4 Rxc4 38.Qxa6 Rc6 39.Qa7 Qe8 40.Rg6 Rcc8 41.Rfg1 Ra8 
+42.Qxb6 Qd7 43.Qb5 Qf7 44.Qf1 Ng5 45.R1xg5 Bxg5 46.Rxg5 g6 47.a4 Kg7 48.a5
+Rh8 49.a6 Qa7 50.b5 Kf7 51.Qc4 Qc5 52.Qa2 Rac8 53.b6 Qc4 54.Qxc4 Rxc4 55.
+b7 Rcc8 56.Rxg6 Rb8 57.Rf6+ Kg7 58.Rxd6 Kf7 59.Rf6+ Kg7 60.Rb6 f4 61.a7 
+fxe3 62.Nxe3 Rhd8 63.Ncd5 Kf7 64.Ng4 Kg7 65.Nxe5 Rbc8 66.b8=Q Rxb8 67.
+axb8=Q Rxb8 68.Rxb8 Kh7 69.Rb7+ Kh6 70.h4 Kh5 71.Rh7# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "5"]
+[White "Hannibal"]
+[Black "Baron"]
+[Result "1-0"]
+[WhiteElo "1983"]
+[BlackElo "1837"]
+[Time "13:00:12"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nc3 d6 3.g3 Nc6 4.Bg2 g6 5.h3 Bg7 6.Nge2 e6 7.O-O Nge7 8.d3 O-O 
+9.a3 b6 10.Bg5 Qd7 11.Qd2 Ba6 12.h4 d5 13.exd5 exd5 14.b4 f6 15.Bf4 Ne5 
+16.bxc5 bxc5 17.Rab1 Rac8 18.Rfe1 Rfe8 19.Bh6 Bxh6 20.Qxh6 Nf5 21.Qf4 d4 
+22.Ne4 Rc6 23.Qd2 c4 24.Nf4 Kg7 25.Qd1 Rb6 26.Rb4 c3 27.Bh3 Bb5 28.Rf1 Re7
+29.h5 a5 30.Rb3 a4 31.Rb4 Re8 32.hxg6 hxg6 33.Qe2 Reb8 34.Rfb1 Nc6 35.Nc5 
+Qf7 36.Nxa4 R6b7 37.Nc5 Rb6 38.Nce6+ Kg8 39.R4b3 Na5 40.Nxg6 Ng7 41.Nxg7 
+Kxg7 42.Rb4 Qxg6 43.Qe7+ Qf7 44.Qc5 Qe8 45.Rxd4 Qe5 46.Rd5 Bc6 47.Rxe5 
+Rxb1+ 48.Bf1 fxe5 49.Qxe5+ Kg6 50.Qe6+ Kg7 51.Qe7+ Kh6 52.Qf6+ Kh7 53.Qf7+
+Kh6 54.f4 Be8 55.Qf8+ Kh7 56.Qf5+ Kg8 57.Qg5+ Kf8 58.Qxa5 R8b2 59.Qc5+ Kf7
+60.Qh5+ Ke7 61.Qe5+ Kd8 62.Qxc3 Rb6 63.Qd4+ Bd7 64.f5 R6b5 65.g4 Rd1 66.
+Qf6+ Kc7 67.Qc3+ Kd8 68.Kf2 Rdb1 69.Bg2 R1b2 70.f6 Be8 71.a4 R5b4 72.Qe5 
+Bg6 73.Qe7+ Kc8 74.Kg3 Rb6 75.Qf8+ Kc7 76.Qg7+ Kb8 77.Qxg6 Rxc2 78.Qe8+ 
+Rc8 79.f7 Rb1 80.g5 Rxe8 81.fxe8=Q+ Kc7 82.g6 Rb3 83.Qf7+ Kd6 84.Qxb3 Ke5 
+85.Qb6 Kf5 86.g7 Kg5 87.g8=Q+ Kh5 88.Qd5# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "5"]
+[White "Rookie"]
+[Black "DjinnX"]
+[Result "1-0"]
+[WhiteElo "1759"]
+[Time "13:04:16"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Bc4 e6 7.a4 Be7 8.O-O Nc6
+9.Be3 O-O 10.Nxc6 bxc6 11.a5 d5 12.Bb6 Qd6 13.Bd3 Bb7 14.Re1 Nd7 15.Na4 
+Bf6 16.Rb1 c5 17.b3 Bc6 18.exd5 exd5 19.g3 Rfb8 20.Be4 Re8 21.Bg2 Rab8 22.
+Ba7 Rbd8 23.Rxe8+ Rxe8 24.Qd2 d4 25.Re1 Ra8 26.Bb6 Bxg2 27.Kxg2 c4 28.Qf4 
+Qxf4 29.gxf4 cxb3 30.cxb3 Kf8 31.Kf3 Rb8 32.b4 g6 33.Re4 Nxb6 34.axb6 Kg7 
+35.Ke2 Kh6 36.Kd3 Kh5 37.f3 Kh4 38.Re2 h5 39.Kc4 g5 40.fxg5 Kxg5 41.Rc2 
+Kh4 42.b5 a5 43.f4 Kg4 44.Kd3 Bd8 45.Kxd4 f5 46.Ra2 Kxf4 47.Kc5 Bf6 48.Kc6
+Rc8+ 49.Kd7 Rb8 50.Rc2 Be5 51.Re2 Bd4 52.Kc7 Kf3 53.Re1 Rh8 54.b7 Ba7 55.
+Rc1 Ke3 56.Kd7 Rh7+ 57.Kc6 Bb8 58.b6 Bxh2 59.Nc5 h4 60.Na6 a4 61.Nc7 Rh8 
+62.Ra1 Kf3 63.Ra3+ Kg2 64.Ra2+ Kh3 65.Rxa4 Bg1 66.Ne6 Rb8 67.Nf4+ Kh2 68.
+Ra2+ Kh1 69.Ra8 Rxb7 70.Kxb7 Be3 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "5"]
+[White "EXchess"]
+[Black "Tinker"]
+[Result "1-0"]
+[BlackElo "1460"]
+[Time "13:00:06"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2 dxc4 5.Nf3 c6 6.Nc3 Nbd7 7.O-O b5 8.e4 Bb7 
+9.e5 Nd5 10.Ng5 h6 11.Nxe6 fxe6 12.Qh5+ Ke7 13.Ne4 Qe8 14.Bg5+ hxg5 15.
+Qxh8 Kd8 16.Nxg5 Kc8 17.Qh3 Nc7 18.Ne4 Nb6 19.Nd6+ Bxd6 20.exd6 Ncd5 21.
+Qh7 Qf7 22.Rfe1 Kb8 23.Re5 Bc8 24.Rg5 Qd7 25.Rxg7 Qxd6 26.h4 Bd7 27.Re1 
+Nf6 28.Qg6 Qxd4 29.Rf7 Qd2 30.Kf1 Ne8 31.Rxd7 Qxd7 32.Rxe6 Nc7 33.Rd6 Qe8 
+34.Bxc6 Qxg6 35.Rxg6 Ncd5 36.h5 Ne7 37.Bxa8 Nxg6 38.hxg6 Nc8 39.Bd5 Kc7 
+40.g7 Ne7 41.g8=Q Nxg8 42.Bxg8 Kd7 43.f4 Ke7 44.g4 Kf6 45.g5+ Kg6 46.Bd5 
+a6 47.Be4+ Kh5 48.Bf3+ Kg6 49.Bd5 a5 50.a4 bxa4 51.Bxc4 Kf5 52.Bf7 Kxf4 
+53.g6 Ke4 54.g7 a3 55.bxa3 Kd4 56.g8=Q Ke5 57.Bc4 Kf4 58.Qe6 Kg5 59.Qe5+ 
+Kg6 60.Qxa5 Kf6 61.Qc5 Kg6 62.Qe5 Kh6 63.Qf6+ Kh7 64.Qg5 Kh8 65.Qh6# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "5"]
+[White "KomodoX"]
+[Black "Crafty"]
+[Result "1-0"]
+[BlackElo "1951"]
+[Time "13:16:01"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 d6 8.c3 O-O 
+9.h3 Na5 10.Bc2 c5 11.d4 Qc7 12.Nbd2 cxd4 13.cxd4 Nc6 14.Nb3 a5 15.Be3 a4 
+16.Nbd2 Bd7 17.Rc1 Qb7 18.Qe2 Rfe8 19.Bd3 Rab8 20.dxe5 Nxe5 21.Nxe5 dxe5 
+22.Bc5 Bc6 23.Nf3 Bxc5 24.Rxc5 Nd7 25.Rc3 Re6 26.Rec1 b4 27.R3c2 Rf6 28.
+Nd2 Ra8 29.Nc4 g6 30.Qe1 Kg7 31.f3 Re6 32.Kh2 b3 33.axb3 axb3 34.Rc3 Ba4 
+35.Ne3 Rc6 36.Rxc6 Bxc6 37.Qd2 Ba4 38.Ng4 Rc8 39.Bc4 Qc7 40.Qg5 Qd8 41.
+Qh6+ Kh8 42.Bxf7 Rxc1 43.Qxc1 Qf8 44.Qc4 h5 45.Nf2 Kg7 46.Bd5 Nc5 47.Qc3 
+Qe7 48.f4 Be8 49.fxe5 Na4 50.Qd4 Qc5 51.Qxc5 Nxc5 52.Kg3 Kf8 53.Kf4 Ke7 
+54.h4 Bb5 55.Ke3 Na4 56.Bxb3 Nxb2 57.Kd4 Be8 58.Nh3 Bf7 59.Bxf7 Kxf7 60.
+Nf4 Nd1 61.e6+ Kg7 62.Nd5 Kf8 63.Ke5 Nf2 64.e7+ Kf7 65.g3 Nxe4 66.Kxe4 Ke8
+67.Kf4 Kd7 68.Ke5 g5 69.hxg5 h4 70.g6 hxg3 71.g7 Kc6 72.e8=Q+ Kc5 73.g8=Q 
+1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "5"]
+[White "Capivara"]
+[Black "Jabba"]
+[Result "1-0"]
+[WhiteElo "1454"]
+[BlackElo "1868"]
+[Time "13:07:17"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c6 2.d4 d5 3.e5 Bf5 4.Nf3 e6 5.Be2 Nd7 6.O-O Bg6 7.Nbd2 Nh6 8.c4 Nf5 
+9.cxd5 exd5 10.Nb3 Be7 11.g4 Nh4 12.Nxh4 Bxh4 13.f4 h6 14.f5 Bh7 15.Bf4 
+O-O 16.Bd3 Bg5 17.Qd2 Bxf4 18.Qxf4 a5 19.Rac1 a4 20.Nc5 Nxc5 21.Rxc5 Qb6 
+22.Rb1 Rac8 23.Qe3 Rfe8 24.Bc2 Ra8 25.Qf2 Qc7 26.Re1 a3 27.b4 Qd8 28.Qe3 
+Qh4 29.h3 Qg5 30.Qxg5 hxg5 31.Rb1 Kh8 32.Rb3 Ra4 33.Kf2 Bg8 34.Ra5 Rxa5 
+35.bxa5 Ra8 36.Rxa3 Ra6 37.Bd3 b5 38.Ke3 Ra7 39.a6 Kh7 40.Kd2 Kh6 41.Kc3 
+f6 42.e6 g6 43.e7 Bf7 44.fxg6 Be8 45.Kb4 Ra8 46.a7 Kg7 47.Kc5 b4 48.Kxb4 
+f5 49.gxf5 g4 50.hxg4 Kf6 51.g5+ Kxg5 52.Ba6 c5+ 53.Kxc5 Kxf5 54.g7 Bf7 
+55.Bb7 Rxa7 56.Rf3+ Ke4 57.Rxf7 Kd3 58.e8=Q Ra5+ 59.Kb4 Ra3 60.Kxa3 Kxd4 
+61.Rf3 Kc5 62.Qc6+ Kd4 63.Qxd5# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "6"]
+[White "Jabba"]
+[Black "Neurone"]
+[Result "1-0"]
+[WhiteElo "1714"]
+[BlackElo "1558"]
+[Time "15:06:09"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.d3 d6 6.c3 g6 7.Bg5 h6 8.Bxf6 Qxf6 
+9.d4 b5 10.d5 Ne7 11.Bc2 g5 12.a4 g4 13.Nfd2 Bd7 14.axb5 Bxb5 15.Ba4 c6 
+16.Bxb5 cxb5 17.Qb3 h5 18.Rxa6 O-O-O 19.Qxb5 Bh6 20.Ra8+ Kc7 21.Ra7+ Kc8 
+22.Qb7# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "6"]
+[White "Crafty"]
+[Black "ArasanX"]
+[Result "1/2-1/2"]
+[WhiteElo "1914"]
+[BlackElo "1926"]
+[Time "15:06:20"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3 Ba5 6.d4 d6 7.Qb3 Qd7 8.dxe5 
+Bb6 9.Nbd2 Na5 10.Qc2 Nxc4 11.Nxc4 d5 12.exd5 Qxd5 13.Nxb6 axb6 14.O-O Ne7
+15.c4 Qc6 16.Nd4 Qc5 17.Be3 Qxe5 18.Nb5 O-O 19.Bd4 Qf4 20.Be3 Qe5 21.Bd4 
+Qf4 22.Be3 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "6"]
+[White "Hannibal"]
+[Black "Nightmare"]
+[Result "1/2-1/2"]
+[WhiteElo "2101"]
+[BlackElo "1855"]
+[Time "15:04:40"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nc3 d6 3.g3 Nc6 4.Bg2 g6 5.h3 Bg7 6.Nge2 e6 7.O-O Nge7 8.d3 O-O 
+9.a3 f5 10.Bg5 h6 11.Be3 Nd4 12.Qd2 Kh7 13.f4 e5 14.fxe5 dxe5 15.Nd5 Nxd5 
+16.exd5 b6 17.Rae1 Bb7 18.c4 a5 19.a4 Bc8 20.Qd1 Qd6 21.Nxd4 cxd4 22.Bc1 
+Ra7 23.b3 f4 24.g4 Rh8 25.Be4 Kg8 26.Qf3 Bf8 27.Re2 Rg7 28.Bd2 h5 29.g5 
+Qd8 30.Rg2 Bd6 31.Rb1 Qf8 32.h4 Bg4 33.Rxg4 hxg4 34.Qxg4 Qe7 35.Qc8+ Kh7 
+36.Qg4 Kg8 37.Qc8+ Kh7 38.Qg4 Kg8 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "6"]
+[White "ProChess"]
+[Black "Tinker"]
+[Result "1-0"]
+[WhiteElo "1882"]
+[BlackElo "1456"]
+[Time "15:04:25"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.c4 e5 2.Nc3 Nf6 3.Nf3 Nc6 4.g3 Bb4 5.Nd5 Bc5 6.d3 O-O 7.Bg2 h6 8.Be3 d6 
+9.Bxc5 dxc5 10.Nd2 Be6 11.Nxf6+ Qxf6 12.Nb3 e4 13.Bxe4 Qxb2 14.Qc1 Qf6 15.
+Nxc5 Bf5 16.O-O b6 17.Bxf5 Qxf5 18.Nb3 Rfe8 19.c5 b5 20.e4 Qf6 21.Rd1 a5 
+22.a4 Rab8 23.Qc2 Red8 24.axb5 Rxb5 25.Kg2 Ne5 26.f4 Ng4 27.Qe2 Rxb3 28.
+Qxg4 Qd4 29.Ra2 Rxd3 30.Rxd3 Qxd3 31.Qe2 Qxe2+ 32.Rxe2 Rb8 33.e5 a4 34.Kf3
+Ra8 35.Ke4 a3 36.Ra2 Kf8 37.Kd5 Ke7 38.Kc6 Ra7 39.f5 g6 40.g4 Ra5 41.h3 g5
+42.Kb7 Rxc5 43.Rxa3 Rxe5 44.Kxc7 Rc5+ 45.Kb6 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "6"]
+[White "Goldbar"]
+[Black "KomodoX"]
+[Result "0-1"]
+[WhiteElo "1827"]
+[BlackElo "2037"]
+[Time "15:04:04"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 e6 3.Nf3 d5 4.g3 Bb4+ 5.Bd2 Be7 6.Bg2 Nbd7 7.Qc2 O-O 8.O-O 
+c6 9.Bf4 Nh5 10.Bc1 Nhf6 11.b3 b6 12.Rd1 a5 13.Nbd2 Bb7 14.Bb2 Rc8 15.Rac1
+c5 16.cxd5 Bxd5 17.Nc4 Qc7 18.dxc5 Bxc5 19.a4 Rfd8 20.Ng5 h6 21.Ne4 Nxe4 
+22.Bxe4 Qc6 23.Nd2 b5 24.e3 bxa4 25.Bxd5 Qxd5 26.bxa4 Bb4 27.Nc4 Qc6 28.
+Qe2 Qxa4 29.Bxg7 Kxg7 30.Nb2 Qa2 31.Rxc8 Rxc8 32.Rxd7 Qb1+ 33.Nd1 Qe4 34.
+Rd4 Rc2 35.Qb5 Qf5 36.Qd7 h5 37.Qe8 Rd2 38.Qd8 Rxd4 39.Qxd4+ Qf6 40.Qb2 
+Qxb2 41.Nxb2 Kf6 42.Kf1 Kf5 43.f3 h4 44.Ke2 Kg5 45.Kf2 f5 46.Ke2 Bd6 47.
+Kf2 h3 48.Na4 e5 49.Nc3 Bb4 50.Nd5 e4 51.Ke2 Bd6 52.f4+ Kg6 53.Nb6 Bb4 54.
+Na4 Kf7 55.Kd1 Ke6 56.Nb2 Kd5 57.Na4 Kc4 58.Kc2 Bc5 59.Nb2+ Kb4 60.Nd1 a4 
+61.Kb2 Kc4 62.Ka2 Kd3 63.Nf2+ Kxe3 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "6"]
+[White "Raptor"]
+[Black "DjinnX"]
+[Result "0-1"]
+[WhiteElo "1601"]
+[BlackElo "1563"]
+[Time "15:04:28"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nc3 Nc6 3.Nf3 e6 4.d4 cxd4 5.Nxd4 Qc7 6.Be3 a6 7.Qd2 Nf6 8.O-O-O
+Bb4 9.f3 Ne5 10.Nb3 d5 11.Bd4 O-O 12.Kb1 dxe4 13.Qf4 Bd6 14.Nxe4 Nxe4 15.
+Qxe4 Ng6 16.Bd3 f5 17.Qe2 Bxh2 18.g4 Bg3 19.gxf5 Nf4 20.Be5 Nxe2 21.Bxc7 
+Bxc7 22.fxe6 Bxe6 23.Bxe2 Rae8 24.Bd3 h6 25.Nc5 Bc8 26.Be4 b6 27.Bd5+ Kh8 
+28.Ne4 Bf4 29.Rhe1 Re7 30.Rf1 Bh3 31.Rg1 Rd7 32.Bc4 a5 33.Nc3 Be3 34.Rg3 
+Bf5 35.Rh1 Rfd8 36.Rg2 Rd4 37.Bb5 Bd2 38.Rhg1 g5 39.Rh2 Kg7 40.Rgh1 Bxc3 
+41.bxc3 Rd2 42.Kc1 Rxh2 43.Rxh2 Rh8 44.Rd2 h5 45.Rd5 Kf6 46.Bd3 Bxd3 47.
+Rxd3 h4 48.Rd1 Ke5 49.Rh1 Kf4 50.Rh3 Ke3 51.Kd1 Kf2 52.Rh1 h3 53.Kd2 Kxf3 
+54.c4 g4 55.Rf1+ Kg2 56.Re1 h2 57.c5 bxc5 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "6"]
+[White "FairyMaxCCT"]
+[Black "LimeRA"]
+[Result "1-0"]
+[WhiteElo "1503"]
+[BlackElo "1604"]
+[Time "15:06:39"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.c4 Nf6 2.Nc3 e5 3.Nf3 d6 4.d4 e4 5.Ng5 Bf5 6.Qc2 h6 7.Ngxe4 Nxe4 8.Nxe4 
+Nc6 9.d5 Nd4 10.Qd3 Qh4 11.Qxd4 Qxe4 12.Qxe4+ Bxe4 13.Be3 Be7 14.O-O-O Bg5
+15.Bxg5 hxg5 16.f3 Bf5 17.e4 Bd7 18.g4 Ke7 19.h3 Rae8 20.Bd3 Kd8 21.b4 Rh6
+22.Rd2 Rf6 23.Be2 Rh6 24.a4 b6 25.b5 a6 26.bxa6 Ke7 27.a5 bxa5 28.Ra2 a4 
+29.Rc2 Reh8 30.c5 dxc5 31.Rxc5 Kd6 32.Ra5 Ke7 33.a7 Ra8 34.Kc2 Rb6 35.Rb1 
+Kd8 36.e5 Be8 37.Bd3 f6 38.e6 Rxb1 39.Kxb1 Ke7 40.Be4 Kd6 41.Ra6+ c6 42.
+dxc6 Kc7 43.e7 g6 44.Kb2 f5 45.gxf5 gxf5 46.Bxf5 Bh5 47.Kc3 Be8 48.Be4 a3 
+49.Rxa3 g4 50.hxg4 Bf7 51.Ra6 Be8 52.g5 Bf7 53.g6 Be6 54.g7 Bf7 55.Ra5 Be6
+56.Bg6 Bg8 57.e8=Q Rxe8 58.Bxe8 Kd6 59.a8=Q Bd5 60.Kd4 Ke7 61.Rxd5 Ke6 62.
+g8=Q+ Ke7 63.Qd8# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "6"]
+[White "Nebula"]
+[Black "EXchess"]
+[Result "1-0"]
+[WhiteElo "1907"]
+[BlackElo "1801"]
+[Time "15:04:30"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e6 2.d4 d5 3.Nc3 Bb4 4.e5 c5 5.a3 Bxc3+ 6.bxc3 Ne7 7.Qg4 Qc7 8.Qxg7 
+Rg8 9.Qxh7 cxd4 10.Ne2 Nbc6 11.f4 Bd7 12.Qd3 dxc3 13.Qxc3 Nf5 14.Rb1 Rc8 
+15.Bd2 Qd8 16.Qd3 Na5 17.g3 Qc7 18.Bh3 Ne7 19.Nd4 Nc4 20.O-O Nxd2 21.Qxd2 
+a6 22.Rf2 b5 23.Rb3 Rh8 24.Bg4 Rg8 25.h3 Qc5 26.Nf3 Rh8 27.Ng5 Qb6 28.Qd1 
+Rh6 29.Bh5 Ng6 30.g4 Kf8 31.Qd2 Nh8 32.Rd3 Kg7 33.f5 exf5 34.Rxd5 Be8 35.
+Rd6 Rxd6 36.exd6 Rd8 37.Qc3+ Kg8 38.gxf5 Qxd6 39.Rg2 Ng6 40.Ne4 Qd4+ 41.
+Qxd4 Rxd4 42.fxg6 fxg6 43.Bxg6 Bxg6 44.Rxg6+ Kf8 45.Nc5 Rc4 46.Nxa6 Rxc2 
+47.Rg3 Rc1+ 48.Kg2 Rc2+ 49.Kf3 Ke7 50.Nb4 Rc4 51.Rg5 Rc3+ 52.Kg4 Rxa3 53.
+Rxb5 Kf7 54.Nd5 Ra1 55.h4 Rg1+ 56.Kf5 Rf1+ 57.Nf4 Kg7 58.h5 Rh1 59.Rd5 Kf8
+60.Kg6 Ke7 61.h6 Rg1+ 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "6"]
+[White "Chexa"]
+[Black "Baron"]
+[Result "0-1"]
+[WhiteElo "1867"]
+[BlackElo "1807"]
+[Time "15:04:25"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 d6 3.Bb5+ Bd7 4.Bxd7+ Qxd7 5.c4 e5 6.O-O g6 7.Nc3 Bg7 8.a3 
+Ne7 9.b4 Nbc6 10.d3 cxb4 11.axb4 Nxb4 12.Ba3 Nbc6 13.Qb3 b6 14.Nb5 Nc8 15.
+Ra2 O-O 16.Rb1 Na5 17.Qd1 Nb7 18.d4 exd4 19.Bb2 Ne7 20.Bxd4 Bxd4 21.Qxd4 
+Nc6 22.Qd1 Nca5 23.Nc3 Rae8 24.Nd4 Nc5 25.Nd5 f6 26.f3 Nxc4 27.Qc1 Na5 28.
+Qh6 Re5 29.Qh4 Qf7 30.Rf2 f5 31.Rbf1 Qg7 32.Nb5 g5 33.Qh3 g4 34.Qg3 gxf3 
+35.Qxg7+ Kxg7 36.Rxf3 Nxe4 37.Rd3 Nc6 38.Rb1 Rd8 39.Nbc7 Rd7 40.Nb5 Ne7 
+41.Nxe7 Rexe7 42.Rbd1 Kf6 43.Kf1 Re6 44.g3 a6 45.Nd4 Re5 46.Rb3 Rb7 47.Rb2
+Rd5 48.Ke1 b5 49.Ne2 Rxd1+ 50.Kxd1 b4 51.Kc1 a5 52.Nf4 Rc7+ 53.Kb1 Ke5 54.
+Ka1 Rc1+ 55.Ka2 Rc3 56.Kb1 Rf3 57.Re2 a4 58.Ng2 Kd4 59.Ne1 Nc3+ 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "6"]
+[White "Sjeng"]
+[Black "Rookie"]
+[Result "1-0"]
+[WhiteElo "1756"]
+[BlackElo "1770"]
+[Time "15:04:25"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.c4 d6 3.f4 Nc6 4.Nf3 Bg4 5.Be2 g6 6.O-O Bg7 7.Nc3 Bxf3 8.Bxf3 
+Bd4+ 9.Kh1 h5 10.Rb1 Nf6 11.d3 Qd7 12.Nb5 Rd8 13.b4 Ng4 14.Nxd4 Nxd4 15.h3
+b6 16.Kg1 Nf6 17.Bb2 O-O 18.Qd2 e5 19.Bd1 Qe7 20.f5 Kg7 21.Qg5 Rd7 22.Bc1 
+Rh8 23.Qh4 Rdd8 24.Rb2 gxf5 25.Bg5 Rdg8 26.Rbf2 f4 27.Rxf4 exf4 28.Qxf4 
+Kf8 29.Bxf6 Qe6 30.Bxh8 Rxh8 31.Qg5 Qh6 32.Qd5 Qe6 33.Qa8+ Kg7 34.Qxa7 Nc6
+35.Qxb6 Nxb4 36.Rf3 Rc8 37.Qb7 Nc6 38.Rg3+ Kf8 39.Rg5 Ne7 40.Bxh5 Rd8 41.
+Qb6 Ra8 42.h4 f6 43.Rxc5 f5 44.e5 Qh6 45.Ra5 Rxa5 46.Qd8+ Kg7 47.Qxe7+ Kh8
+48.Qd8+ Kg7 49.Qc7+ 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "6"]
+[White "Gaviota"]
+[Black "Telepath"]
+[Result "1-0"]
+[WhiteElo "1743"]
+[BlackElo "1706"]
+[Time "15:13:24"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 g6 3.d4 cxd4 4.Nxd4 Nc6 5.c4 Nf6 6.Nc3 d6 7.Be2 Nxd4 8.Qxd4 
+Bg7 9.Be3 O-O 10.Qd2 Be6 11.Rc1 Qa5 12.O-O Rfc8 13.b3 a6 14.Bf3 Rc7 15.Qd1
+Rac8 16.a4 Bd7 17.Re1 Qb4 18.Bf4 e5 19.Bd2 Qa3 20.a5 Qc5 21.Re3 b5 22.axb6
+Qxb6 23.Rd3 Rb7 24.Be3 Qxb3 25.Qf1 Rxc4 26.Rb1 Rxc3 27.Rxb3 Rcxb3 28.Rxd6 
+a5 29.h3 a4 30.Qa6 Rb1+ 31.Kh2 a3 32.Be2 Be8 33.Bc4 Nd7 34.Re6 Rb8 35.Qd6 
+Nf8 36.Re7 Rc8 37.Qd5 Rxc4 38.Qxc4 Rb8 39.Qa6 Ne6 40.Qa7 Rc8 41.Qb7 Rd8 
+42.Bb6 Bf8 43.Rxe6 Rd7 44.Qc8 fxe6 45.Qxe8 Re7 46.Qc8 Kf7 47.Bc5 Re8 48.
+Qd7+ Re7 49.Bxe7 Bxe7 50.Qc7 Kf6 51.Qb8 Kf7 52.Qh8 Bf6 53.Qxh7+ Bg7 54.h4 
+a2 55.h5 gxh5 56.Qxh5+ Ke7 57.Qd1 Bf6 58.Qa1 Bg5 59.Qxa2 Bh6 60.g3 Kf6 61.
+f4 exf4 62.e5+ Kxe5 63.Qa1+ Kf5 64.g4+ Kg6 65.Qe5 Kf7 66.Qh5+ Kg7 67.g5 
+Bxg5 68.Qxg5+ Kf7 69.Kg2 e5 70.Qxe5 f3+ 71.Kxf3 Kg6 72.Qe7 Kh5 73.Qg7 Kh4 
+74.Qg4# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "6"]
+[White "Deuterium"]
+[Black "Capivara"]
+[Result "1-0"]
+[WhiteElo "1646"]
+[BlackElo "1576"]
+[Time "15:05:33"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.g3 Ba6 5.b3 Bb4+ 6.Bd2 Be7 7.Bg2 c6 8.Bc3 d5 
+9.Ne5 Nfd7 10.Nxd7 Nxd7 11.Nd2 f5 12.O-O O-O 13.Qc2 b5 14.c5 Bf6 15.Nf3 g5
+16.b4 Re8 17.h3 Nf8 18.Ne5 Bxe5 19.dxe5 Ng6 20.Bf3 Qe7 21.Qb2 Qg7 22.e3 
+Kh8 23.Be2 Qh6 24.Kg2 Qg7 25.a4 Qb7 26.a5 Qg7 27.Qd2 Rad8 28.f4 Ne7 29.Bd4
+Rg8 30.Qe1 Bc8 31.Qf2 Bd7 32.Bd3 Rdf8 33.Rh1 a6 34.h4 g4 35.h5 Qh6 36.Kf1 
+Re8 37.Ke2 Qf8 38.Kd2 Rg7 39.Kc3 Ng8 40.Kb3 Nh6 41.Qc2 Kg8 42.Ra3 Kf7 43.
+Qh2 Qe7 44.Qg1 Rh8 45.Bc3 Rgg8 46.Rh2 Ke8 47.Raa2 Nf7 48.Ra1 Kd8 49.Rha2 
+Kc8 50.Rc1 Qe8 51.Qh2 Kb8 52.Qh4 Rf8 53.Bb2 Kc8 54.Bd4 Kb8 55.Ba1 Nd8 56.
+Qh2 Kc8 57.Bc3 Qe7 58.Rcc2 h6 59.Qh1 Nf7 60.Rc1 Rh7 61.Qg2 Be8 62.Rh1 Bd7 
+63.Bd4 Rfh8 64.Qg1 Kd8 65.Rhh2 Ke8 66.Qb1 Kd8 67.Bb2 Kc8 68.Bc3 Nd8 69.Qg1
+Be8 70.Rh1 Bd7 71.Qh2 Nf7 72.Rd1 Rf8 73.Qc2 Rg8 74.Rh1 Rhh8 75.Qc1 Nd8 76.
+Rhh2 Nb7 77.Ba1 Be8 78.Bd4 Nd8 79.Qb2 Nf7 80.Bc3 Bd7 81.Qc1 Rh7 82.Qa3 Kb8
+83.Rh1 Rhg7 84.Qb2 Kc8 85.Qc1 Kb8 86.Rhh2 Rh8 87.Qd1 Rgg8 88.Bd4 Bc8 89.
+Qh1 Bb7 90.Bc3 Kc8 91.Qf1 Rf8 92.Qd1 Qd7 93.Qc2 Rh7 94.Qb2 Rhh8 95.Bd4 Qc7
+96.Rh1 Rh7 97.Qc2 Qd7 98.Bb2 Rd8 99.Qh2 Qe7 100.Bc3 Rdh8 101.Rg2 Kd7 102.
+Rf2 Kc8 103.Rb2 Kb8 104.Qh4 Qd7 105.Rd2 Qe8 106.Qf6 Bc8 107.Be2 Bb7 108.e4
+dxe4 109.Rhd1 Bc8 110.Bb2 Rf8 111.Qh4 Rg8 112.Rd4 Qf8 113.Bc1 Qg7 114.Be3 
+Re8 115.R1d2 Rhh8 116.Bf1 Qf8 117.Qh1 Rd8 118.Rxd8 Nxd8 119.Qh4 Qe8 120.
+Kb2 Nb7 121.Rg2 Rh7 122.Rd2 Bd7 123.Be2 Qf7 124.Bd1 Kc8 125.Bb3 Nd8 126.
+Rd1 Qe8 127.Ba2 Rf7 128.Ka3 Kb8 129.Qh2 Qe7 130.Bb3 Rh7 131.Qa2 Be8 132.
+Rd2 Bxh5 133.Rd6 Bf7 134.Qd2 Kc8 135.Qe1 Be8 136.Ba2 h5 137.Bf2 Rh6 138.
+Bb3 Nb7 139.Rd2 Bf7 140.Kb2 Rh8 141.Bc2 Bg6 142.Re2 Qh7 143.Bb3 Re8 144.
+Rd2 Qc7 145.Be3 Nd8 146.Ka3 Nf7 147.Qb1 Qe7 148.Qa2 Nd8 149.Rd6 Bf7 150.
+Qb1 h4 151.gxh4 Qxh4 152.Qd1 Qe7 153.Qh1 Rg8 154.Qh2 Qe8 155.Bf2 Rh8 156.
+Qg1 Qf8 157.Bg3 Rh6 158.Bd1 Rh3 159.Be2 Qh8 160.Bf1 Rh1 161.Qf2 Rh7 162.
+Be2 Be8 163.Bd1 Rh1 164.Qd2 Bg6 165.Bb3 Qe8 166.Ba2 Bf7 167.Qg2 Rh8 168.
+Bb3 Nb7 169.Rd4 Qe7 170.Qf2 Rh1 171.Qg2 Rh3 172.Kb2 Rh8 173.Qf2 Qc7 174.
+Bh4 Rh7 175.Rd1 Bg8 176.Bc2 Qf7 177.Bg3 Kb8 178.Bb3 Qg6 179.Bc2 Bf7 180.
+Ka3 Rh8 181.Bb3 Rd8 182.Rh1 Rd3 183.Ka2 Qg8 184.Bc2 Rf3 185.Qg2 Qd8 186.
+Rd1 Qf8 187.Qh2 Bg6 188.Rd7 Kc8 189.Rd2 Rc3 190.Bb3 Bf7 191.Kb2 Re3 192.
+Qg1 Rf3 193.Bd1 Bg6 194.Bxf3 exf3 195.Kb3 Nd8 196.Qh1 Bf7 197.Qh7 Qg8 198.
+Qh2 Be8 199.Qh4 Bd7 200.Rd1 Nf7 201.Rd2 Qd8 202.Qh7 Qe7 203.Qh1 Kc7 204.
+Bf2 Bc8 205.Qh7 Qf8 206.Rd6 Qe8 207.Rd2 Kb8 208.Rd4 Qe7 209.Rd1 Bd7 210.
+Qh2 Qe8 211.Bg3 Bc8 212.Qh7 Qf8 213.Bf2 Ka7 214.Qh4 Qe8 215.Rd2 Bd7 216.
+Rd1 Ka8 217.Qg3 Qe7 218.Rd2 Nh8 219.Qh2 Ng6 220.Bg3 Qf7 221.Rd1 Kb7 222.
+Qd2 Kc8 223.Rh1 Qg7 224.Rd1 Qe7 225.Qd6 Qe8 226.Qd2 Ne7 227.Rh1 Nd5 228.
+Rh7 Qd8 229.Qh2 Nc7 230.Bh4 Qg8 231.Bg3 Qg6 232.Qh1 Nd5 233.Qh4 Kc7 234.
+Rh6 Qf7 235.Rh8 Qe7 236.Qh6 Be8 237.Rh7 Qd7 238.Rxd7+ Bxd7 239.Bh4 Bc8 
+240.Qg7+ Bd7 241.Qf8 Kb7 242.Qg8 Nc7 243.Qg7 Kc8 244.Qe7 f2 245.Qd8+ Kb7 
+246.Bxf2 Bc8 247.Bh4 Nd5 248.Qe8 Kb8 249.Bd8 g3 250.Qf7 g2 251.Bb6 Bb7 
+252.Qd7 Nxb6 253.axb6 g1=Q 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "7"]
+[White "Tinker"]
+[Black "Neurone"]
+[Result "1-0"]
+[WhiteElo "1461"]
+[BlackElo "1467"]
+[Time "17:21:51"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e6 2.d4 d5 3.Nc3 Nf6 4.Bg5 dxe4 5.Nxe4 Nbd7 6.Nf3 Be7 7.Nxf6+ Bxf6 8.
+Bxf6 Nxf6 9.Be2 O-O 10.O-O Qd6 11.Re1 Bd7 12.Ne5 c5 13.Nxd7 Nxd7 14.dxc5 
+Qxd1 15.Raxd1 Rad8 16.b4 Nb8 17.Bf3 Nc6 18.c3 Rxd1 19.Rxd1 Rd8 20.Rxd8+ 
+Nxd8 21.b5 e5 22.Bd5 Ne6 23.Bxe6 Kf8 24.c6 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "7"]
+[White "Nightmare"]
+[Black "Nebula"]
+[Result "1/2-1/2"]
+[WhiteElo "1857"]
+[BlackElo "1985"]
+[Time "17:21:24"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Be3 e5 7.Nb3 Be6 8.f3 Be7
+9.Qd2 O-O 10.O-O-O Nbd7 11.g4 b5 12.g5 Nh5 13.Kb1 Nb6 14.Nd5 Nxd5 15.exd5 
+Bf5 16.Na5 f6 17.h4 Ng3 18.Nc6 Qd7 19.Rg1 Nxf1 20.Rdxf1 fxg5 21.hxg5 Bg6 
+22.Rf2 Rf5 23.Rh1 Re8 24.a3 Bd8 25.Rhf1 Qb7 26.f4 exf4 27.Bxf4 Qd7 28.b3 
+a5 29.Kb2 a4 30.b4 Bf7 31.Nxd8 Rxd8 32.Bxd6 Rxf2 33.Qxf2 Qb7 34.Qc5 Qxd5 
+35.Qxd5 Bxd5 36.Be7 Re8 37.Bd6 h5 38.gxh6 Re6 39.Rf8+ Kh7 40.hxg7 Rxd6 41.
+Rb8 Kxg7 42.Rxb5 Kf6 43.Ra5 Be4 44.Rxa4 Rd2 45.b5 Rxc2+ 46.Kb3 Re2 47.Rd4 
+Ke5 48.Rb4 Re3+ 49.Kb2 Kd6 50.b6 Bb7 51.Rc4 Ba6 52.Rc7 Re4 53.Ra7 Be2 54.
+Kc3 Kc6 55.b7 Kc7 56.b8=Q+ Kxb8 57.Rg7 Ra4 58.Re7 Bf3 59.Rd7 Bc6 60.Re7 
+Bd5 61.Kd3 Kc8 62.Rg7 Rf4 63.a4 Bf7 64.Ke3 Rf1 65.a5 Kb7 66.Ke2 Rf5 67.a6+
+Ka7 68.Kd3 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "7"]
+[White "LimeRA"]
+[Black "Raptor"]
+[Result "1-0"]
+[WhiteElo "1526"]
+[BlackElo "1514"]
+[Time "17:19:44"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e6 2.d3 d5 3.Nd2 Nf6 4.Ngf3 Bc5 5.d4 dxe4 6.dxc5 exf3 7.Qxf3 O-O 8.
+Ne4 Nxe4 9.Qxe4 Qd5 10.Bd3 Qxe4+ 11.Bxe4 Na6 12.Be3 f5 13.Bf3 Nb4 14.O-O-O
+Nxa2+ 15.Kb1 Nb4 16.Bf4 c6 17.c4 Na6 18.Rhe1 Re8 19.Re5 Nb8 20.Re2 Nd7 21.
+Bd6 e5 22.Re3 e4 23.Bh5 Re6 24.Ra3 Nf6 25.Be2 Re8 26.Bf4 Ng4 27.f3 Nf6 28.
+Rd4 Be6 29.Rb3 Nd7 30.Bd6 b6 31.cxb6 axb6 32.fxe4 fxe4 33.Kc1 Ra1+ 34.Kd2 
+Bf5 35.Ke3 c5 36.Rd1 Rxd1 37.Bxd1 Re6 38.Bc7 Rg6 39.g3 Rc6 40.Bf4 Re6 41.
+g4 Bg6 42.g5 Bf5 43.Ra3 Nf8 44.Ra8 Kf7 45.Ba4 Bh3 46.Bc7 Bf1 47.b3 Bd3 48.
+Rb8 b5 49.Rxb5 Ra6 50.Rb7 Ne6 51.Bb6+ Kg6 52.Bd7 Nxg5 53.Bxc5 Rf6 54.Be8+ 
+Nf7 55.Kd4 Bc2 56.Kc3 Bb1 57.Be3 Rf3 58.Kd4 Bd3 59.c5 Ba6 60.Re7 Rf6 61.
+Rxe4 Bc8 62.b4 Be6 63.b5 Bf5 64.Re7 Bg4 65.b6 Bf3 66.b7 Bxb7 67.Rxb7 h5 
+68.Rxf7 Rxf7 69.Ke5 h4 70.c6 Kh5 71.c7 Kg4 72.c8=Q+ Kf3 73.Qh3+ Ke2 74.
+Bxf7 Kd3 75.Qg2 Kxe3 76.Bc4 h3 77.Qe2# 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "7"]
+[White "KomodoX"]
+[Black "Sjeng"]
+[Result "1/2-1/2"]
+[WhiteElo "2037"]
+[BlackElo "1842"]
+[Time "17:20:24"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 Nf6 4.O-O Nxe4 5.d4 Nd6 6.Bxc6 dxc6 7.dxe5 Nf5 8.
+Qxd8+ Kxd8 9.Nc3 Bd7 10.Rd1 Kc8 11.a4 a5 12.b3 Be7 13.Bg5 Bxg5 14.Nxg5 h6 
+15.Nge4 b6 16.f4 c5 17.Rd2 Nd4 18.Ne2 Nxe2+ 19.Rxe2 Kb7 20.Rd2 Rad8 21.
+Rad1 Kc8 22.Kf2 c4 23.Ke3 Rhe8 24.Rd4 cxb3 25.cxb3 f6 26.exf6 gxf6 27.Kf2 
+Be6 28.Rxd8+ Rxd8 29.Rxd8+ Kxd8 30.Nd2 h5 31.Ke3 Kd7 32.Kd4 Kc6 33.g3 b5 
+34.axb5+ Kxb5 35.Kc3 Bd5 36.Kd4 Bf7 37.Kc3 f5 38.Nf3 c5 39.Ne5 Be6 40.Nf3 
+Kc6 41.Ng5 Bg8 42.Nf3 Kd5 43.Kd3 Be6 44.Ng5 Bd7 45.Nh7 Bb5+ 46.Kc3 Ke6 47.
+Ng5+ Kd6 48.Nh7 Be8 49.Nf6 Bf7 50.Nh7 Ke7 51.Ng5 Bd5 52.Nh3 Kd6 53.Ng5 Kc6
+54.Nh7 Bg8 55.Nf6 Bf7 56.Kc2 Kd6 57.Kc3 Ke7 58.Nh7 Bd5 59.Ng5 Kd6 60.Nh7 
+Bf3 61.Ng5 Be2 62.Nh7 Ke7 63.Ng5 Kf6 64.Kd2 Bb5 65.Kc3 Ke7 66.Nh7 a4 67.
+bxa4 Bxa4 68.Kc4 Kd6 69.Nf6 Bd1 70.Ne8+ Kc6 71.h3 Be2+ 72.Kc3 Bf1 73.h4 
+Be2 74.Ng7 Bg4 75.Ne8 Bf3 76.Ng7 Bg4 77.Ne8 Bf3 78.Ng7 Bg4 1/2-1/2
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "7"]
+[White "Baron"]
+[Black "Goldbar"]
+[Result "1-0"]
+[WhiteElo "1855"]
+[BlackElo "1827"]
+[Time "17:21:12"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 e6 5.Nc3 Nf6 6.Nxc6 bxc6 7.e5 Nd5 8.Ne4
+Qc7 9.f4 Qa5+ 10.c3 Qb6 11.Bd3 Be7 12.Qe2 Rb8 13.Nf2 O-O 14.O-O f5 15.a3 
+Nc7 16.Rd1 a5 17.Rb1 Rd8 18.Be3 Bc5 19.Bxc5 Qxc5 20.g3 a4 21.Bc4 Nd5 22.
+Ba2 Qa7 23.Rd2 Ba6 24.Qd1 Bb7 25.c4 Nb6 26.c5 Nd5 27.Rc1 Rdc8 28.Qc2 Qa6 
+29.Rd4 Ra8 30.Nd3 Qa5 31.Kf2 Qb5 32.Qd2 Ra7 33.Rcc4 g6 34.Qd1 Rca8 35.Bb1 
+Kg7 36.Bc2 Ba6 37.Rxa4 Qb7 38.Qc1 Rb8 39.Nb4 Bb5 40.Rxa7 Qxa7 41.Bd1 Ba6 
+42.Nxd5 cxd5 43.Ra4 Ra8 44.Qc3 Qb8 45.Rb4 Bb7 46.Rb6 Qa7 47.b4 Ba6 48.b5 
+Bc8 49.a4 Kf7 50.Rd6 Qa5 51.Qxa5 Rxa5 52.b6 Ke7 53.c6 dxc6 54.Rxc6 Kd8 55.
+Ke3 h6 56.Kd4 Ra8 57.b7 Bxb7 58.Rxe6 Ra6 59.Rxa6 Bxa6 60.Kxd5 Kc7 61.Ke6 
+Bc8+ 62.Kf6 g5 63.fxg5 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "7"]
+[White "ArasanX"]
+[Black "Hannibal"]
+[Result "0-1"]
+[WhiteElo "1922"]
+[BlackElo "2011"]
+[Time "17:21:47"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 g6 5.c4 Nf6 6.Nc3 Bg7 7.Be3 b6 8.Nxc6 
+dxc6 9.Qxd8+ Kxd8 10.O-O-O+ Kc7 11.f3 h5 12.Kc2 h4 13.b3 e5 14.Bg5 Nd7 15.
+Kb2 Nc5 16.Be7 Kb7 17.Rg1 Ne6 18.c5 b5 19.a4 a6 20.Bd6 h3 21.g4 Ng5 22.Rg3
+Be6 23.Kc2 f6 24.f4 exf4 25.Bxf4 Bh6 26.Rd6 Bf8 27.e5 Bxd6 28.cxd6 Raf8 
+29.Be2 fxe5 30.Bxg5 Rf2 31.Re3 Rxh2 32.Rxe5 Bd7 33.Re7 Kc8 34.Bf6 Re8 35.
+Kd3 Rxe7 36.dxe7 Rg2 37.Bf3 Rg3 38.Ke2 h2 39.Bh1 Rg1 40.Bf3 h1=Q 41.Bxh1 
+Rxh1 42.axb5 cxb5 43.Kd3 Be8 44.b4 Bc6 45.Ne2 Kd7 46.g5 Rh4 47.Nd4 Bd5 48.
+Kd2 Ke8 49.Ke3 Bf7 50.Kd2 Rh2+ 51.Kd3 Bd5 52.Ke3 Rh4 53.Kd2 Re4 54.Kc3 Re1
+55.Kb2 Rg1 56.Kc2 Rg4 57.Kb2 Rg2+ 58.Kc3 Kf7 59.Nc2 Rg1 60.Ne3 Ba8 61.Kb2 
+Ke8 62.Kc3 Rb1 63.Nc2 Bd5 64.Kd4 Be6 65.Ke5 Rb2 66.Nd4 Bd7 67.Nf3 Rxb4 68.
+Kd6 Rb1 69.Ne5 a5 70.Nxg6 Rd1+ 71.Kc5 a4 72.Ne5 Be6 73.Nc6 a3 74.Nb4 a2 
+75.Nxa2 Bxa2 76.Kxb5 Rc1 77.Kb4 Be6 78.Kb5 Rc4 79.Kb6 Bd7 80.Ka6 Rc1 81.
+Ka5 Rb1 82.Ka6 Kf7 83.Ka7 Rb3 84.Ka6 Ke6 85.Ka7 Rb5 86.Ka6 Be8 87.Ka7 Kd6 
+88.Bc3 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "7"]
+[White "DjinnX"]
+[Black "Crafty"]
+[Result "0-1"]
+[WhiteElo "1684"]
+[BlackElo "1915"]
+[Time "17:21:32"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.g3 Ba6 5.b3 Bb4+ 6.Bd2 Be7 7.Bg2 c6 8.Bc3 d5 
+9.Ne5 Nfd7 10.Nxd7 Nxd7 11.Nd2 O-O 12.O-O Rc8 13.Re1 c5 14.cxd5 exd5 15.e4
+dxe4 16.Nxe4 f5 17.Nd2 cxd4 18.Bxd4 Nf6 19.Nc4 Bxc4 20.bxc4 Kh8 21.Rc1 Bc5
+22.Bb2 Ne4 23.Re2 Nxf2 24.Rxf2 f4 25.g4 f3 26.Bxf3 Qg5 27.Rc3 Qf4 28.Kg2 
+Bxf2 29.Rd3 Bh4 30.c5 Rxc5 31.Ba3 Ra5 32.Qe2 Rg8 33.Bd6 Qf7 34.a3 Rd8 35.
+Bb4 Rxd3 36.Qxd3 Re5 37.a4 Qa2+ 38.Kh3 Qf2 39.Bd2 Be7 40.Bf4 Re6 41.g5 h6 
+42.Bg4 Re1 43.Qc4 hxg5 44.Qc8+ Kh7 45.Qf5+ Kg8 46.Qc8+ Bf8 47.Qc4+ Kh8 48.
+Bxg5 Ra1 49.Bf4 Ra3+ 50.Bg3 Rxa4 51.Qb5 Qf7 52.Qe2 a5 53.Bh5 Qf5+ 54.Kg2 
+Rb4 55.h3 a4 56.Bg4 Qg6 57.Bh5 Qb1 58.Qe8 Rb2+ 59.Be2 Qf5 60.Bd6 Rxe2+ 61.
+Qxe2 Qd5+ 62.Kf2 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "7"]
+[White "Rookie"]
+[Black "Deuterium"]
+[Result "0-1"]
+[WhiteElo "1755"]
+[BlackElo "1683"]
+[Time "17:22:33"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.Bf4 Bb7 5.e3 Be7 6.h4 d5 7.Nc3 O-O 8.h5 h6 9.
+Qc2 Bd6 10.Bxd6 cxd6 11.cxd5 Nxd5 12.Nxd5 Bxd5 13.Rc1 Nd7 14.Ba6 b5 15.Qc7
+Rb8 16.Kd2 Rb6 17.Bc8 Nf6 18.Qxd8 Rxd8 19.Rc7 Ne8 20.Rc2 Be4 21.Rc3 b4 22.
+Rcc1 Bc6 23.d5 Bxd5 24.Nd4 Bxg2 25.Rhd1 Bd5 26.Ke2 Kf8 27.f3 a5 28.e4 Bxa2
+29.b3 d5 30.e5 a4 31.Rc5 Bxb3 32.Nxb3 axb3 33.Rb1 f6 34.f4 Kf7 35.Rxb3 g6 
+36.hxg6+ Kxg6 37.Kd3 Kf5 38.Rc1 fxe5 39.fxe5 Kxe5 40.Re1+ Kf6 41.Bxe6 Rxe6
+42.Rf1+ Ke5 43.Rxb4 Nd6 44.Re1+ Kf6 45.Rf1+ Nf5 46.Rbf4 Re5 47.Ra4 Re3+ 
+48.Kd2 Re4 49.Ra6+ Ke5 50.Ra7 Rc8 51.Rfa1 h5 52.Ra8 Rxa8 53.Rxa8 h4 54.
+Re8+ Kf4 55.Rh8 Re3 56.Rg8 h3 57.Rh8 Rg3 58.Kd1 Rg1+ 59.Kc2 Rg2+ 60.Kc3 h2
+61.Kb4 Ng3 62.Kc5 h1=Q 63.Rxh1 Nxh1 64.Kxd5 Rd2+ 65.Kc5 Rc2+ 66.Kb5 Nf2 
+67.Kb6 Ke5 68.Kb5 Kd5 69.Ka4 Nd3 70.Kb3 Rc5 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "7"]
+[White "EXchess"]
+[Black "Gaviota"]
+[Result "0-1"]
+[WhiteElo "1704"]
+[BlackElo "1796"]
+[Time "17:21:27"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.Nf3 Nf6 2.d4 g6 3.c4 Bg7 4.g3 O-O 5.Bg2 d6 6.O-O Nc6 7.Nc3 e5 8.d5 Ne7 
+9.e4 Nd7 10.Ne1 f5 11.Nd3 h6 12.Rb1 Kh7 13.f4 a6 14.fxe5 Nxe5 15.Nxe5 Bxe5
+16.Bf4 Bxf4 17.Rxf4 g5 18.Rf2 f4 19.gxf4 gxf4 20.Qd2 Ng6 21.Ne2 Qg5 22.Kh1
+Bg4 23.Nd4 Rae8 24.Rg1 Qe5 25.Rgf1 Rf7 26.h3 Bd7 27.b4 b6 28.a3 Rg7 29.Qd3
+Nh4 30.Nf3 Nxf3 31.Rxf3 Reg8 32.R1f2 Rg3 33.Qf1 Rxf3 34.Rxf3 Rf8 35.Rf2 c5
+36.bxc5 bxc5 37.Qd3 a5 38.Qe2 a4 39.Qb2 Qh5 40.Qc3 Bc8 41.Kh2 Bd7 42.Kh1 
+Qh4 43.Kg1 Qg5 44.h4 Qh5 45.Qc2 Qg6 46.h5 Qg7 47.Qd3 Kh8 48.Qf1 Qg5 49.Qe2
+Bg4 50.Qb2+ Kg8 51.Qb6 Qe5 52.Qb2 Qxh5 53.Qb6 Qe5 54.Qb2 Qh5 55.Qb6 Qe5 
+56.Qb2 Qg5 57.Qd2 h5 58.Bf1 Rf7 59.Bg2 h4 60.e5 h3 61.exd6 hxg2 62.Rxg2 
+Rb7 63.Qc1 Rg7 64.Qd2 Qe5 65.Kf2 Qh5 66.d7 Rxd7 67.d6 Kf8 68.Kg1 Bh3 69.
+Qxf4+ Rf7 70.Qxf7+ Kxf7 71.Rg3 Qd1+ 72.Kf2 0-1
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "7"]
+[White "Capivara"]
+[Black "Chexa"]
+[Result "1-0"]
+[WhiteElo "1525"]
+[BlackElo "1722"]
+[Time "17:22:17"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 Nf6 4.O-O Nxe4 5.d4 Be7 6.Qe2 Nd6 7.Bxc6 bxc6 8.
+dxe5 Nf5 9.Qc4 Rb8 10.Qa4 O-O 11.Qxa7 Rb6 12.Qa4 d5 13.Rd1 f6 14.Nbd2 c5 
+15.c3 fxe5 16.Nxe5 Ra6 17.Qb3 Be6 18.Qc2 Nh4 19.Re1 Bd6 20.Ndf3 Rxf3 21.
+Nxf3 Nxf3+ 22.gxf3 Qh4 23.f4 Qg4+ 24.Kf1 Bxf4 25.Bxf4 Qf3 26.Re5 Qh1+ 27.
+Ke2 Qxa1 28.a3 Rb6 29.Bc1 Rd6 30.f3 Qa2 31.Kf2 Qc4 32.Qe2 Qh4+ 33.Kg1 Qf6 
+34.Bg5 Qg6 35.Kf2 Qh5 36.Ke1 Qf7 37.Be3 c4 38.Bc5 Rc6 39.Bd4 h6 40.Kd1 Rd6
+41.f4 g6 42.Qe3 Kh7 43.Kc1 Qd7 44.h4 h5 45.Rg5 Qf7 46.Be5 Rd7 47.Qc5 Bg4 
+48.a4 Qe7 49.Qc6 Qe6 50.Qa8 Rg7 51.a5 Rg8 52.Qb7 Qd7 53.Qxc7 Qxc7 54.Bxc7 
+Bf5 55.Kd2 Kg7 56.Ke3 Kf7 57.Kd4 Rc8 58.Bb6 Ke6 59.a6 Kd6 60.Rg3 Bc2 61.a7
+Kc6 62.Bc5 Re8 63.Re3 Be4 64.Re1 Kb7 65.Rg1 Kc6 66.Ra1 Kb7 67.Ra3 Bg2 68.
+b4 cxb3 69.Rxb3+ Ka8 70.Rb6 Be4 71.c4 Bf5 72.Kxd5 Rc8 73.Rb5 Rd8+ 74.Ke5 
+Bd3 75.Rb4 Bf1 76.Bb6 Re8+ 77.Kd6 Bh3 78.c5 Re6+ 79.Kc7 Re7+ 80.Kd8 Rf7 
+81.c6 Rf8+ 82.Ke7 Rc8 83.c7 Bg2 84.Kf7 Kb7 85.Kxg6 Re8 86.Kxh5 Bd5 87.Kg5 
+Rg8+ 88.Kf6 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "7"]
+[White "Telepath"]
+[Black "Jabba"]
+[Result "1-0"]
+[WhiteElo "1633"]
+[BlackElo "1757"]
+[Time "17:20:26"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.d4 Nf6 2.Nf3 g6 3.Bf4 d5 4.e3 Nh5 5.Bg5 f6 6.Bh4 e6 7.c4 Bb4+ 8.Nc3 O-O 
+9.a3 Bxc3+ 10.bxc3 b6 11.cxd5 exd5 12.c4 Be6 13.cxd5 Qxd5 14.Be2 Nd7 15.
+O-O Rac8 16.Rc1 Qa5 17.Nd2 Qxa3 18.Ra1 Qe7 19.Bxh5 gxh5 20.Rxa7 Qf7 21.Qa4
+c6 22.Ne4 Qe7 23.Qa6 Rce8 24.Bg3 Bb3 25.Nd6 Rd8 26.Rb1 Qe6 27.Qd3 Bd5 28.
+e4 Ba2 29.Ra1 h4 30.Bf4 Qg4 31.R7xa2 Qxf4 32.Qc4+ Kg7 33.Qe6 h5 34.Qe7+ 
+Kg8 35.Ra7 h3 36.R7a3 h4 37.Qe6+ Kh8 38.Rxh3 Ra8 39.Rb1 Ne5 40.dxe5 Ra7 
+41.Nf5 Rh7 42.exf6 Qg5 43.f7 Rhxf7 44.Nxh4 Qf6 45.Qxf6+ Rxf6 46.Ng6+ Kg7 
+47.Nxf8 Rxf8 48.Rc3 c5 49.Rxb6 Rd8 50.f4 Rd7 51.Rxc5 Ra7 52.Rc1 Re7 53.e5 
+Rf7 54.Rf1 Kh7 55.f5 Kg8 56.f6 Rd7 57.e6 Rc7 58.f7+ Kf8 59.e7+ Rxe7 60.
+Rb8+ Kg7 61.f8=Q+ Kg6 62.Qf6+ Kh5 63.Rf5+ Kg4 64.Rf4+ 1-0
+
+[Event "CCT15"]
+[Site "Variant-ICS, Amsterdam, NL"]
+[Date "2013.02.24"]
+[Round "7"]
+[White "ProChess"]
+[Black "FairyMaxCCT"]
+[Result "1-0"]
+[WhiteElo "1717"]
+[BlackElo "1597"]
+[Time "17:21:49"]
+[TimeControl "3000+3"]
+[Mode "ICS"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Bxc6 dxc6 5.O-O Qd6 6.a4 Be6 7.Nc3 Nf6 8.d4 
+O-O-O 9.Nxe5 Qxd4 10.Qxd4 Rxd4 11.Be3 Rd8 12.f4 Bd6 13.Rfe1 h5 14.Nd3 Ng4 
+15.Bc5 a5 16.h3 Nh6 17.f5 Bd7 18.Rad1 f6 19.Bxd6 cxd6 20.Nf4 Nf7 21.Rd2 
+Rde8 22.Red1 Rh7 23.Nd3 Ng5 24.Re2 Rh6 25.Kf2 Rhh8 26.h4 Nf7 27.Re3 Nh6 
+28.Rg3 Ng4+ 29.Kg1 Rh7 30.Nf4 Ne5 31.Rxd6 Nc4 32.Rd4 Nxb2 33.Nd3 Nxd3 34.
+Rgxd3 Re7 35.Rc4 Re5 36.Kf2 g6 37.fxg6 Rg7 38.Rd5 Rxg6 39.Rxe5 fxe5 40.Rc5
+Rd6 41.Ke2 Rg6 42.Kf3 Rf6+ 43.Ke3 Rg6 44.Rxe5 Rxg2 45.Rxh5 Rxc2 46.Kd3 Rh2
+47.Rxa5 Rxh4 48.Rg5 Kc7 49.a5 Kd6 50.Na4 Rh7 51.Nc5 Bh3 52.Kd4 Kc7 53.e5 
+Rh4+ 54.Ke3 Rh7 55.Rg8 Bc8 56.Ne4 Re7 57.Kd4 Be6 58.Rh8 Rd7+ 59.Nd6 Re7 
+60.Re8 Rxe8 61.Nxe8+ Kd8 62.Nd6 Kc7 63.Ne4 Bf5 64.Nf6 Bh3 65.Ne8+ Kc8 66.
+Nd6+ Kc7 67.Nc4 Bf5 68.Ne3 Bh3 69.Kc5 Be6 70.Nc4 Bf5 71.Nd6 Bd7 72.Ne4 Be6
+73.Nf6 Bf7 74.Ng4 Bb3 75.Nf2 Bd5 76.Kd4 Bf3 77.Nd3 Bg4 78.Nc5 Bc8 79.Na4 
+Be6 80.Ke4 Bc8 81.Kf4 Kd8 82.Kg5 Kc7 83.Nb6 Bd7 84.Nxd7 Kxd7 85.Kf6 c5 86.
+Kf7 Kc6 87.e6 Kb5 88.e7 Kxa5 89.Ke6 Kb4 90.Kd5 c4 91.e8=Q Kc3 92.Qe5+ Kc2 
+93.Kxc4 Kd2 94.Qe6 b5+ 95.Kd4 b4 96.Qa2+ Ke1 97.Ke3 b3 98.Qa1# 1-0
+
