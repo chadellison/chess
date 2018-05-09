@@ -33,7 +33,8 @@ class Game < ApplicationRecord
       piece.position_index.to_s + piece.position
     end.join('.')
 
-    setups.find_or_create_by(position_signature: position_signature)
+    setup = Setup.find_or_create_by(position_signature: position_signature)
+    setups << setup
   end
 
   def add_pieces

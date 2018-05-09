@@ -54,15 +54,16 @@ module MoveLogic
     up_count = position[1].to_i + 1
     down_count = position[1].to_i - 1
 
-    possible_moves = color == 'white' ? moves_up(up_count + 1) : moves_down((down_count - 1).abs)
+    one_forward = color == 'white' ? up_count : down_count
+    two_forward = color == 'white' ? up_count + 1 : (down_count - 1).abs
 
-    possible_moves += [
-      moves_left(left_letter).last[0] +
-      moves_up(up_count).last[1],
-      moves_right(right_letter).last[0] + moves_up(up_count).last[1],
-      moves_left(left_letter).last[0] + moves_down(down_count).last[1],
-      moves_right(right_letter).last[0] + moves_down(down_count).last[1]
+    possible_moves = [
+      position[0] + one_forward.to_s,
+      position[0] + two_forward.to_s,
+      left_letter[0] + one_forward.to_s,
+      right_letter[0] + one_forward.to_s
     ]
+
     remove_out_of_bounds_moves(possible_moves)
   end
 
@@ -189,6 +190,7 @@ module MoveLogic
     king = game_pieces.detect do |piece|
       piece.piece_type == 'king' && piece.color == allied_color
     end
+
     return false if king.nil? || kings_too_close?(game_pieces)
 
     occupied_spaces = game_pieces.map(&:position)

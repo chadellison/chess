@@ -161,13 +161,12 @@ RSpec.describe Piece, type: :model do
 
     describe '#moves_for_pawn' do
       it 'returns an array of all possible moves for a pawn (of either color) in a given position' do
-        position = 'd4'
         piece = Piece.new(
-          position: position,
+          position: 'd4',
           piece_type: 'rook',
           color: 'black'
         )
-        expected = ['d3', 'd2', 'c5', 'e5', 'c3', 'e3']
+        expected = ['d3', 'd2', 'c3', 'e3']
 
         expect(piece.moves_for_pawn).to eq expected
       end

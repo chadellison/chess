@@ -221,10 +221,28 @@ RSpec.describe Game, type: :model do
 
       context 'for a crossed pawn' do
         it 'returns the notation' do
+          allow_any_instance_of(Game).to receive(:add_pieces)
           game = Game.create
-          game.pieces.find_by(position: 'a2').update(position: 'a7')
-          game.pieces.find_by(position: 'a7').destroy
-          game.pieces.find_by(position: 'a8').destroy
+          game.pieces.create(
+            position_index: 17,
+            position: 'a7',
+            piece_type: 'pawn',
+            color: 'white'
+          )
+
+          game.pieces.create(
+            position_index: 29,
+            position: 'e1',
+            piece_type: 'king',
+            color: 'white'
+          )
+
+          game.pieces.create(
+            position_index: 5,
+            position: 'e8',
+            piece_type: 'king',
+            color: 'black'
+          )
           actual = game.create_notation(17, 'a8', 'queen')
           expect(actual).to eq 'a8=Q.'
         end
