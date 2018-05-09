@@ -237,7 +237,31 @@ RSpec.describe Piece, type: :model do
     end
 
     describe '#diagonal_collision?' do
-      xit 'returns an array of all possible moves for a pawn (of either color) in a given position' do
+      before do
+        allow_any_instance_of(Game).to receive(:add_pieces)
+      end
+
+      context 'when there is a diagonal collision' do
+        it 'returns true' do
+          game = Game.create
+          piece = Piece.new(position: 'e3')
+
+          expect(piece.diagonal_collision?('a7', ['b6'])).to be true
+          expect(piece.diagonal_collision?('h6', ['g5'])).to be true
+          expect(piece.diagonal_collision?('c1', ['d2'])).to be true
+          expect(piece.diagonal_collision?('g1', ['f2'])).to be true
+        end
+      end
+
+      context 'when there is not a diagonal collision' do
+        it 'returns true' do
+          game = Game.create
+          piece = Piece.new(position: 'c3')
+
+          expect(piece.diagonal_collision?('a1', [])).to be false
+          expect(piece.diagonal_collision?('f6', ['e6'])).to be false
+          expect(piece.diagonal_collision?('b4', ['b4'])).to be false
+        end
       end
     end
 
@@ -726,7 +750,14 @@ RSpec.describe Piece, type: :model do
     end
 
     describe 'castle?' do
-      xit 'test' do
+      context 'when the king can castle' do
+        xit 'returns true' do
+        end
+      end
+
+      context 'when the king cannot castle' do
+        xit 'returns true' do
+        end
       end
     end
 
