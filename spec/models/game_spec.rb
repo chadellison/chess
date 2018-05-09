@@ -56,6 +56,15 @@ RSpec.describe Game, type: :model do
     end
   end
 
+  describe 'update_board' do
+    it 'calls update_piece' do
+      game = Game.create
+      piece = game.pieces.find_by(position_index: 9)
+      expect_any_instance_of(Game).to receive(:update_piece)
+        .with(piece, 'a3')
+      game.move(9, 'a3')
+    end
+  end
 
   describe 'update_board' do
     it 'creates a move position_signature of the current board positions' do
@@ -105,8 +114,8 @@ RSpec.describe Game, type: :model do
     end
   end
 
-  describe 'notation_logic_methods' do
-    describe '#create_notation' do
+  describe 'notation logic methods' do
+    describe 'create_notation' do
       context 'for a pawn move' do
         it 'returns the notation' do
           game = Game.create

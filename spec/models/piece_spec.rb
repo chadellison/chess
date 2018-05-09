@@ -478,11 +478,6 @@ RSpec.describe Piece, type: :model do
       end
     end
 
-    describe '#pieces_with_next_move' do
-      xit 'test' do
-      end
-    end
-
     describe 'valid_moves' do
       context 'when the king is in check' do
         it 'returns all moves to get the king out of check' do
@@ -730,12 +725,75 @@ RSpec.describe Piece, type: :model do
       end
     end
 
-    describe '#castle?' do
+    describe 'castle?' do
       xit 'test' do
       end
     end
 
-    describe '#can_en_pessant?' do
+    describe 'pieces_with_next_move' do
+      it 'all of the pieces with the next move given' do
+        game = Game.create
+
+        piece = game.pieces.find_by(position: 'd2')
+        actual = piece.pieces_with_next_move('d4')
+
+        expect(actual.map(&:position).include?('d4')).to be true
+      end
+    end
+
+    describe 'king_moved_two?' do
+      context 'when the piece is not a king' do
+        it 'returns false' do
+          piece = Piece.new(position: 'e1', piece_type: 'queen')
+
+          expect(piece.king_moved_two?('d4')).to be false
+        end
+      end
+
+      context 'when the piece is a king and did not move two' do
+        it 'returns false' do
+          piece = Piece.new(position: 'd2', piece_type: 'king')
+
+          expect(piece.king_moved_two?('d3')).to be false
+        end
+      end
+
+      context 'when the piece is a king and did move two' do
+        it 'returns true' do
+          piece = Piece.new(position: 'e1', piece_type: 'king')
+
+          expect(piece.king_moved_two?('c1')).to be true
+        end
+      end
+    end
+
+    describe 'pawn_moved_two?' do
+      context 'when the piece is not a pawn' do
+        it 'returns false' do
+          piece = Piece.new(position: 'd2', piece_type: 'queen')
+
+          expect(piece.pawn_moved_two?('d4')).to be false
+        end
+      end
+
+      context 'when the piece is a pawn and did not move two' do
+        it 'returns false' do
+          piece = Piece.new(position: 'd2', piece_type: 'pawn')
+
+          expect(piece.pawn_moved_two?('d3')).to be false
+        end
+      end
+
+      context 'when the piece is a pawn and did move two' do
+        it 'returns true' do
+          piece = Piece.new(position: 'd2', piece_type: 'pawn')
+
+          expect(piece.pawn_moved_two?('d4')).to be true
+        end
+      end
+    end
+
+    describe 'can_en_pessant?' do
       let(:game) { Game.create }
 
       let(:piece) {

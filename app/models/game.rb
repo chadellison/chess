@@ -9,9 +9,8 @@ class Game < ApplicationRecord
 
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
-    pieces.find_by(position_index: position_index)
-          .update(position: new_position, has_moved: true) #(moved_two...)
-
+    piece = pieces.find_by(position_index: position_index)
+    update_piece(piece, new_position)
     update_board
   end
 
@@ -19,6 +18,14 @@ class Game < ApplicationRecord
     new_notation = create_notation(position_index, new_position, upgraded_type)
 
     update(notation: (notation.to_s + new_notation.to_s))
+  end
+
+  def update_piece(piece, new_position)
+    piece.update(
+      position: new_position,
+      has_moved: true,
+      moved_two: piece.pawn_moved_two?(new_position)
+    )
   end
 
   def update_board
