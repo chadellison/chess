@@ -1,5 +1,5 @@
 class Game < ApplicationRecord
-  has_many :pieces
+  has_many :pieces, dependent: :delete_all
   has_many :game_setups
   has_many :setups, through: :game_setups
 
@@ -21,6 +21,9 @@ class Game < ApplicationRecord
   end
 
   def update_piece(piece, new_position)
+    handle_castle(piece, new_position) if piece.king_moved_two?(new_position)
+    handle_en_passant(piece, new_position) if en_passant?(piece, new_position)
+    pieces.where(position: new_position).destroy_all
     piece.update(
       position: new_position,
       has_moved: true,
@@ -37,8 +40,30 @@ class Game < ApplicationRecord
     setups << setup
   end
 
-  def current_turn
-    notation.to_s.split('.').count.even? ? 'white' : 'black'
+  def handle_castle(piece, new_position)
+    column_difference = piece.position[0].ord - new_position[0].ord
+    row = piece.color == 'white' ? '1' : '8'
+
+    if column_difference == -2
+      pieces.find_by(position: ('h' + row)).update(position: ('f' + row))
+    end
+
+    if column_difference == 2
+      pieces.find_by(position: ('a' + row)).update(position: ('d' + row))
+    end
+  end
+
+  def handle_en_passant(piece, new_position)
+    captured_position = new_position[0] + piece.position[1]
+    captured_piece = pieces.find_by(position: captured_position).destroy
+  end
+
+  def en_passant?(piece, position)
+    [
+      piece.piece_type == 'pawn',
+      piece.position[0] != position[0],
+      pieces.find_by(position: position).blank?
+    ].all?
   end
 
   def add_pieces

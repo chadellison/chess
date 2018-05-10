@@ -26,7 +26,7 @@ class Piece < ApplicationRecord
 
   def valid_move?(move)
     [
-      valid_move_path?(move, game.pieces.reload.map(&:position)),
+      valid_move_path?(move, game.pieces.map(&:position)),
       valid_destination?(move, game.reload.pieces),
       valid_for_piece?(move, game.reload.pieces),
       king_is_safe?(color, pieces_with_next_move(move))

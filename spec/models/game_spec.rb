@@ -64,9 +64,7 @@ RSpec.describe Game, type: :model do
         .with(piece, 'a3')
       game.move(9, 'a3')
     end
-  end
 
-  describe 'update_board' do
     it 'creates a move position_signature of the current board positions' do
       game = Game.create
       game.update_board
@@ -81,6 +79,83 @@ RSpec.describe Game, type: :model do
       game = Game.create
 
       expect { game.update_board }.to change { game.setups.count }.by(1)
+    end
+
+    context 'when the position is occuppied by an opponent piece' do
+      xit 'deletes that piece from the game' do
+      end
+    end
+  end
+
+  describe 'handle_en_passant' do
+    context 'when the piece type is a pawn ' do
+      it 'test' do
+      end
+    end
+  end
+
+  describe 'en_passant?' do
+    context 'when a pawn can en Passant' do
+      let!(:game) { Game.create }
+
+      before do
+        game.pieces.find_by(position_index: 20).update(position: 'd4')
+        game.pieces.find_by(position_index: 13).update(position: 'e4', moved_two: true)
+      end
+
+      it 'returns true' do
+        piece = game.pieces.find_by(position_index: 20)
+
+        expect(game.en_passant?(piece, 'e5')).to be true
+      end
+    end
+
+    context 'when a pawn did not en passant' do
+      let!(:game) { Game.create }
+
+      it 'returns false' do
+        piece = game.pieces.find_by(position_index: 20)
+
+        expect(game.en_passant?(piece, 'd4')).to be false
+      end
+    end
+  end
+
+  describe 'handle_castle' do
+    context 'when the king has castled queen side' do
+      let(:game) { Game.create }
+
+      it 'updates the rook\'s position to the f column' do
+        piece = game.pieces.find_by(position_index: 29)
+
+        game.handle_castle(piece, 'c1')
+
+        expect(game.pieces.find_by(position_index: 25).position).to eq 'd1'
+      end
+    end
+
+    context 'when the king has castled king side' do
+      let(:game) { Game.create }
+
+      it 'updates the rook\'s position to the f column' do
+        piece = game.pieces.find_by(position_index: 29)
+
+        game.handle_castle(piece, 'g1')
+
+        expect(game.pieces.find_by(position_index: 32).position).to eq 'f1'
+      end
+    end
+
+    context 'when the king has not moved two spaces' do
+      let(:game) { Game.create }
+      it 'does nothing' do
+        piece = game.pieces.find_by(position_index: 29)
+
+        game.handle_castle(piece, 'f1')
+
+        expect(game.pieces.find_by(position_index: 25).position).to eq 'a1'
+        expect(game.pieces.find_by(position_index: 32).position).to eq 'h1'
+      end
     end
   end
 
@@ -107,7 +182,7 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'after_commits' do
-    describe '#add_pieces' do
+    describe 'add_pieces' do
       it 'adds 32 pieces to a game' do
         expect { Game.create }.to change { Piece.count }.by(32)
       end
@@ -131,6 +206,11 @@ RSpec.describe Game, type: :model do
     end
 
     describe 'move_from_start_notation' do
+      xit 'test' do
+      end
+    end
+
+    describe 'find_piece' do
       xit 'test' do
       end
     end
@@ -186,7 +266,6 @@ RSpec.describe Game, type: :model do
           end
         end
       end
-
 
       context 'for a knight' do
         it 'returns the notation' do
@@ -376,7 +455,7 @@ RSpec.describe Game, type: :model do
       end
     end
 
-    describe '#matching_pieces' do
+    describe 'matching_pieces' do
       it 'returns all the pieces that can move on the same square' do
         game = Game.create
         knight1 = game.pieces.find_by(position: 'b1', color: 'white', piece_type: 'knight')
@@ -386,11 +465,11 @@ RSpec.describe Game, type: :model do
         knight2.update(position: 'c3')
 
         actual = game.matching_pieces('knight', 'white', 'd5')
-        expect(actual.pluck(:id)).to eq [knight1.id, knight2.id]
+        expect(actual.pluck(:id).sort).to eq [knight1.id, knight2.id].sort
       end
     end
 
-    describe '#column_is_unique?' do
+    describe 'column_is_unique?' do
       context 'when the pieces are on the same column' do
         it 'returns true' do
           game = Game.create

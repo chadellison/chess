@@ -5,15 +5,24 @@ module NotationLogic
     king: 'K', queen: 'Q', bishop: 'B', knight: 'N', rook: 'R', pawn: ''
   }
 
-  def create_move_from_notation(move_notation)
-    move_from_castle_notation(move_notation) if move_notation.include?('O')
-    piece_type = find_piece_type_from_notation(move_notation)
-    game_pieces = matching_pieces(piece_type, color, new_position)
-
-    if game_pieces.count == 1
-      game_pieces.first.update(position: move_notation[-2..-1])
+  def create_move_from_notation(move_notation, turn)
+    # handle_crossed_pawn
+    if move_notation.include?('O')
+      move_from_castle_notation(move_notation, turn)
     else
-      notation_without_type = move_notation[1..-1] unless piece_type == 'pawn'
+      piece_type = find_piece_type_from_notation(move_notation)
+      game_pieces = matching_pieces(piece_type, turn, move_notation[-2..-1])
+  binding.pry if game_pieces.blank?
+      find_piece(game_pieces, move_notation, piece_type)
+    end
+  end
+
+  def find_piece(game_pieces, move_notation, piece_type)
+    if game_pieces.count == 1
+      piece = game_pieces.first
+      update_piece(piece, move_notation[-2..-1])
+    else
+      notation_without_type = piece_type == 'pawn' ? move_notation : move_notation[1..-1]
       move_from_start_notation(game_pieces, notation_without_type)
     end
   end
@@ -22,14 +31,14 @@ module NotationLogic
     piece = game_pieces.detect do |game_piece|
       game_piece.position.include?(notation_without_type[0])
     end
-    piece.update(position: notation_without_type[-2..-1])
+    update_piece(piece, notation_without_type[-2..-1])
   end
 
-  def move_from_castle_notation(move_notation)
-    king = pieces.where(piece_type: 'king', color: current_turn)
+  def move_from_castle_notation(move_notation, turn)
+    king = pieces.find_by(piece_type: 'king', color: turn)
 
     column = move_notation == 'O-O' ? 'g' : 'c'
-    king.update(position: (column + king.position[1]))
+    update_piece(king, (column + king.position[1]))
   end
 
   def find_piece_type_from_notation(move_notation)
@@ -64,9 +73,8 @@ module NotationLogic
   end
 
   def matching_pieces(piece_type, piece_color, new_position)
-    pieces.where(piece_type: piece_type, color: piece_color).select do |game_piece|
-        game_piece.moves_for_piece.include?(new_position) &&
-          game_piece.valid_move?(new_position)
+    pieces.where(piece_type: piece_type, color: piece_color).select do |piece|
+      piece.valid_moves.include?(new_position)
     end
   end
 
