@@ -115,6 +115,26 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'notation logic methods' do
+    describe 'create_move_from_notation' do
+      xit 'test' do
+      end
+    end
+
+    describe 'move_from_castle_notation' do
+      xit 'test' do
+      end
+    end
+
+    describe 'find_piece_type_from_notation' do
+      xit 'test' do
+      end
+    end
+
+    describe 'move_from_start_notation' do
+      xit 'test' do
+      end
+    end
+
     describe 'create_notation' do
       context 'for a pawn move' do
         it 'returns the notation' do
@@ -263,9 +283,9 @@ RSpec.describe Game, type: :model do
     describe 'start_notation' do
       it 'calls matching_pieces' do
         game = Game.new
-        piece = Piece.new
+        piece = Piece.new(piece_type: 'pawn', color: 'white')
         expect_any_instance_of(Game).to receive(:matching_pieces)
-          .with(piece, 'd4').and_return([piece])
+          .with('pawn', 'white','d4').and_return([piece])
 
           game.start_notation(piece, 'd4')
       end
@@ -273,9 +293,9 @@ RSpec.describe Game, type: :model do
       context 'when only one piece can move to the destination' do
         it 'returns an empty string' do
           game = Game.new
-          piece = Piece.new
+          piece = Piece.new(piece_type: 'pawn', color: 'white')
           allow_any_instance_of(Game).to receive(:matching_pieces)
-            .with(piece, 'd4').and_return([piece])
+            .with('pawn', 'white','d4').and_return([piece])
 
           actual = game.start_notation(piece, 'd4')
           expect(actual).to eq ''
@@ -283,14 +303,14 @@ RSpec.describe Game, type: :model do
       end
 
       context 'when more than one piece can move to the destination' do
-        it 'calls index_is_unique' do
+        it 'calls column_is_unique' do
           game = Game.new
-          piece = Piece.new(position: 'd2')
+          piece = Piece.new(piece_type: 'pawn', color: 'white', position: 'd2')
           allow_any_instance_of(Game).to receive(:matching_pieces)
-            .with(piece, 'd4').and_return([piece, piece])
+            .with('pawn', 'white','d4').and_return([piece, piece])
 
-          expect_any_instance_of(Game).to receive(:index_is_unique?)
-            .with([piece, piece], piece)
+          expect_any_instance_of(Game).to receive(:column_is_unique?)
+            .with([piece, piece], 'd2')
           game.start_notation(piece, 'd4')
         end
       end
@@ -359,18 +379,18 @@ RSpec.describe Game, type: :model do
     describe '#matching_pieces' do
       it 'returns all the pieces that can move on the same square' do
         game = Game.create
-        knight1 = game.pieces.find_by(position: 'b1', color: 'white')
-        knight2 = game.pieces.find_by(position: 'g1', color: 'white')
+        knight1 = game.pieces.find_by(position: 'b1', color: 'white', piece_type: 'knight')
+        knight2 = game.pieces.find_by(position: 'g1', color: 'white', piece_type: 'knight')
 
         knight1.update(position: 'e3')
         knight2.update(position: 'c3')
 
-        actual = game.matching_pieces(knight1, 'd5')
+        actual = game.matching_pieces('knight', 'white', 'd5')
         expect(actual.pluck(:id)).to eq [knight1.id, knight2.id]
       end
     end
 
-    describe '#index_is_unique?' do
+    describe '#column_is_unique?' do
       context 'when the pieces are on the same column' do
         it 'returns true' do
           game = Game.create
@@ -380,7 +400,7 @@ RSpec.describe Game, type: :model do
           rook1.update(position: 'e3')
           rook2.update(position: 'e6')
 
-          actual = game.index_is_unique?([rook1, rook2], rook1)
+          actual = game.column_is_unique?([rook1, rook2], 'e3')
           expect(actual).to be false
         end
       end
@@ -394,7 +414,7 @@ RSpec.describe Game, type: :model do
           knight1.update(position: 'e3')
           knight2.update(position: 'c3')
 
-          actual = game.index_is_unique?([knight1, knight2], knight1)
+          actual = game.column_is_unique?([knight1, knight2], 'e3')
           expect(actual).to be true
         end
       end

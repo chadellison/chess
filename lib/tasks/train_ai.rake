@@ -4,7 +4,7 @@ task train_ai: :environment do
     game.notation.split('.').each do |move|
       # update piece position from the move / notation
       game.update_board
-      game.setups.last.update(rank: game.outcome)
     end
+    game.setups.update_all(rank: game.outcome)
   end
 end

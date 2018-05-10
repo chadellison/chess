@@ -37,6 +37,10 @@ class Game < ApplicationRecord
     setups << setup
   end
 
+  def current_turn
+    notation.to_s.split('.').count.even? ? 'white' : 'black'
+  end
+
   def add_pieces
     json_pieces = JSON.parse(File.read(Rails.root + 'json/pieces.json'))
 
