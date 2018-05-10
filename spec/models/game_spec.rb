@@ -61,7 +61,7 @@ RSpec.describe Game, type: :model do
       game = Game.create
       piece = game.pieces.find_by(position_index: 9)
       expect_any_instance_of(Game).to receive(:update_piece)
-        .with(piece, 'a3')
+        .with(piece, 'a3', '')
       game.move(9, 'a3')
     end
 
@@ -195,22 +195,27 @@ RSpec.describe Game, type: :model do
       end
     end
 
-    describe 'move_from_castle_notation' do
+    describe 'move_from_castle' do
       xit 'test' do
       end
     end
 
-    describe 'find_piece_type_from_notation' do
+    describe 'find_piece_type' do
       xit 'test' do
       end
     end
 
-    describe 'move_from_start_notation' do
+    describe 'move_from_start' do
       xit 'test' do
       end
     end
 
     describe 'find_piece' do
+      xit 'test' do
+      end
+    end
+
+    describe 'move_from_crossed_pawn' do
       xit 'test' do
       end
     end

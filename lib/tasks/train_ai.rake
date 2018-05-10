@@ -8,6 +8,8 @@ task train_ai: :environment do
       game.reload.update_board
       puts 'Setup ' + game.setups.last.position_signature
     end
-    game.setups.update_all(rank: game.outcome)
+    game.setups.each do |setup|
+      update(rank: (setup.rank + game.outcome))
+    end
   end
 end
