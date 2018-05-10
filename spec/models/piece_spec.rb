@@ -716,14 +716,17 @@ RSpec.describe Piece, type: :model do
       end
 
       context 'when a king cannot castle due to being in check' do
-        let(:game) { Game.create }
+        it 'returns false' do
+          allow_any_instance_of(Game).to receive(:add_pieces)
+          game = Game.create
 
-        before do
-          game.pieces.where(position: ['e2', 'f1', 'g1', 'e7']).destroy_all
-          game.pieces.find_by(position_index: 4).update(position: 'e7')
-        end
-
-        it 'returns false when the next move is a castle' do
+          game_pieces = [
+            Piece.create(piece_type: 'queen', position: 'e7', color: 'black', position_index: 4),
+            Piece.create(piece_type: 'king', position: 'e8', color: 'black', position_index: 5),
+            Piece.create(piece_type: 'king', position: 'e1', color: 'white', position_index: 29),
+            Piece.create(piece_type: 'rook', position: 'a8', color: 'white', position_index: 25)
+          ]
+          game.pieces = game_pieces
           king = game.pieces.find_by(position_index: 29)
 
           expect(king.valid_for_piece?('g1', game.pieces)).to be false
@@ -736,6 +739,7 @@ RSpec.describe Piece, type: :model do
 
           game_pieces = [
             Piece.create(piece_type: 'rook', position: 'd8', color: 'black'),
+            Piece.create(piece_type: 'king', position: 'e8', color: 'black'),
             Piece.create(piece_type: 'king', position: 'e1', color: 'white'),
             Piece.create(piece_type: 'rook', position: 'a8', color: 'white')
           ]
@@ -750,12 +754,73 @@ RSpec.describe Piece, type: :model do
 
     describe 'castle?' do
       context 'when the king can castle' do
-        xit 'returns true' do
+        it 'returns true' do
+          allow_any_instance_of(Game).to receive(:add_pieces)
+
+          game_pieces = [
+            Piece.create(piece_type: 'rook', position: 'h8', color: 'black', position_index: 1),
+            Piece.create(piece_type: 'king', position: 'e8', color: 'black', position_index: 5),
+            Piece.create(piece_type: 'king', position: 'e1', color: 'white', position_index: 29),
+            Piece.create(piece_type: 'rook', position: 'a1', color: 'white', position_index: 25)
+          ]
+
+          game = Game.create
+          game.pieces = game_pieces
+          king = game.pieces.find_by(position_index: 29)
+          expect(king.castle?('c1', game.pieces)).to be true
         end
       end
 
-      context 'when the king cannot castle' do
-        xit 'returns true' do
+      context 'when the king cannot castle because the rook is not on the same row' do
+        it 'returns true' do
+          allow_any_instance_of(Game).to receive(:add_pieces)
+
+          game_pieces = [
+            Piece.create(piece_type: 'rook', position: 'd8', color: 'black'),
+            Piece.create(piece_type: 'king', position: 'e1', color: 'white'),
+            Piece.create(piece_type: 'rook', position: 'a8', color: 'white')
+          ]
+
+          game = Game.create
+          game.pieces = game_pieces
+          king = game.pieces.find_by(piece_type: 'king')
+          expect(king.castle?('c1', game.pieces)).to be false
+        end
+      end
+
+      context 'when the king cannot castle because the king has moved' do
+        it 'returns true' do
+          allow_any_instance_of(Game).to receive(:add_pieces)
+
+          game_pieces = [
+            Piece.create(piece_type: 'rook', position: 'h8', color: 'black', position_index: 1),
+            Piece.create(piece_type: 'king', position: 'e8', color: 'black', position_index: 5),
+            Piece.create(piece_type: 'king', position: 'e1', color: 'white', position_index: 29, has_moved: true),
+            Piece.create(piece_type: 'rook', position: 'a1', color: 'white', position_index: 25)
+          ]
+
+          game = Game.create
+          game.pieces = game_pieces
+          king = game.pieces.find_by(position_index: 29)
+          expect(king.castle?('c1', game.pieces)).to be false
+        end
+      end
+
+      context 'when the king cannot castle because the rook has moved' do
+        it 'returns true' do
+          allow_any_instance_of(Game).to receive(:add_pieces)
+
+          game_pieces = [
+            Piece.create(piece_type: 'rook', position: 'h8', color: 'black', position_index: 1),
+            Piece.create(piece_type: 'king', position: 'e8', color: 'black', position_index: 5),
+            Piece.create(piece_type: 'king', position: 'e1', color: 'white', position_index: 29),
+            Piece.create(piece_type: 'rook', position: 'a1', color: 'white', position_index: 25, has_moved: true)
+          ]
+
+          game = Game.create
+          game.pieces = game_pieces
+          king = game.pieces.find_by(position_index: 29)
+          expect(king.castle?('c1', game.pieces)).to be false
         end
       end
     end

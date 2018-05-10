@@ -14,7 +14,7 @@
       <img src="./assets/0.10.2/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2018-05-09T17:48:48-05:00">2018-05-09T17:48:48-05:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2018-05-09T20:41:46-05:00">2018-05-09T20:41:46-05:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -25,7 +25,7 @@
      covered at
      <span class="covered_strength">
        <span class="green">
-         300.0
+         295.07
        </span>
     </span> hits/line)
   </h2>
@@ -117,7 +117,7 @@
         <td>165</td>
         <td>165</td>
         <td>0</td>
-        <td>443.0</td>
+        <td>435.8</td>
       </tr>
       
       <tr>
@@ -137,7 +137,7 @@
         <td>25</td>
         <td>25</td>
         <td>0</td>
-        <td>95.6</td>
+        <td>94.3</td>
       </tr>
       
       <tr>
@@ -157,7 +157,7 @@
         <td>19</td>
         <td>19</td>
         <td>0</td>
-        <td>132.1</td>
+        <td>128.6</td>
       </tr>
       
       <tr>
@@ -287,7 +287,7 @@
      covered at
      <span class="covered_strength">
        <span class="green">
-         319.59
+         314.34
        </span>
     </span> hits/line)
   </h2>
@@ -329,7 +329,7 @@
         <td>165</td>
         <td>165</td>
         <td>0</td>
-        <td>443.0</td>
+        <td>435.8</td>
       </tr>
       
       <tr>
@@ -349,7 +349,7 @@
         <td>25</td>
         <td>25</td>
         <td>0</td>
-        <td>95.6</td>
+        <td>94.3</td>
       </tr>
       
       <tr>
@@ -369,7 +369,7 @@
         <td>19</td>
         <td>19</td>
         <td>0</td>
-        <td>132.1</td>
+        <td>128.6</td>
       </tr>
       
       <tr>
@@ -855,26 +855,26 @@
           <code class="ruby">  def moves_for_bishop</code>
         </li>
       
-        <li class="covered" data-hits="254" data-linenumber="9">
-          <span class="hits">254</span>
+        <li class="covered" data-hits="247" data-linenumber="9">
+          <span class="hits">247</span>
           
           <code class="ruby">    top_right = extract_diagonals(moves_right.zip(moves_up))</code>
         </li>
       
-        <li class="covered" data-hits="254" data-linenumber="10">
-          <span class="hits">254</span>
+        <li class="covered" data-hits="247" data-linenumber="10">
+          <span class="hits">247</span>
           
           <code class="ruby">    top_left = extract_diagonals(moves_left.zip(moves_up))</code>
         </li>
       
-        <li class="covered" data-hits="254" data-linenumber="11">
-          <span class="hits">254</span>
+        <li class="covered" data-hits="247" data-linenumber="11">
+          <span class="hits">247</span>
           
           <code class="ruby">    bottom_left = extract_diagonals(moves_left.zip(moves_down))</code>
         </li>
       
-        <li class="covered" data-hits="254" data-linenumber="12">
-          <span class="hits">254</span>
+        <li class="covered" data-hits="247" data-linenumber="12">
+          <span class="hits">247</span>
           
           <code class="ruby">    bottom_right = extract_diagonals(moves_right.zip(moves_down))</code>
         </li>
@@ -885,8 +885,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="254" data-linenumber="14">
-          <span class="hits">254</span>
+        <li class="covered" data-hits="247" data-linenumber="14">
+          <span class="hits">247</span>
           
           <code class="ruby">    top_right + top_left + bottom_left + bottom_right</code>
         </li>
@@ -909,8 +909,8 @@
           <code class="ruby">  def moves_for_queen</code>
         </li>
       
-        <li class="covered" data-hits="108" data-linenumber="18">
-          <span class="hits">108</span>
+        <li class="covered" data-hits="107" data-linenumber="18">
+          <span class="hits">107</span>
           
           <code class="ruby">    moves_for_rook + moves_for_bishop</code>
         </li>
@@ -993,20 +993,20 @@
           <code class="ruby">  def moves_for_knight</code>
         </li>
       
-        <li class="covered" data-hits="155" data-linenumber="32">
-          <span class="hits">155</span>
+        <li class="covered" data-hits="150" data-linenumber="32">
+          <span class="hits">150</span>
           
           <code class="ruby">    moves = []</code>
         </li>
       
-        <li class="covered" data-hits="155" data-linenumber="33">
-          <span class="hits">155</span>
+        <li class="covered" data-hits="150" data-linenumber="33">
+          <span class="hits">150</span>
           
           <code class="ruby">    column = position[0].ord</code>
         </li>
       
-        <li class="covered" data-hits="155" data-linenumber="34">
-          <span class="hits">155</span>
+        <li class="covered" data-hits="150" data-linenumber="34">
+          <span class="hits">150</span>
           
           <code class="ruby">    row = position[1].to_i</code>
         </li>
@@ -1017,14 +1017,14 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="155" data-linenumber="36">
-          <span class="hits">155</span>
+        <li class="covered" data-hits="150" data-linenumber="36">
+          <span class="hits">150</span>
           
           <code class="ruby">    moves &lt;&lt; (column - 2).chr + (row + 1).to_s</code>
         </li>
       
-        <li class="covered" data-hits="155" data-linenumber="37">
-          <span class="hits">155</span>
+        <li class="covered" data-hits="150" data-linenumber="37">
+          <span class="hits">150</span>
           
           <code class="ruby">    moves &lt;&lt; (column - 2).chr + (row - 1).to_s</code>
         </li>
@@ -1035,14 +1035,14 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="155" data-linenumber="39">
-          <span class="hits">155</span>
+        <li class="covered" data-hits="150" data-linenumber="39">
+          <span class="hits">150</span>
           
           <code class="ruby">    moves &lt;&lt; (column + 2).chr + (row + 1).to_s</code>
         </li>
       
-        <li class="covered" data-hits="155" data-linenumber="40">
-          <span class="hits">155</span>
+        <li class="covered" data-hits="150" data-linenumber="40">
+          <span class="hits">150</span>
           
           <code class="ruby">    moves &lt;&lt; (column + 2).chr + (row - 1).to_s</code>
         </li>
@@ -1053,14 +1053,14 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="155" data-linenumber="42">
-          <span class="hits">155</span>
+        <li class="covered" data-hits="150" data-linenumber="42">
+          <span class="hits">150</span>
           
           <code class="ruby">    moves &lt;&lt; (column - 1).chr + (row + 2).to_s</code>
         </li>
       
-        <li class="covered" data-hits="155" data-linenumber="43">
-          <span class="hits">155</span>
+        <li class="covered" data-hits="150" data-linenumber="43">
+          <span class="hits">150</span>
           
           <code class="ruby">    moves &lt;&lt; (column - 1).chr + (row - 2).to_s</code>
         </li>
@@ -1071,14 +1071,14 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="155" data-linenumber="45">
-          <span class="hits">155</span>
+        <li class="covered" data-hits="150" data-linenumber="45">
+          <span class="hits">150</span>
           
           <code class="ruby">    moves &lt;&lt; (column + 1).chr + (row + 2).to_s</code>
         </li>
       
-        <li class="covered" data-hits="155" data-linenumber="46">
-          <span class="hits">155</span>
+        <li class="covered" data-hits="150" data-linenumber="46">
+          <span class="hits">150</span>
           
           <code class="ruby">    moves &lt;&lt; (column + 1).chr + (row - 2).to_s</code>
         </li>
@@ -1089,8 +1089,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="155" data-linenumber="48">
-          <span class="hits">155</span>
+        <li class="covered" data-hits="150" data-linenumber="48">
+          <span class="hits">150</span>
           
           <code class="ruby">    remove_out_of_bounds_moves(moves)</code>
         </li>
@@ -1113,26 +1113,26 @@
           <code class="ruby">  def moves_for_pawn</code>
         </li>
       
-        <li class="covered" data-hits="620" data-linenumber="52">
-          <span class="hits">620</span>
+        <li class="covered" data-hits="598" data-linenumber="52">
+          <span class="hits">598</span>
           
           <code class="ruby">    left_letter = (position[0].ord - 1).chr</code>
         </li>
       
-        <li class="covered" data-hits="620" data-linenumber="53">
-          <span class="hits">620</span>
+        <li class="covered" data-hits="598" data-linenumber="53">
+          <span class="hits">598</span>
           
           <code class="ruby">    right_letter = (position[0].ord + 1).chr</code>
         </li>
       
-        <li class="covered" data-hits="620" data-linenumber="54">
-          <span class="hits">620</span>
+        <li class="covered" data-hits="598" data-linenumber="54">
+          <span class="hits">598</span>
           
           <code class="ruby">    up_count = position[1].to_i + 1</code>
         </li>
       
-        <li class="covered" data-hits="620" data-linenumber="55">
-          <span class="hits">620</span>
+        <li class="covered" data-hits="598" data-linenumber="55">
+          <span class="hits">598</span>
           
           <code class="ruby">    down_count = position[1].to_i - 1</code>
         </li>
@@ -1143,14 +1143,14 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="620" data-linenumber="57">
-          <span class="hits">620</span>
+        <li class="covered" data-hits="598" data-linenumber="57">
+          <span class="hits">598</span>
           
           <code class="ruby">    one_forward = color == &#39;white&#39; ? up_count : down_count</code>
         </li>
       
-        <li class="covered" data-hits="620" data-linenumber="58">
-          <span class="hits">620</span>
+        <li class="covered" data-hits="598" data-linenumber="58">
+          <span class="hits">598</span>
           
           <code class="ruby">    two_forward = color == &#39;white&#39; ? up_count + 1 : (down_count - 1).abs</code>
         </li>
@@ -1161,8 +1161,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="620" data-linenumber="60">
-          <span class="hits">620</span>
+        <li class="covered" data-hits="598" data-linenumber="60">
+          <span class="hits">598</span>
           
           <code class="ruby">    possible_moves = [</code>
         </li>
@@ -1203,8 +1203,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="620" data-linenumber="67">
-          <span class="hits">620</span>
+        <li class="covered" data-hits="598" data-linenumber="67">
+          <span class="hits">598</span>
           
           <code class="ruby">    remove_out_of_bounds_moves(possible_moves)</code>
         </li>
@@ -1227,8 +1227,8 @@
           <code class="ruby">  def remove_out_of_bounds_moves(moves)</code>
         </li>
       
-        <li class="covered" data-hits="778" data-linenumber="71">
-          <span class="hits">778</span>
+        <li class="covered" data-hits="751" data-linenumber="71">
+          <span class="hits">751</span>
           
           <code class="ruby">    moves.reject do |move|</code>
         </li>
@@ -1239,8 +1239,8 @@
           <code class="ruby">      move[0] &lt; &#39;a&#39; ||</code>
         </li>
       
-        <li class="covered" data-hits="3729" data-linenumber="73">
-          <span class="hits">3729</span>
+        <li class="covered" data-hits="3601" data-linenumber="73">
+          <span class="hits">3601</span>
           
           <code class="ruby">        move[0] &gt; &#39;h&#39; ||</code>
         </li>
@@ -1287,14 +1287,14 @@
           <code class="ruby">    moves.map do |move_pair|</code>
         </li>
       
-        <li class="covered" data-hits="3595" data-linenumber="81">
-          <span class="hits">3595</span>
+        <li class="covered" data-hits="3497" data-linenumber="81">
+          <span class="hits">3497</span>
           
           <code class="ruby">      (move_pair[0][0] + move_pair[1][1]) unless move_pair.include?(nil)</code>
         </li>
       
-        <li class="covered" data-hits="1062" data-linenumber="82">
-          <span class="hits">1062</span>
+        <li class="covered" data-hits="1034" data-linenumber="82">
+          <span class="hits">1034</span>
           
           <code class="ruby">    end.compact</code>
         </li>
@@ -1317,14 +1317,14 @@
           <code class="ruby">  def moves_up(count = 8)</code>
         </li>
       
-        <li class="covered" data-hits="818" data-linenumber="86">
-          <span class="hits">818</span>
+        <li class="covered" data-hits="804" data-linenumber="86">
+          <span class="hits">804</span>
           
           <code class="ruby">    possible_moves = []</code>
         </li>
       
-        <li class="covered" data-hits="818" data-linenumber="87">
-          <span class="hits">818</span>
+        <li class="covered" data-hits="804" data-linenumber="87">
+          <span class="hits">804</span>
           
           <code class="ruby">    row = position[1].to_i</code>
         </li>
@@ -1335,8 +1335,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="818" data-linenumber="89">
-          <span class="hits">818</span>
+        <li class="covered" data-hits="804" data-linenumber="89">
+          <span class="hits">804</span>
           
           <code class="ruby">    while row &lt; count</code>
         </li>
@@ -1359,8 +1359,8 @@
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="818" data-linenumber="93">
-          <span class="hits">818</span>
+        <li class="covered" data-hits="804" data-linenumber="93">
+          <span class="hits">804</span>
           
           <code class="ruby">    possible_moves</code>
         </li>
@@ -1383,14 +1383,14 @@
           <code class="ruby">  def moves_down(count = 1)</code>
         </li>
       
-        <li class="covered" data-hits="803" data-linenumber="97">
-          <span class="hits">803</span>
+        <li class="covered" data-hits="789" data-linenumber="97">
+          <span class="hits">789</span>
           
           <code class="ruby">    possible_moves = []</code>
         </li>
       
-        <li class="covered" data-hits="803" data-linenumber="98">
-          <span class="hits">803</span>
+        <li class="covered" data-hits="789" data-linenumber="98">
+          <span class="hits">789</span>
           
           <code class="ruby">    row = position[1].to_i</code>
         </li>
@@ -1401,20 +1401,20 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="803" data-linenumber="100">
-          <span class="hits">803</span>
+        <li class="covered" data-hits="789" data-linenumber="100">
+          <span class="hits">789</span>
           
           <code class="ruby">    while row &gt; count</code>
         </li>
       
-        <li class="covered" data-hits="3450" data-linenumber="101">
-          <span class="hits">3450</span>
+        <li class="covered" data-hits="3352" data-linenumber="101">
+          <span class="hits">3352</span>
           
           <code class="ruby">      row -= 1</code>
         </li>
       
-        <li class="covered" data-hits="3450" data-linenumber="102">
-          <span class="hits">3450</span>
+        <li class="covered" data-hits="3352" data-linenumber="102">
+          <span class="hits">3352</span>
           
           <code class="ruby">      possible_moves &lt;&lt; (position[0] + row.to_s)</code>
         </li>
@@ -1425,8 +1425,8 @@
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="803" data-linenumber="104">
-          <span class="hits">803</span>
+        <li class="covered" data-hits="789" data-linenumber="104">
+          <span class="hits">789</span>
           
           <code class="ruby">    possible_moves</code>
         </li>
@@ -1449,14 +1449,14 @@
           <code class="ruby">  def moves_left(letter = &#39;a&#39;)</code>
         </li>
       
-        <li class="covered" data-hits="807" data-linenumber="108">
-          <span class="hits">807</span>
+        <li class="covered" data-hits="793" data-linenumber="108">
+          <span class="hits">793</span>
           
           <code class="ruby">    possible_moves = []</code>
         </li>
       
-        <li class="covered" data-hits="807" data-linenumber="109">
-          <span class="hits">807</span>
+        <li class="covered" data-hits="793" data-linenumber="109">
+          <span class="hits">793</span>
           
           <code class="ruby">    column = position[0]</code>
         </li>
@@ -1467,14 +1467,14 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="807" data-linenumber="111">
-          <span class="hits">807</span>
+        <li class="covered" data-hits="793" data-linenumber="111">
+          <span class="hits">793</span>
           
           <code class="ruby">    while column &gt; letter</code>
         </li>
       
-        <li class="covered" data-hits="2678" data-linenumber="112">
-          <span class="hits">2678</span>
+        <li class="covered" data-hits="2648" data-linenumber="112">
+          <span class="hits">2648</span>
           
           <code class="ruby">      column = (column.ord - 1).chr</code>
         </li>
@@ -1485,8 +1485,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="2678" data-linenumber="114">
-          <span class="hits">2678</span>
+        <li class="covered" data-hits="2648" data-linenumber="114">
+          <span class="hits">2648</span>
           
           <code class="ruby">      possible_moves &lt;&lt; (column + position[1])</code>
         </li>
@@ -1497,8 +1497,8 @@
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="807" data-linenumber="116">
-          <span class="hits">807</span>
+        <li class="covered" data-hits="793" data-linenumber="116">
+          <span class="hits">793</span>
           
           <code class="ruby">    possible_moves</code>
         </li>
@@ -1521,14 +1521,14 @@
           <code class="ruby">  def moves_right(letter = &#39;h&#39;)</code>
         </li>
       
-        <li class="covered" data-hits="812" data-linenumber="120">
-          <span class="hits">812</span>
+        <li class="covered" data-hits="799" data-linenumber="120">
+          <span class="hits">799</span>
           
           <code class="ruby">    possible_moves = []</code>
         </li>
       
-        <li class="covered" data-hits="812" data-linenumber="121">
-          <span class="hits">812</span>
+        <li class="covered" data-hits="799" data-linenumber="121">
+          <span class="hits">799</span>
           
           <code class="ruby">    column = position[0]</code>
         </li>
@@ -1539,14 +1539,14 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="812" data-linenumber="123">
-          <span class="hits">812</span>
+        <li class="covered" data-hits="799" data-linenumber="123">
+          <span class="hits">799</span>
           
           <code class="ruby">    while column &lt; letter</code>
         </li>
       
-        <li class="covered" data-hits="2778" data-linenumber="124">
-          <span class="hits">2778</span>
+        <li class="covered" data-hits="2713" data-linenumber="124">
+          <span class="hits">2713</span>
           
           <code class="ruby">      column = column.next</code>
         </li>
@@ -1557,8 +1557,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="2778" data-linenumber="126">
-          <span class="hits">2778</span>
+        <li class="covered" data-hits="2713" data-linenumber="126">
+          <span class="hits">2713</span>
           
           <code class="ruby">      possible_moves &lt;&lt; (column + position[1])</code>
         </li>
@@ -1569,8 +1569,8 @@
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="812" data-linenumber="128">
-          <span class="hits">812</span>
+        <li class="covered" data-hits="799" data-linenumber="128">
+          <span class="hits">799</span>
           
           <code class="ruby">    possible_moves</code>
         </li>
@@ -1593,8 +1593,8 @@
           <code class="ruby">  def valid_move_path?(destination, occupied_spaces)</code>
         </li>
       
-        <li class="covered" data-hits="125" data-linenumber="132">
-          <span class="hits">125</span>
+        <li class="covered" data-hits="126" data-linenumber="132">
+          <span class="hits">126</span>
           
           <code class="ruby">    if piece_type == &#39;knight&#39;</code>
         </li>
@@ -1605,8 +1605,8 @@
           <code class="ruby">      true</code>
         </li>
       
-        <li class="covered" data-hits="115" data-linenumber="134">
-          <span class="hits">115</span>
+        <li class="covered" data-hits="116" data-linenumber="134">
+          <span class="hits">116</span>
           
           <code class="ruby">    elsif position[0] == destination[0]</code>
         </li>
@@ -1617,14 +1617,14 @@
           <code class="ruby">      !vertical_collision?(destination, occupied_spaces)</code>
         </li>
       
-        <li class="covered" data-hits="76" data-linenumber="136">
-          <span class="hits">76</span>
+        <li class="covered" data-hits="77" data-linenumber="136">
+          <span class="hits">77</span>
           
           <code class="ruby">    elsif position[1] == destination[1]</code>
         </li>
       
-        <li class="covered" data-hits="38" data-linenumber="137">
-          <span class="hits">38</span>
+        <li class="covered" data-hits="39" data-linenumber="137">
+          <span class="hits">39</span>
           
           <code class="ruby">      !horizontal_collision?(destination, occupied_spaces)</code>
         </li>
@@ -1665,8 +1665,8 @@
           <code class="ruby">  def valid_destination?(destination, game_pieces)</code>
         </li>
       
-        <li class="covered" data-hits="1987" data-linenumber="144">
-          <span class="hits">1987</span>
+        <li class="covered" data-hits="1965" data-linenumber="144">
+          <span class="hits">1965</span>
           
           <code class="ruby">    destination_piece = game_pieces.to_a.detect { |piece| piece.position == destination }</code>
         </li>
@@ -1791,8 +1791,8 @@
           <code class="ruby">  def horizontal_collision?(destination, occupied_spaces)</code>
         </li>
       
-        <li class="covered" data-hits="40" data-linenumber="165">
-          <span class="hits">40</span>
+        <li class="covered" data-hits="41" data-linenumber="165">
+          <span class="hits">41</span>
           
           <code class="ruby">    if position[0] &gt; destination[0]</code>
         </li>
@@ -1809,8 +1809,8 @@
           <code class="ruby">    else</code>
         </li>
       
-        <li class="covered" data-hits="22" data-linenumber="168">
-          <span class="hits">22</span>
+        <li class="covered" data-hits="23" data-linenumber="168">
+          <span class="hits">23</span>
           
           <code class="ruby">      (moves_right((destination[0].ord - 1).chr) &amp; occupied_spaces).present?</code>
         </li>
@@ -1941,14 +1941,14 @@
           <code class="ruby">  def king_is_safe?(allied_color, game_pieces)</code>
         </li>
       
-        <li class="covered" data-hits="111" data-linenumber="190">
-          <span class="hits">111</span>
+        <li class="covered" data-hits="119" data-linenumber="190">
+          <span class="hits">119</span>
           
           <code class="ruby">    king = game_pieces.detect do |piece|</code>
         </li>
       
-        <li class="covered" data-hits="1598" data-linenumber="191">
-          <span class="hits">1598</span>
+        <li class="covered" data-hits="1593" data-linenumber="191">
+          <span class="hits">1593</span>
           
           <code class="ruby">      piece.piece_type == &#39;king&#39; &amp;&amp; piece.color == allied_color</code>
         </li>
@@ -1965,8 +1965,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="111" data-linenumber="194">
-          <span class="hits">111</span>
+        <li class="covered" data-hits="119" data-linenumber="194">
+          <span class="hits">119</span>
           
           <code class="ruby">    return false if king.nil? || kings_too_close?(game_pieces)</code>
         </li>
@@ -1977,20 +1977,20 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="107" data-linenumber="196">
-          <span class="hits">107</span>
+        <li class="covered" data-hits="114" data-linenumber="196">
+          <span class="hits">114</span>
           
           <code class="ruby">    occupied_spaces = game_pieces.map(&amp;:position)</code>
         </li>
       
-        <li class="covered" data-hits="107" data-linenumber="197">
-          <span class="hits">107</span>
+        <li class="covered" data-hits="114" data-linenumber="197">
+          <span class="hits">114</span>
           
           <code class="ruby">    opponent_pieces = game_pieces.reject do |piece|</code>
         </li>
       
-        <li class="covered" data-hits="2398" data-linenumber="198">
-          <span class="hits">2398</span>
+        <li class="covered" data-hits="2387" data-linenumber="198">
+          <span class="hits">2387</span>
           
           <code class="ruby">      piece.color == allied_color || piece.piece_type == &#39;king&#39;</code>
         </li>
@@ -2007,8 +2007,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="107" data-linenumber="201">
-          <span class="hits">107</span>
+        <li class="covered" data-hits="114" data-linenumber="201">
+          <span class="hits">114</span>
           
           <code class="ruby">    opponent_pieces.none? do |piece|</code>
         </li>
@@ -2019,8 +2019,8 @@
           <code class="ruby">      piece.moves_for_piece.include?(king.position) &amp;&amp;</code>
         </li>
       
-        <li class="covered" data-hits="1105" data-linenumber="203">
-          <span class="hits">1105</span>
+        <li class="covered" data-hits="1072" data-linenumber="203">
+          <span class="hits">1072</span>
           
           <code class="ruby">        piece.valid_move_path?(king.position, occupied_spaces) &amp;&amp;</code>
         </li>
@@ -2061,8 +2061,8 @@
           <code class="ruby">  def kings_too_close?(game_pieces)</code>
         </li>
       
-        <li class="covered" data-hits="2513" data-linenumber="210">
-          <span class="hits">2513</span>
+        <li class="covered" data-hits="2514" data-linenumber="210">
+          <span class="hits">2514</span>
           
           <code class="ruby">    positions = game_pieces.select { |piece| piece.piece_type == &#39;king&#39; }</code>
         </li>
@@ -2085,20 +2085,20 @@
           <code class="ruby">    [</code>
         </li>
       
-        <li class="covered" data-hits="109" data-linenumber="214">
-          <span class="hits">109</span>
+        <li class="covered" data-hits="117" data-linenumber="214">
+          <span class="hits">117</span>
           
           <code class="ruby">      (positions.first[0].ord - positions.last[0].ord).abs,</code>
         </li>
       
-        <li class="covered" data-hits="109" data-linenumber="215">
-          <span class="hits">109</span>
+        <li class="covered" data-hits="117" data-linenumber="215">
+          <span class="hits">117</span>
           
           <code class="ruby">      (positions.first[1].to_i - positions.last[1].to_i).abs</code>
         </li>
       
-        <li class="covered" data-hits="321" data-linenumber="216">
-          <span class="hits">321</span>
+        <li class="covered" data-hits="345" data-linenumber="216">
+          <span class="hits">345</span>
           
           <code class="ruby">    ].all? { |value| value &lt; 2 }</code>
         </li>
@@ -2121,32 +2121,32 @@
           <code class="ruby">  def pieces_with_next_move(move)</code>
         </li>
       
-        <li class="covered" data-hits="2262" data-linenumber="220">
-          <span class="hits">2262</span>
+        <li class="covered" data-hits="2260" data-linenumber="220">
+          <span class="hits">2260</span>
           
-          <code class="ruby">    game.pieces.reload.reject { |piece| piece.position == move }</code>
+          <code class="ruby">    game.pieces.reject { |piece| piece.position == move }</code>
         </li>
       
-        <li class="covered" data-hits="97" data-linenumber="221">
-          <span class="hits">97</span>
+        <li class="covered" data-hits="101" data-linenumber="221">
+          <span class="hits">101</span>
           
           <code class="ruby">        .map do |piece|</code>
         </li>
       
-        <li class="covered" data-hits="2234" data-linenumber="222">
-          <span class="hits">2234</span>
+        <li class="covered" data-hits="2229" data-linenumber="222">
+          <span class="hits">2229</span>
           
           <code class="ruby">          if piece.position_index == position_index</code>
         </li>
       
-        <li class="covered" data-hits="104" data-linenumber="223">
-          <span class="hits">104</span>
+        <li class="covered" data-hits="111" data-linenumber="223">
+          <span class="hits">111</span>
           
           <code class="ruby">            piece = Piece.new(piece.attributes)</code>
         </li>
       
-        <li class="covered" data-hits="104" data-linenumber="224">
-          <span class="hits">104</span>
+        <li class="covered" data-hits="111" data-linenumber="224">
+          <span class="hits">111</span>
           
           <code class="ruby">            piece.position = move</code>
         </li>
@@ -2157,8 +2157,8 @@
           <code class="ruby">          end</code>
         </li>
       
-        <li class="covered" data-hits="2234" data-linenumber="226">
-          <span class="hits">2234</span>
+        <li class="covered" data-hits="2229" data-linenumber="226">
+          <span class="hits">2229</span>
           
           <code class="ruby">          piece</code>
         </li>
@@ -2271,14 +2271,14 @@
           <code class="ruby">  def castle?(next_move, game_pieces)</code>
         </li>
       
-        <li class="covered" data-hits="12" data-linenumber="245">
-          <span class="hits">12</span>
+        <li class="covered" data-hits="16" data-linenumber="245">
+          <span class="hits">16</span>
           
           <code class="ruby">    column = next_move[0] == &#39;c&#39; ? &#39;a&#39; : &#39;h&#39;</code>
         </li>
       
-        <li class="covered" data-hits="180" data-linenumber="246">
-          <span class="hits">180</span>
+        <li class="covered" data-hits="177" data-linenumber="246">
+          <span class="hits">177</span>
           
           <code class="ruby">    rook = game_pieces.detect { |piece| piece.position == (column + next_move[1]) }</code>
         </li>
@@ -2289,14 +2289,14 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="12" data-linenumber="248">
-          <span class="hits">12</span>
+        <li class="covered" data-hits="16" data-linenumber="248">
+          <span class="hits">16</span>
           
           <code class="ruby">    if next_move[0] == &#39;c&#39;</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="249">
-          <span class="hits">4</span>
+        <li class="covered" data-hits="8" data-linenumber="249">
+          <span class="hits">8</span>
           
           <code class="ruby">      through_check_moves = pieces_with_next_move(&#39;d&#39; + next_move[1])</code>
         </li>
@@ -2349,8 +2349,8 @@
           <code class="ruby">      king_is_safe?(color, through_check_moves)</code>
         </li>
       
-        <li class="covered" data-hits="12" data-linenumber="258">
-          <span class="hits">12</span>
+        <li class="covered" data-hits="16" data-linenumber="258">
+          <span class="hits">16</span>
           
           <code class="ruby">    ].all?</code>
         </li>
@@ -2529,8 +2529,8 @@
           <code class="ruby">  def empty_square?(space, game_pieces)</code>
         </li>
       
-        <li class="covered" data-hits="669" data-linenumber="288">
-          <span class="hits">669</span>
+        <li class="covered" data-hits="609" data-linenumber="288">
+          <span class="hits">609</span>
           
           <code class="ruby">    game_pieces.none? { |piece| piece.position == space }</code>
         </li>
@@ -3293,8 +3293,8 @@
           <code class="ruby">  def add_pieces</code>
         </li>
       
-        <li class="covered" data-hits="64" data-linenumber="41">
-          <span class="hits">64</span>
+        <li class="covered" data-hits="63" data-linenumber="41">
+          <span class="hits">63</span>
           
           <code class="ruby">    json_pieces = JSON.parse(File.read(Rails.root + &#39;json/pieces.json&#39;))</code>
         </li>
@@ -3305,14 +3305,14 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="64" data-linenumber="43">
-          <span class="hits">64</span>
+        <li class="covered" data-hits="63" data-linenumber="43">
+          <span class="hits">63</span>
           
           <code class="ruby">    json_pieces.each do |json_piece|</code>
         </li>
       
-        <li class="covered" data-hits="2048" data-linenumber="44">
-          <span class="hits">2048</span>
+        <li class="covered" data-hits="2016" data-linenumber="44">
+          <span class="hits">2016</span>
           
           <code class="ruby">      pieces.create(json_piece)</code>
         </li>
@@ -3433,8 +3433,8 @@
           <code class="ruby">  def moves_for_piece</code>
         </li>
       
-        <li class="covered" data-hits="1173" data-linenumber="7">
-          <span class="hits">1173</span>
+        <li class="covered" data-hits="1140" data-linenumber="7">
+          <span class="hits">1140</span>
           
           <code class="ruby">    case piece_type</code>
         </li>
@@ -3445,8 +3445,8 @@
           <code class="ruby">    when &#39;rook&#39;</code>
         </li>
       
-        <li class="covered" data-hits="149" data-linenumber="9">
-          <span class="hits">149</span>
+        <li class="covered" data-hits="150" data-linenumber="9">
+          <span class="hits">150</span>
           
           <code class="ruby">      moves_for_rook</code>
         </li>
@@ -3457,8 +3457,8 @@
           <code class="ruby">    when &#39;bishop&#39;</code>
         </li>
       
-        <li class="covered" data-hits="145" data-linenumber="11">
-          <span class="hits">145</span>
+        <li class="covered" data-hits="139" data-linenumber="11">
+          <span class="hits">139</span>
           
           <code class="ruby">      moves_for_bishop</code>
         </li>
@@ -3469,8 +3469,8 @@
           <code class="ruby">    when &#39;queen&#39;</code>
         </li>
       
-        <li class="covered" data-hits="103" data-linenumber="13">
-          <span class="hits">103</span>
+        <li class="covered" data-hits="102" data-linenumber="13">
+          <span class="hits">102</span>
           
           <code class="ruby">      moves_for_queen</code>
         </li>
@@ -3493,8 +3493,8 @@
           <code class="ruby">    when &#39;knight&#39;</code>
         </li>
       
-        <li class="covered" data-hits="154" data-linenumber="17">
-          <span class="hits">154</span>
+        <li class="covered" data-hits="149" data-linenumber="17">
+          <span class="hits">149</span>
           
           <code class="ruby">      moves_for_knight</code>
         </li>
@@ -3505,8 +3505,8 @@
           <code class="ruby">    when &#39;pawn&#39;</code>
         </li>
       
-        <li class="covered" data-hits="619" data-linenumber="19">
-          <span class="hits">619</span>
+        <li class="covered" data-hits="597" data-linenumber="19">
+          <span class="hits">597</span>
           
           <code class="ruby">      moves_for_pawn</code>
         </li>

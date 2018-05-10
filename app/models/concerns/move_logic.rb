@@ -217,7 +217,7 @@ module MoveLogic
   end
 
   def pieces_with_next_move(move)
-    game.pieces.reload.reject { |piece| piece.position == move }
+    game.pieces.reject { |piece| piece.position == move }
         .map do |piece|
           if piece.position_index == position_index
             piece = Piece.new(piece.attributes)
