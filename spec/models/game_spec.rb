@@ -207,7 +207,7 @@ RSpec.describe Game, type: :model do
 
   describe 'notation logic methods' do
     describe 'create_move_from_notation' do
-      xit 'test' do
+      it 'test' do
       end
     end
 
@@ -217,12 +217,59 @@ RSpec.describe Game, type: :model do
     end
 
     describe 'find_piece_type' do
-      xit 'test' do
+      context 'when the piece is K' do
+        it 'returns king' do
+          game = Game.new
+          expect(game.find_piece_type('Kd4')).to eq 'king'
+        end
+      end
+
+      context 'when the piece is Q' do
+        it 'returns queen' do
+          game = Game.new
+          expect(game.find_piece_type('Qd4')).to eq 'queen'
+        end
+      end
+
+      context 'when the piece is B' do
+        it 'returns bishop' do
+          game = Game.new
+          expect(game.find_piece_type('Bd4')).to eq 'bishop'
+        end
+      end
+
+      context 'when the piece is R' do
+        it 'returns rook' do
+          game = Game.new
+          expect(game.find_piece_type('Rd4')).to eq 'rook'
+        end
+      end
+
+      context 'when the piece is N' do
+        it 'returns knight' do
+          game = Game.new
+          expect(game.find_piece_type('Nd4')).to eq 'knight'
+        end
+      end
+
+      context 'when the piece is an empty string' do
+        it 'returns pawn' do
+          game = Game.new
+          expect(game.find_piece_type('d4')).to eq 'pawn'
+        end
       end
     end
 
     describe 'move_from_start' do
-      xit 'test' do
+      it 'calls update_piece with the piece that matches the start notation' do
+        piece = Piece.new(position: 'b5')
+        piece2 = Piece.new(position: 'c4')
+        game = Game.new
+
+        expect_any_instance_of(Game).to receive(:update_piece)
+          .with(piece, 'd4')
+
+        game.move_from_start([piece, piece2], 'bd4')
       end
     end
 
