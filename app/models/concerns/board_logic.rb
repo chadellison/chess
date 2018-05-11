@@ -25,8 +25,9 @@ module BoardLogic
   end
 
   def update_board(piece)
-    move = create_move(piece)
-    move.setup = Setup.find_or_create_by(position_signature: create_signature(pieces))
+    game_move = create_move(piece)
+    game_move.setup = Setup.find_or_create_by(position_signature: create_signature(pieces))
+    game_move.save
   end
 
   def create_move(piece)

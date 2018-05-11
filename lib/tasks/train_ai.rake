@@ -8,7 +8,8 @@ task train_ai: :environment do
       puts 'Setup ' + game.moves.last.setup.position_signature
     end
     game.moves.each do |move|
-      move.update(rank: (move.rank + game.outcome))
+      move.setup.update(rank: (move.setup.rank + game.outcome))
     end
   end
+  puts '---------------THE END---------------'
 end
