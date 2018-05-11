@@ -7,7 +7,12 @@ module BoardLogic
     update(notation: (notation.to_s + new_notation.to_s))
   end
 
-  def update_piece(piece, new_position, upgraded_type = '')
+  def update_game(piece, new_position, upgraded_type = '')
+    update_piece(piece, new_position, upgraded_type)
+    update_board(piece)
+  end
+
+  def update_piece(piece, new_position, upgraded_type)
     handle_castle(piece, new_position) if piece.king_moved_two?(new_position)
     handle_en_passant(piece, new_position) if en_passant?(piece, new_position)
     pieces.where(position: new_position).destroy_all

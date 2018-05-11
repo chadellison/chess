@@ -2,6 +2,7 @@ module AiLogic
   extend ActiveSupport::Concern
 
   def ai_move
+    # possible_moves =
     # next_move_setups = Setup.where(position_signature: find_next_move_signatures)
     # find_best_move(next_move_setups)
   end
@@ -16,8 +17,10 @@ module AiLogic
 
   def find_next_move_signatures
     pieces.where(color: current_turn).map do |piece|
-      piece.valid_moves.map { |move| piece.pieces_with_next_move(move) }
-           .map { |game_pieces| create_signature(game_pieces) }
+      piece.valid_moves.map do |move|
+        Move.new(value: piece.position_index.to_s + move)
+        piece.pieces_with_next_move(move) end
+           # .map { |game_pieces| create_signature(game_pieces) }
     end.flatten
   end
 

@@ -65,6 +65,11 @@ RSpec.describe Game, type: :model do
     end
   end
 
+  describe 'update_game' do
+    xit 'test' do
+    end
+  end
+
   describe 'update_board' do
     it 'creates a move position_signature of the current board positions' do
       game = Game.create
@@ -99,7 +104,7 @@ RSpec.describe Game, type: :model do
       piece = game.pieces.find_by(position: 'd2')
       piece.update(position: 'd6')
 
-      expect { game.update_piece(piece, 'e7') }
+      expect { game.update_piece(piece, 'e7', '') }
         .to change { game.pieces.count }.by(-1)
 
       expect(game.pieces.reload.find_by(position: 'e7').id).to be piece.id
@@ -272,12 +277,12 @@ RSpec.describe Game, type: :model do
     end
 
     describe 'move_from_start' do
-      it 'calls update_piece with the piece that matches the start notation' do
+      it 'calls update_game with the piece that matches the start notation' do
         piece = Piece.new(position: 'b5')
         piece2 = Piece.new(position: 'c4')
         game = Game.new
 
-        expect_any_instance_of(Game).to receive(:update_piece)
+        expect_any_instance_of(Game).to receive(:update_game)
           .with(piece, 'd4')
 
         game.move_from_start([piece, piece2], 'bd4')
@@ -286,12 +291,12 @@ RSpec.describe Game, type: :model do
 
     describe 'find_piece' do
       context 'when the pieces passed in is one' do
-        it 'calls update_piece' do
+        it 'calls update_game' do
           piece = Piece.new
           pieces = [piece]
           game = Game.new
 
-          expect_any_instance_of(Game).to receive(:update_piece)
+          expect_any_instance_of(Game).to receive(:update_game)
             .with(piece, 'd4')
 
           game.find_piece(pieces, 'd4', 'pawn')

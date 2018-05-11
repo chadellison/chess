@@ -5,7 +5,7 @@ module NotationLogic
     king: 'K', queen: 'Q', bishop: 'B', knight: 'N', rook: 'R', pawn: ''
   }
 
-  def update_piece_from_notation(move_notation, turn)
+  def update_game_from_notation(move_notation, turn)
       return move_from_crossed_pawn(move_notation, turn) if move_notation.include?('=')
       return move_from_castle(move_notation, turn) if move_notation.include?('O')
 
@@ -18,7 +18,7 @@ module NotationLogic
   def find_piece(game_pieces, move_notation, piece_type)
     if game_pieces.count == 1
       piece = game_pieces.first
-      update_piece(piece, move_notation[-2..-1])
+      update_game(piece, move_notation[-2..-1])
     else
       notation_without_type = piece_type == 'pawn' ? move_notation : move_notation[1..-1]
       move_from_start(game_pieces, notation_without_type)
@@ -29,14 +29,14 @@ module NotationLogic
     piece = game_pieces.detect do |game_piece|
       game_piece.position.include?(notation_without_type[0])
     end
-    update_piece(piece, notation_without_type[-2..-1])
+    update_game(piece, notation_without_type[-2..-1])
   end
 
   def move_from_castle(move_notation, turn)
     king = pieces.find_by(piece_type: 'king', color: turn)
 
     column = move_notation == 'O-O' ? 'g' : 'c'
-    update_piece(king, (column + king.position[1]))
+    update_game(king, (column + king.position[1]))
   end
 
   def move_from_crossed_pawn(move_notation, turn)
@@ -47,7 +47,7 @@ module NotationLogic
       start_row = move_notation[1] == '8' ? '7' : '2'
       pawn = pieces.find_by(position: (move_notation[0] + start_row))
     end
-    update_piece(pawn, move_notation[-4..-3], find_piece_type(move_notation[-1]))
+    update_game(pawn, move_notation[-4..-3], find_piece_type(move_notation[-1]))
   end
 
   def find_piece_type(move_notation)

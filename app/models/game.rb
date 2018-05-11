@@ -1,8 +1,6 @@
 class Game < ApplicationRecord
   has_many :pieces, dependent: :delete_all
-  # has_many :game_setups
-  # has_many :setups, through: :game_setups
-  has_many :moves
+  has_many :moves, dependent: :delete_all
 
   after_commit :add_pieces, on: :create
 
@@ -13,8 +11,7 @@ class Game < ApplicationRecord
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
     piece = pieces.find_by(position_index: position_index)
-    update_piece(piece, new_position, upgraded_type)
-    update_board(piece)
+    update_game(piece, new_position, upgraded_type)
   end
 
   def add_pieces
