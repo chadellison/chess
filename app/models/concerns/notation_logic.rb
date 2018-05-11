@@ -5,7 +5,7 @@ module NotationLogic
     king: 'K', queen: 'Q', bishop: 'B', knight: 'N', rook: 'R', pawn: ''
   }
 
-  def create_move_from_notation(move_notation, turn)
+  def update_piece_from_notation(move_notation, turn)
       return move_from_crossed_pawn(move_notation, turn) if move_notation.include?('=')
       return move_from_castle(move_notation, turn) if move_notation.include?('O')
 

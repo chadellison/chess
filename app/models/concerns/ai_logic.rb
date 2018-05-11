@@ -2,17 +2,16 @@ module AiLogic
   extend ActiveSupport::Concern
 
   def ai_move
-    # max by / min by setup rank (based on color)
-    setups = Setup.where(position_signature: find_next_move_signatures)
+    # next_move_setups = Setup.where(position_signature: find_next_move_signatures)
+    # find_best_move(next_move_setups)
+  end
 
-    # find best game
-    # if current_turn == 'white'
-      # setups.maximum(:rank)
-      # else
-      # setups.minimum(:rank)
-      #
-      # if no best game exists
-      # move analysis
+  def find_best_move(next_move_setups)
+    if current_turn == 'white'
+      # best_setup = next_move_setups.maximum(:rank)
+    else
+      # best_setup = next_move_setups.minimum(:rank)
+    end
   end
 
   def find_next_move_signatures

@@ -14,21 +14,13 @@ RSpec.describe Game, type: :model do
     expect(game.pieces).to eq [piece]
   end
 
-  it 'has many game_setups' do
-    game_setup = GameSetup.new
+  it 'has many moves' do
+    move = Move.new
 
     game = Game.new
-    game.game_setups << game_setup
+    game.moves << move
 
-    expect(game.game_setups).to eq [game_setup]
-  end
-
-  it 'has many setups' do
-    setup = Setup.new
-    game = Game.new
-    game.setups << setup
-
-    expect(game.setups).to eq [setup]
+    expect(game.moves).to eq [move]
   end
 
   describe 'move' do
@@ -68,21 +60,35 @@ RSpec.describe Game, type: :model do
     end
   end
 
+  describe 'create_move' do
+    xit 'test' do
+    end
+  end
+
   describe 'update_board' do
     it 'creates a move position_signature of the current board positions' do
       game = Game.create
-      game.update_board
+      piece = game.pieces.first
+      game.update_board(piece)
 
       expected = '1a8.2b8.3c8.4d8.5e8.6f8.7g8.8h8.9a7.10b7.11c7.12d7.13e7.14f7.15g7.16h7.17a2.18b2.19c2.20d2.21e2.22f2.23g2.24h2.25a1.26b1.27c1.28d1.29e1.30f1.31g1.32h1'
 
-      actual = game.setups.first.position_signature
+      actual = game.moves.first.setup.position_signature
       expect(actual).to eq expected
     end
 
-    it 'creates a setup on the game if it does not already exist' do
+    it 'creates a setup if it does not already exist' do
       game = Game.create
+      piece = game.pieces.first
 
-      expect { game.update_board }.to change { game.setups.count }.by(1)
+      expect { game.update_board(piece) }.to change { Setup.count }.by(1)
+    end
+
+    it 'creates a move' do
+      game = Game.create
+      piece = game.pieces.first
+
+      expect { game.update_board(piece) }.to change { game.moves.count }.by(1)
     end
   end
 
@@ -211,7 +217,7 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'notation logic methods' do
-    describe 'create_move_from_notation' do
+    describe 'update_piece_from_notation' do
       it 'test' do
       end
     end
@@ -596,7 +602,17 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'ai_logic' do
+    describe 'ai_move' do
+      xit 'test' do
+      end
+    end
+
     describe 'current_turn' do
+      xit 'test' do
+      end
+    end
+
+    describe 'find_best_move' do
       xit 'test' do
       end
     end

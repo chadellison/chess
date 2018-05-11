@@ -4,12 +4,12 @@ task train_ai: :environment do
     puts 'Game ' + game.id.to_s
     game.notation.split('.').each_with_index do |move_notation, index|
       turn = index.even? ? 'white' : 'black'
-      game.create_move_from_notation(move_notation.sub('#', ''), turn)
+      game.update_piece_from_notation(move_notation.sub('#', ''), turn)
       game.reload.update_board
-      puts 'Setup ' + game.setups.last.position_signature
+      puts 'Setup ' + game.moves.last.setup.position_signature
     end
-    game.setups.each do |setup|
-      setup.update(rank: (setup.rank + game.outcome))
+    game.moves.each do |move|
+      move.update(rank: (move.rank + game.outcome))
     end
   end
 end
