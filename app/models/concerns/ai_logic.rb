@@ -7,9 +7,9 @@ module AiLogic
 
     # find best game
     # if current_turn == 'white'
-      # setups.maximum
+      # setups.maximum(:rank)
       # else
-      # setums.minimum
+      # setups.minimum(:rank)
       #
       # if no best game exists
       # move analysis
