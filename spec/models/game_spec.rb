@@ -25,7 +25,6 @@ RSpec.describe Game, type: :model do
 
   it 'has many setups' do
     setup = Setup.new
-
     game = Game.new
     game.setups << setup
 
@@ -54,9 +53,7 @@ RSpec.describe Game, type: :model do
       game = Game.create
       game.move(9, 'a3')
     end
-  end
 
-  describe 'update_board' do
     it 'calls update_piece' do
       game = Game.create
       piece = game.pieces.find_by(position_index: 9)
@@ -64,7 +61,9 @@ RSpec.describe Game, type: :model do
         .with(piece, 'a3', '')
       game.move(9, 'a3')
     end
+  end
 
+  describe 'update_board' do
     it 'creates a move position_signature of the current board positions' do
       game = Game.create
       game.update_board
@@ -80,17 +79,34 @@ RSpec.describe Game, type: :model do
 
       expect { game.update_board }.to change { game.setups.count }.by(1)
     end
+  end
 
-    context 'when the position is occuppied by an opponent piece' do
-      xit 'deletes that piece from the game' do
-      end
+  describe 'update_piece' do
+    it 'deletes a piece when it is on an occupied square' do
+      game = Game.create
+
+      piece = game.pieces.find_by(position: 'd2')
+      piece.update(position: 'd6')
+
+      expect { game.update_piece(piece, 'e7') }
+        .to change { game.pieces.count }.by(-1)
+
+      expect(game.pieces.reload.find_by(position: 'e7').id).to be piece.id
     end
   end
 
   describe 'handle_en_passant' do
-    context 'when the piece type is a pawn ' do
-      it 'test' do
-      end
+    it 'removes the captured piece' do
+      game = Game.create
+
+      piece = game.pieces.find_by(position: 'd2')
+      piece.update(position: 'd5')
+      game.pieces.find_by(position: 'e7').update(position: 'e5')
+
+      expect { game.handle_en_passant(piece, 'e6') }
+        .to change { game.pieces.count }.by(-1)
+
+      expect(game.pieces.find_by(position: 'e5').blank?).to be true
     end
   end
 
@@ -211,7 +227,29 @@ RSpec.describe Game, type: :model do
     end
 
     describe 'find_piece' do
-      xit 'test' do
+      context 'when the pieces passed in is one' do
+        it 'calls update_piece' do
+          piece = Piece.new
+          pieces = [piece]
+          game = Game.new
+
+          expect_any_instance_of(Game).to receive(:update_piece)
+            .with(piece, 'd4')
+
+          game.find_piece(pieces, 'd4', 'pawn')
+        end
+      end
+
+      context 'when the pieces passed in is greater than one' do
+        it 'calls move_from_start' do
+          pieces = [Piece.new, Piece.new]
+          game = Game.new
+
+          expect_any_instance_of(Game).to receive(:move_from_start)
+            .with(pieces, 'd4')
+
+          game.find_piece(pieces, 'd4', 'pawn')
+        end
       end
     end
 
