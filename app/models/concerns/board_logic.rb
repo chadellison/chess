@@ -20,12 +20,14 @@ module BoardLogic
   end
 
   def update_board
-    position_signature = pieces.order(:position_index).map do |piece|
+    setup = Setup.find_or_create_by(position_signature: create_signature(pieces))
+    setups << setup
+  end
+
+  def create_signature(game_pieces)
+    game_pieces.sort_by(&:position_index).map do |piece|
       piece.position_index.to_s + piece.position
     end.join('.')
-
-    setup = Setup.find_or_create_by(position_signature: position_signature)
-    setups << setup
   end
 
   def handle_castle(piece, new_position)

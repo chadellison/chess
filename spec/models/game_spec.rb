@@ -63,6 +63,11 @@ RSpec.describe Game, type: :model do
     end
   end
 
+  describe 'create_signature' do
+    xit 'test' do
+    end
+  end
+
   describe 'update_board' do
     it 'creates a move position_signature of the current board positions' do
       game = Game.create
@@ -586,6 +591,18 @@ RSpec.describe Game, type: :model do
           actual = game.column_is_unique?([knight1, knight2], 'e3')
           expect(actual).to be true
         end
+      end
+    end
+  end
+
+  describe 'ai_logic' do
+    describe 'current_turn' do
+      xit 'test' do
+      end
+    end
+
+    describe 'find_next_move_signatures' do
+      xit 'test' do
       end
     end
   end

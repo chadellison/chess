@@ -7,6 +7,7 @@ class Game < ApplicationRecord
 
   include NotationLogic
   include BoardLogic
+  include AiLogic
 
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
