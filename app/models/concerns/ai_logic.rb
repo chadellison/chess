@@ -6,9 +6,8 @@ module AiLogic
     signatures = possible_moves.map { |move| move.setup.position_signature }
     next_move_setups = Setup.where(position_signature: signatures)
 
-    best_move = setup_analysis(next_move_setups, possible_moves)
+    best_move = setup_analysis(possible_moves, next_move_setups)
     best_move = piece_analysis(possible_moves, next_move_setups) if best_move.blank?
-
     # move(position_index, new_position, upgraded_type = '')
     # best_move
   end
@@ -23,25 +22,28 @@ module AiLogic
     piece.valid_moves.map do |move|
       game_move = Move.new(value: piece.position_index.to_s + move, move_count: (moves.count + 1))
       game_pieces = piece.pieces_with_next_move(move)
-      game_move.setup = Setup.create(position_signature: create_signature(game_pieces))
+      game_move.setup = Setup.find_or_create_by(position_signature: create_signature(game_pieces))
       game_move
     end
   end
 
   def setup_analysis(possible_moves, game_setups)
+    best_ranked_position = best_rank_setup(game_setups)
+
     possible_moves.detect do |move|
-      move.setup.position_index == best_rank_setup(game_setups)
+      best_ranked_position.present? && move.setup.position_signature == best_ranked_position
     end
   end
 
   def best_rank_setup(game_setups)
     if current_turn == 'white'
-      best_setup = game_setups.maximum(:rank)
-      best_setup = [] if best_setup.rank < 1
+      rank = game_setups.maximum(:rank)
+      return nil if rank < 1
     else
-      best_setup = game_setups.minimum(:rank)
-      best_setup = [] if best_setup.rank > -1
+      rank = game_setups.minimum(:rank)
+      return nil if rank > -1
     end
+    game_setups.find_by(rank: rank).position_signature
   end
 
   def winning_setups
