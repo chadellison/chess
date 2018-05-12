@@ -23,6 +23,11 @@ RSpec.describe Game, type: :model do
     expect(game.moves).to eq [move]
   end
 
+  describe 'current_setup' do
+    xit 'test' do
+    end
+  end
+
   describe 'move' do
     it 'updates the moved piece\'s position and has_moved property' do
       game = Game.create
@@ -223,6 +228,11 @@ RSpec.describe Game, type: :model do
 
   describe 'notation logic methods' do
     describe 'update_piece_from_notation' do
+      it 'test' do
+      end
+    end
+
+    describe 'best_rank_setup' do
       it 'test' do
       end
     end
@@ -617,12 +627,37 @@ RSpec.describe Game, type: :model do
       end
     end
 
-    describe 'find_best_move' do
+    describe 'setup_analysis' do
+      xit 'test' do
+      end
+    end
+
+    describe 'piece_analysis' do
       xit 'test' do
       end
     end
 
     describe 'find_next_move_signatures' do
+      xit 'test' do
+      end
+    end
+
+    describe 'all_next_moves_for_piece' do
+      xit 'test' do
+      end
+    end
+
+    describe 'single_position_match' do
+      xit 'test' do
+      end
+    end
+
+    describe 'double_position_match' do
+      xit 'test' do
+      end
+    end
+
+    describe 'handle_ratio' do
       xit 'test' do
       end
     end

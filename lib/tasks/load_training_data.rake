@@ -4,6 +4,7 @@ task load_training_data: :environment do
     puts 'file: ' + count.to_s
     parse_file(count + 1)
   end
+  puts '---------------GAMES LOADED---------------'
 end
 
 def parse_file(file_number)

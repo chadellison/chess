@@ -14,6 +14,14 @@ class Game < ApplicationRecord
     update_game(piece, new_position, upgraded_type)
   end
 
+  def current_setup
+    if moves.present?
+      moves.maximum(:move_count).setup.position_signature
+    else
+      create_signature(pieces)
+    end
+  end
+
   def add_pieces
     json_pieces = JSON.parse(File.read(Rails.root + 'json/pieces.json'))
 

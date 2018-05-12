@@ -2,36 +2,89 @@ module AiLogic
   extend ActiveSupport::Concern
 
   def ai_move
-    # possible_moves = find_next_moves
-    # signatures = possible_moves.map { |move| move.setup.position_signature }
-    # next_move_setups = Setup.where(position_signature: signatures)
-    #
-    # best_setup = find_best_move(possible_moves)
-    # best_move = possible_moves.detect { |move| move.setup.position_index == best_setup }
+    possible_moves = find_next_moves
+    signatures = possible_moves.map { |move| move.setup.position_signature }
+    next_move_setups = Setup.where(position_signature: signatures)
+
+    best_move = setup_analysis(next_move_setups, possible_moves)
+    best_move = piece_analysis(possible_moves, next_move_setups) if best_move.blank?
 
     # move(position_index, new_position, upgraded_type = '')
-  end
-
-  def find_best_move(next_move_setups)
-    if current_turn == 'white'
-      # best_setup = next_move_setups.maximum(:rank)
-    else
-      # best_setup = next_move_setups.minimum(:rank)
-    end
+    # best_move
   end
 
   def find_next_moves
     pieces.where(color: current_turn).map do |piece|
-      piece.valid_moves.map do |move|
-        game_move = Move.new(value: piece.position_index.to_s + move, move_count: (moves.count + 1))
-        game_pieces = piece.pieces_with_next_move(move)
-        game_move.setup = Setup.create(position_signature: create_signature(game_pieces))
-        game_move
-      end
+      all_next_moves_for_piece(piece)
     end.flatten
   end
 
+  def all_next_moves_for_piece(piece)
+    piece.valid_moves.map do |move|
+      game_move = Move.new(value: piece.position_index.to_s + move, move_count: (moves.count + 1))
+      game_pieces = piece.pieces_with_next_move(move)
+      game_move.setup = Setup.create(position_signature: create_signature(game_pieces))
+      game_move
+    end
+  end
+
+  def setup_analysis(possible_moves, game_setups)
+    possible_moves.detect do |move|
+      move.setup.position_index == best_rank_setup(game_setups)
+    end
+  end
+
+  def best_rank_setup(game_setups)
+    if current_turn == 'white'
+      best_setup = game_setups.maximum(:rank)
+      best_setup = [] if best_setup.rank < 1
+    else
+      best_setup = game_setups.minimum(:rank)
+      best_setup = [] if best_setup.rank > -1
+    end
+  end
+
+  def winning_setups
+    if current_turn == 'white'
+      Setup.where('rank > ?', 0)
+    else
+      Setup.where('rank < ?', 0)
+    end
+  end
+
+  def piece_analysis(possible_moves, next_move_setups)
+    weighted_moves = {}
+
+    possible_moves.each do |possible_move|
+      weight = 0
+      current_setup.split('.').each do |position_index|
+        weight += handle_ratio(possible_move.value, position_index)
+      end
+      weighted_moves[weight] = possible_move
+    end
+    weighted_moves.max_by { |weight, move| weight }.last
+  end
+
+  def handle_ratio(index_one, index_two)
+    matches = double_position_match(index_one, index_two).count
+    total = single_position_match(index_one).count
+
+    if matches == 0 || total == 0
+      0
+    else
+      matches.to_f / total.to_f
+    end
+  end
+
+  def single_position_match(position_index)
+    winning_setups.where('position_signature LIKE ?', "%#{position_index}%")
+  end
+
+  def double_position_match(index_one, index_two)
+    winning_setups.where('position_signature LIKE ? AND position_signature LIKE ?', "%#{index_one}%", "%#{index_two}%")
+  end
+
   def current_turn
-    notation.to_s.split('.').count.even? ? 'white' : 'black'
+    moves.count.even? ? 'white' : 'black'
   end
 end
