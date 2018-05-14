@@ -1,0 +1,14 @@
+development: &development
+  :url: redis://localhost:6379
+  :host: localhost
+  :port: 6379
+  :timeout: 1
+  :inline: true
+test: *development
+production: &production
+  :url: ENV[REDISTOGO_URL]
+  :host: albacore.redistogo.com
+  :port: 11532
+  :password: ENV[REDIS_PASSWORD]
+  :inline: true
+  :timeout: 1
