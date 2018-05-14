@@ -68,4 +68,16 @@ module BoardLogic
       pieces.find_by(position: position).blank?
     ].all?
   end
+
+  def checkmate?(game_pieces, turn)
+    no_valid_moves?(game_pieces, turn) &&
+      !pieces.find_by(color: turn)
+             .king_is_safe?(turn, game_pieces)
+  end
+
+  def no_valid_moves?(game_pieces, turn)
+    game_pieces.select { |piece| piece.color == turn }.all? do |piece|
+      piece.valid_moves.blank?
+    end
+  end
 end

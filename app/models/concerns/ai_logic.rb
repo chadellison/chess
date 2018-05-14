@@ -3,13 +3,16 @@ module AiLogic
 
   def ai_move
     possible_moves = find_next_moves
+
+    best_move = find_checkmate(possible_moves)
+    return best_move if best_move.present?
+binding.pry
     signatures = possible_moves.map { |move| move.setup.position_signature }
     next_move_setups = Setup.where(position_signature: signatures)
 
     best_move = setup_analysis(possible_moves, next_move_setups)
     best_move = piece_analysis(possible_moves, next_move_setups) if best_move.blank?
     # move(position_index, new_position, upgraded_type = '')
-    # best_move
   end
 
   def find_next_moves
@@ -88,5 +91,22 @@ module AiLogic
 
   def current_turn
     moves.count.even? ? 'white' : 'black'
+  end
+
+  def opponent_turn
+    moves.count.even? ? 'black' : 'white'
+  end
+
+  def find_checkmate(possible_moves)
+    possible_moves.detect do |next_move|
+      piece = pieces.find_by(position_index: position_index_from_move(next_move.value))
+      game_pieces = piece.pieces_with_next_move(next_move[-2..-1])
+
+      checkmate?(game_pieces, opponent_turn)
+    end
+  end
+
+  def position_index_from_move(move_value)
+    move_value.length == 3 ? move_value[0].to_i : move_value[0..1].to_i
   end
 end
