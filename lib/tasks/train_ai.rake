@@ -1,6 +1,6 @@
 desc 'Train AI'
 task train_ai: :environment do
-  Game.where.not(outcome: 0).find_each do |game|
+  game_scope.find_each do |game|
     puts 'Game ' + game.id.to_s
     game.notation.split('.').each_with_index do |move_notation, index|
       turn = index.even? ? 'white' : 'black'
@@ -12,4 +12,15 @@ task train_ai: :environment do
     end
   end
   puts '---------------THE END---------------'
+end
+
+def game_scope
+  game_count = ENV['GAME_COUNT']
+  offset = ENV['OFFSET']
+
+  if game_count.present? && offset.present?
+    Game.where.not(outcome: 0).limit(game_count.to_i).offset(offset.to_i)
+  else
+    Game.where.not(outcome: 0)
+  end
 end
