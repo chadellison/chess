@@ -23,7 +23,7 @@ def make_substitutions(moves)
 end
 
 def create_training_game(moves)
-  if ['0-1', '1-0'].include?(moves[-3..-1])
+  if non_draw?(moves) && unique_game?(moves)
     result = moves[-3..-1]
     condensed_moves = moves[0..-4]
 
@@ -39,4 +39,12 @@ end
 
 def find_outcome(result)
   result == '0-1' ? -1 : 1
+end
+
+def non_draw?(moves)
+  ['0-1', '1-0'].include?(moves[-3..-1])
+end
+
+def unique_game?(moves)
+  Game.find_by(notation: moves[0..-4]).blank?
 end
