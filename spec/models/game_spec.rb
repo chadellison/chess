@@ -66,5 +66,58 @@ RSpec.describe Game, type: :model do
         expect { Game.create }.to change { Piece.count }.by(32)
       end
     end
-  end    
+  end
+
+  describe 'scopes' do
+    describe '#similar_games' do
+    # let(:notation) { ' 9:a6 18:b4' }
+    #
+    # before do
+    #   3.times do |n|
+    #     game = Game.new
+    #     game.save(validate: false)
+    #     game.update_attribute(:robot, true)
+    #     game.update_attribute(:move_signature, move_signature) if n.even?
+    #   end
+    # end
+    #
+    # context 'when the move signature matches previous games' do
+    #   it 'returns games that match that game\'s move signature' do
+    #     expect(Game.similar_games(move_signature).count).to eq 2
+    #     expect(Game.similar_games(move_signature).map(&:move_signature))
+    #       .to eq [move_signature, move_signature]
+    #   end
+    # end
+    #
+    # context 'when the move signature matches previous games\' beginnings' do
+    #   it 'returns games that match that game\'s move signature' do
+    #     expect(Game.similar_games(' 9:a6').count).to eq 2
+    #     expect(Game.similar_games(move_signature).map(&:move_signature))
+    #       .to eq [move_signature, move_signature]
+    #   end
+    # end
+
+  #   describe '#winning_games' do
+  #   let!(:win) {
+  #     Game.new(
+  #       outcome: 1,
+  #       robot: true
+  #     )
+  #   }
+  #
+  #   let!(:draw) {
+  #     Game.create(
+  #       challengedEmail: Faker::Internet.email,
+  #       challengedName: Faker::Name.name,
+  #       challengerColor: 'white',
+  #       outcome: 0
+  #     )
+  #   }
+  #
+  #   it 'returns winning games of the given color' do
+  #     win.save(validate: false)
+  #     expect(Game.winning_games(1, 'white').last).to eq win
+  #     expect(Game.winning_games(1, 'white').count).to eq 1
+    end
+  end
 end

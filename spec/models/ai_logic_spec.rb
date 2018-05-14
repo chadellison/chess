@@ -70,4 +70,29 @@ RSpec.describe AiLogic, type: :module do
     xit 'test' do
     end
   end
+
+  describe 'crossed_pawn?' do
+    xit 'test' do
+    end
+  end
+
+  describe 'promote_pawn' do
+    xit 'test' do
+    end
+  end
+
+  describe 'wins_from_notation' do
+    xit 'test' do
+    end
+  end
+
+  describe 'random_winning_game' do
+    xit 'test' do
+    end
+  end
+
+  describe 'best_move_from_notation' do
+    xit 'test' do
+    end
+  end
 end

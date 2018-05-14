@@ -2,17 +2,20 @@ module AiLogic
   extend ActiveSupport::Concern
 
   def ai_move
-    possible_moves = find_next_moves
+    game_notation = wins_from_notation
+    return best_move_from_notation(game_notation) if game_notation.present?
 
+    possible_moves = find_next_moves
     best_move = find_checkmate(possible_moves)
     return best_move if best_move.present?
-binding.pry
+
     signatures = possible_moves.map { |move| move.setup.position_signature }
     next_move_setups = Setup.where(position_signature: signatures)
 
     best_move = setup_analysis(possible_moves, next_move_setups)
     best_move = piece_analysis(possible_moves, next_move_setups) if best_move.blank?
-    # move(position_index, new_position, upgraded_type = '')
+
+    move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
   end
 
   def find_next_moves
@@ -108,5 +111,32 @@ binding.pry
 
   def position_index_from_move(move_value)
     move_value.length == 3 ? move_value[0].to_i : move_value[0..1].to_i
+  end
+
+  def crossed_pawn?(move_value)
+    (9..24).include?(position_index_from_move(move_value)) &&
+      (move_value[-1] == '1' || move_value[-1] == '8')
+  end
+
+  def promote_pawn(move_value)
+    crossed_pawn?(move_value) ? 'queen' : ''
+  end
+
+  def wins_from_notation
+    winning_game = random_winning_game
+    winning_game.notation.split('.')[moves.count] if winning_game.present?
+  end
+
+  def random_winning_game
+    win_value = current_turn == 'white' ? 1 : -1
+
+    similar_winning_games = Game.similar_games(notation).winning_games(win_value)
+    offset_amount = rand(similar_winning_games.count)
+    similar_winning_games.offset(offset_amount).first
+  end
+
+  def best_move_from_notation(game_notation)
+    update(notation: (notation.to_s + game_notation + '.'))
+    update_game_from_notation(game_notation, current_turn)
   end
 end

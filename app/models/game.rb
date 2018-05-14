@@ -8,6 +8,12 @@ class Game < ApplicationRecord
   include BoardLogic
   include AiLogic
 
+  scope :winning_games, ->(win) { where(outcome: win) }
+
+  scope :similar_games, (lambda do |move_notation|
+    where('notation LIKE ?', "#{move_notation}%")
+  end)
+
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
     piece = pieces.find_by(position_index: position_index)
