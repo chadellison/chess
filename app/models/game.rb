@@ -16,7 +16,7 @@ class Game < ApplicationRecord
 
   def current_setup
     if moves.present?
-      moves.maximum(:move_count).setup.position_signature
+      moves.order(:move_count).last.setup.position_signature
     else
       create_signature(pieces)
     end
