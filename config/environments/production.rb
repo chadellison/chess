@@ -39,7 +39,7 @@ Rails.application.configure do
 
   config.action_cable.allowed_request_origins = [ 'https://chess-machine.herokuapp.com/', /http:\/\/chess-machine.herokuapp.com.*/ ]
   config.web_socket_server_url = "wss://chess-engine-server.herokuapp.com/cable"
-  Rails.application.config.action_cable.allowed_request_origins = ['https://chess-machine.herokuapp.com/']
+  Rails.application.config.action_cable.allowed_request_origins = ['https://chess-machine.herokuapp.com']
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
