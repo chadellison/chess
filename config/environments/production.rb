@@ -37,9 +37,9 @@ Rails.application.configure do
   # config.action_cable.url = 'wss://example.com/cable'
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
-  config.action_cable.allowed_request_origins = [ 'https://chess-engine-server.herokuapp.com/', /http:\/\/chess-engine-server.herokuapp.com.*/ ]
+  # config.action_cable.allowed_request_origins = [ 'https://chess-machine.herokuapp.com/', /http:\/\/chess-machine.herokuapp.com.*/ ]
   config.web_socket_server_url = "wss://chess-engine-server.herokuapp.com/cable"
-  Rails.application.config.action_cable.allowed_request_origins = ['https://chess-engine-server.herokuapp.com/']
+  config.action_cable.allowed_request_origins = ['https://chess-machine.herokuapp.com/']
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
