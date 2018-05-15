@@ -37,7 +37,62 @@ RSpec.describe AiLogic, type: :module do
   end
 
   describe 'handle_ratio' do
-    xit 'test' do
+    it 'calls double_position_match and single_position_match' do
+      expect_any_instance_of(Game).to receive(:double_position_match)\
+        .with('1a4', '2b4')
+        .and_return([])
+      expect_any_instance_of(Game).to receive(:single_position_match)
+        .with('1a4')
+        .and_return([])
+
+      game = Game.new
+
+      game.handle_ratio('1a4', '2b4')
+    end
+
+    context 'when the match amount is 0' do
+      it 'returns 0' do
+        allow_any_instance_of(Game).to receive(:double_position_match)\
+        .with('1a4', '2b4')
+        .and_return([])
+        allow_any_instance_of(Game).to receive(:single_position_match)
+        .with('1a4')
+        .and_return([Setup.new])
+
+        game = Game.new
+
+        expect(game.handle_ratio('1a4', '2b4')).to eq 0
+      end
+    end
+
+    context 'when the total is 0' do
+      it 'returns 0' do
+        allow_any_instance_of(Game).to receive(:double_position_match)\
+          .with('1a4', '2b4')
+          .and_return([Setup.new])
+        allow_any_instance_of(Game).to receive(:single_position_match)
+          .with('1a4')
+          .and_return([])
+
+        game = Game.new
+
+        expect(game.handle_ratio('1a4', '2b4')).to eq 0
+      end
+    end
+
+    context 'when neither the match nor the total is 0' do
+      it 'returns the ratio' do
+        allow_any_instance_of(Game).to receive(:double_position_match)\
+          .with('1a4', '2b4')
+          .and_return([Setup.new])
+        allow_any_instance_of(Game).to receive(:single_position_match)
+          .with('1a4')
+          .and_return([Setup.new, Setup.new])
+
+        game = Game.new
+
+        expect(game.handle_ratio('1a4', '2b4')).to eq 0.5
+      end
     end
   end
 
