@@ -21,11 +21,7 @@ class Game < ApplicationRecord
   end
 
   def current_setup
-    if moves.present?
-      moves.order(:move_count).last.setup.position_signature
-    else
-      create_signature(pieces)
-    end
+    create_signature(pieces)
   end
 
   def add_pieces

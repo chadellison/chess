@@ -181,6 +181,7 @@ RSpec.describe BoardLogic, type: :module do
       end
 
       it 'returns true' do
+        game.reload
         expect(game.checkmate?(game.pieces, 'black')).to be true
       end
     end
