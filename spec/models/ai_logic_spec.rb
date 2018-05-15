@@ -56,7 +56,7 @@ RSpec.describe AiLogic, type: :module do
     end
   end
 
-  describe 'opponent_turn' do
+  describe 'opponent_color' do
     xit 'test' do
     end
   end
@@ -98,6 +98,48 @@ RSpec.describe AiLogic, type: :module do
 
   describe 'start_index' do
     xit 'test' do
+    end
+  end
+
+  describe 'material_analysis' do
+    context 'when a pawn is captured' do
+      it 'returns the material difference between the current state and the next move' do
+        game = Game.create
+
+        game.pieces.find_by(position_index: 20).update(position: 'd4')
+        game.pieces.find_by(position_index: 11).update(position: 'c5')
+
+        expect(game.material_analysis('20c5')).to eq 1
+        expect(game.material_analysis('20d5')).to eq 0
+      end
+    end
+
+    context 'when a queen is captured' do
+      it 'returns the material difference between the current state and the next move' do
+        game = Game.create
+
+        game.pieces.find_by(position_index: 20).destroy
+        game.move(28, 'd4')
+        game.pieces.find_by(position_index: 11).update(position: 'c5')
+
+        expect(game.material_analysis('11d4')).to eq 9
+      end
+    end
+  end
+
+  describe 'find_material_value' do
+    it 'returns the sum of a color\'s material value' do
+      game = Game.new
+
+      pieces = [
+        Piece.new(piece_type: 'queen', color: 'white'),
+        Piece.new(piece_type: 'pawn', color: 'white'),
+        Piece.new(piece_type: 'rook', color: 'black'),
+        Piece.new(piece_type: 'bishop', color: 'black')
+      ]
+
+      expect(game.find_material_value(pieces, 'white')).to eq 10
+      expect(game.find_material_value(pieces, 'black')).to eq 8
     end
   end
 end

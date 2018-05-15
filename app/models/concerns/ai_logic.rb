@@ -11,6 +11,10 @@ module AiLogic
     '32' => 'h1'
   }
 
+  MATERIAL_VALUE = {
+    pawn: 1, knight: 3, bishop: 3, rook: 5, queen: 9, king: 0
+  }
+
   def ai_move
     game_notation = wins_from_notation
     return best_move_from_notation(game_notation) if game_notation.present?
@@ -74,12 +78,12 @@ module AiLogic
     weighted_moves = {}
 
     possible_moves.each do |possible_move|
-      weight = 0
+      weight = material_analysis(possible_move.value)
       current_setup.split('.').each do |move_value|
-        if possible_move.value[-2..-1] != start_position(possible_move.value)
-          weight += handle_ratio(possible_move.value, move_value)
-        end
+        weight -= 1 if possible_move.value[-2..-1] == start_position(possible_move.value)
+        weight += handle_ratio(possible_move.value, move_value)
       end
+
       weighted_moves[weight] = possible_move
     end
     weighted_moves.max_by { |weight, move| weight }.last
@@ -108,7 +112,7 @@ module AiLogic
     moves.count.even? ? 'white' : 'black'
   end
 
-  def opponent_turn
+  def opponent_color
     moves.count.even? ? 'black' : 'white'
   end
 
@@ -117,7 +121,7 @@ module AiLogic
       piece = pieces.find_by(position_index: position_index_from_move(next_move.value))
       game_pieces = piece.pieces_with_next_move(next_move[-2..-1])
 
-      checkmate?(game_pieces, opponent_turn)
+      checkmate?(game_pieces, opponent_color)
     end
   end
 
@@ -156,5 +160,27 @@ module AiLogic
 
   def win_value
     current_turn == 'white' ? 1 : -1
+  end
+
+  def material_analysis(possible_move_value)
+    white_value = find_material_value(pieces, 'white')
+    black_value = find_material_value(pieces, 'black')
+
+    material_value = current_turn == 'white' ? white_value - black_value : black_value - white_value
+
+    piece = pieces.find_by(position_index: position_index_from_move(possible_move_value))
+    game_pieces = piece.pieces_with_next_move(possible_move_value[-2..-1])
+
+    new_white_value = find_material_value(game_pieces, 'white')
+    new_black_value = find_material_value(game_pieces, 'black')
+
+    new_material_value = current_turn == 'white' ? new_white_value - new_black_value : new_black_value - new_white_value
+    new_material_value - material_value
+  end
+
+  def find_material_value(game_pieces, color)
+    game_pieces.select { |piece| piece.color == color }.reduce(0) do |sum, piece|
+      sum + MATERIAL_VALUE[piece.piece_type.to_sym]
+    end
   end
 end
