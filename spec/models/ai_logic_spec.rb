@@ -7,7 +7,18 @@ RSpec.describe AiLogic, type: :module do
   end
 
   describe 'find_next_moves' do
-    xit 'test' do
+    it 'returns all the next moves for a color' do
+      game = Game.create
+
+      values = [
+        "31f3", "31h3", "26a3", "26c3", "24h3", "24h4", "23g3", "23g4", "22f3",
+        "22f4", "21e3", "21e4", "20d3", "20d4", "19c3", "19c4", "18b3", "18b4",
+        "17a3", "17a4"
+      ]
+
+      actual = game.find_next_moves.pluck(:value).all? { |value| values.include?(value) }
+
+      expect(actual).to be true
     end
   end
 

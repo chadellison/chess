@@ -7,7 +7,28 @@ RSpec.describe NotationLogic, type: :module do
   end
 
   describe 'move_from_castle' do
-    xit 'test' do
+    context 'when it is black\'s turn' do
+      it 'calls update_game with the black king' do
+        game = Game.create
+        king = game.pieces.find_by(color: 'black', piece_type: 'king')
+
+        expect_any_instance_of(Game).to receive(:update_game)
+          .with(king, 'g8')
+
+        game.move_from_castle('O-O', 'black')
+      end
+    end
+
+    context 'when it is white\'s turn' do
+      it 'calls update_game with the white king' do
+        game = Game.create
+        king = game.pieces.find_by(color: 'white', piece_type: 'king')
+
+        expect_any_instance_of(Game).to receive(:update_game)
+          .with(king, 'c1')
+
+        game.move_from_castle('O-O-O', 'white')
+      end
     end
   end
 

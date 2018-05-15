@@ -15,7 +15,64 @@ RSpec.describe Piece, type: :model do
   end
 
   describe 'moves_for_piece' do
-    xit 'test' do
+    context 'when the piece_type is a pawn' do
+      it 'calls moves_for_pawn' do
+        piece = Piece.new(piece_type: 'pawn')
+
+        expect_any_instance_of(Piece).to receive(:moves_for_pawn)
+
+        piece.moves_for_piece
+      end
+    end
+
+    context 'when the piece_type is a knight' do
+      it 'calls moves_for_knight' do
+        piece = Piece.new(piece_type: 'knight')
+
+        expect_any_instance_of(Piece).to receive(:moves_for_knight)
+
+        piece.moves_for_piece
+      end
+    end
+
+    context 'when the piece_type is a bishop' do
+      it 'calls moves_for_bishop' do
+        piece = Piece.new(piece_type: 'bishop')
+
+        expect_any_instance_of(Piece).to receive(:moves_for_bishop)
+
+        piece.moves_for_piece
+      end
+    end
+
+    context 'when the piece_type is a rook' do
+      it 'calls moves_for_rook' do
+        piece = Piece.new(piece_type: 'rook')
+
+        expect_any_instance_of(Piece).to receive(:moves_for_rook)
+
+        piece.moves_for_piece
+      end
+    end
+
+    context 'when the piece_type is a queen' do
+      it 'calls moves_for_queen' do
+        piece = Piece.new(piece_type: 'queen')
+
+        expect_any_instance_of(Piece).to receive(:moves_for_queen)
+
+        piece.moves_for_piece
+      end
+    end
+
+    context 'when the piece_type is a king' do
+      it 'calls moves_for_king' do
+        piece = Piece.new(piece_type: 'king')
+
+        expect_any_instance_of(Piece).to receive(:moves_for_king)
+
+        piece.moves_for_piece
+      end
     end
   end
 

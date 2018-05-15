@@ -75,7 +75,15 @@ RSpec.describe BoardLogic, type: :module do
   end
 
   describe 'create_signature' do
-    xit 'test' do
+    it 'creates a position signature from the pieces' do
+      game = Game.new
+
+      pieces = [
+        Piece.new(position_index: 1, position: 'd2'),
+        Piece.new(position_index: 10, position: 'b3')
+      ]
+
+      expect(game.create_signature(pieces)).to eq '1d2.10b3'
     end
   end
 
