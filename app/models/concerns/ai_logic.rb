@@ -81,7 +81,7 @@ module AiLogic
       weight = material_analysis(possible_move.value)
       weight -= moves.pluck(:value).select { |move| move == possible_move.value }.count
 
-      current_setup.split('.').each do |move_value|
+      create_signature(pieces).split('.').each do |move_value|
         if possible_move.value[-2..-1] != start_position(possible_move.value)
           weight += handle_ratio(possible_move.value, move_value)
         end

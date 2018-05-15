@@ -20,10 +20,6 @@ class Game < ApplicationRecord
     update_game(piece, new_position, upgraded_type)
   end
 
-  def current_setup
-    create_signature(pieces)
-  end
-
   def add_pieces
     json_pieces = JSON.parse(File.read(Rails.root + 'json/pieces.json'))
 
