@@ -95,4 +95,9 @@ RSpec.describe AiLogic, type: :module do
     xit 'test' do
     end
   end
+
+  describe 'start_index' do
+    xit 'test' do
+    end
+  end
 end
