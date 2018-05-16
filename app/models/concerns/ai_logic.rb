@@ -104,12 +104,10 @@ module AiLogic
   end
 
   def single_position_match(position_index)
-    # maybe lookup on moves
     winning_setups.where('position_signature LIKE ?', "%#{position_index}%")
   end
 
   def double_position_match(index_one, index_two)
-    # maybe lookup on moves
     winning_setups.where('position_signature LIKE ? AND position_signature LIKE ?', "%#{index_one}%", "%#{index_two}%")
   end
 
