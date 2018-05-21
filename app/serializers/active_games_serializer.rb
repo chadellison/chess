@@ -6,6 +6,7 @@ class ActiveGamesSerializer
           id: game.id,
           type: 'game',
           attributes: {
+            status: game.status,
             pieces: game.pieces.map { |piece| PieceSerializer.serialize(piece) }
           }
         }
