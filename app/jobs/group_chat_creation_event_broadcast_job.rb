@@ -1,11 +1,11 @@
-class ChatMessageCreationEventBroadcastJob < ApplicationJob
+class GroupChatCreationEventBroadcastJob < ApplicationJob
   queue_as :default
 
   def perform(chat_message)
     ActionCable
       .server
       .broadcast(
-        "chat_#{chat_message.game_id}",
+        'group_chat',
         ChatMessageSerializer.serialize(chat_message)
       )
   end

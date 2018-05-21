@@ -1,6 +1,7 @@
 class Game < ApplicationRecord
-  has_many :pieces, dependent: :delete_all
-  has_many :moves, dependent: :delete_all
+  has_many :pieces, dependent: :destroy
+  has_many :moves, dependent: :destroy
+  has_many :chat_messages, dependent: :destroy
 
   after_commit :add_pieces, on: :create
 
