@@ -9,6 +9,7 @@ class Game < ApplicationRecord
   include AiLogic
 
   scope :winning_games, ->(win) { where(outcome: win) }
+  scope :active_games, -> { where(active: true) }
 
   scope :similar_games, (lambda do |move_notation|
     where('notation LIKE ?', "#{move_notation}%")
