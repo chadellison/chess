@@ -4,8 +4,7 @@ module Api
       before_action :authenticate_with_token
 
       def index
-        games = Game.where(player_one: @user.id)
-                    .or(Game.where(player_two: @user.id))
+        games = Game.user_games(@user.id) 
         render json: ActiveGamesSerializer.serialize(games)
       end
 

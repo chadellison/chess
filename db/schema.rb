@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(version: 2018_05_24_024041) do
     t.datetime "updated_at", null: false
     t.integer "outcome", default: 0
     t.string "status"
-    t.integer "player_one"
-    t.integer "player_two"
+    t.integer "white_player"
+    t.integer "black_player"
     t.index ["notation"], name: "index_games_on_notation"
   end
 

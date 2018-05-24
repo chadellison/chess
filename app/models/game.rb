@@ -11,6 +11,7 @@ class Game < ApplicationRecord
 
   scope :winning_games, ->(win) { where(outcome: win) }
   scope :active_games, -> { where(status: ['active', 'awaiting player']) }
+  scope :user_games, ->(user_id) { where(white_player: user_id).or(where(black_player: user_id))}
 
   scope :similar_games, (lambda do |move_notation|
     where('notation LIKE ?', "#{move_notation}%")
