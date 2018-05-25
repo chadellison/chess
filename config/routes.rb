@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     namespace :v1, format: :json do
       resources :authentication, only: [:create]
       resources :users, only: [:create]
-      resources :games, only: [:index]
+      resources :games, only: [:index, :create]
     end
   end
 end

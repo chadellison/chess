@@ -17,6 +17,17 @@ class Game < ApplicationRecord
     where('notation LIKE ?', "#{move_notation}%")
   end)
 
+  def self.create_game(user, game_params)
+    game = Game.new
+    if game_params[:game_type].include?('human')
+      game.human = true
+      game_params[:color] == 'white' ? game.white_player = user.id : game.black_player = user.id
+    end
+
+    game.save
+    game
+  end
+
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
     piece = pieces.find_by(position_index: position_index)

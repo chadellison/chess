@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_24_024041) do
+ActiveRecord::Schema.define(version: 2018_05_25_012620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2018_05_24_024041) do
     t.string "status"
     t.integer "white_player"
     t.integer "black_player"
+    t.boolean "human", default: false
     t.index ["notation"], name: "index_games_on_notation"
   end
 
