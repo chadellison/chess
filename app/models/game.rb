@@ -20,6 +20,7 @@ class Game < ApplicationRecord
   def self.create_user_game(user, game_params)
     game = Game.new(game_type: game_params[:game_type])
     game_params[:color] == 'white' ? game.white_player = user.id : game.black_player = user.id
+    game.status = 'active' if game_params[:game_type].include?('machine')
     game.save
     game
   end
