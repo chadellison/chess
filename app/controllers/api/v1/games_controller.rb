@@ -5,7 +5,8 @@ module Api
 
       def index
         games = Game.user_games(@user.id)
-        render json: { data: games.map { |game| GameSerializer.serialize(game) } }
+        render json: { data: games.order(created_at: :desc)
+                                  .map { |game| GameSerializer.serialize(game) } }
       end
 
       def create

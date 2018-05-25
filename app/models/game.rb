@@ -18,7 +18,7 @@ class Game < ApplicationRecord
   end)
 
   def self.create_user_game(user, game_params)
-    game = Game.new(human: true)
+    game = Game.new(game_type: game_params[:game_type])
     game_params[:color] == 'white' ? game.white_player = user.id : game.black_player = user.id
     game.save
     game

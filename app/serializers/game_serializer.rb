@@ -10,7 +10,7 @@ class GameSerializer
           outcome: game.outcome,
           whitePlayer: game.white_player,
           blackPlayer: game.black_player,
-          human: game.human
+          gameType: game.game_type
         },
         pieces: game.pieces.map { |piece| PieceSerializer.serialize(piece) }
       }

@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2018_05_25_012620) do
     t.string "status"
     t.integer "white_player"
     t.integer "black_player"
-    t.boolean "human", default: false
+    t.string "game_type", default: "machine vs machine"
     t.index ["notation"], name: "index_games_on_notation"
   end
 
