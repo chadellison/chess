@@ -25,14 +25,11 @@ class Game < ApplicationRecord
     game
   end
 
-  # def create_ai_game
-  #
-  # end
-
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
     piece = pieces.find_by(position_index: position_index)
     update_game(piece, new_position, upgraded_type)
+    GameEventBroadcastJob.perform_later(self)
   end
 
   def add_pieces

@@ -8,7 +8,6 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def create(opts)
-    # needs to take a game_id and create that on this chat
-    ChatMessage.create(content: opts.fetch('content'))
+    ChatMessage.create(content: opts.fetch('content'), game_id: opts.fetch('game_id'))
   end
 end
