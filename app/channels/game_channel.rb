@@ -4,7 +4,8 @@ class GameChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
+    game = Game.find(params['game_id'])
+    game.destroy if game.status == 'awaiting player'
   end
 
   def update(opts)
