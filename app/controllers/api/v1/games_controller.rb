@@ -14,6 +14,18 @@ module Api
         render json: { data: GameSerializer.serialize(game) }
       end
 
+      def join_game
+        games = Game.find_open_games(@user.id)
+
+        if games.present?
+          game = games.first
+          game.join_user_to_game(@user.id)
+          render json: { data: GameSerializer.serialize(game) }
+        else
+          render json: { data: {} }
+        end
+      end
+
       private
 
       def authenticate_with_token

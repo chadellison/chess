@@ -10,17 +10,19 @@ class Game < ApplicationRecord
   include AiLogic
 
   scope :winning_games, ->(win) { where(outcome: win) }
-  scope :active_games, -> { where(status: ['active', 'awaiting player']) }
   scope :user_games, ->(user_id) { where(white_player: user_id).or(where(black_player: user_id))}
+  scope :similar_games, ->(move_notation) { where('notation LIKE ?', "#{move_notation}%") }
 
-  scope :similar_games, (lambda do |move_notation|
-    where('notation LIKE ?', "#{move_notation}%")
+  scope :find_open_games, (lambda do |user_id|
+    where.not(white_player: user_id)
+      .or(where.not(black_player: user_id))
+      .where(status: 'awaiting player')
   end)
 
   def self.create_user_game(user, game_params)
     game = Game.new(game_type: game_params[:game_type])
     game_params[:color] == 'white' ? game.white_player = user.id : game.black_player = user.id
-    game.status = 'active' if game_params[:game_type].include?('machine')
+    game_params[:game_type].include?('machine') ? game.status = 'active' : game.status = 'awaiting player'
     game.save
     game
   end
@@ -38,5 +40,14 @@ class Game < ApplicationRecord
     json_pieces.each do |json_piece|
       pieces.create(json_piece)
     end
+  end
+
+  def join_user_to_game(user_id)
+    if white_player.blank?
+      update(white_player: user_id, status: 'active')
+    else
+      update(black_player: user_id, status: 'active')
+    end
+    GameEventBroadcastJob.perform_later(self)
   end
 end

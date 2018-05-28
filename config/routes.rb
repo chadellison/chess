@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :authentication, only: [:create]
       resources :users, only: [:create]
       resources :games, only: [:index, :create]
+      get '/find_game', to: 'games#join_game'
     end
   end
 end
