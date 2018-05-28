@@ -8,13 +8,13 @@ class PlayerSerializer
           name: "#{player.first_name.capitalize} #{player.last_name.capitalize}",
           hashedEmail: player.hashed_email
         }
-      elsif game_type == 'human vs human'
-        {}
-      else
+      elsif game_type.include?('machine')
         {
           name: Faker::Name.name,
           hashedEmail: Faker::Name.name
         }
+      else
+        {}
       end
     end
   end
