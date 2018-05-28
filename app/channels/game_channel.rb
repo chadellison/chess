@@ -5,7 +5,7 @@ class GameChannel < ApplicationCable::Channel
 
   def unsubscribed
     game = Game.find(params['game_id'])
-    game.destroy if game.status == 'awaiting player'
+    game.destroy if game.status == 'awaiting player' || game.game_type.include?('machine')
   end
 
   def update(opts)
