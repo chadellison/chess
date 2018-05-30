@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe AiLogic, type: :module do
+  before do
+    allow_any_instance_of(Game).to receive(:ai_turn?).and_return(false)
+  end
+  
   describe 'ai_move' do
     xit 'test' do
     end

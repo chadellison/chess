@@ -7,13 +7,24 @@ class GameSerializer
         attributes: {
           status: game.status,
           currentTurn: game.current_turn,
-          outcome: game.outcome,
+          outcome: format_outcome(game.outcome),
           whitePlayer: PlayerSerializer.serialize(game.white_player, game.game_type),
           blackPlayer: PlayerSerializer.serialize(game.black_player, game.game_type),
           gameType: game.game_type
         },
         pieces: game.pieces.map { |piece| PieceSerializer.serialize(piece) }
       }
+    end
+
+    def format_outcome(outcome)
+      case outcome
+      when 1
+        'White wins!'
+      when -1
+        'Black wins!'
+      when 0
+        'Draw'
+      end
     end
   end
 end

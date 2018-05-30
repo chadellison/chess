@@ -33,7 +33,7 @@ class Game < ApplicationRecord
     update_game(piece, new_position, upgraded_type)
     GameEventBroadcastJob.perform_later(self)
     return handle_outcome if checkmate?(pieces, opponent_color) #|| stalemate?
-    ai_move if ai_turn
+    ai_move if ai_turn?
   end
 
   def handle_outcome
@@ -63,7 +63,7 @@ class Game < ApplicationRecord
     GameEventBroadcastJob.perform_later(self)
   end
 
-  def ai_turn
+  def ai_turn?
     current_turn == 'white' && white_player.blank? || current_turn == 'black' && black_player.blank?
   end
 end

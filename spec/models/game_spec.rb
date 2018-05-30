@@ -24,6 +24,10 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'move' do
+    before do
+      allow_any_instance_of(Game).to receive(:ai_turn?).and_return(false)
+    end
+    
     it 'updates the moved piece\'s position and has_moved property' do
       game = Game.create
       game.move(9, 'a3')

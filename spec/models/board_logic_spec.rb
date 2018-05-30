@@ -168,27 +168,27 @@ RSpec.describe BoardLogic, type: :module do
   end
 
   describe '#checkmate?' do
-    let(:game) { Game.create }
+    let!(:checkmate_game) { Game.create }
 
     context 'when the king is in checkmate' do
       before do
-        game.pieces.find_by(position: 'e2').update(position: 'd4')
-        game.pieces.find_by(position: 'e7').update(position: 'd5')
-        game.pieces.find_by(position: 'd1').update(position: 'f7')
-        game.pieces.find_by(position: 'b8').update(position: 'c6')
-        game.pieces.find_by(position: 'f1').update(position: 'c4')
-        game.pieces.find_by(position: 'g8').update(position: 'f6')
+        checkmate_game.pieces.find_by(position: 'e2').update(position: 'd4')
+        checkmate_game.pieces.find_by(position: 'e7').update(position: 'd5')
+        checkmate_game.pieces.find_by(position: 'd1').update(position: 'f7')
+        checkmate_game.pieces.find_by(position: 'b8').update(position: 'c6')
+        checkmate_game.pieces.find_by(position: 'f1').update(position: 'c4')
+        checkmate_game.pieces.find_by(position: 'g8').update(position: 'f6')
       end
 
       it 'returns true' do
-        game.reload
-        expect(game.checkmate?(game.pieces, 'black')).to be true
+        checkmate_game.reload
+        expect(checkmate_game.checkmate?(checkmate_game.pieces, 'black')).to be true
       end
     end
 
     context 'when the king is not in checkmate' do
       it 'returns false' do
-        expect(game.checkmate?(game.pieces, 'black')).to be false
+        expect(checkmate_game.checkmate?(checkmate_game.pieces, 'black')).to be false
       end
     end
   end

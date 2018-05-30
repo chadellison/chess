@@ -19,8 +19,8 @@ def game_scope
   offset = ENV['OFFSET']
 
   if game_count.present? && offset.present?
-    Game.where.not(outcome: 0).limit(game_count.to_i).offset(offset.to_i)
+    Game.where(outcome: [1, -1]).limit(game_count.to_i).offset(offset.to_i)
   else
-    Game.where.not(outcome: 0)
+    Game.where(outcome: [1, -1])
   end
 end

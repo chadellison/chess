@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_25_012620) do
+ActiveRecord::Schema.define(version: 2018_05_30_013211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,11 +23,18 @@ ActiveRecord::Schema.define(version: 2018_05_25_012620) do
     t.index ["game_id"], name: "index_chat_messages_on_game_id"
   end
 
+  create_table "game_setups", force: :cascade do |t|
+    t.integer "game_id"
+    t.integer "setup_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "games", force: :cascade do |t|
     t.text "notation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "outcome", default: 0
+    t.integer "outcome"
     t.string "status"
     t.integer "white_player"
     t.integer "black_player"
