@@ -21,15 +21,17 @@ module AiLogic
 
     possible_moves = find_next_moves
     best_move = find_checkmate(possible_moves)
-    return best_move if best_move.present?
 
-    signatures = possible_moves.map { |move| move.setup.position_signature }
-    next_move_setups = Setup.where(position_signature: signatures)
+    if best_move.present?
+      move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
+    else
+      signatures = possible_moves.map { |move| move.setup.position_signature }
+      next_move_setups = Setup.where(position_signature: signatures)
 
-    best_move = setup_analysis(possible_moves, next_move_setups)
-    best_move = piece_analysis(possible_moves, next_move_setups) if best_move.blank?
-
-    move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
+      best_move = setup_analysis(possible_moves, next_move_setups)
+      best_move = piece_analysis(possible_moves, next_move_setups) if best_move.blank?
+      move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
+    end
   end
 
   def find_next_moves
@@ -154,6 +156,7 @@ module AiLogic
   def best_move_from_notation(game_notation)
     update(notation: (notation.to_s + game_notation + '.'))
     update_game_from_notation(game_notation, current_turn)
+    GameEventBroadcastJob.perform_later(self)
   end
 
   def start_position(move_value)
