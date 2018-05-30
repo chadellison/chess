@@ -68,6 +68,11 @@ RSpec.describe Game, type: :model do
     end
   end
 
+  describe 'ai_turn' do
+    xit 'test' do
+    end
+  end
+
   describe 'scopes' do
     describe '#similar_games' do
     # let(:notation) { ' 9:a6 18:b4' }

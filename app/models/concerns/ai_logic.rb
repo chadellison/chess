@@ -122,10 +122,8 @@ module AiLogic
   def find_checkmate(possible_moves)
     possible_moves.detect do |next_move|
       piece = pieces.find_by(position_index: position_index_from_move(next_move.value))
-      game_pieces = piece.pieces_with_next_move(next_move[-2..-1])
-
-      # checkmate?(game_pieces, opponent_color)
-      false
+      game_pieces = piece.pieces_with_next_move(next_move.value[-2..-1])
+      checkmate?(game_pieces, opponent_color)
     end
   end
 

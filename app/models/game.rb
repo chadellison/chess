@@ -32,7 +32,18 @@ class Game < ApplicationRecord
     piece = pieces.find_by(position_index: position_index)
     update_game(piece, new_position, upgraded_type)
     GameEventBroadcastJob.perform_later(self)
+    return handle_outcome if checkmate?(pieces, opponent_color) #|| stalemate?
     ai_move if ai_turn
+  end
+
+  def handle_outcome
+    if checkmate?(pieces, opponent_color)
+      outcome = opponent_color == 'black' ? 1 : -1
+    else
+      outcome = 0
+    end
+    update(outcome: outcome)
+    GameEventBroadcastJob.perform_later(self)
   end
 
   def add_pieces
