@@ -32,6 +32,7 @@ class Game < ApplicationRecord
     piece = pieces.find_by(position_index: position_index)
     update_game(piece, new_position, upgraded_type)
     GameEventBroadcastJob.perform_later(self)
+    ai_move if ai_turn
   end
 
   def add_pieces
@@ -49,5 +50,9 @@ class Game < ApplicationRecord
       update(black_player: user_id, status: 'active')
     end
     GameEventBroadcastJob.perform_later(self)
+  end
+
+  def ai_turn
+    current_turn == 'white' && white_player.blank? || current_turn == 'black' && black_player.blank?
   end
 end
