@@ -23,13 +23,6 @@ ActiveRecord::Schema.define(version: 2018_05_30_013211) do
     t.index ["game_id"], name: "index_chat_messages_on_game_id"
   end
 
-  create_table "game_setups", force: :cascade do |t|
-    t.integer "game_id"
-    t.integer "setup_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "games", force: :cascade do |t|
     t.text "notation"
     t.datetime "created_at", null: false

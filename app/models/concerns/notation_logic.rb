@@ -5,49 +5,56 @@ module NotationLogic
     king: 'K', queen: 'Q', bishop: 'B', knight: 'N', rook: 'R', pawn: ''
   }
 
-  def update_game_from_notation(move_notation, turn)
-      return move_from_crossed_pawn(move_notation, turn) if move_notation.include?('=')
-      return move_from_castle(move_notation, turn) if move_notation.include?('O')
-
-      piece_type = find_piece_type(move_notation)
-      game_pieces = matching_pieces(piece_type, turn, move_notation[-2..-1])
-  binding.pry if game_pieces.blank?
-      find_piece(game_pieces, move_notation, piece_type)
+  def find_move_position(move_notation)
+    if move_notation.include?('=')
+      move_notation[-4..-3]
+    elsif move_notation.include?('O')
+      column = move_notation == 'O-O' ? 'g' : 'c'
+      column + king.position[1]
+    else
+      move_notation[-2..-1]
+    end
   end
 
-  def find_piece(game_pieces, move_notation, piece_type)
+  def update_game_from_notation(move_notation, turn)
+    piece = find_piece(move_notation, turn)
+    update_game(piece, find_move_position(move_notation))
+  end
+
+  def find_piece(move_notation, turn)
+    piece = piece_from_crossed_pawn(move_notation, turn) if move_notation.include?('=')
+    piece = piece_from_castle(move_notation, turn) if move_notation.include?('O')
+    return piece if piece.present?
+
+    piece_type = find_piece_type(move_notation)
+    game_pieces = matching_pieces(piece_type, turn, move_notation[-2..-1])
+
     if game_pieces.count == 1
-      piece = game_pieces.first
-      update_game(piece, move_notation[-2..-1])
+      game_pieces.first
     else
       notation_without_type = piece_type == 'pawn' ? move_notation : move_notation[1..-1]
-      move_from_start(game_pieces, notation_without_type)
+      piece_from_start(game_pieces, notation_without_type)
     end
   end
 
-  def move_from_start(game_pieces, notation_without_type)
-    piece = game_pieces.detect do |game_piece|
+  def piece_from_start(game_pieces, notation_without_type)
+    game_pieces.detect do |game_piece|
       game_piece.position.include?(notation_without_type[0])
     end
-    update_game(piece, notation_without_type[-2..-1])
   end
 
-  def move_from_castle(move_notation, turn)
-    king = pieces.find_by(piece_type: 'king', color: turn)
-
-    column = move_notation == 'O-O' ? 'g' : 'c'
-    update_game(king, (column + king.position[1]))
+  def piece_from_castle(move_notation, turn)
+    pieces.find_by(piece_type: 'king', color: turn)
   end
 
-  def move_from_crossed_pawn(move_notation, turn)
+  def piece_from_crossed_pawn(move_notation, turn)
     if move_notation.include?('x')
       pawns = matching_pieces('pawn', turn, move_notation[-4..-3])
-      pawn = pawns.detect { |pawn| pawn.position.include?(move_notation[0]) }
+      pawns.detect { |pawn| pawn.position.include?(move_notation[0]) }
     else
       start_row = move_notation[1] == '8' ? '7' : '2'
-      pawn = pieces.find_by(position: (move_notation[0] + start_row))
+      pieces.find_by(position: (move_notation[0] + start_row))
     end
-    update_game(pawn, move_notation[-4..-3], find_piece_type(move_notation[-1]))
   end
 
   def find_piece_type(move_notation)

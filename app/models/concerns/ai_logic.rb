@@ -16,14 +16,16 @@ module AiLogic
   }
 
   def ai_move
-    game_notation = wins_from_notation
-    return best_move_from_notation(game_notation) if game_notation.present?
-
     possible_moves = find_next_moves
-    best_move = find_checkmate(possible_moves)
+    game_notation = wins_from_notation
 
-    if best_move.present?
+    if find_checkmate(possible_moves).present?
+      best_move = find_checkmate(possible_moves)
       move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
+    elsif game_notation.present?
+      best_move = find_piece(game_notation, current_turn)
+      move_position = find_move_position(game_notation)
+      move(best_move.position_index, move_position, promote_pawn(move_position))
     else
       signatures = possible_moves.map { |move| move.setup.position_signature }
       next_move_setups = Setup.where(position_signature: signatures)
@@ -151,12 +153,6 @@ module AiLogic
     similar_winning_games = Game.similar_games(notation).winning_games(win_value)
     offset_amount = rand(similar_winning_games.count)
     similar_winning_games.offset(offset_amount).first
-  end
-
-  def best_move_from_notation(game_notation)
-    update(notation: (notation.to_s + game_notation + '.'))
-    update_game_from_notation(game_notation, current_turn)
-    GameEventBroadcastJob.perform_later(self)
   end
 
   def start_position(move_value)
