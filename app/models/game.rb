@@ -26,12 +26,13 @@ class Game < ApplicationRecord
 
     if game_params[:game_type].include?('machine')
       machine_player = create_ai_player(game_params[:color])
-      game.status = 'active'
       game.ai_player = machine_player
+      game.status = 'active'
     else
       game.status = 'awaiting player'
     end
     game.save
+    game.ai_move if game.ai_turn?
     game
   end
 
