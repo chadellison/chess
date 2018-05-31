@@ -8,8 +8,9 @@ class GameSerializer
           status: game.status,
           currentTurn: game.current_turn,
           outcome: format_outcome(game.outcome),
-          whitePlayer: PlayerSerializer.serialize(game.white_player, game.game_type),
-          blackPlayer: PlayerSerializer.serialize(game.black_player, game.game_type),
+          whitePlayer: PlayerSerializer.serialize(game.white_player),
+          blackPlayer: PlayerSerializer.serialize(game.black_player),
+          aiPlayer: AiPlayerSerializer.serialize(game.ai_player),
           gameType: game.game_type
         },
         pieces: game.pieces.map { |piece| PieceSerializer.serialize(piece) }

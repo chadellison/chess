@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_30_013211) do
+ActiveRecord::Schema.define(version: 2018_05_31_021335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "ai_players", force: :cascade do |t|
+    t.string "color"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "chat_messages", force: :cascade do |t|
     t.text "content"
@@ -32,6 +39,7 @@ ActiveRecord::Schema.define(version: 2018_05_30_013211) do
     t.integer "white_player"
     t.integer "black_player"
     t.string "game_type", default: "machine vs machine"
+    t.integer "ai_player_id"
     t.index ["notation"], name: "index_games_on_notation"
   end
 

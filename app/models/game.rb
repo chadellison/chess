@@ -2,6 +2,7 @@ class Game < ApplicationRecord
   has_many :pieces, dependent: :destroy
   has_many :moves, dependent: :destroy
   has_many :chat_messages, dependent: :destroy
+  belongs_to :ai_player, optional: true, dependent: :destroy
 
   after_commit :add_pieces, on: :create
 
@@ -22,9 +23,25 @@ class Game < ApplicationRecord
   def self.create_user_game(user, game_params)
     game = Game.new(game_type: game_params[:game_type])
     game_params[:color] == 'white' ? game.white_player = user.id : game.black_player = user.id
-    game_params[:game_type].include?('machine') ? game.status = 'active' : game.status = 'awaiting player'
+
+    if game_params[:game_type].include?('machine')
+      machine_player = create_ai_player(game_params[:color])
+      game.status = 'active'
+      game.ai_player = machine_player
+    else
+      game.status = 'awaiting player'
+    end
     game.save
     game
+  end
+
+  def self.create_ai_player(color)
+    if color == 'white'
+      ai_color = 'black'
+    else
+      ai_color = 'white'
+    end
+    AiPlayer.create(color: ai_color, name: Faker::Name.name)
   end
 
   def move(position_index, new_position, upgraded_type = '')
@@ -64,6 +81,6 @@ class Game < ApplicationRecord
   end
 
   def ai_turn?
-    current_turn == 'white' && white_player.blank? || current_turn == 'black' && black_player.blank?
+    ai_player.present? && current_turn == ai_player.color
   end
 end
