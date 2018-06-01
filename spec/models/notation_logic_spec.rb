@@ -360,4 +360,9 @@ RSpec.describe NotationLogic, type: :module do
       end
     end
   end
+
+  describe 'upgrade_value' do
+    xit 'test' do
+    end
+  end
 end

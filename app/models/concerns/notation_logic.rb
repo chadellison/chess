@@ -19,7 +19,13 @@ module NotationLogic
 
   def update_game_from_notation(move_notation, turn)
     piece = find_piece(move_notation, turn)
-    update_game(piece, find_move_position(move_notation))
+    binding.pry if piece.blank?
+    update_game(piece, find_move_position(move_notation), upgrade_value(move_notation))
+  end
+
+  def upgrade_value(move_notation)
+    piece_code = move_notation[-1]
+    PIECE_CODE.invert[piece_code].to_s if move_notation.include?('=')
   end
 
   def find_piece(move_notation, turn)
