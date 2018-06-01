@@ -9,6 +9,7 @@ module NotationLogic
     if move_notation.include?('=')
       move_notation[-4..-3]
     elsif move_notation.include?('O')
+      king = pieces.find_by(piece_type: 'king', color: current_turn)
       column = move_notation == 'O-O' ? 'g' : 'c'
       column + king.position[1]
     else
