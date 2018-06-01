@@ -75,6 +75,30 @@ module BoardLogic
              .king_is_safe?(turn, game_pieces)
   end
 
+  def stalemate?(game_pieces, turn)
+    king = pieces.find_by(color: current_turn)
+    [
+      no_valid_moves?(game_pieces, turn) && king.king_is_safe?(current_turn, game_pieces),
+      insufficient_pieces?,
+      three_fold_repitition?
+    ].any?
+  end
+
+  def insufficient_pieces?
+    black_pieces = pieces.where(color: 'black').pluck(:piece_type)
+    white_pieces = pieces.where(color: 'white').pluck(:piece_type)
+    piece_types = ['queen', 'pawn', 'rook']
+
+    [black_pieces, white_pieces].all? do |pieces_left|
+      pieces_left.count < 3 &&
+        pieces_left.none? { |piece| piece_types.include?(piece) }
+    end
+  end
+
+  def three_fold_repitition?
+    moves.count > 9 && moves.last(8).map(&:value).uniq.count < 5
+  end
+
   def no_valid_moves?(game_pieces, turn)
     game_pieces.select { |piece| piece.color == turn }.all? do |piece|
       piece.valid_moves.blank?

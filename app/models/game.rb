@@ -50,7 +50,7 @@ class Game < ApplicationRecord
     piece = pieces.find_by(position_index: position_index)
     update_game(piece, new_position, upgraded_type)
     GameEventBroadcastJob.perform_later(self)
-    return handle_outcome if checkmate?(pieces, current_turn) #|| stalemate?
+    return handle_outcome if checkmate?(pieces, current_turn) || stalemate?(pieces, current_turn)
     ai_move if ai_turn?
   end
 

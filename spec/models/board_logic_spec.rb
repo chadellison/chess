@@ -193,6 +193,11 @@ RSpec.describe BoardLogic, type: :module do
     end
   end
 
+  describe 'stalemate?' do
+    xit 'test' do
+    end
+  end
+
   describe 'no_valid_moves?' do
     xit 'test' do
     end
