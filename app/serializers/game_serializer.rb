@@ -11,7 +11,8 @@ class GameSerializer
           whitePlayer: PlayerSerializer.serialize(game.white_player),
           blackPlayer: PlayerSerializer.serialize(game.black_player),
           aiPlayer: AiPlayerSerializer.serialize(game.ai_player),
-          gameType: game.game_type
+          gameType: game.game_type,
+          notation: game.notation
         },
         pieces: game.pieces.map { |piece| PieceSerializer.serialize(piece) }
       }
