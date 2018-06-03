@@ -19,13 +19,13 @@ module AiLogic
     possible_moves = find_next_moves
     game_notation = wins_from_notation
 
-    if find_checkmate(possible_moves).present?
-      best_move = find_checkmate(possible_moves)
-      move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
-    elsif game_notation.present?
+    if game_notation.present?
       best_move = find_piece(game_notation, current_turn)
       move_position = find_move_position(game_notation)
       move(best_move.position_index, move_position, promote_pawn(move_position))
+    elsif find_checkmate(possible_moves).present?
+      best_move = find_checkmate(possible_moves)
+      move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
     else
       signatures = possible_moves.map { |move| move.setup.position_signature }
       next_move_setups = Setup.where(position_signature: signatures)
