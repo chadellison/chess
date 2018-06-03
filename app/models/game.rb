@@ -67,9 +67,7 @@ class Game < ApplicationRecord
   def add_pieces
     json_pieces = JSON.parse(File.read(Rails.root + 'json/pieces.json'))
 
-    json_pieces.each do |json_piece|
-      pieces.create(json_piece)
-    end
+    json_pieces.each { |json_piece| pieces.create(json_piece) }
   end
 
   def join_user_to_game(user_id)
