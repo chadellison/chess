@@ -72,9 +72,9 @@ module AiLogic
 
   def winning_setups
     if current_turn == 'white'
-      Setup.where('rank > ?', 0)
+      Setup.white_wins
     else
-      Setup.where('rank < ?', 0)
+      Setup.black_wins
     end
   end
 
@@ -150,7 +150,7 @@ module AiLogic
   end
 
   def random_winning_game
-    similar_winning_games = Game.similar_games(notation).winning_games(win_value)
+    similar_winning_games = Game.machine_games.similar_games(notation).winning_games(win_value)
     offset_amount = rand(similar_winning_games.count)
     similar_winning_games.offset(offset_amount).first
   end
