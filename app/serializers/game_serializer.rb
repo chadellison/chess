@@ -12,7 +12,8 @@ class GameSerializer
           blackPlayer: PlayerSerializer.serialize(game.black_player),
           aiPlayer: AiPlayerSerializer.serialize(game.ai_player),
           gameType: game.game_type,
-          notation: game.notation
+          notation: game.notation,
+          moves: game.moves.order(:move_count).pluck(:value)
         },
         pieces: game.pieces.map { |piece| PieceSerializer.serialize(piece) }
       }
