@@ -5,9 +5,9 @@ class AnalyticsSerializer
         data: {
           type: 'analytics',
           attributes: {
-            whiteWins: Game.similar_games(notation).winning_games(1).machine_games.count,
-            blackWins: Game.similar_games(notation).winning_games(-1).machine_games.count,
-            draws: Game.similar_games(notation).winning_games([0, nil]).machine_games.count
+            whiteWins: Game.similar_games(notation).winning_games(1).count,
+            blackWins: Game.similar_games(notation).winning_games(-1).count,
+            draws: Game.similar_games(notation).winning_games([0, nil]).count
           }
         }
       }
