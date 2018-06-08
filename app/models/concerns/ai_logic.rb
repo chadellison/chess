@@ -80,12 +80,13 @@ module AiLogic
 
   def piece_analysis(possible_moves, next_move_setups)
     weighted_moves = {}
+    current_signature = create_signature(pieces).split('.')
 
     possible_moves.each do |possible_move|
       weight = material_analysis(possible_move.value)
       weight -= moves.pluck(:value).select { |move| move == possible_move.value }.count
 
-      create_signature(pieces).split('.').each do |move_value|
+      current_signature.each do |move_value|
         if possible_move.value[-2..-1] != start_position(possible_move.value)
           weight += handle_ratio(possible_move.value, move_value)
         end
@@ -93,6 +94,7 @@ module AiLogic
 
       weighted_moves[weight] = possible_move
     end
+puts weighted_moves.max_by { |weight, move| weight }.first.to_s + '***************** weight'
     weighted_moves.max_by { |weight, move| weight }.last
   end
 
@@ -150,7 +152,7 @@ module AiLogic
   end
 
   def random_winning_game
-    similar_winning_games = Game.machine_games.similar_games(notation).winning_games(win_value)
+    similar_winning_games = Game.similar_games(notation).winning_games(win_value)
     offset_amount = rand(similar_winning_games.count)
     similar_winning_games.offset(offset_amount).first
   end

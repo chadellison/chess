@@ -13,7 +13,6 @@ class Game < ApplicationRecord
   scope :winning_games, ->(win) { where(outcome: win) }
   scope :user_games, ->(user_id) { where(white_player: user_id).or(where(black_player: user_id))}
   scope :similar_games, ->(move_notation) { where('notation LIKE ?', "#{move_notation}%") }
-  scope :machine_games, -> { where(game_type: 'machine vs machine') }
 
   scope :find_open_games, (lambda do |user_id|
     where.not(white_player: user_id)
