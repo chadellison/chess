@@ -70,11 +70,11 @@ module AiLogic
     game_setups.find_by(rank: rank).position_signature
   end
 
-  def winning_setups
+  def winning_moves
     if current_turn == 'white'
-      Setup.white_wins
+      'rank > ?'
     else
-      Setup.black_wins
+      'rank < ?'
     end
   end
 
@@ -84,12 +84,9 @@ module AiLogic
 
     possible_moves.each do |possible_move|
       weight = material_analysis(possible_move.value)
-      weight -= moves.pluck(:value).select { |move| move == possible_move.value }.count
 
       current_signature.each do |move_value|
-        if possible_move.value[-2..-1] != start_position(possible_move.value)
-          weight += handle_ratio(possible_move.value, move_value)
-        end
+        weight += handle_ratio(possible_move.value, move_value)
       end
 
       weighted_moves[weight] = possible_move
@@ -99,22 +96,24 @@ puts weighted_moves.max_by { |weight, move| weight }.first.to_s + '*************
   end
 
   def handle_ratio(index_one, index_two)
-    matches = double_position_match(index_one, index_two).count
-    total = single_position_match(index_one).count
+    matching_moves = find_matching_moves(index_one)
 
-    if matches == 0 || total == 0
+    double_matches = find_double_matching_moves(matching_moves, index_two)
+
+    if double_matches.count == 0 || matching_moves.count == 0
       0
     else
-      matches.to_f / total.to_f
+      double_matches.count.to_f / matching_moves.count.to_f
     end
   end
 
-  def single_position_match(position_index)
-    winning_setups.where('position_signature LIKE ?', "%#{position_index}%")
+  def find_matching_moves(value)
+    Move.where(value: value).joins(:setup).where(winning_moves, 0)
   end
 
-  def double_position_match(index_one, index_two)
-    winning_setups.where('position_signature LIKE ? AND position_signature LIKE ?', "%#{index_one}%", "%#{index_two}%")
+  def find_double_matching_moves(moves, index_two)
+    moves.joins(:setup).where(winning_moves, 0)
+         .where('position_signature LIKE ?', "%#{index_two}%")
   end
 
   def current_turn
@@ -122,7 +121,7 @@ puts weighted_moves.max_by { |weight, move| weight }.first.to_s + '*************
   end
 
   def opponent_color
-    moves.count.even? ? 'black' : 'white'
+    current_turn ? 'white' : 'black'
   end
 
   def find_checkmate(possible_moves)
