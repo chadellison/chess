@@ -4,7 +4,7 @@ RSpec.describe AiLogic, type: :module do
   before do
     allow_any_instance_of(Game).to receive(:ai_turn?).and_return(false)
   end
-  
+
   describe 'ai_move' do
     xit 'test' do
     end
@@ -53,11 +53,11 @@ RSpec.describe AiLogic, type: :module do
 
   describe 'handle_ratio' do
     it 'calls double_position_match and single_position_match' do
-      expect_any_instance_of(Game).to receive(:double_position_match)\
-        .with('1a4', '2b4')
-        .and_return([])
-      expect_any_instance_of(Game).to receive(:single_position_match)
+      expect_any_instance_of(Game).to receive(:find_matching_moves)
         .with('1a4')
+        .and_return([])
+      expect_any_instance_of(Game).to receive(:find_double_matching_moves)
+        .with([], '2b4')
         .and_return([])
 
       game = Game.new
@@ -67,12 +67,13 @@ RSpec.describe AiLogic, type: :module do
 
     context 'when the match amount is 0' do
       it 'returns 0' do
-        allow_any_instance_of(Game).to receive(:double_position_match)\
-        .with('1a4', '2b4')
-        .and_return([])
-        allow_any_instance_of(Game).to receive(:single_position_match)
-        .with('1a4')
-        .and_return([Setup.new])
+        setup = Setup.new
+        allow_any_instance_of(Game).to receive(:find_matching_moves)
+          .with('1a4')
+          .and_return([setup])
+        allow_any_instance_of(Game).to receive(:find_double_matching_moves)
+          .with([setup], '2b4')
+          .and_return([])
 
         game = Game.new
 
@@ -82,12 +83,12 @@ RSpec.describe AiLogic, type: :module do
 
     context 'when the total is 0' do
       it 'returns 0' do
-        allow_any_instance_of(Game).to receive(:double_position_match)\
-          .with('1a4', '2b4')
-          .and_return([Setup.new])
-        allow_any_instance_of(Game).to receive(:single_position_match)
+        allow_any_instance_of(Game).to receive(:find_matching_moves)
           .with('1a4')
           .and_return([])
+        allow_any_instance_of(Game).to receive(:find_double_matching_moves)
+          .with([], '2b4')
+          .and_return([Setup.new])
 
         game = Game.new
 
@@ -97,12 +98,13 @@ RSpec.describe AiLogic, type: :module do
 
     context 'when neither the match nor the total is 0' do
       it 'returns the ratio' do
-        allow_any_instance_of(Game).to receive(:double_position_match)\
-          .with('1a4', '2b4')
-          .and_return([Setup.new])
-        allow_any_instance_of(Game).to receive(:single_position_match)
+        setup = Setup.new
+        allow_any_instance_of(Game).to receive(:find_matching_moves)
           .with('1a4')
-          .and_return([Setup.new, Setup.new])
+          .and_return([setup, setup])
+        allow_any_instance_of(Game).to receive(:find_double_matching_moves)
+          .with([setup, setup], '2b4')
+          .and_return([setup])
 
         game = Game.new
 

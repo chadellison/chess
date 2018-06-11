@@ -62,10 +62,10 @@ module AiLogic
   def best_rank_setup(game_setups)
     if current_turn == 'white'
       rank = game_setups.maximum(:rank)
-      return nil if rank < 1
+      return nil if rank.blank? || rank < 1
     else
       rank = game_setups.minimum(:rank)
-      return nil if rank > -1
+      return nil if rank.blank? || rank > -1
     end
     game_setups.find_by(rank: rank).position_signature
   end
