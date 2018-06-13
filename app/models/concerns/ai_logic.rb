@@ -27,11 +27,8 @@ module AiLogic
       best_move = find_checkmate(possible_moves)
       move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
     else
-      signatures = possible_moves.map { |move| move.setup.position_signature }
-      next_move_setups = Setup.where(position_signature: signatures)
-
-      best_move = setup_analysis(possible_moves, next_move_setups)
-      best_move = piece_analysis(possible_moves, next_move_setups) if best_move.blank?
+      best_move = setup_analysis(possible_moves)
+      best_move = piece_analysis(possible_moves) if best_move.blank?
       move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
     end
   end
@@ -51,7 +48,9 @@ module AiLogic
     end
   end
 
-  def setup_analysis(possible_moves, game_setups)
+  def setup_analysis(possible_moves)
+    signatures = possible_moves.map { |move| move.setup.position_signature }
+    game_setups = Setup.where(position_signature: signatures)
     best_ranked_position = best_rank_setup(game_setups)
 
     possible_moves.detect do |move|
@@ -71,14 +70,10 @@ module AiLogic
   end
 
   def winning_moves
-    if current_turn == 'white'
-      'rank > ?'
-    else
-      'rank < ?'
-    end
+    current_turn == 'white' ? 'rank > ?' : 'rank < ?'
   end
 
-  def piece_analysis(possible_moves, next_move_setups)
+  def piece_analysis(possible_moves)
     weighted_moves = {}
     current_signature = create_signature(pieces).split('.')
 
@@ -91,7 +86,7 @@ module AiLogic
 
       weighted_moves[weight] = possible_move
     end
-puts weighted_moves.max_by { |weight, move| weight }.first.to_s + '***************** weight'
+    puts weighted_moves.max_by { |weight, move| weight }.first.to_s + '***************** weight'
     weighted_moves.max_by { |weight, move| weight }.last
   end
 
