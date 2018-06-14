@@ -8,12 +8,22 @@ RSpec.describe NotationLogic, type: :module do
 
   describe 'piece_from_castle' do
     context 'when it is black\'s turn' do
-      xit 'test' do
+      it 'returns the black king' do
+        game =  Game.create
+
+        expected = game.pieces.find_by(position_index: 5)
+
+        expect(game.piece_from_castle('black')).to eq expected
       end
     end
 
     context 'when it is white\'s turn' do
-      xit 'test' do
+      it 'returns the white king' do
+        game =  Game.create
+
+        expected = game.pieces.find_by(position_index: 29)
+
+        expect(game.piece_from_castle('white')).to eq expected
       end
     end
   end

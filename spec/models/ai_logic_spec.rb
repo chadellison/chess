@@ -113,23 +113,56 @@ RSpec.describe AiLogic, type: :module do
     end
   end
 
-  describe 'single_position_match' do
+  describe 'find_matching_moves' do
+    # Move.where(value: value).joins(:setup).where(winning_moves, 0)
     xit 'test' do
+
     end
   end
 
-  describe 'double_position_match' do
+  describe 'find_double_matching_moves' do
+    # moves.joins(:setup).where(winning_moves, 0)
+    #      .where('position_signature LIKE ?', "%#{index_two}%")
     xit 'test' do
     end
   end
 
   describe 'current_turn' do
-    xit 'test' do
+    context 'when there are an even number of moves on a game' do
+      it 'returns white' do
+        game = Game.new
+
+        expect(game.current_turn).to eq 'white'
+      end
+    end
+
+    context 'when there are an odd number of moves on a game' do
+      it 'returns black' do
+        game = Game.create
+        move = game.moves.create
+
+          expect(game.current_turn).to eq 'black'
+      end
     end
   end
 
   describe 'opponent_color' do
-    xit 'test' do
+    context 'when it is white\'s turn' do
+      it 'returns black' do
+        allow_any_instance_of(Game).to receive(:current_turn).and_return('white')
+        game = Game.new
+
+        expect(game.opponent_color).to eq 'black'
+      end
+    end
+
+    context 'when it is black\'s turn' do
+      it 'returns white' do
+        allow_any_instance_of(Game).to receive(:current_turn).and_return('black')
+        game = Game.new
+
+        expect(game.opponent_color).to eq 'white'
+      end
     end
   end
 
@@ -212,6 +245,19 @@ RSpec.describe AiLogic, type: :module do
 
       expect(game.find_material_value(pieces, 'white')).to eq 10
       expect(game.find_material_value(pieces, 'black')).to eq 8
+    end
+  end
+
+  describe 'weight_analysis' do
+    it 'returns the sum of all ratios' do
+      allow_any_instance_of(Game).to receive(:handle_ratio)
+        .and_return(0.5)
+      game = Game.new
+
+      signature = ['1d4', '8c6', '28a6']
+      possible_move_value = '4a7'
+
+      expect(game.weight_analysis(signature, possible_move_value)).to eq 1.5
     end
   end
 end

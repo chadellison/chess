@@ -30,7 +30,7 @@ module NotationLogic
 
   def find_piece(move_notation, turn)
     piece = piece_from_crossed_pawn(move_notation, turn) if move_notation.include?('=')
-    piece = piece_from_castle(move_notation, turn) if move_notation.include?('O')
+    piece = piece_from_castle(turn) if move_notation.include?('O')
     return piece if piece.present?
 
     piece_type = find_piece_type(move_notation)
@@ -50,7 +50,7 @@ module NotationLogic
     end
   end
 
-  def piece_from_castle(move_notation, turn)
+  def piece_from_castle(turn)
     pieces.find_by(piece_type: 'king', color: turn)
   end
 

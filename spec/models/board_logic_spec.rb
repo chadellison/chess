@@ -70,7 +70,11 @@ RSpec.describe BoardLogic, type: :module do
   end
 
   describe 'create_move' do
-    xit 'test' do
+    it 'creates a move on the game' do
+      game = Game.create
+      piece = game.pieces.last
+
+      expect { game.create_move(piece) }.to change { game.moves.count }.by(1)
     end
   end
 

@@ -27,7 +27,7 @@ RSpec.describe Game, type: :model do
     before do
       allow_any_instance_of(Game).to receive(:ai_turn?).and_return(false)
     end
-    
+
     it 'updates the moved piece\'s position and has_moved property' do
       game = Game.create
       game.move(9, 'a3')
@@ -73,7 +73,29 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'ai_turn' do
-    xit 'test' do
+    context 'when the ai_player is present and the current_turn is the ai_player color' do
+      it 'returns true' do
+        game = Game.new
+        ai_player = AiPlayer.new(color: 'white')
+        game.ai_player = ai_player
+        expect(game.ai_turn?).to be true
+      end
+    end
+
+    context 'when the ai_player is not present' do
+      it 'returns false' do
+        game = Game.new
+        expect(game.ai_turn?).to be false
+      end
+    end
+
+    context 'when the current_turn is not the ai_player\'s turn' do
+      it 'returns false' do
+        game = Game.new
+        ai_player = AiPlayer.new(color: 'black')
+        game.ai_player = ai_player
+        expect(game.ai_turn?).to be false
+      end
     end
   end
 

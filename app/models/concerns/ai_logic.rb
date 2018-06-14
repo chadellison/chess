@@ -73,21 +73,32 @@ module AiLogic
     current_turn == 'white' ? 'rank > ?' : 'rank < ?'
   end
 
+  # def opponent_threats
+  #   ally_positions = pieces.where(color: current_turn).map(&:position)
+  #   pieces.where(color: opponent_color).select do |piece|
+  #     (piece.valid_moves & ally_positions).present?
+  #   end.map { |piece| piece.position_index.to_s + piece.position }
+  # end
+
   def piece_analysis(possible_moves)
     weighted_moves = {}
     current_signature = create_signature(pieces).split('.')
+    # threats = opponent_threats
 
     possible_moves.each do |possible_move|
-      weight = material_analysis(possible_move.value)
-
-      current_signature.each do |move_value|
-        weight += handle_ratio(possible_move.value, move_value)
-      end
-
+      weight = weight_analysis(current_signature, possible_move.value)
+      # weight += weight_analysis(threats, possible_move.value)
+      weight += material_analysis(possible_move.value)
       weighted_moves[weight] = possible_move
     end
     puts weighted_moves.max_by { |weight, move| weight }.first.to_s + '***************** weight'
     weighted_moves.max_by { |weight, move| weight }.last
+  end
+
+  def weight_analysis(signature, possible_move_value)
+    signature.reduce(0) do |weight, move_value|
+      weight + handle_ratio(possible_move_value, move_value)
+    end
   end
 
   def handle_ratio(index_one, index_two)
@@ -116,7 +127,7 @@ module AiLogic
   end
 
   def opponent_color
-    current_turn ? 'white' : 'black'
+    current_turn == 'white' ? 'black' : 'white'
   end
 
   def find_checkmate(possible_moves)
