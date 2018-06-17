@@ -49,6 +49,7 @@ class Game < ApplicationRecord
     update_notation(position_index, new_position, upgraded_type)
     piece = pieces.find_by(position_index: position_index)
     update_game(piece, new_position, upgraded_type)
+    reload
     GameEventBroadcastJob.perform_later(self)
     return handle_outcome if checkmate?(pieces, current_turn) || stalemate?(pieces, current_turn)
     ai_move if ai_turn?

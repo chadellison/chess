@@ -87,6 +87,7 @@ module AiLogic
 
     possible_moves.each do |possible_move|
       weight = weight_analysis(current_signature, possible_move.value)
+      weight -= moves.pluck(:value).select { |move| move == possible_move.value }.count
       # weight += weight_analysis(threats, possible_move.value)
       weight += material_analysis(possible_move.value)
       weighted_moves[weight] = possible_move
