@@ -216,17 +216,6 @@ module MoveLogic
     ].all? { |value| value < 2 }
   end
 
-  def pieces_with_next_move(move)
-    game.pieces.reject { |piece| piece.position == move }
-        .map do |piece|
-          if piece.position_index == position_index
-            piece = Piece.new(piece.attributes)
-            piece.position = move
-          end
-          piece
-        end
-  end
-
   def valid_for_piece?(next_move, game_pieces)
     return castle?(next_move, game_pieces) if king_moved_two?(next_move)
     return valid_for_pawn?(next_move, game_pieces) if piece_type == 'pawn'
@@ -246,9 +235,9 @@ module MoveLogic
     rook = game_pieces.detect { |piece| piece.position == (column + next_move[1]) }
 
     if next_move[0] == 'c'
-      through_check_moves = pieces_with_next_move('d' + next_move[1])
+      through_check_moves = game.pieces_with_next_move("#{position_index}d#{next_move[1]}")
     else
-      through_check_moves = pieces_with_next_move('f' + next_move[1])
+      through_check_moves = game.pieces_with_next_move("#{position_index}f#{next_move[1]}")
     end
 
     [

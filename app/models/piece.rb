@@ -29,7 +29,7 @@ class Piece < ApplicationRecord
       valid_move_path?(move, game.pieces.map(&:position)),
       valid_destination?(move, game.reload.pieces),
       valid_for_piece?(move, game.reload.pieces),
-      king_is_safe?(color, pieces_with_next_move(move))
+      king_is_safe?(color, game.pieces_with_next_move(position_index.to_s + move))
     ].all?
   end
 

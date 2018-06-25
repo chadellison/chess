@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe BoardLogic, type: :module do
+  describe 'pieces_with_next_move' do
+    it 'returns all of the pieces with the next move given' do
+      game = Game.create
+
+      piece = game.pieces.find_by(position: 'd2')
+      actual = game.pieces_with_next_move('20d4')
+
+      expect(actual.map(&:position).include?('d4')).to be true
+    end
+  end
+
   describe 'update_notation' do
     it 'calls create_notation' do
       allow_any_instance_of(Game).to receive(:add_pieces)

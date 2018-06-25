@@ -1,6 +1,17 @@
 module BoardLogic
   extend ActiveSupport::Concern
 
+  def pieces_with_next_move(move)
+    pieces.reject { |piece| piece.position == move[-2..-1] }
+          .map do |piece|
+            if piece.position_index == move[0..-3].to_i
+              piece = Piece.new(piece.attributes)
+              piece.position = move[-2..-1]
+            end
+            piece
+          end
+  end
+
   def update_notation(position_index, new_position, upgraded_type)
     new_notation = create_notation(position_index, new_position, upgraded_type)
 

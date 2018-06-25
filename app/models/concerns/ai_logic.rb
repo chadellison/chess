@@ -42,7 +42,7 @@ module AiLogic
   def all_next_moves_for_piece(piece)
     piece.valid_moves.map do |move|
       game_move = Move.new(value: piece.position_index.to_s + move, move_count: (moves.count + 1))
-      game_pieces = piece.pieces_with_next_move(move)
+      game_pieces = pieces_with_next_move(piece.position_index.to_s + move)
       game_move.setup = Setup.find_or_create_by(position_signature: create_signature(game_pieces))
       game_move
     end
@@ -133,8 +133,7 @@ module AiLogic
 
   def find_checkmate(possible_moves)
     possible_moves.detect do |next_move|
-      piece = pieces.find_by(position_index: position_index_from_move(next_move.value))
-      game_pieces = piece.pieces_with_next_move(next_move.value[-2..-1])
+      game_pieces = pieces_with_next_move(next_move.value)
       checkmate?(game_pieces, opponent_color)
     end
   end
@@ -176,9 +175,7 @@ module AiLogic
     black_value = find_material_value(pieces, 'black')
 
     material_value = current_turn == 'white' ? white_value - black_value : black_value - white_value
-
-    piece = pieces.find_by(position_index: position_index_from_move(possible_move_value))
-    game_pieces = piece.pieces_with_next_move(possible_move_value[-2..-1])
+    game_pieces = pieces_with_next_move(possible_move_value)
 
     new_white_value = find_material_value(game_pieces, 'white')
     new_black_value = find_material_value(game_pieces, 'black')

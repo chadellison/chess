@@ -400,17 +400,6 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  describe 'pieces_with_next_move' do
-    it 'all of the pieces with the next move given' do
-      game = Game.create
-
-      piece = game.pieces.find_by(position: 'd2')
-      actual = piece.pieces_with_next_move('d4')
-
-      expect(actual.map(&:position).include?('d4')).to be true
-    end
-  end
-
   describe 'king_moved_two?' do
     context 'when the piece is not a king' do
       it 'returns false' do
@@ -497,7 +486,8 @@ RSpec.describe Piece, type: :model do
 
     it 'calls king_is_safe?' do
       expect_any_instance_of(Piece).to receive(:king_is_safe?)
-        .with('black', piece.pieces_with_next_move('e5'))
+      expect_any_instance_of(Game).to receive(:pieces_with_next_move)
+        .with('13e5')
 
       piece.valid_move?('e5')
     end
