@@ -18,9 +18,15 @@ module NotationLogic
   end
 
   def update_game_from_notation(move_notation, turn)
+    reload
     piece = find_piece(move_notation, turn)
-    binding.pry if piece.blank?
-    update_game(piece, find_move_position(move_notation), upgrade_value(move_notation))
+    if piece.blank?
+      puts 'ERROR #######################'
+      puts 'Move #: ' + moves.count.to_s
+      puts 'Notation $: ' + notation
+    else
+      update_game(piece, find_move_position(move_notation), upgrade_value(move_notation))
+    end
   end
 
   def upgrade_value(move_notation)

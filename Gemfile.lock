@@ -152,6 +152,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    stockfish (0.3.1)
     thor (0.20.0)
     thread_safe (0.3.6)
     tzinfo (1.2.5)
@@ -177,6 +178,7 @@ DEPENDENCIES
   redis (~> 3.3, >= 3.3.3)
   rspec-rails
   simplecov
+  stockfish
   tzinfo-data
 
 RUBY VERSION
