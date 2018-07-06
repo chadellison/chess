@@ -11,6 +11,7 @@ gem 'faker'
 gem 'redis', '~> 3.3', '>= 3.3.3'
 gem 'bcrypt'
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'stockfish'
 
 group :development, :test do
   gem 'rspec-rails'
