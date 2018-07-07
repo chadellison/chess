@@ -13,7 +13,6 @@ task train_on_stockfish: :environment do
         fen_notation = find_fen_notation(game)
         puts fen_notation
         stockfish_move = find_stockfish_move(fen_notation, engine)
-
         position_index = find_piece_index(game.pieces, stockfish_move)
 
         upgraded_type = find_upgraded_type(stockfish_move)
@@ -122,10 +121,10 @@ def fen_castle_codes(pieces)
   white_queen_rook = pieces.find_by(position_index: 25)
 
 
-  castle_codes += 'K' if black_king_rook.present? && [black_king, black_king_rook].none?(&:has_moved)
-  castle_codes += 'Q' if black_queen_rook.present? && [black_king, black_queen_rook].none?(&:has_moved)
-  castle_codes += 'k' if white_king_rook.present? && [white_king, white_king_rook].none?(&:has_moved)
-  castle_codes += 'q' if white_queen_rook.present? && [white_king, white_queen_rook].none?(&:has_moved)
+  castle_codes += 'K' if white_king_rook.present? && [white_king, white_king_rook].none?(&:has_moved)
+  castle_codes += 'Q' if white_queen_rook.present? && [white_king, white_queen_rook].none?(&:has_moved)
+  castle_codes += 'k' if black_king_rook.present? && [black_king, black_king_rook].none?(&:has_moved)
+  castle_codes += 'q' if black_queen_rook.present? && [black_king, black_queen_rook].none?(&:has_moved)
   castle_codes += '-' if castle_codes.blank?
   " #{castle_codes}"
 end
@@ -142,5 +141,5 @@ def fen_piece_type(type, color)
 
   piece_type_code = piece_key[type]
 
-  color == 'white' ? piece_type_code : piece_type_code.capitalize
+  color == 'white' ? piece_type_code.capitalize : piece_type_code
 end
