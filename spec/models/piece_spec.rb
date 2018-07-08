@@ -402,32 +402,6 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  describe 'pawn_moved_two?' do
-    context 'when the piece is not a pawn' do
-      it 'returns false' do
-        piece = Piece.new(position: 'd2', piece_type: 'queen')
-
-        expect(piece.pawn_moved_two?('d4')).to be false
-      end
-    end
-
-    context 'when the piece is a pawn and did not move two' do
-      it 'returns false' do
-        piece = Piece.new(position: 'd2', piece_type: 'pawn')
-
-        expect(piece.pawn_moved_two?('d3')).to be false
-      end
-    end
-
-    context 'when the piece is a pawn and did move two' do
-      it 'returns true' do
-        piece = Piece.new(position: 'd2', piece_type: 'pawn')
-
-        expect(piece.pawn_moved_two?('d4')).to be true
-      end
-    end
-  end
-
   describe '#valid_move?' do
     let(:game) { Game.create }
 

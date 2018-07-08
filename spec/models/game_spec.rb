@@ -25,13 +25,12 @@ RSpec.describe Game, type: :model do
       allow_any_instance_of(Game).to receive(:ai_turn?).and_return(false)
     end
 
-    it 'updates the moved piece\'s position and has_moved property' do
+    it 'updates the moved piece\'s position' do
       game = Game.create
       game.move(9, 'a3')
 
       actual = game.find_piece_by_index(9)
       expect(actual.position).to eq 'a3'
-      expect(actual.has_moved).to be true
     end
 
     it 'calls create_notation' do
@@ -41,17 +40,12 @@ RSpec.describe Game, type: :model do
       game.move(9, 'a3')
     end
 
-    it 'calls update_board' do
-      expect_any_instance_of(Game).to receive(:update_board)
-      game = Game.create
-      game.move(9, 'a3')
-    end
-
-    it 'calls update_piece' do
+    it 'calls update_game' do
       game = Game.create
       piece = game.find_piece_by_index(9)
-      expect_any_instance_of(Game).to receive(:update_piece)
+      expect_any_instance_of(Game).to receive(:update_game)
         .with(piece, 'a3', '')
+
       game.move(9, 'a3')
     end
   end

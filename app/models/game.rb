@@ -3,8 +3,6 @@ class Game < ApplicationRecord
   has_many :chat_messages, dependent: :destroy
   belongs_to :ai_player, optional: true, dependent: :destroy
 
-  after_commit :add_pieces, on: :create
-
   include NotationLogic
   include BoardLogic
   include AiLogic
@@ -65,11 +63,10 @@ class Game < ApplicationRecord
   end
 
   def add_pieces
-    return @pieces if @pieces.present?
     json_pieces = JSON.parse(File.read(Rails.root + 'json/pieces.json'))
                       .map(&:symbolize_keys)
 
-    @pieces = json_pieces.map do |json_piece|
+    json_pieces.map do |json_piece|
       json_piece[:game_id] = id
       Piece.new(json_piece)
     end
@@ -110,8 +107,12 @@ class Game < ApplicationRecord
         })
       end
     else
-      add_pieces
+      @pieces ||= add_pieces
     end
+  end
+
+  def update_pieces(pieces)
+    @pieces = pieces
   end
 
   def color_from_position_index(position_index)
@@ -119,12 +120,17 @@ class Game < ApplicationRecord
   end
 
   def piece_type_from_position_index(position_index)
-    # this should handle promoted pawns lool at moves for promoted value
-    return 'king' if [5, 29].include?(position_index)
-    return 'queen' if [4, 28].include?(position_index)
-    return 'bishop' if [3, 6, 27, 30].include?(position_index)
+    promoted = moves.detect do |move|
+      position_index_from_move(move.value) == position_index &&
+        move.promoted_pawn.present?
+    end
+
+    return promoted.promoted_pawn if promoted.present?
     return 'knight' if [2, 7, 26, 31].include?(position_index)
+    return 'bishop' if [3, 6, 27, 30].include?(position_index)
     return 'rook' if [1, 8, 25, 32].include?(position_index)
+    return 'queen' if [4, 28].include?(position_index)
+    return 'king' if [5, 29].include?(position_index)
     return 'pawn'
   end
 
