@@ -89,8 +89,24 @@ class Game < ApplicationRecord
 
   def pieces
     if moves.count > 0
-      # need to handle moved_two and has_moved and promoted pawn
       signature = moves.order(:move_count).last.setup.position_signature
+      move_indices = moves.map { |move| position_index_from_move(move.value).to_i }
+
+      # pawn_moved_two = false
+      # last_move = moves.order(:move_count).last
+      # last_move_position_index = position_index_from_move(last_move.value).to_i
+      # last_moved_piece_type = piece_type_from_position_index(last_move_position_index)
+
+      # need to handle very first move ...
+      # previous_location_of_last_moved_piece = moves[-2].setup.position_signature.split('.').detect do |value|
+      #   position_index_from_move(value).to_i == last_move_position_index
+      # end[-2..-1]
+      #
+      # if previous_location_of_last_moved_piece[1].to_i.abs - last_move.position[1].to_i.abs == 2 &&
+      #   last_moved_piece_type == 'pawn'
+      #     pawn_moved_two = true
+      # end
+
       @pieces = signature.split('.').map do |piece_value|
         position_index = position_index_from_move(piece_value).to_i
 
@@ -99,7 +115,9 @@ class Game < ApplicationRecord
           position: piece_value[-2..-1],
           position_index: position_index,
           color: color_from_position_index(position_index),
-          piece_type: piece_type_from_position_index(position_index)
+          piece_type: piece_type_from_position_index(position_index),
+          has_moved: move_indices.include?(position_index)
+          # moved_two: (pawn_moved_two && last_move_position_index == position_index)
         })
       end
     else
@@ -112,6 +130,7 @@ class Game < ApplicationRecord
   end
 
   def piece_type_from_position_index(position_index)
+    # this should handle promoted pawns
     return 'king' if [5, 29].include?(position_index)
     return 'queen' if [4, 28].include?(position_index)
     return 'bishop' if [3, 6, 27, 30].include?(position_index)
