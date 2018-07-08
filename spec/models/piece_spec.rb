@@ -200,37 +200,6 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  describe '#handle_moved_two' do
-    context 'when the piece is a pawn and has moved two' do
-      let(:game) { Game.create }
-
-      it 'updates the moved_two property to true' do
-        piece = game.pieces.find_by(position: 'd2')
-
-        piece.handle_moved_two('d4')
-
-        expect(piece.moved_two).to be true
-      end
-    end
-
-    context 'when the piece has not moved two' do
-      let(:game) { Game.create }
-
-      before do
-        game.pieces.where(piece_type: 'pawn').update(moved_two: true)
-      end
-
-      it 'updates the moved_two property of all other pawns to false' do
-        piece = game.pieces.find_by(position: 'd2')
-
-        piece.handle_moved_two('d3')
-
-        moved_twoProperties = game.pieces.where(piece_type: 'pawn').pluck(:moved_two)
-        expect(moved_twoProperties.all?).to be false
-      end
-    end
-  end
-
   describe '#valid_for_piece' do
     context 'when a king can castle' do
       let(:game) { Game.create }

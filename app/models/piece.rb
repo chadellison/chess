@@ -32,12 +32,4 @@ class Piece < ApplicationRecord
       king_is_safe?(color, game.pieces_with_next_move(position_index.to_s + move))
     ].all?
   end
-
-  def handle_moved_two(next_move)
-    game.pieces.where(piece_type: 'pawn').update_all(moved_two: false)
-
-    if (next_move[1].to_i - position[1].to_i).abs == 2 && piece_type == 'pawn'
-      update(moved_two: true)
-    end
-  end
 end
