@@ -65,6 +65,7 @@ class Game < ApplicationRecord
   end
 
   def add_pieces
+    return @pieces if @pieces.present?
     json_pieces = JSON.parse(File.read(Rails.root + 'json/pieces.json'))
                       .map(&:symbolize_keys)
 
@@ -89,6 +90,7 @@ class Game < ApplicationRecord
 
   def pieces
     if moves.count > 0
+      return @pieces if @pieces.present?
       signature = moves.order(:move_count).last.setup.position_signature
       move_indices = moves.map { |move| position_index_from_move(move.value).to_i }
 
