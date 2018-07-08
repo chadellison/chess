@@ -35,7 +35,6 @@ module BoardLogic
       position_index: piece.position_index,
       position: new_position,
       has_moved: true,
-      # moved_two: piece.pawn_moved_two?(new_position), 
       piece_type: (upgraded_type.present? ? upgraded_type : piece.piece_type)
     )
   end
@@ -44,17 +43,23 @@ module BoardLogic
     new_pieces = pieces_with_next_move(updated_piece.position_index.to_s + updated_piece.position)
     new_pieces = handle_castle(piece, updated_piece.position, new_pieces) if piece.king_moved_two?(updated_piece.position)
     new_pieces = handle_en_passant(piece, updated_piece.position, new_pieces) if en_passant?(piece, updated_piece.position)
-
+    update_pieces(new_pieces)
     game_move = new_move(updated_piece)
     game_move.setup = Setup.find_or_create_by(position_signature: create_signature(new_pieces))
     game_move.save
   end
 
   def new_move(piece)
+    promoted_pawn = is_promoted_pawn?(piece) ? piece.piece_type : nil
     moves.new(
       value: (piece.position_index.to_s + piece.position),
-      move_count: (moves.count + 1)
+      move_count: (moves.count + 1),
+      promoted_pawn: promoted_pawn
     )
+  end
+
+  def is_promoted_pawn?(piece)
+    (9..24).include?(piece.position_index) && piece.piece_type != 'pawn'
   end
 
   def create_signature(game_pieces)
@@ -78,7 +83,7 @@ module BoardLogic
 
     if column_difference == 2
       new_pieces = new_pieces.map do |game_piece|
-        game_piece.position = ('d' + row) if piece.position == ('a' + row)
+        game_piece.position = ('d' + row) if game_piece.position == ('a' + row)
         game_piece
       end
     end

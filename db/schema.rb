@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_11_005806) do
+ActiveRecord::Schema.define(version: 2018_07_08_195158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,22 +56,10 @@ ActiveRecord::Schema.define(version: 2018_06_11_005806) do
     t.integer "move_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "promoted_pawn"
     t.index ["game_id"], name: "index_moves_on_game_id"
     t.index ["setup_id"], name: "index_moves_on_setup_id"
     t.index ["value"], name: "index_moves_on_value"
-  end
-
-  create_table "pieces", force: :cascade do |t|
-    t.string "position"
-    t.integer "position_index"
-    t.string "color"
-    t.string "piece_type"
-    t.boolean "moved_two", default: false
-    t.boolean "has_moved", default: false
-    t.integer "game_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["game_id"], name: "index_pieces_on_game_id"
   end
 
   create_table "setups", force: :cascade do |t|
