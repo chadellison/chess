@@ -5,6 +5,7 @@ task train_on_self: :environment do
     start_time = Time.now
     until game.outcome || game.moves.count > 200 do
       game.ai_move
+      game.reload_pieces
       puts game.moves.order(:move_count).last.value
     end
     if game.outcome.present?
