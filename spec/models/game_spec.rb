@@ -1,17 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Game, type: :model do
-  it 'has many pieces' do
-    piece = Piece.new(
-      piece_type: 'rook',
-      color: 'black',
-      position: 'a2'
-    )
+  describe 'pieces' do
+    context 'when the pieces attribute is nil' do
+      it 'returns 32 pieces' do
+        game = Game.new
 
-    game = Game.new
-    game.pieces << piece
-
-    expect(game.pieces).to eq [piece]
+        expect(game.pieces.count).to eq 32
+      end
+    end
   end
 
   it 'has many moves' do
@@ -32,7 +29,7 @@ RSpec.describe Game, type: :model do
       game = Game.create
       game.move(9, 'a3')
 
-      actual = game.pieces.find_by(position_index: 9)
+      actual = game.find_piece_by_index(9)
       expect(actual.position).to eq 'a3'
       expect(actual.has_moved).to be true
     end
@@ -52,7 +49,7 @@ RSpec.describe Game, type: :model do
 
     it 'calls update_piece' do
       game = Game.create
-      piece = game.pieces.find_by(position_index: 9)
+      piece = game.find_piece_by_index(9)
       expect_any_instance_of(Game).to receive(:update_piece)
         .with(piece, 'a3', '')
       game.move(9, 'a3')
@@ -62,7 +59,8 @@ RSpec.describe Game, type: :model do
   describe 'after_commits' do
     describe 'add_pieces' do
       it 'adds 32 pieces to a game' do
-        expect { Game.create }.to change { Piece.count }.by(32)
+        game = Game.create
+        expect(game.pieces.count).to eq 32
       end
     end
   end
@@ -96,59 +94,6 @@ RSpec.describe Game, type: :model do
         game.ai_player = ai_player
         expect(game.ai_turn?).to be false
       end
-    end
-  end
-
-  describe 'scopes' do
-    describe '#similar_games' do
-    # let(:notation) { ' 9:a6 18:b4' }
-    #
-    # before do
-    #   3.times do |n|
-    #     game = Game.new
-    #     game.save(validate: false)
-    #     game.update_attribute(:robot, true)
-    #     game.update_attribute(:move_signature, move_signature) if n.even?
-    #   end
-    # end
-    #
-    # context 'when the move signature matches previous games' do
-    #   it 'returns games that match that game\'s move signature' do
-    #     expect(Game.similar_games(move_signature).count).to eq 2
-    #     expect(Game.similar_games(move_signature).map(&:move_signature))
-    #       .to eq [move_signature, move_signature]
-    #   end
-    # end
-    #
-    # context 'when the move signature matches previous games\' beginnings' do
-    #   it 'returns games that match that game\'s move signature' do
-    #     expect(Game.similar_games(' 9:a6').count).to eq 2
-    #     expect(Game.similar_games(move_signature).map(&:move_signature))
-    #       .to eq [move_signature, move_signature]
-    #   end
-    # end
-
-  #   describe '#winning_games' do
-  #   let!(:win) {
-  #     Game.new(
-  #       outcome: 1,
-  #       robot: true
-  #     )
-  #   }
-  #
-  #   let!(:draw) {
-  #     Game.create(
-  #       challengedEmail: Faker::Internet.email,
-  #       challengedName: Faker::Name.name,
-  #       challengerColor: 'white',
-  #       outcome: 0
-  #     )
-  #   }
-  #
-  #   it 'returns winning games of the given color' do
-  #     win.save(validate: false)
-  #     expect(Game.winning_games(1, 'white').last).to eq win
-  #     expect(Game.winning_games(1, 'white').count).to eq 1
     end
   end
 end

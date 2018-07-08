@@ -2,7 +2,6 @@ class PieceSerializer
   class << self
     def serialize(piece)
       {
-        id: piece.id,
         position: piece.position,
         positionIndex: piece.position_index,
         color: piece.color,

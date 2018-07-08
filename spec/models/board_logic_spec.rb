@@ -5,7 +5,7 @@ RSpec.describe BoardLogic, type: :module do
     it 'returns all of the pieces with the next move given' do
       game = Game.create
 
-      piece = game.pieces.find_by(position: 'd2')
+      piece = game.find_piece_by_position('d2')
       actual = game.pieces_with_next_move('20d4')
 
       expect(actual.map(&:position).include?('d4')).to be true
@@ -43,13 +43,13 @@ RSpec.describe BoardLogic, type: :module do
     it 'deletes a piece when it is on an occupied square' do
       game = Game.create
 
-      piece = game.pieces.find_by(position: 'd2')
-      piece.update(position: 'd6')
+      piece = game.find_piece_by_position('d2')
+      piece.position = 'd6'
 
-      expect { game.update_piece(piece, 'e7', '') }
-        .to change { game.pieces.count }.by(-1)
+      game.update_piece(piece, 'e7', '')
 
-      expect(game.pieces.reload.find_by(position: 'e7').id).to be piece.id
+      expect(game.pieces.count).to eq 31
+      expect(game.find_piece_by_position('e7').position_index).to eq piece.position_index
     end
   end
 
@@ -107,11 +107,11 @@ RSpec.describe BoardLogic, type: :module do
       let(:game) { Game.create }
 
       it 'updates the rook\'s position to the f column' do
-        piece = game.pieces.find_by(position_index: 29)
+        piece = game.find_piece_by_index(29)
 
         game.handle_castle(piece, 'c1')
 
-        expect(game.pieces.find_by(position_index: 25).position).to eq 'd1'
+        expect(game.find_piece_by_index(25).position).to eq 'd1'
       end
     end
 
@@ -119,23 +119,24 @@ RSpec.describe BoardLogic, type: :module do
       let(:game) { Game.create }
 
       it 'updates the rook\'s position to the f column' do
-        piece = game.pieces.find_by(position_index: 29)
+        piece = game.find_piece_by_index(29)
 
         game.handle_castle(piece, 'g1')
 
-        expect(game.pieces.find_by(position_index: 32).position).to eq 'f1'
+        expect(game.find_piece_by_index(32).position).to eq 'f1'
       end
     end
 
     context 'when the king has not moved two spaces' do
       let(:game) { Game.create }
+      
       it 'does nothing' do
-        piece = game.pieces.find_by(position_index: 29)
+        piece = game.find_piece_by_index(29)
 
         game.handle_castle(piece, 'f1')
 
-        expect(game.pieces.find_by(position_index: 25).position).to eq 'a1'
-        expect(game.pieces.find_by(position_index: 32).position).to eq 'h1'
+        expect(game.find_piece_by_index(25).position).to eq 'a1'
+        expect(game.find_piece_by_index(32).position).to eq 'h1'
       end
     end
   end
@@ -144,14 +145,13 @@ RSpec.describe BoardLogic, type: :module do
     it 'removes the captured piece' do
       game = Game.create
 
-      piece = game.pieces.find_by(position: 'd2')
-      piece.update(position: 'd5')
-      game.pieces.find_by(position: 'e7').update(position: 'e5')
+      piece = game.find_piece_by_position('d2')
+      piece.position = 'd5'
+      game.find_piece_by_position('e7').position = 'e5'
 
-      expect { game.handle_en_passant(piece, 'e6') }
-        .to change { game.pieces.count }.by(-1)
-
-      expect(game.pieces.find_by(position: 'e5').blank?).to be true
+      game.handle_en_passant(piece, 'e6')
+      expect(game.pieces.count).to eq 31
+      expect(game.find_piece_by_position('e5').blank?).to be true
     end
   end
 
@@ -160,12 +160,14 @@ RSpec.describe BoardLogic, type: :module do
       let!(:game) { Game.create }
 
       before do
-        game.pieces.find_by(position_index: 20).update(position: 'd4')
-        game.pieces.find_by(position_index: 13).update(position: 'e4', moved_two: true)
+        game.find_piece_by_index(20).position = 'd4'
+        piece = game.find_piece_by_index(13)
+        piece.position = 'e4'
+        piece.moved_two = true
       end
 
       it 'returns true' do
-        piece = game.pieces.find_by(position_index: 20)
+        piece = game.find_piece_by_index(20)
 
         expect(game.en_passant?(piece, 'e5')).to be true
       end
@@ -175,7 +177,7 @@ RSpec.describe BoardLogic, type: :module do
       let!(:game) { Game.create }
 
       it 'returns false' do
-        piece = game.pieces.find_by(position_index: 20)
+        piece = game.find_piece_by_index(20)
 
         expect(game.en_passant?(piece, 'd4')).to be false
       end
@@ -186,17 +188,15 @@ RSpec.describe BoardLogic, type: :module do
     let!(:checkmate_game) { Game.create }
 
     context 'when the king is in checkmate' do
-      before do
-        checkmate_game.pieces.find_by(position: 'e2').update(position: 'd4')
-        checkmate_game.pieces.find_by(position: 'e7').update(position: 'd5')
-        checkmate_game.pieces.find_by(position: 'd1').update(position: 'f7')
-        checkmate_game.pieces.find_by(position: 'b8').update(position: 'c6')
-        checkmate_game.pieces.find_by(position: 'f1').update(position: 'c4')
-        checkmate_game.pieces.find_by(position: 'g8').update(position: 'f6')
-      end
-
       it 'returns true' do
-        checkmate_game.reload
+        checkmate_game.move(21, 'e4')
+        checkmate_game.move(13, 'e5')
+        checkmate_game.move(28, 'f3')
+        checkmate_game.move(2, 'c6')
+        checkmate_game.move(30, 'c4')
+        checkmate_game.move(16, 'g6')
+        checkmate_game.move(28, 'f7')
+
         expect(checkmate_game.checkmate?(checkmate_game.pieces, 'black')).to be true
       end
     end

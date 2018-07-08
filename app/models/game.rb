@@ -1,5 +1,4 @@
 class Game < ApplicationRecord
-  has_many :pieces, dependent: :destroy
   has_many :moves, dependent: :destroy
   has_many :chat_messages, dependent: :destroy
   belongs_to :ai_player, optional: true, dependent: :destroy
@@ -47,9 +46,9 @@ class Game < ApplicationRecord
 
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
-    piece = pieces.find_by(position_index: position_index)
+    piece = find_piece_by_index(position_index)
     update_game(piece, new_position, upgraded_type)
-    reload
+
     GameEventBroadcastJob.perform_later(self)
     return handle_outcome if checkmate?(pieces, current_turn) || stalemate?(pieces, current_turn)
     ai_move if ai_turn?
@@ -67,8 +66,12 @@ class Game < ApplicationRecord
 
   def add_pieces
     json_pieces = JSON.parse(File.read(Rails.root + 'json/pieces.json'))
+                      .map(&:symbolize_keys)
 
-    json_pieces.each { |json_piece| pieces.create(json_piece) }
+    @pieces = json_pieces.map do |json_piece|
+      json_piece[:game_id] = id
+      Piece.new(json_piece)
+    end
   end
 
   def join_user_to_game(user_id)
@@ -82,5 +85,46 @@ class Game < ApplicationRecord
 
   def ai_turn?
     ai_player.present? && current_turn == ai_player.color
+  end
+
+  def pieces
+    if moves.count > 0
+      # need to handle moved_two and has_moved and promoted pawn
+      signature = moves.order(:move_count).last.setup.position_signature
+      @pieces = signature.split('.').map do |piece_value|
+        position_index = position_index_from_move(piece_value).to_i
+
+        Piece.new({
+          game_id: id,
+          position: piece_value[-2..-1],
+          position_index: position_index,
+          color: color_from_position_index(position_index),
+          piece_type: piece_type_from_position_index(position_index)
+        })
+      end
+    else
+      add_pieces
+    end
+  end
+
+  def color_from_position_index(position_index)
+    position_index < 17 ? 'black' : 'white'
+  end
+
+  def piece_type_from_position_index(position_index)
+    return 'king' if [5, 29].include?(position_index)
+    return 'queen' if [4, 28].include?(position_index)
+    return 'bishop' if [3, 6, 27, 30].include?(position_index)
+    return 'knight' if [2, 7, 26, 31].include?(position_index)
+    return 'rook' if [1, 8, 25, 32].include?(position_index)
+    return 'pawn'
+  end
+
+  def find_piece_by_position(position)
+    pieces.detect { |piece| piece.position == position }
+  end
+
+  def find_piece_by_index(index)
+    pieces.detect { |piece| piece.position_index == index }
   end
 end

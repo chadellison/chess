@@ -9,7 +9,7 @@ module NotationLogic
     if move_notation.include?('=')
       move_notation[-4..-3]
     elsif move_notation.include?('O')
-      king = pieces.find_by(piece_type: 'king', color: current_turn)
+      king = pieces.detect { |piece| piece.piece_type == 'king' && piece.color == current_turn }
       column = move_notation == 'O-O' ? 'g' : 'c'
       column + king.position[1]
     else
@@ -57,7 +57,7 @@ module NotationLogic
   end
 
   def piece_from_castle(turn)
-    pieces.find_by(piece_type: 'king', color: turn)
+    pieces.detect { |piece| piece.piece_type == 'king' && piece.color == turn }
   end
 
   def piece_from_crossed_pawn(move_notation, turn)
@@ -66,7 +66,7 @@ module NotationLogic
       pawns.detect { |pawn| pawn.position.include?(move_notation[0]) }
     else
       start_row = move_notation[1] == '8' ? '7' : '2'
-      pieces.find_by(position: (move_notation[0] + start_row))
+      pieces.detect { |piece| piece.position == (move_notation[0] + start_row) }
     end
   end
 
@@ -80,7 +80,7 @@ module NotationLogic
   end
 
   def create_notation(position_index, new_position, upgraded_type)
-    piece = pieces.find_by(position_index: position_index)
+    piece = find_piece_by_index(position_index)
     return castle_notation(new_position) if piece.king_moved_two?(new_position)
     new_notation = PIECE_CODE[piece.piece_type.to_sym]
     new_notation += start_notation(piece, new_position) unless ['king', 'queen'].include?(piece.piece_type)
@@ -96,19 +96,21 @@ module NotationLogic
 
   def start_notation(piece, next_move)
     same_pieces = matching_pieces(piece.piece_type, piece.color, next_move)
-    return '' if same_pieces.count == 1
+    return '' if same_pieces.count < 2
 
     column_is_unique?(same_pieces, piece.position) ? piece.position[0] : piece.position[1]
   end
 
   def matching_pieces(piece_type, piece_color, new_position)
-    pieces.where(piece_type: piece_type, color: piece_color).select do |piece|
-      piece.valid_moves.include?(new_position)
+    pieces.select do |piece|
+      piece.piece_type == piece_type &&
+        piece.color == piece_color &&
+        piece.valid_moves.include?(new_position)
     end
   end
 
   def capture_notation(notation, piece, new_position)
-    if pieces.where(position: new_position).present?
+    if pieces.select { |piece| piece.position == new_position }.present?
       notation.blank? ? piece.position[0] + 'x' : 'x'
     else
       ''
