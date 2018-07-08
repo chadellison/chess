@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe NotationLogic, type: :module do
   describe 'update_game_from_notation' do
-    it 'test' do
+    xit 'test' do
     end
   end
 
@@ -11,7 +11,7 @@ RSpec.describe NotationLogic, type: :module do
       it 'returns the black king' do
         game =  Game.create
 
-        expected = game.pieces.find_by(position_index: 5)
+        expected = game.find_piece_by_index(5)
 
         expect(game.piece_from_castle('black')).to eq expected
       end
@@ -21,7 +21,7 @@ RSpec.describe NotationLogic, type: :module do
       it 'returns the white king' do
         game =  Game.create
 
-        expected = game.pieces.find_by(position_index: 29)
+        expected = game.find_piece_by_index(29)
 
         expect(game.piece_from_castle('white')).to eq expected
       end
@@ -99,8 +99,8 @@ RSpec.describe NotationLogic, type: :module do
     context 'when a pawn kills another piece' do
       it 'returns the notation' do
         game = Game.create
-        game.pieces.find_by(position: 'e7').update(position: 'e5')
-        game.pieces.find_by(position: 'd2').update(position: 'd4')
+        game.find_piece_by_position('e7').position = 'e5'
+        game.find_piece_by_position('d2').position = 'd4'
         actual = game.create_notation(20, 'e5', '')
         expect(actual).to eq 'dxe5.'
       end
@@ -109,8 +109,8 @@ RSpec.describe NotationLogic, type: :module do
     context 'for a castle' do
       it 'calls the notation' do
         game = Game.create
-        game.pieces.find_by(position: 'f1').update(position: '')
-        game.pieces.find_by(position: 'g1').update(position: '')
+        game.find_piece_by_position('f1').position = ''
+        game.find_piece_by_position('g1').position = ''
 
         expect_any_instance_of(Game).to receive(:castle_notation)
           .with('g1')
@@ -120,8 +120,8 @@ RSpec.describe NotationLogic, type: :module do
       context 'on the king side' do
         it 'returns the notation' do
           game = Game.create
-          game.pieces.find_by(position: 'f1').update(position: '')
-          game.pieces.find_by(position: 'g1').update(position: '')
+          game.find_piece_by_position('f1').position = ''
+          game.find_piece_by_position('g1').position = ''
           actual = game.create_notation(29, 'g1', '')
           expect(actual).to eq 'O-O.'
         end
@@ -130,9 +130,9 @@ RSpec.describe NotationLogic, type: :module do
       context 'on the queen side' do
         it 'returns the notation' do
           game = Game.create
-          game.pieces.find_by(position: 'd1').update(position: '')
-          game.pieces.find_by(position: 'c1').update(position: '')
-          game.pieces.find_by(position: 'b1').update(position: '')
+          game.find_piece_by_position('d1').position = ''
+          game.find_piece_by_position('c1').position = ''
+          game.find_piece_by_position('b1').position = ''
           actual = game.create_notation(29, 'c1', '')
           expect(actual).to eq 'O-O-O.'
         end
@@ -150,8 +150,8 @@ RSpec.describe NotationLogic, type: :module do
     context 'for a knight when both knights can move on a given position' do
       it 'returns the notation' do
         game = Game.create
-        game.pieces.find_by(position: 'b1').update(position: 'c3')
-        game.pieces.find_by(position: 'g1').update(position: 'e3')
+        game.find_piece_by_position('b1').position = 'c3'
+        game.find_piece_by_position('g1').position = 'e3'
 
         knight_on_c = game.create_notation(26, 'd5', '')
         expect(knight_on_c).to eq 'Ncd5.'
@@ -164,7 +164,13 @@ RSpec.describe NotationLogic, type: :module do
     context 'for a rook' do
       it 'returns the notation' do
         game = Game.create
-        game.pieces.find_by(position: 'a2').update(position: '')
+        move = Move.create(value: '25a1')
+        setup = Setup.create(position_signature: '25a1.')
+        move.setup = setup
+        game.moves << move
+
+        game.pieces.select! { |piece| [25].include?(piece.position_index) }
+
         actual = game.create_notation(25, 'a6', '')
         expect(actual).to eq 'Ra6.'
       end
@@ -173,8 +179,8 @@ RSpec.describe NotationLogic, type: :module do
     context 'for a rook when two rooks are on the same column' do
       it 'returns the notation' do
         game = Game.create
-        game.pieces.find_by(position: 'a1').update(position: 'a3')
-        game.pieces.find_by(position: 'h1').update(position: 'h3')
+        game.find_piece_by_position('a1').position = 'a3'
+        game.find_piece_by_position('h1').position = 'h3'
         actual = game.create_notation(25, 'd3', '')
         expect(actual).to eq 'Rad3.'
       end
@@ -183,8 +189,8 @@ RSpec.describe NotationLogic, type: :module do
     context 'for a rook when two rooks are on the same row' do
       it 'returns the notation' do
         game = Game.create
-        game.pieces.find_by(position: 'a1').update(position: 'a3')
-        game.pieces.find_by(position: 'h1').update(position: 'h3')
+        game.find_piece_by_position('a1').position = 'a3'
+        game.find_piece_by_position('h1').position = 'h3'
         actual = game.create_notation(32, 'd3', '')
         expect(actual).to eq 'Rhd3.'
       end
@@ -192,28 +198,15 @@ RSpec.describe NotationLogic, type: :module do
 
     context 'for a crossed pawn' do
       it 'returns the notation' do
-        allow_any_instance_of(Game).to receive(:add_pieces)
         game = Game.create
-        game.pieces.create(
-          position_index: 17,
-          position: 'a7',
-          piece_type: 'pawn',
-          color: 'white'
-        )
+        move = Move.create(value: '5a7')
+        setup = Setup.create(position_signature: '5e8.17a7.29e1')
+        move.setup = setup
+        game.moves << move
 
-        game.pieces.create(
-          position_index: 29,
-          position: 'e1',
-          piece_type: 'king',
-          color: 'white'
-        )
+        game.pieces.select! { |piece| [17, 29, 5].include?(piece.position_index) }
+        game.find_piece_by_index(17).position = 'a7'
 
-        game.pieces.create(
-          position_index: 5,
-          position: 'e8',
-          piece_type: 'king',
-          color: 'black'
-        )
         actual = game.create_notation(17, 'a8', 'queen')
         expect(actual).to eq 'a8=Q.'
       end
@@ -222,9 +215,8 @@ RSpec.describe NotationLogic, type: :module do
     context 'for a crossed pawn that captures a piece' do
       it 'returns the notation' do
         game = Game.create
-        game.pieces.find_by(position_index: 17).update(position: 'a7')
-        game.pieces.find_by(position_index: 9).destroy
-        game.pieces.find_by(position_index: 1).destroy
+        game.find_piece_by_index(17).position = 'a7'
+        game.pieces.reject! { |piece| [9, 1].include?(piece.position_index) }
         actual = game.create_notation(17, 'b8', 'queen')
         expect(actual).to eq 'axb8=Q.'
       end
@@ -270,7 +262,6 @@ RSpec.describe NotationLogic, type: :module do
   describe 'capture_notation' do
     context 'when no pieces are present on the destination' do
       it 'returns an empty string' do
-        allow_any_instance_of(Game).to receive(:add_pieces)
 
         game = Game.create
         piece = Piece.new(position: 'd4')
@@ -281,11 +272,12 @@ RSpec.describe NotationLogic, type: :module do
 
     context 'when a piece is present on the destination' do
       it 'returns an x' do
-        allow_any_instance_of(Game).to receive(:add_pieces)
 
         game = Game.create
-        piece1 = game.pieces.create(position: 'd4')
-        piece2 = game.pieces.create(position: 'c3')
+        piece1 = Piece.new(position: 'd4', game_id: game.id)
+        piece2 = Piece.new(position: 'c3', game_id: game.id)
+        game.pieces << piece1
+        game.pieces << piece2
         actual = game.capture_notation('abc123', piece1, 'c3')
         expect(actual).to eq 'x'
       end
@@ -293,11 +285,11 @@ RSpec.describe NotationLogic, type: :module do
 
     context 'when a piece is present on the destination and the notation is blank' do
       it 'returns a the column and an x' do
-        allow_any_instance_of(Game).to receive(:add_pieces)
-
         game = Game.create
-        piece1 = game.pieces.create(position: 'd4')
-        piece2 = game.pieces.create(position: 'c3')
+        piece1 = Piece.new(position: 'd4', game_id: game.id)
+        piece2 = Piece.new(position: 'c3', game_id: game.id)
+        game.pieces << piece1
+        game.pieces << piece2
         actual = game.capture_notation('', piece1, 'c3')
         expect(actual).to eq 'dx'
       end
@@ -308,8 +300,8 @@ RSpec.describe NotationLogic, type: :module do
     context 'on the king side' do
       it 'returns O-O.' do
         game = Game.create
-        game.pieces.find_by(position: 'f1').update(position: '')
-        game.pieces.find_by(position: 'g1').update(position: '')
+        game.find_piece_by_position('f1').position = ''
+        game.find_piece_by_position('g1').position = ''
         actual = game.create_notation(29, 'g1', '')
         expect(actual).to eq 'O-O.'
       end
@@ -318,9 +310,9 @@ RSpec.describe NotationLogic, type: :module do
     context 'for a castle on the queen side' do
       it 'returns O-O-O.' do
         game = Game.create
-        game.pieces.find_by(position: 'd1').update(position: '')
-        game.pieces.find_by(position: 'c1').update(position: '')
-        game.pieces.find_by(position: 'b1').update(position: '')
+        game.find_piece_by_position('d1').position = ''
+        game.find_piece_by_position('c1').position = ''
+        game.find_piece_by_position('b1').position = ''
         actual = game.create_notation(29, 'c1', '')
         expect(actual).to eq 'O-O-O.'
       end
@@ -330,14 +322,15 @@ RSpec.describe NotationLogic, type: :module do
   describe 'matching_pieces' do
     it 'returns all the pieces that can move on the same square' do
       game = Game.create
-      knight1 = game.pieces.find_by(position: 'b1', color: 'white', piece_type: 'knight')
-      knight2 = game.pieces.find_by(position: 'g1', color: 'white', piece_type: 'knight')
+      knight1 = game.find_piece_by_index(26)
+      knight2 = game.find_piece_by_index(31)
 
-      knight1.update(position: 'e3')
-      knight2.update(position: 'c3')
+      knight1.position = 'e3'
+      knight2.position = 'c3'
 
       actual = game.matching_pieces('knight', 'white', 'd5')
-      expect(actual.pluck(:id).sort).to eq [knight1.id, knight2.id].sort
+
+      expect(actual.sort_by(&:position_index)).to eq [knight1, knight2]
     end
   end
 
@@ -345,11 +338,11 @@ RSpec.describe NotationLogic, type: :module do
     context 'when the pieces are on the same column' do
       it 'returns true' do
         game = Game.create
-        rook1 = game.pieces.find_by(position: 'a1', color: 'white')
-        rook2 = game.pieces.find_by(position: 'h1', color: 'white')
+        rook1 = game.pieces.detect { |piece| piece.position == 'a1' && piece.color == 'white' }
+        rook2 = game.pieces.detect { |piece| piece.position == 'h1' && piece.color == 'white' }
 
-        rook1.update(position: 'e3')
-        rook2.update(position: 'e6')
+        rook1.position = 'e3'
+        rook2.position = 'e6'
 
         actual = game.column_is_unique?([rook1, rook2], 'e3')
         expect(actual).to be false
@@ -359,11 +352,10 @@ RSpec.describe NotationLogic, type: :module do
     context 'when the pieces are not on the same column' do
       it 'returns true' do
         game = Game.create
-        knight1 = game.pieces.find_by(position: 'b1', color: 'white')
-        knight2 = game.pieces.find_by(position: 'g1', color: 'white')
-
-        knight1.update(position: 'e3')
-        knight2.update(position: 'c3')
+        knight1 = game.find_piece_by_index(26)
+        knight2 = game.find_piece_by_index(31)
+        knight1.position = 'e3'
+        knight2.position = 'c3'
 
         actual = game.column_is_unique?([knight1, knight2], 'e3')
         expect(actual).to be true
