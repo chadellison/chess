@@ -4,7 +4,7 @@ module BoardLogic
   def pieces_with_next_move(move)
     pieces.reject { |piece| piece.position == move[-2..-1] }
           .map do |piece|
-            if piece.position_index == move[0..-3].to_i
+            if piece.position_index == position_index_from_move(move)
               piece = Piece.new({
                 color: piece.color,
                 piece_type: piece.piece_type,
@@ -12,7 +12,7 @@ module BoardLogic
                 game_id: piece.game_id,
                 position: move[-2..-1],
                 moved_two: piece.moved_two,
-                has_moved: piece.has_moved
+                has_moved: true
               })
             end
             piece

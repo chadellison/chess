@@ -7,13 +7,13 @@ task train_on_stockfish: :environment do
     engine.multipv(3)
 
     until game.outcome || game.moves.count > 200 do
-      game.reload
       turn = game.current_turn
+      game.reload_pieces if game.moves.count > 0
       if turn == stockfish_color(game_number)
         fen_notation = find_fen_notation(game)
         puts fen_notation
         stockfish_move = find_stockfish_move(fen_notation, engine)
-        position_index = find_piece_index(game.pieces, stockfish_move)
+        position_index = find_piece_index(game, stockfish_move)
 
         upgraded_type = find_upgraded_type(stockfish_move)
 
@@ -50,8 +50,8 @@ def stockfish_color(game_number)
   game_number.even? ? 'white' : 'black'
 end
 
-def find_piece_index(pieces, stockfish_move)
-  pieces.find_by(position: stockfish_move[0..1]).position_index
+def find_piece_index(game, stockfish_move)
+  game.find_piece_by_position(stockfish_move[0..1]).position_index
 end
 
 def find_upgraded_type(stockfish_letter)
@@ -77,7 +77,7 @@ def find_fen_notation(game)
   rows.each do |row|
     space_count = 0
     columns.each do |column|
-      piece = game.pieces.find_by(position: (column + row))
+      piece = game.find_piece_by_position(column + row)
       if piece.present?
         fen_notation += space_count.to_s if space_count > 0
         space_count = 0
@@ -91,7 +91,7 @@ def find_fen_notation(game)
   end
 
   fen_notation += " #{game.current_turn[0]}"
-  fen_notation += fen_castle_codes(game.pieces)
+  fen_notation += fen_castle_codes(game)
   fen_notation += fen_code_pawn_moved_two(game)
   fen_notation += ' 0'
   fen_notation += " #{game.moves.count / 2}"
@@ -100,10 +100,10 @@ end
 
 def fen_code_pawn_moved_two(game)
   last_move = game.moves.order(:move_count).last
-  position_index = last_move.value.length == 3 ? last_move.value[0].to_i : last_move.value[0..1].to_i
-  piece = game.pieces.find_by(position_index: position_index)
+  position_index = game.position_index_from_move(last_move.value)
+  piece = game.find_piece_by_index(position_index)
 
-  if piece.piece_type == 'pawn' && piece.moved_two
+  if game.pawn_moved_two?
     position_row = piece.color == 'black' ? piece.position[1].to_i + 1 : piece.position[1].to_i - 1
     " #{piece.position[0]}#{position_row}"
   else
@@ -111,21 +111,21 @@ def fen_code_pawn_moved_two(game)
   end
 end
 
-def fen_castle_codes(pieces)
+def fen_castle_codes(game)
   castle_codes = ''
-  black_king = pieces.find_by(position_index: 5)
-  black_king_rook = pieces.find_by(position_index: 32)
-  black_queen_rook = pieces.find_by(position_index: 25)
-  white_king = pieces.find_by(position_index: 29)
-  white_king_rook = pieces.find_by(position_index: 32)
-  white_queen_rook = pieces.find_by(position_index: 25)
+  black_king = game.find_piece_by_index(5)
+  black_king_rook = game.find_piece_by_index(32)
+  black_queen_rook = game.find_piece_by_index(25)
+  white_king = game.find_piece_by_index(29)
+  white_king_rook = game.find_piece_by_index(32)
+  white_queen_rook = game.find_piece_by_index(25)
 
 
   castle_codes += 'K' if white_king_rook.present? && [white_king, white_king_rook].none?(&:has_moved)
   castle_codes += 'Q' if white_queen_rook.present? && [white_king, white_queen_rook].none?(&:has_moved)
   castle_codes += 'k' if black_king_rook.present? && [black_king, black_king_rook].none?(&:has_moved)
   castle_codes += 'q' if black_queen_rook.present? && [black_king, black_queen_rook].none?(&:has_moved)
-  castle_codes += '-' if castle_codes.blank?
+  castle_codes = '-' if castle_codes.blank?
   " #{castle_codes}"
 end
 

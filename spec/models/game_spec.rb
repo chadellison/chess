@@ -1,16 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Game, type: :model do
-  describe 'pieces' do
-    context 'when the pieces attribute is nil' do
-      it 'returns 32 pieces' do
-        game = Game.new
-
-        expect(game.pieces.count).to eq 32
-      end
-    end
-  end
-
   it 'has many moves' do
     move = Move.new
 
@@ -47,15 +37,6 @@ RSpec.describe Game, type: :model do
         .with(piece, 'a3', '')
 
       game.move(9, 'a3')
-    end
-  end
-
-  describe 'after_commits' do
-    describe 'add_pieces' do
-      it 'adds 32 pieces to a game' do
-        game = Game.create
-        expect(game.pieces.count).to eq 32
-      end
     end
   end
 
