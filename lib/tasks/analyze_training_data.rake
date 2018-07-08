@@ -1,5 +1,5 @@
 desc 'Train AI'
-task train_ai: :environment do
+task analyze_training_data: :environment do
   game_scope.find_each do |game|
     puts 'Game ' + game.id.to_s
     game.notation.split('.').each_with_index do |move_notation, index|
