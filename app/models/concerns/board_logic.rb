@@ -5,8 +5,15 @@ module BoardLogic
     pieces.reject { |piece| piece.position == move[-2..-1] }
           .map do |piece|
             if piece.position_index == move[0..-3].to_i
-              piece = Piece.new(piece.attributes)
-              piece.position = move[-2..-1]
+              piece = Piece.new({
+                color: piece.color,
+                piece_type: piece.piece_type,
+                position_index: piece.position_index,
+                game_id: piece.game_id,
+                position: move[-2..-1],
+                moved_two: piece.moved_two,
+                has_moved: piece.has_moved
+              })
             end
             piece
           end
@@ -19,33 +26,40 @@ module BoardLogic
   end
 
   def update_game(piece, new_position, upgraded_type = '')
-    update_piece(piece, new_position, upgraded_type)
-    update_board(piece)
+    updated_piece = update_piece(piece, new_position, upgraded_type)
+    update_board(piece, updated_piece)
   end
 
   def update_piece(piece, new_position, upgraded_type)
-    handle_castle(piece, new_position) if piece.king_moved_two?(new_position)
-    handle_en_passant(piece, new_position) if en_passant?(piece, new_position)
-    pieces.where(position: new_position).destroy_all
-    piece.update(
+    Piece.new(
+      position_index: piece.position_index,
       position: new_position,
       has_moved: true,
-      moved_two: piece.pawn_moved_two?(new_position),
       piece_type: (upgraded_type.present? ? upgraded_type : piece.piece_type)
     )
   end
 
-  def update_board(piece)
-    game_move = create_move(piece)
-    game_move.setup = Setup.find_or_create_by(position_signature: create_signature(pieces))
+  def update_board(piece, updated_piece)
+    new_pieces = pieces_with_next_move(updated_piece.position_index.to_s + updated_piece.position)
+    new_pieces = handle_castle(piece, updated_piece.position, new_pieces) if piece.king_moved_two?(updated_piece.position)
+    new_pieces = handle_en_passant(piece, updated_piece.position, new_pieces) if en_passant?(piece, updated_piece.position)
+    update_pieces(new_pieces)
+    game_move = new_move(updated_piece)
+    game_move.setup = Setup.find_or_create_by(position_signature: create_signature(new_pieces))
     game_move.save
   end
 
-  def create_move(piece)
-    moves.create(
+  def new_move(piece)
+    promoted_pawn = is_promoted_pawn?(piece) ? piece.piece_type : nil
+    moves.new(
       value: (piece.position_index.to_s + piece.position),
-      move_count: (moves.count + 1)
+      move_count: (moves.count + 1),
+      promoted_pawn: promoted_pawn
     )
+  end
+
+  def is_promoted_pawn?(piece)
+    (9..24).include?(piece.position_index) && piece.piece_type != 'pawn'
   end
 
   def create_signature(game_pieces)
@@ -54,40 +68,49 @@ module BoardLogic
     end.join('.')
   end
 
-  def handle_castle(piece, new_position)
+  def handle_castle(piece, new_position, updated_pieces)
     column_difference = piece.position[0].ord - new_position[0].ord
     row = piece.color == 'white' ? '1' : '8'
 
+    new_pieces = updated_pieces
+
     if column_difference == -2
-      pieces.find_by(position: ('h' + row)).update(position: ('f' + row))
+      new_pieces = new_pieces.map do |game_piece|
+        game_piece.position = ('f' + row) if game_piece.position == ('h' + row)
+        game_piece
+      end
     end
 
     if column_difference == 2
-      pieces.find_by(position: ('a' + row)).update(position: ('d' + row))
+      new_pieces = new_pieces.map do |game_piece|
+        game_piece.position = ('d' + row) if game_piece.position == ('a' + row)
+        game_piece
+      end
     end
+
+    new_pieces
   end
 
-  def handle_en_passant(piece, new_position)
+  def handle_en_passant(piece, new_position, updated_pieces)
     captured_position = new_position[0] + piece.position[1]
-    captured_piece = pieces.find_by(position: captured_position).destroy
+    updated_pieces.reject { |game_piece| game_piece.position == captured_position}
   end
 
   def en_passant?(piece, position)
     [
       piece.piece_type == 'pawn',
       piece.position[0] != position[0],
-      pieces.find_by(position: position).blank?
+      pieces.detect { |piece| piece.position == position }.blank?
     ].all?
   end
 
   def checkmate?(game_pieces, turn)
     no_valid_moves?(game_pieces, turn) &&
-      !pieces.find_by(color: turn)
-             .king_is_safe?(turn, game_pieces)
+      !pieces.detect { |piece| piece.color == turn }.king_is_safe?(turn, game_pieces)
   end
 
   def stalemate?(game_pieces, turn)
-    king = pieces.find_by(color: current_turn)
+    king = pieces.detect { |piece| piece.color == current_turn }
     [
       no_valid_moves?(game_pieces, turn) && king.king_is_safe?(current_turn, game_pieces),
       insufficient_pieces?,
@@ -96,8 +119,8 @@ module BoardLogic
   end
 
   def insufficient_pieces?
-    black_pieces = pieces.where(color: 'black').pluck(:piece_type)
-    white_pieces = pieces.where(color: 'white').pluck(:piece_type)
+    black_pieces = pieces.select { |piece| piece.color == 'black' }.map(&:piece_type)
+    white_pieces = pieces.select { |piece| piece.color == 'white' }.map(&:piece_type)
     piece_types = ['queen', 'pawn', 'rook']
 
     [black_pieces, white_pieces].all? do |pieces_left|

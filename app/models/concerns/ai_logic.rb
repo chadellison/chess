@@ -34,7 +34,7 @@ module AiLogic
   end
 
   def find_next_moves
-    pieces.where(color: current_turn).map do |piece|
+    pieces.select { |piece| piece.color == current_turn }.map do |piece|
       all_next_moves_for_piece(piece)
     end.flatten
   end
@@ -73,22 +73,13 @@ module AiLogic
     current_turn == 'white' ? 'rank > ?' : 'rank < ?'
   end
 
-  # def opponent_threats
-  #   ally_positions = pieces.where(color: current_turn).map(&:position)
-  #   pieces.where(color: opponent_color).select do |piece|
-  #     (piece.valid_moves & ally_positions).present?
-  #   end.map { |piece| piece.position_index.to_s + piece.position }
-  # end
-
   def piece_analysis(possible_moves)
     weighted_moves = {}
     current_signature = create_signature(pieces).split('.')
-    # threats = opponent_threats
 
     possible_moves.each do |possible_move|
       weight = weight_analysis(current_signature, possible_move.value)
       weight -= moves.pluck(:value).select { |move| move == possible_move.value }.count
-      # weight += weight_analysis(threats, possible_move.value)
       weight += material_analysis(possible_move.value)
       weighted_moves[weight] = possible_move
     end

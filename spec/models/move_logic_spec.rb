@@ -354,47 +354,54 @@ RSpec.describe MoveLogic, type: :module do
 
       it 'returns true' do
 
-        piece = game.pieces.create(color: 'white', position: 'a3', piece_type: 'rook')
-        game.pieces.create(color: 'black', position: 'a4', piece_type: 'rook')
+        white_piece = Piece.new(color: 'white', position: 'a3', piece_type: 'rook', game_id: game.id)
 
-        expect(piece.valid_destination?('a4', game.pieces)).to be true
+        black_piece = Piece.new(color: 'black', position: 'a4', piece_type: 'rook')
+
+        game.pieces << white_piece
+        game.pieces << black_piece
+
+        expect(white_piece.valid_destination?('a4', game.pieces)).to be true
       end
     end
 
     context 'when the destination is empty' do
       let(:game) { Game.create }
       it 'returns true' do
-        piece = game.pieces.create(
+        piece_one = Piece.new(
           color: 'white',
           position: 'a3',
           piece_type: 'rook',
-          position_index: 25
+          position_index: 25,
+          game_id: game.id
         )
-        game.pieces.create(
+        piece_two = Piece.new(
           color: 'black',
           position: 'a7',
           piece_type: 'rook',
-          position_index: 32
+          position_index: 32,
+          game_id: game.id
         )
 
-        expect(piece.valid_destination?('a4', game.pieces)).to be true
+        game.pieces << piece_one
+        game.pieces << piece_two
+
+        expect(piece_one.valid_destination?('a4', game.pieces)).to be true
       end
     end
 
     context 'when the destination is occupied by an allied piece' do
-      let(:game) {
-        Game.create
-      }
+      let(:game) { Game.create }
 
       it 'returns false' do
-        piece = game.pieces.find_by(position_index: 17)
+        piece = game.find_piece_by_index(17)
 
-        game.pieces.find_by(position_index: 9).update(
-          color: 'white',
-          position: 'a7',
-          piece_type: 'rook',
-          position_index: 32
-        )
+        game_piece = game.find_piece_by_index(9)
+
+        game_piece.color = 'white'
+        game_piece.position = 'a7'
+        game_piece.piece_type = 'rook'
+        game_piece.position_index = 32
 
         expect(piece.valid_destination?('a7', game.pieces)).to be false
       end
@@ -406,9 +413,9 @@ RSpec.describe MoveLogic, type: :module do
       }
 
       it 'returns true' do
-        piece = game.pieces.find_by(position_index: 26)
-        game.pieces.find_by(position_index: 5).update(position: 'd6')
-        piece.update(position: 'e4')
+        piece = game.find_piece_by_index(26)
+        game.find_piece_by_index(5).position = 'd6'
+        piece.position = 'e4'
 
         expect(piece.valid_destination?('d6', game.pieces)).to be true
       end
@@ -422,66 +429,58 @@ RSpec.describe MoveLogic, type: :module do
       }
 
       it 'returns true' do
-        piece = game.pieces.find_by(position_index: 25)
-        piece.update(position: 'a3')
+        piece = game.find_piece_by_index(25)
+        piece.position = 'a3'
 
-        game.pieces.find_by(position_index: 5).update(position: 'd6')
+        game.find_piece_by_index(5).position = 'd6'
 
         expect(piece.king_is_safe?('black', game.pieces)).to be true
       end
     end
 
     context 'when the king is in check' do
-      let(:game) {
-        Game.create
-      }
+      let(:game) { Game.create }
 
       it 'returns false' do
-        piece = game.pieces.find_by(position_index: 25)
-        piece.update(position: 'd4')
+        piece = game.find_piece_by_index(25)
+        piece.position = 'd4'
 
-        game.pieces.find_by(position_index: 5).update(position: 'd6')
+        game.find_piece_by_index(5).position = 'd6'
         expect(piece.king_is_safe?('black', game.pieces)).to be false
       end
     end
 
     context 'when the king is in check from a diagonal threat' do
-      let(:game) {
-        Game.create
-      }
+      let(:game) { Game.create }
 
       it 'returns false' do
-        piece = game.pieces.find_by(position_index: 30)
-        piece.update(position: 'h3')
+        piece = game.find_piece_by_index(30)
+        piece.position = 'h3'
 
-        game.pieces.find_by(position_index: 5).update(position: 'e6')
+        game.find_piece_by_index(5).position = 'e6'
         expect(piece.king_is_safe?('black', game.pieces)).to be false
       end
     end
 
     context 'when the king is in check from a diagonal one space away' do
-      let(:game) {
-        Game.create
-      }
+      let(:game) { Game.create }
 
       it 'returns false' do
-        piece = game.pieces.find_by(position_index: 30)
-        piece.update(position: 'f5')
+        piece = game.find_piece_by_index(30)
+        piece.position = 'f5'
 
-        game.pieces.find_by(position_index: 5).update(position: 'e6')
+        game.find_piece_by_index(5).position = 'e6'
         expect(piece.king_is_safe?('black', game.pieces)).to be false
       end
     end
 
     context 'when the king is in check from a knight' do
-      let(:game) {
-        Game.create
-      }
+      let(:game) { Game.create }
 
       it 'returns false' do
-        game.pieces.find_by(position_index: 2).update(position: 'f3')
+        game.find_piece_by_index(2).position = 'f3'
 
-        piece = game.pieces.find_by(color: 'white', piece_type: 'king')
+        piece = game.pieces.detect { |piece| piece.color == 'white' && piece.piece_type == 'king' }
         expect(piece.king_is_safe?('white', game.pieces)).to be false
       end
     end
@@ -489,19 +488,18 @@ RSpec.describe MoveLogic, type: :module do
 
   describe 'can_en_pessant?' do
     let(:game) { Game.create }
-
-    let(:piece) {
-      game.pieces.find_by(position: 'c2')
-    }
+    let(:piece) { game.find_piece_by_position('c2') }
 
     context 'when the adjacent peice is an ally' do
       before do
-        game.pieces.find_by(position: 'd2').update(position: 'd4', moved_two: true)
-        piece.update(position: 'c4')
+        ally = game.find_piece_by_position('d2')
+        ally.position = 'd4'
+        ally.moved_two = true
+        piece.position = 'c4'
       end
 
       it 'returns false' do
-        expect(piece.can_en_pessant?('d5', game.pieces.reload)).to be false
+        expect(piece.can_en_pessant?('d5', game.pieces)).to be false
       end
     end
   end
@@ -511,7 +509,7 @@ RSpec.describe MoveLogic, type: :module do
       let(:game) { Game.create }
 
       it 'returns true' do
-        piece = game.pieces.find_by(position: 'd2')
+        piece = game.find_piece_by_position('d2')
         expect(piece.valid_for_pawn?('d3', game.pieces)).to be true
       end
     end
@@ -520,12 +518,12 @@ RSpec.describe MoveLogic, type: :module do
       let(:game) { Game.create }
 
       before do
-        game.pieces.find_by(position: 'd2').update(position: 'd4')
-        game.pieces.find_by(position: 'd7').update(position: 'd5')
+        game.find_piece_by_position('d2').position = 'd4'
+        game.find_piece_by_position('d7').position = 'd5'
       end
 
       it 'returns false' do
-        piece = game.pieces.find_by(position: 'd4')
+        piece = game.find_piece_by_position('d4')
         expect(piece.valid_for_pawn?('d5', game.pieces)).to be false
       end
     end
@@ -534,7 +532,7 @@ RSpec.describe MoveLogic, type: :module do
       let(:game) { Game.create }
 
       it 'returns true' do
-        piece = game.pieces.find_by(position: 'd7')
+        piece = game.find_piece_by_position('d7')
         expect(piece.valid_for_pawn?('d6', game.pieces)).to be true
       end
     end
@@ -543,12 +541,12 @@ RSpec.describe MoveLogic, type: :module do
       let(:game) { Game.create }
 
       before do
-        game.pieces.find_by(position: 'd7').update(position: 'd5')
-        game.pieces.find_by(position: 'd2').update(position: 'd4')
+        game.find_piece_by_position('d7').position = 'd5'
+        game.find_piece_by_position('d2').position = 'd4'
       end
 
       it 'returns false' do
-        piece = game.pieces.find_by(position: 'd5')
+        piece = game.find_piece_by_position('d5')
         expect(piece.valid_for_pawn?('d4', game.pieces)).to be false
       end
     end
@@ -558,7 +556,7 @@ RSpec.describe MoveLogic, type: :module do
     let(:game) { Game.create }
 
     it 'returns false' do
-      piece = game.pieces.find_by(position: 'd2')
+      piece = game.find_piece_by_position('d2')
       expect(piece.valid_for_pawn?('d4', game.pieces)).to be true
     end
   end
@@ -567,11 +565,11 @@ RSpec.describe MoveLogic, type: :module do
     let(:game) { Game.create }
 
     before do
-      game.pieces.find_by(position: 'd7').update(position: 'd4')
+      game.pieces.detect { |piece| piece.position == 'd7' }.position = 'd4'
     end
 
     it 'returns false' do
-      piece = game.pieces.find_by(position: 'd2')
+      piece = game.pieces.detect { |piece| piece.position == 'd2' }
       expect(piece.valid_for_pawn?('d4', game.pieces)).to be false
     end
   end
@@ -580,11 +578,11 @@ RSpec.describe MoveLogic, type: :module do
     let(:game) { Game.create }
 
     before do
-      game.pieces.find_by(position: 'd2').update(has_moved: true)
+      game.find_piece_by_position('d2').has_moved = true
     end
 
     it 'returns false' do
-      piece = game.pieces.find_by(position: 'd2')
+      piece = game.find_piece_by_position('d2')
       expect(piece.valid_for_pawn?('d4', game.pieces)).to be false
     end
   end
@@ -593,11 +591,11 @@ RSpec.describe MoveLogic, type: :module do
     let(:game) { Game.create }
 
     before do
-      game.pieces.find_by(position: 'd2').update(position: 'd4')
+      game.pieces.detect { |piece| piece.position == 'd2' }.position = 'd4'
     end
 
     it 'returns false' do
-      piece = game.pieces.find_by(position: 'd4')
+      piece = game.pieces.detect { |piece| piece.position == 'd4' }
       expect(piece.valid_for_pawn?('d3', game.pieces)).to be false
     end
   end
@@ -606,12 +604,12 @@ RSpec.describe MoveLogic, type: :module do
     let(:game) { Game.create }
 
     before do
-      game.pieces.find_by(position: 'd2').update(position: 'd4')
-      game.pieces.find_by(position: 'e7').update(position: 'e3')
+      game.find_piece_by_position('d2').position = 'd4'
+      game.find_piece_by_position('e7').position = 'e3'
     end
 
     it 'returns false' do
-      piece = game.pieces.find_by(position: 'd4')
+      piece = game.find_piece_by_position('d4')
       expect(piece.valid_for_pawn?('e3', game.pieces)).to be false
     end
   end
@@ -620,12 +618,12 @@ RSpec.describe MoveLogic, type: :module do
     let(:game) { Game.create }
 
     before do
-      game.pieces.find_by(position: 'd2').update(position: 'd4')
-      game.pieces.find_by(position: 'e7').update(position: 'e5')
+      game.find_piece_by_position('d2').position = 'd4'
+      game.find_piece_by_position('e7').position = 'e5'
     end
 
     it 'returns false' do
-      piece = game.pieces.find_by(position: 'd4')
+      piece = game.find_piece_by_position('d4')
       expect(piece.valid_for_pawn?('c5', game.pieces)).to be false
     end
   end
@@ -634,12 +632,12 @@ RSpec.describe MoveLogic, type: :module do
     let(:game) { Game.create }
 
     before do
-      game.pieces.find_by(position: 'd2').update(position: 'd4')
-      game.pieces.find_by(position: 'e7').update(position: 'e5')
+      game.find_piece_by_position('d2').position = 'd4'
+      game.find_piece_by_position('e7').position = 'e5'
     end
 
     it 'returns true' do
-      piece = game.pieces.find_by(position: 'd4')
+      piece = game.find_piece_by_position('d4')
       expect(piece.valid_for_pawn?('e5', game.pieces)).to be true
     end
   end
@@ -648,13 +646,14 @@ RSpec.describe MoveLogic, type: :module do
     let(:game) { Game.create }
 
     before do
-      game.pieces.find_by(position: 'd2').update(position: 'd5')
-      game.pieces.find_by(position: 'e7')
-          .update(position: 'e5', moved_two: true)
+      game.find_piece_by_position('d2').position = 'd5'
+      game_piece = game.find_piece_by_position('e7')
+      game_piece.position = 'e5'
+      game_piece.moved_two = true
     end
 
     it 'returns true' do
-      piece = game.pieces.find_by(position: 'd5')
+      piece = game.find_piece_by_position('d5')
       expect(piece.valid_for_pawn?('e6', game.pieces)).to be true
     end
   end
@@ -663,12 +662,12 @@ RSpec.describe MoveLogic, type: :module do
     let(:game) { Game.create }
 
     before do
-      game.pieces.find_by(position: 'd2').update(position: 'd5')
-      game.pieces.find_by(position: 'e7').update(position: 'e5')
+      game.find_piece_by_position('d2').position = 'd5'
+      game.find_piece_by_position('e7').position = 'e5'
     end
 
     it 'returns false' do
-      piece = game.pieces.find_by(position: 'd5')
+      piece = game.find_piece_by_position('d5')
       expect(piece.valid_for_pawn?('e6', game.pieces)).to be false
     end
   end
@@ -677,12 +676,14 @@ RSpec.describe MoveLogic, type: :module do
     let(:game) { Game.create }
 
     before do
-      game.pieces.find_by(position: 'd2').update(position: 'd5')
-      game.pieces.find_by(position: 'e7').update(position: 'e5', moved_two: true)
+      game.find_piece_by_position('d2').position = 'd5'
+      moved_pawn = game.find_piece_by_position('e7')
+      moved_pawn.position = 'e5'
+      moved_pawn.moved_two = true
     end
 
     it 'returns false' do
-      piece = game.pieces.find_by(position: 'd5')
+      piece = game.find_piece_by_position('d5')
       expect(piece.valid_for_pawn?('e4', game.pieces)).to be false
     end
   end
@@ -691,21 +692,22 @@ RSpec.describe MoveLogic, type: :module do
     let(:game) { Game.create }
 
     let(:piece) {
-      game.pieces.create(
+      Piece.new(
         piece_type: 'pawn',
         color: 'white',
         position_index: 20,
-        position: 'd4'
+        position: 'd4',
+        game: game
       )
     }
 
     context 'when a piece is in the way of the pawn' do
       before do
-        game.pieces.find_by(position: 'd7').update(position: 'd5')
+        game.pieces.detect { |piece| piece.position == 'd7' }.position = 'd5'
       end
 
       it 'returns false' do
-        expect(piece.advance_pawn?('d5', game.pieces.reload)).to be false
+        expect(piece.advance_pawn?('d5', game.pieces)).to be false
       end
     end
 
