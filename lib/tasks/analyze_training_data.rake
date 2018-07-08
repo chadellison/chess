@@ -5,6 +5,7 @@ task analyze_training_data: :environment do
     game.notation.split('.').each_with_index do |move_notation, index|
       turn = index.even? ? 'white' : 'black'
       game.update_game_from_notation(move_notation.sub('#', ''), turn)
+      game.reload_pieces
       puts 'Setup ' + game.moves.last.setup.position_signature
     end
     game.moves.each do |move|
