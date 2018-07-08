@@ -226,9 +226,9 @@ module MoveLogic
     piece_type == 'king' && (position[0].ord - next_move[0].ord).abs == 2
   end
 
-  def pawn_moved_two?(new_position)
-    piece_type == 'pawn' && forward_two?(new_position)
-  end
+  # def pawn_moved_two?(new_position)
+  #   piece_type == 'pawn' && forward_two?(new_position)
+  # end
 
   def castle?(next_move, game_pieces)
     column = next_move[0] == 'c' ? 'a' : 'h'

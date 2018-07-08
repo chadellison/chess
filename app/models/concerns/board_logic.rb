@@ -35,7 +35,7 @@ module BoardLogic
       position_index: piece.position_index,
       position: new_position,
       has_moved: true,
-      moved_two: piece.pawn_moved_two?(new_position),
+      # moved_two: piece.pawn_moved_two?(new_position), 
       piece_type: (upgraded_type.present? ? upgraded_type : piece.piece_type)
     )
   end
