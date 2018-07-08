@@ -266,11 +266,11 @@ module MoveLogic
   def can_en_pessant?(next_move, game_pieces)
     opponent_color = color == 'white' ? 'black' : 'white'
 
-    game_pieces.where(
-      position: (next_move[0] + position[1]),
-      moved_two: true,
-      color: opponent_color
-    ).present?
+    game_pieces.select do |piece|
+      piece.position == (next_move[0] + position[1]) &&
+      piece.moved_two &&
+      piece.color == opponent_color
+    end.present?
   end
 
   def empty_square?(space, game_pieces)

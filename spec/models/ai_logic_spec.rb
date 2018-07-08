@@ -211,8 +211,8 @@ RSpec.describe AiLogic, type: :module do
       it 'returns the material difference between the current state and the next move' do
         game = Game.create
 
-        game.pieces.find_by(position_index: 20).update(position: 'd4')
-        game.pieces.find_by(position_index: 11).update(position: 'c5')
+        game.find_piece_by_index(20).position = 'd4'
+        game.find_piece_by_index(11).position = 'c5'
 
         expect(game.material_analysis('20c5')).to eq 1
         expect(game.material_analysis('20d5')).to eq 0
@@ -223,9 +223,9 @@ RSpec.describe AiLogic, type: :module do
       it 'returns the material difference between the current state and the next move' do
         game = Game.create
 
-        game.pieces.find_by(position_index: 20).destroy
+        game.pieces.reject! { |piece| piece.position_index == 20 }
         game.move(28, 'd4')
-        game.pieces.find_by(position_index: 11).update(position: 'c5')
+        game.find_piece_by_index(11).position = 'c5'
 
         expect(game.material_analysis('11d4')).to eq 9
       end

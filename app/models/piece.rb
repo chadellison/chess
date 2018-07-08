@@ -1,5 +1,16 @@
-class Piece < ApplicationRecord
-  belongs_to :game, optional: true
+class Piece
+  attr_accessor :game_id, :piece_type, :color, :position, :position_index,
+    :moved_two, :has_moved
+
+  def initialize(attributes = {})
+    @piece_type = attributes[:piece_type]
+    @color = attributes[:color]
+    @position = attributes[:position]
+    @position_index = attributes[:position_index]
+    @game_id = attributes[:game_id]
+    @has_moved = attributes[:has_moved]
+    @moved_two = attributes[:moved_two]
+  end
 
   include MoveLogic
 
@@ -27,17 +38,13 @@ class Piece < ApplicationRecord
   def valid_move?(move)
     [
       valid_move_path?(move, game.pieces.map(&:position)),
-      valid_destination?(move, game.reload.pieces),
-      valid_for_piece?(move, game.reload.pieces),
+      valid_destination?(move, game.pieces),
+      valid_for_piece?(move, game.pieces),
       king_is_safe?(color, game.pieces_with_next_move(position_index.to_s + move))
     ].all?
   end
 
-  def handle_moved_two(next_move)
-    game.pieces.where(piece_type: 'pawn').update_all(moved_two: false)
-
-    if (next_move[1].to_i - position[1].to_i).abs == 2 && piece_type == 'pawn'
-      update(moved_two: true)
-    end
+  def game
+    @game ||= Game.find(game_id)
   end
 end
