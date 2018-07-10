@@ -49,6 +49,10 @@ module BoardLogic
     game_move.save
   end
 
+  # def create_attack_signature(new_pieces)
+  #
+  # end
+
   def new_move(piece)
     promoted_pawn = is_promoted_pawn?(piece) ? piece.piece_type : nil
     moves.new(
