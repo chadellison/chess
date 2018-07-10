@@ -13,16 +13,14 @@ module AiLogic
       best_move = find_piece(game_notation, current_turn)
       move_position = find_move_position(game_notation)
       move(best_move.position_index, move_position, promote_pawn(move_position))
-    end
-
-    if find_checkmate(possible_moves).present?
+    elsif find_checkmate(possible_moves).present?
       best_move = find_checkmate(possible_moves)
+      move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
     else
       best_move = setup_analysis(possible_moves)
       best_move = piece_analysis(possible_moves) if best_move.blank?
+      move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
     end
-
-    move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
   end
 
   def find_next_moves
