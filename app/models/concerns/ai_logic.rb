@@ -1,16 +1,6 @@
 module AiLogic
   extend ActiveSupport::Concern
 
-  START_INDICES = {
-    '1' => 'a8', '2' => 'b8', '3' => 'c8', '4' => 'd8', '5' => 'e8', '6' => 'f8',
-    '7' => 'g8', '8' => 'h8', '9' => 'a7', '10' => 'b7', '11' => 'c7',
-    '12' => 'd7', '13' => 'e7', '14' => 'f7', '15' => 'g7', '16' => 'h7',
-    '17' => 'a2', '18' => 'b2', '19' => 'c2', '20' => 'd2', '21' => 'e2',
-    '22' => 'f2', '23' => 'g2', '24' => 'h2', '25' => 'a1', '26' => 'b1',
-    '27' => 'c1', '28' => 'd1', '29' => 'e1', '30' => 'f1', '31' => 'g1',
-    '32' => 'h1'
-  }
-
   MATERIAL_VALUE = {
     pawn: 1, knight: 3, bishop: 3, rook: 5, queen: 9, king: 0
   }
@@ -23,14 +13,16 @@ module AiLogic
       best_move = find_piece(game_notation, current_turn)
       move_position = find_move_position(game_notation)
       move(best_move.position_index, move_position, promote_pawn(move_position))
-    elsif find_checkmate(possible_moves).present?
+    end
+
+    if find_checkmate(possible_moves).present?
       best_move = find_checkmate(possible_moves)
-      move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
     else
       best_move = setup_analysis(possible_moves)
       best_move = piece_analysis(possible_moves) if best_move.blank?
-      move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
     end
+
+    move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
   end
 
   def find_next_moves
@@ -151,10 +143,6 @@ module AiLogic
     similar_winning_games = Game.similar_games(notation).winning_games(win_value)
     offset_amount = rand(similar_winning_games.count)
     similar_winning_games.offset(offset_amount).first
-  end
-
-  def start_position(move_value)
-    START_INDICES[position_index_from_move(move_value).to_s]
   end
 
   def win_value

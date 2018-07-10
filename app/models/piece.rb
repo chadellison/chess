@@ -1,4 +1,6 @@
 class Piece
+  include MoveLogic
+  
   attr_accessor :game_id, :piece_type, :color, :position, :position_index,
     :moved_two, :has_moved
 
@@ -12,7 +14,6 @@ class Piece
     @moved_two = attributes[:moved_two]
   end
 
-  include MoveLogic
 
   def moves_for_piece
     case piece_type
