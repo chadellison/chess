@@ -7,6 +7,7 @@ task train_on_self: :environment do
       game.ai_move
       game.reload_pieces
       puts game.moves.order(:move_count).last.value
+      puts game.current_turn + '******************'
     end
     if game.outcome.present?
       game.moves.each do |move|
