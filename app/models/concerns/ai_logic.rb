@@ -1,9 +1,7 @@
 module AiLogic
   extend ActiveSupport::Concern
 
-  MATERIAL_VALUE = {
-    pawn: 1, knight: 3, bishop: 3, rook: 5, queen: 9, king: 0
-  }
+  MATERIAL_VALUE = { pawn: 1, knight: 3, bishop: 3, rook: 5, queen: 9, king: 0 }
 
   def ai_move
     possible_moves = find_next_moves
@@ -71,8 +69,10 @@ module AiLogic
       weight = weight_analysis(current_signature, possible_move.value)
       weight -= moves.pluck(:value).select { |move| move == possible_move.value }.count
       weight += material_analysis(possible_move.value)
+      weight += attack_analysis(possible_move.value)
       weighted_moves[weight] = possible_move
     end
+    binding.pry if weighted_moves.max_by { |weight, move| weight }.nil?
     puts weighted_moves.max_by { |weight, move| weight }.first.to_s + '***************** weight'
     weighted_moves.max_by { |weight, move| weight }.last
   end
@@ -145,6 +145,11 @@ module AiLogic
 
   def win_value
     current_turn == 'white' ? 1 : -1
+  end
+
+  def attack_analysis(game_move)
+    Setup.where(attack_signature: game_move.setup.attack_signature)
+         .order(:rank).last.rank
   end
 
   def material_analysis(possible_move_value)
