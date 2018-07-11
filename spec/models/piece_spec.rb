@@ -96,7 +96,6 @@ RSpec.describe Piece, type: :model do
     context 'when the king must kill a piece to get out of check' do
       it 'returns all moves to get the king out of check' do
         allow_any_instance_of(Game).to receive(:add_pieces).and_return([])
-
         game = Game.create
 
         piece1 = Piece.new(
@@ -134,8 +133,6 @@ RSpec.describe Piece, type: :model do
 
     context 'when the king is in checkmate' do
       it 'returns an empty array' do
-        allow_any_instance_of(Game).to receive(:add_pieces).and_return([])
-
         game = Game.create
 
         piece1 = Piece.new(
