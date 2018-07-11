@@ -69,10 +69,9 @@ module AiLogic
       weight = weight_analysis(current_signature, possible_move.value)
       weight -= moves.pluck(:value).select { |move| move == possible_move.value }.count
       weight += material_analysis(possible_move.value)
-      weight += attack_analysis(possible_move.value)
+      # weight += attack_analysis(possible_move)
       weighted_moves[weight] = possible_move
     end
-    binding.pry if weighted_moves.max_by { |weight, move| weight }.nil?
     puts weighted_moves.max_by { |weight, move| weight }.first.to_s + '***************** weight'
     weighted_moves.max_by { |weight, move| weight }.last
   end

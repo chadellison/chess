@@ -20,12 +20,11 @@ module PieceHelper
   end
 
   def reload_pieces
-    signature = moves.order(:move_count).last.setup.position_signature
+    last_move = moves.order(:move_count).last
     move_indices = moves.map { |move| position_index_from_move(move.value).to_i }
     pawn_moved_two = pawn_moved_two?
-    last_move = moves.order(:move_count).last
 
-    @pieces = signature.split('.').map do |piece_value|
+    @pieces = last_move.setup.position_signature.split('.').map do |piece_value|
       position_index = position_index_from_move(piece_value).to_i
       moved_two = (pawn_moved_two && position_index == last_move_index(last_move)) ? true : false
       Piece.new({

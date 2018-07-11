@@ -3,9 +3,9 @@ task train_on_self: :environment do
   ENV['COUNT'].to_i.times do
     game = Game.create
     start_time = Time.now
-    until game.outcome || game.moves.count > 200 do
+
+    until game.outcome.present? || game.moves.count > 200 do
       game.ai_move
-      game.reload_pieces
       puts game.moves.order(:move_count).last.value
       puts game.current_turn + '******************'
     end
