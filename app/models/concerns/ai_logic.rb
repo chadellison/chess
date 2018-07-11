@@ -1,8 +1,6 @@
 module AiLogic
   extend ActiveSupport::Concern
 
-  MATERIAL_VALUE = { pawn: 1, knight: 3, bishop: 3, rook: 5, queen: 9, king: 0 }
-
   def ai_move
     possible_moves = find_next_moves
     game_notation = wins_from_notation
@@ -68,8 +66,8 @@ module AiLogic
     possible_moves.each do |possible_move|
       weight = weight_analysis(current_signature, possible_move.value)
       weight -= moves.pluck(:value).select { |move| move == possible_move.value }.count
-      weight += material_analysis(possible_move.value)
-      # weight += attack_analysis(possible_move)
+      # weight += material_analysis(possible_move.value)
+      weight += attack_analysis(possible_move)
       weighted_moves[weight] = possible_move
     end
     puts weighted_moves.max_by { |weight, move| weight }.first.to_s + '***************** weight'
@@ -149,25 +147,5 @@ module AiLogic
   def attack_analysis(game_move)
     Setup.where(attack_signature: game_move.setup.attack_signature)
          .order(:rank).last.rank
-  end
-
-  def material_analysis(possible_move_value)
-    white_value = find_material_value(pieces, 'white')
-    black_value = find_material_value(pieces, 'black')
-
-    material_value = current_turn == 'white' ? white_value - black_value : black_value - white_value
-    game_pieces = pieces_with_next_move(possible_move_value)
-
-    new_white_value = find_material_value(game_pieces, 'white')
-    new_black_value = find_material_value(game_pieces, 'black')
-
-    new_material_value = current_turn == 'white' ? new_white_value - new_black_value : new_black_value - new_white_value
-    new_material_value - material_value
-  end
-
-  def find_material_value(game_pieces, color)
-    game_pieces.select { |piece| piece.color == color }.reduce(0) do |sum, piece|
-      sum + MATERIAL_VALUE[piece.piece_type.to_sym]
-    end
   end
 end
