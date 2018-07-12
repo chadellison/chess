@@ -26,6 +26,12 @@ module Api
         end
       end
 
+      def machine_vs_machine
+        game = Game.create
+        MachineVsMachineJob.perform_later(game)
+        render json: { data: GameSerializer.serialize(game) }
+      end
+
       private
 
       def authenticate_with_token

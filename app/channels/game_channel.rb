@@ -8,7 +8,7 @@ class GameChannel < ApplicationCable::Channel
 
     should_destroy_game = [
       game.status == 'awaiting player',
-      game.game_type.include?('machine'),
+      game.game_type == 'human vs machine',
       game.outcome.present?
     ].any?
 

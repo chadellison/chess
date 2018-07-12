@@ -6,9 +6,10 @@ module AiLogic
     game_notation = wins_from_notation
 
     if game_notation.present?
-      best_move = find_piece(game_notation, current_turn)
+      game_piece = find_piece(game_notation, current_turn)
       move_position = find_move_position(game_notation)
-      move(best_move.position_index, move_position, promote_pawn(move_position))
+      move_value = game_piece.position_index.to_s + move_position
+      move(game_piece.position_index, move_position, promote_pawn(move_value))
     elsif find_checkmate(possible_moves).present?
       best_move = find_checkmate(possible_moves)
       move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
