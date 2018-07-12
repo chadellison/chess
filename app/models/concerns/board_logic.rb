@@ -50,30 +50,31 @@ module BoardLogic
   end
 
   def create_setup(new_pieces)
-    setup = Setup.find_or_create_by(position_signature: create_signature(new_pieces))
-    setup.update(attack_signature: create_attack_signature(new_pieces))
-    setup
+    Setup.find_or_create_by(
+      position_signature: create_signature(new_pieces)
+      # attack_signature: create_attack_signature(new_pieces)
+    )
   end
 
-  def create_attack_signature(new_pieces)
-    occupied_spaces = new_pieces.map(&:position)
-
-    new_pieces.map do |piece|
-      piece_moves = piece.valid_moves.select do |piece_move|
-        board_piece = find_piece_by_position(piece_move)
-        board_piece.present? && board_piece.color == piece.opposite_color
-      end
-      if piece_moves.present?
-        piece_code = find_piece_code(piece.piece_type, piece.color)
-        enemies_being_attacked = piece_moves.map do |position|
-          enemy_piece = find_piece_by_position(position)
-          find_piece_code(enemy_piece.piece_type, enemy_piece.color) + enemy_piece.position
-        end.join('x')
-
-        piece_code + 'x' + enemies_being_attacked
-      end
-    end.compact.join('.')
-  end
+  # def create_attack_signature(new_pieces)
+  #   occupied_spaces = new_pieces.map(&:position)
+  #
+  #   new_pieces.map do |piece|
+  #     piece_moves = piece.valid_moves.select do |piece_move|
+  #       board_piece = find_piece_by_position(piece_move)
+  #       board_piece.present? && board_piece.color == piece.opposite_color
+  #     end
+  #     if piece_moves.present?
+  #       piece_code = find_piece_code(piece.piece_type, piece.color)
+  #       enemies_being_attacked = piece_moves.map do |position|
+  #         enemy_piece = find_piece_by_position(position)
+  #         find_piece_code(enemy_piece.piece_type, enemy_piece.color) + enemy_piece.position
+  #       end.join('x')
+  #
+  #       piece_code + 'x' + enemies_being_attacked
+  #     end
+  #   end.compact.join('.')
+  # end
 
   def find_piece_code(piece_type, color)
    code = { king: 'k', queen: 'q', rook: 'r', bishop: 'b', knight: 'n', pawn: 'p' }

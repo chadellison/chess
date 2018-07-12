@@ -29,7 +29,7 @@ module AiLogic
     piece.valid_moves.map do |move|
       game_move = Move.new(value: piece.position_index.to_s + move, move_count: (moves.count + 1))
       game_pieces = pieces_with_next_move(piece.position_index.to_s + move)
-      game_move.setup = Setup.find_or_create_by(position_signature: create_signature(game_pieces))
+      game_move.setup = create_setup(game_pieces)
       game_move
     end
   end
@@ -66,8 +66,7 @@ module AiLogic
     possible_moves.each do |possible_move|
       weight = weight_analysis(current_signature, possible_move.value)
       weight -= moves.pluck(:value).select { |move| move == possible_move.value }.count
-      # weight += material_analysis(possible_move.value)
-      weight += attack_analysis(possible_move)
+      # weight += attack_analysis(possible_move)
       weighted_moves[weight] = possible_move
     end
     puts weighted_moves.max_by { |weight, move| weight }.first.to_s + '***************** weight'
@@ -145,7 +144,12 @@ module AiLogic
   end
 
   def attack_analysis(game_move)
-    Setup.where(attack_signature: game_move.setup.attack_signature)
-         .order(:rank).last.rank
+    signature = game_move.setup.attack_signature
+
+    if signature.present?
+      Setup.where(attack_signature: signature).maximum(:rank)
+    else
+      0
+    end
   end
 end

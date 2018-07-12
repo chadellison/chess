@@ -1,6 +1,6 @@
 class Piece
   include MoveLogic
-  
+
   attr_accessor :game_id, :piece_type, :color, :position, :position_index,
     :moved_two, :has_moved
 
@@ -33,7 +33,7 @@ class Piece
   end
 
   def valid_moves
-    moves_for_piece.select { |move| valid_move?(move) }
+    @valid_moves ||= moves_for_piece.select { |move| valid_move?(move) }
   end
 
   def valid_move?(move)
