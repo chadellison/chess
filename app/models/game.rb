@@ -22,7 +22,7 @@ class Game < ApplicationRecord
     game = Game.new(game_type: game_params[:game_type])
     game_params[:color] == 'white' ? game.white_player = user.id : game.black_player = user.id
 
-    if game_params[:game_type].include?('machine')
+    if game_params[:game_type] == 'human vs machine'
       machine_player = create_ai_player(game_params[:color])
       game.ai_player = machine_player
       game.status = 'active'
@@ -74,5 +74,14 @@ class Game < ApplicationRecord
 
   def ai_turn?
     ai_player.present? && current_turn == ai_player.color
+  end
+
+  def machine_vs_machine
+    until outcome.present? do
+      ai_move
+      update(outcome: 0) if moves.count > 200
+      puts moves.order(:move_count).last.value
+      puts current_turn + '******************'
+    end
   end
 end

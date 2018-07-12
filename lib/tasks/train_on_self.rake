@@ -4,12 +4,9 @@ task train_on_self: :environment do
     game = Game.create
     start_time = Time.now
 
-    until game.outcome.present? || game.moves.count > 200 do
-      game.ai_move
-      puts game.moves.order(:move_count).last.value
-      puts game.current_turn + '******************'
-    end
-    if game.outcome.present?
+    game.machine_vs_machine
+
+    if game.outcome.present? && game.outcome != 0
       game.moves.each do |move|
         move.setup.update(rank: (move.setup.rank + game.outcome))
       end
