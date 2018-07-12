@@ -141,13 +141,19 @@ module MoveLogic
   end
 
   def valid_destination?(destination, game_pieces)
-    destination_piece = game_pieces.to_a.detect { |piece| piece.position == destination }
+    destination_piece = game_pieces.detect { |piece| piece.position == destination }
 
     if destination_piece.present?
-      destination_piece.color != color
-    else
-      true
+      return false if destination_piece.color == color
+      @enemy_targets.push(destination_piece.find_piece_code + destination)
     end
+    true
+  end
+
+  def find_piece_code
+   code = { king: 'k', queen: 'q', rook: 'r', bishop: 'b', knight: 'n', pawn: 'p' }
+      piece_code = code[piece_type.to_sym]
+      color == 'white' ? piece_code.capitalize : piece_code
   end
 
   def vertical_collision?(destination, occupied_spaces)
