@@ -6,11 +6,7 @@ task train_on_self: :environment do
 
     game.machine_vs_machine
 
-    if game.outcome.present? && game.outcome != 0
-      game.moves.each do |move|
-        move.setup.update(rank: (move.setup.rank + game.outcome))
-      end
-    end
+    game.propogate_results if game.outcome.present? && game.outcome != 0
 
     end_time = Time.now
 

@@ -8,9 +8,8 @@ task analyze_training_data: :environment do
       game.reload_pieces
       puts 'Setup ' + game.moves.last.setup.position_signature
     end
-    game.moves.each do |move|
-      move.setup.update(rank: (move.setup.rank + game.outcome))
-    end
+
+    game.propogate_results
   end
   puts '---------------THE END---------------'
 end

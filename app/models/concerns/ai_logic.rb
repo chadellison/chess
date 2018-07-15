@@ -145,10 +145,8 @@ module AiLogic
   end
 
   def attack_analysis(game_move)
-    signature = game_move.setup.attack_signature
-
-    if signature.present?
-      Setup.where(attack_signature: signature).maximum(:rank)
+    if game_move.setup.attack_signature.present?
+      game_move.setup.attack_signature.rank
     else
       0
     end
