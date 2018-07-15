@@ -51,13 +51,17 @@ module BoardLogic
 
   def create_setup(new_pieces)
     setup = Setup.find_or_create_by(position_signature: create_signature(new_pieces))
-    setup.update(attack_signature: create_attack_signature(new_pieces))
+    attack_signature = create_attack_signature(new_pieces)
+    if attack_signature.present?
+      attack_signature = AttackSignature.find_or_create_by(signature: attack_signature)
+      setup.attack_signature = attack_signature
+    end
     setup
   end
 
   def create_attack_signature(new_pieces)
     signature = new_pieces.select { |piece| piece.enemy_targets.present? }.map do |piece|
-      piece.find_piece_code + 'x' + piece.enemy_targets.join('x')
+      piece.find_piece_code + 'x' + piece.enemy_targets.join('x') + current_turn[0]
     end
 
     signature.join('.') if signature.present?

@@ -24,11 +24,7 @@ task train_on_stockfish: :environment do
       end
     end
 
-    if game.outcome.present?
-      game.moves.each do |move|
-        move.setup.update(rank: (move.setup.rank + game.outcome))
-      end
-    end
+    game.propogate_results if game.outcome.present? && game.outcome != 0
 
     end_time = Time.now
 

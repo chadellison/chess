@@ -61,6 +61,7 @@ class Game < ApplicationRecord
     end
     update(outcome: outcome)
     GameEventBroadcastJob.perform_later(self)
+    propogate_results if game_type == 'machine vs machine'
   end
 
   def join_user_to_game(user_id)
@@ -82,6 +83,17 @@ class Game < ApplicationRecord
       update(outcome: 0) if moves.count > 200
       puts moves.order(:move_count).last.value
       puts current_turn + '******************'
+    end
+  end
+
+  def propogate_results
+    moves.each do |move|
+      updated_rank = move.setup.rank + outcome
+      move.setup.update(rank: updated_rank)
+
+      if move.setup.attack_signature.present?
+        move.setup.attack_signature.update(rank: updated_rank)
+      end
     end
   end
 end
