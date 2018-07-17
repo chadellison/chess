@@ -14,8 +14,8 @@ class Game < ApplicationRecord
 
   scope :find_open_games, (lambda do |user_id|
     where.not(white_player: user_id)
-      .or(where.not(black_player: user_id))
-      .where(status: 'awaiting player')
+         .or(where.not(black_player: user_id))
+         .where(status: 'awaiting player')
   end)
 
   def self.create_user_game(user, game_params)
@@ -75,6 +75,14 @@ class Game < ApplicationRecord
 
   def ai_turn?
     ai_player.present? && current_turn == ai_player.color
+  end
+
+  def current_turn
+    moves.count.even? ? 'white' : 'black'
+  end
+
+  def opponent_color
+    current_turn == 'white' ? 'black' : 'white'
   end
 
   def machine_vs_machine

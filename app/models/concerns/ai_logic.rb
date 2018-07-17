@@ -6,17 +6,11 @@ module AiLogic
     game_notation = wins_from_notation
 
     if game_notation.present?
-      game_piece = find_piece(game_notation, current_turn)
-      move_position = find_move_position(game_notation)
-      move_value = game_piece.position_index.to_s + move_position
-      move(game_piece.position_index, move_position, promote_pawn(move_value))
+      move_from_notation(game_notation)
     elsif find_checkmate(possible_moves).present?
-      best_move = find_checkmate(possible_moves)
-      move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
+      checkmate_opponent(possible_moves)
     else
-      best_move = setup_analysis(possible_moves)
-      best_move = piece_analysis(possible_moves) if best_move.blank?
-      move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
+      move_from_analysis(possible_moves)
     end
   end
 
@@ -33,6 +27,35 @@ module AiLogic
       game_move.setup = create_setup(game_pieces)
       game_move
     end
+  end
+
+  def move_from_notation(game_notation)
+    game_piece = find_piece(game_notation, current_turn)
+    move_position = find_move_position(game_notation)
+    move_value = game_piece.position_index.to_s + move_position
+    move(game_piece.position_index, move_position, promote_pawn(move_value))
+  end
+
+  def wins_from_notation
+    winning_game = random_winning_game
+    winning_game.notation.split('.')[moves.count] if winning_game.present?
+  end
+
+  def random_winning_game
+    similar_winning_games = Game.similar_games(notation).winning_games(win_value)
+    offset_amount = rand(similar_winning_games.count)
+    similar_winning_games.offset(offset_amount).first
+  end
+
+  def checkmate_opponent(possible_moves)
+    best_move = find_checkmate(possible_moves)
+    move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
+  end
+
+  def move_from_analysis(possible_moves)
+    best_move = setup_analysis(possible_moves)
+    best_move = piece_analysis(possible_moves) if best_move.blank?
+    move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
   end
 
   def setup_analysis(possible_moves)
@@ -70,8 +93,10 @@ module AiLogic
       weight += attack_analysis(possible_move)
       weighted_moves[weight] = possible_move
     end
-    puts weighted_moves.max_by { |weight, move| weight }.first.to_s + '***************** weight'
-    weighted_moves.max_by { |weight, move| weight }.last
+
+    best_move = weighted_moves.max_by { |weight, move| weight }
+    puts best_move.first.to_s + '***************** weight'
+    best_move.last
   end
 
   def weight_analysis(signature, possible_move_value)
@@ -101,14 +126,6 @@ module AiLogic
          .where('position_signature LIKE ?', "%#{index_two}%")
   end
 
-  def current_turn
-    moves.count.even? ? 'white' : 'black'
-  end
-
-  def opponent_color
-    current_turn == 'white' ? 'black' : 'white'
-  end
-
   def find_checkmate(possible_moves)
     possible_moves.detect do |next_move|
       game_pieces = pieces_with_next_move(next_move.value)
@@ -127,17 +144,6 @@ module AiLogic
 
   def promote_pawn(move_value)
     crossed_pawn?(move_value) ? 'queen' : ''
-  end
-
-  def wins_from_notation
-    winning_game = random_winning_game
-    winning_game.notation.split('.')[moves.count] if winning_game.present?
-  end
-
-  def random_winning_game
-    similar_winning_games = Game.similar_games(notation).winning_games(win_value)
-    offset_amount = rand(similar_winning_games.count)
-    similar_winning_games.offset(offset_amount).first
   end
 
   def win_value

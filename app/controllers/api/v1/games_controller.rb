@@ -4,9 +4,10 @@ module Api
       before_action :authenticate_with_token
 
       def index
-        games = Game.user_games(@user.id)
-        render json: { data: games.order(created_at: :desc)
-                                  .map { |game| GameSerializer.serialize(game) } }
+        game_data = Game.user_games(@user.id).order(created_at: :desc)
+                        .map { |game| GameSerializer.serialize(game) }
+
+        render json: { data: game_data }
       end
 
       def create

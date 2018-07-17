@@ -5,7 +5,7 @@ module BoardLogic
     pieces.reject { |piece| piece.position == move[-2..-1] }
           .map do |piece|
             if piece.position_index == position_index_from_move(move)
-              piece = Piece.new({
+              piece = Piece.new(
                 color: piece.color,
                 piece_type: piece.piece_type,
                 position_index: piece.position_index,
@@ -13,7 +13,7 @@ module BoardLogic
                 position: move[-2..-1],
                 moved_two: piece.moved_two,
                 has_moved: true
-              })
+              )
             end
             piece
           end
@@ -68,7 +68,7 @@ module BoardLogic
   end
 
   def new_move(piece)
-    promoted_pawn = is_promoted_pawn?(piece) ? piece.piece_type : nil
+    promoted_pawn = promoted_pawn?(piece) ? piece.piece_type : nil
     moves.new(
       value: (piece.position_index.to_s + piece.position),
       move_count: (moves.count + 1),
@@ -76,7 +76,7 @@ module BoardLogic
     )
   end
 
-  def is_promoted_pawn?(piece)
+  def promoted_pawn?(piece)
     (9..24).include?(piece.position_index) && piece.piece_type != 'pawn'
   end
 

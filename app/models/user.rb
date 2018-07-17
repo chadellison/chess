@@ -14,7 +14,7 @@ class User < ApplicationRecord
     self.email = email.downcase
   end
 
-  def formatted_name
+  def format_name
     "#{first_name.capitalize} #{last_name.capitalize}"
   end
 end

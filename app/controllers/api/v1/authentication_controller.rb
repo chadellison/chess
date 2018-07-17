@@ -3,12 +3,11 @@ module Api
     class AuthenticationController < ApplicationController
       def create
         user = User.find_by(email: login_params[:email].downcase)
-        if user && user.authenticate(login_params[:password])
+        if user.present? && user.authenticate(login_params[:password])
           user.update(token: SecureRandom.hex)
           render json: UserSerializer.serialize(user), status: 201
         else
-          message = { errors: "Invalid Credentials" }
-          render json: message, status: 404
+          render json: { errors: "Invalid Credentials" }, status: 404
         end
       end
 

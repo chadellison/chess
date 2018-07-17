@@ -22,8 +22,8 @@ module NotationLogic
     piece = find_piece(move_notation, turn)
     if piece.blank?
       puts 'ERROR #######################'
-      puts 'Move #: ' + moves.count.to_s
-      puts 'Notation $: ' + notation
+      puts 'Move: ' + moves.count.to_s
+      puts 'Notation: ' + notation
     else
       update_game(piece, find_move_position(move_notation), upgrade_value(move_notation))
     end
