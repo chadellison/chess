@@ -37,14 +37,11 @@ class StockfishIntegration
   end
 
   def fen_piece_positions
-    rows = ['8', '7', '6', '5', '4', '3', '2', '1']
-    columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-
     fen_notation = ''
 
-    rows.each do |row|
+    ('1'..'8').to_a.reverse.each do |row|
       space_count = 0
-      columns.each do |column|
+      ('a'..'h').each do |column|
         piece = game.find_piece_by_position(column + row)
         if piece.present?
           fen_notation += space_count.to_s if space_count > 0
