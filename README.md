@@ -10,8 +10,8 @@ intelligent moves. This AI uses professional chess matches (in pgn format),
 self-play, and the stockfish chess engine (an open source chess engine) to train
 and analyze the results of games.
 
-![Game Play](http://www.giphy.com/gifs/wHd7oVPymSwssLy0pT)
-<!-- ![Game Play](https://giphy.com/gifs/wHd7oVPymSwssLy0pT/fullscreen) -->
+![Game Play](http://www.giphy.com/gifs/wHd7oVPymSwssLy0pT.gif)
+![Game Play](https://giphy.com/gifs/wHd7oVPymSwssLy0pT/fullscreen.gif)
 * Ruby version: 2.5.0
 * Rails version: 5.2.0
 
