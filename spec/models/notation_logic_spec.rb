@@ -364,7 +364,18 @@ RSpec.describe NotationLogic, type: :module do
   end
 
   describe 'upgrade_value' do
-    xit 'test' do
+    context 'when the move_notation includes an \'=\' sign' do
+      it 'returns the upgraded piece type' do
+        game = Game.new
+        expect(game.upgrade_value('a8=Q')).to eq 'queen'
+      end
+    end
+
+    context 'when the move_notation does not include an \'=\' sign' do
+      it 'returns nil' do
+        game = Game.new
+        expect(game.upgrade_value('a4')).to be_nil
+      end
     end
   end
 end

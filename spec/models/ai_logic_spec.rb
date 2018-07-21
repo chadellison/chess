@@ -182,7 +182,26 @@ RSpec.describe AiLogic, type: :module do
   end
 
   describe 'promote_pawn' do
-    xit 'test' do
+    context 'when there is a crossed pawn' do
+      it 'calls crossed_pawn? and returns queen' do
+        game = Game.new
+        expect(game).to receive(:crossed_pawn?).with('17a8')
+          .and_return(true)
+
+        actual = game.promote_pawn('17a8')
+        expect(actual).to eq 'queen'
+      end
+    end
+
+    context 'when there is not a crossed pawn' do
+      it 'calls crossed_pawn? and returns an empty string' do
+        game = Game.new
+        expect(game).to receive(:crossed_pawn?).with('17a7')
+          .and_return(false)
+
+        actual = game.promote_pawn('17a7')
+        expect(actual).to eq ''
+      end
     end
   end
 
