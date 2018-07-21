@@ -43,8 +43,10 @@ module AiLogic
 
   def random_winning_game
     similar_winning_games = Game.similar_games(notation).winning_games(win_value)
-    offset_amount = rand(similar_winning_games.count)
-    similar_winning_games.offset(offset_amount).first
+    if similar_winning_games.count > 10
+      offset_amount = rand(similar_winning_games.count)
+      similar_winning_games.offset(offset_amount).first
+    end
   end
 
   def checkmate_opponent(possible_moves)
