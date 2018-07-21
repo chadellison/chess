@@ -245,12 +245,51 @@ RSpec.describe BoardLogic, type: :module do
   end
 
   describe 'stalemate?' do
-    xit 'test' do
+    let(:game) { Game.create }
+    context 'when there are no valid moves and the king is safe' do
+      it 'returns true' do
+        allow_any_instance_of(Game).to receive(:no_valid_moves?).and_return(true)
+        allow_any_instance_of(Piece).to receive(:king_is_safe?).and_return(true)
+
+        expect(game.stalemate?(game.pieces, 'white')).to be true
+      end
+    end
+
+    context 'when there are insufficient_pieces' do
+      it 'returns true' do
+        allow_any_instance_of(Game).to receive(:insufficient_pieces?)
+          .and_return(true)
+
+        expect(game.stalemate?(game.pieces, 'white')).to be true
+      end
+    end
+
+    context 'when there is a three_fold_repitition' do
+      it 'returns true' do
+        allow_any_instance_of(Game).to receive(:three_fold_repitition?)
+          .and_return(true)
+
+        expect(game.stalemate?(game.pieces, 'white')).to be true
+      end
     end
   end
 
   describe 'no_valid_moves?' do
-    xit 'test' do
+    context 'when there are valid moves available' do
+      it 'returns false' do
+        game = Game.create
+        expect(game.no_valid_moves?(game.pieces, 'white')).to be false
+      end
+    end
+
+    context 'when there are no valid moves available' do
+      it 'returns true' do
+        allow_any_instance_of(Game).to receive(:add_pieces)
+          .and_return([])
+
+        game = Game.new
+        expect(game.no_valid_moves?(game.pieces, 'white')).to be true
+      end
     end
   end
 end
