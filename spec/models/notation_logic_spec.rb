@@ -82,7 +82,7 @@ RSpec.describe NotationLogic, type: :module do
     end
   end
 
-  describe 'move_from_crossed_pawn' do
+  describe 'piece_from_crossed_pawn' do
     xit 'test' do
     end
   end
