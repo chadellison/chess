@@ -42,10 +42,12 @@ module AiLogic
   end
 
   def random_winning_game
-    similar_winning_games = Game.similar_games(notation).winning_games(win_value)
-    if similar_winning_games.count > 10
-      offset_amount = rand(similar_winning_games.count)
-      similar_winning_games.offset(offset_amount).first
+    matching_games = Game.similar_games(notation)
+    matching_wins = matching_games.winning_games(win_value)
+
+    if matching_wins.count > matching_games.winning_games(loss_value).count
+      offset_amount = rand(matching_wins.count)
+      matching_wins.offset(offset_amount).first
     end
   end
 
@@ -152,9 +154,15 @@ module AiLogic
     current_turn == 'white' ? 1 : -1
   end
 
+  def loss_value
+    win_value == 1 ? -1 : 1
+  end
+
   def attack_analysis(game_move)
     if game_move.setup.attack_signature.present?
-      game_move.setup.attack_signature.rank
+      rank = game_move.setup.attack_signature.rank
+      rank *= -1 if rank < 0
+      rank
     else
       0
     end
