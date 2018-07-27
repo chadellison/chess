@@ -6,7 +6,7 @@ RSpec.describe BoardLogic, type: :module do
       game = Game.create
 
       piece = game.find_piece_by_position('d2')
-      actual = game.pieces_with_next_move('20d4')
+      actual = game.pieces_with_next_move(game.pieces, '20d4')
 
       expect(actual.map(&:position).include?('d4')).to be true
     end

@@ -1,21 +1,25 @@
 module BoardLogic
   extend ActiveSupport::Concern
 
-  def pieces_with_next_move(move)
-    pieces.reject { |piece| piece.position == move[-2..-1] }
+  def pieces_with_next_move(game_pieces, move)
+    game_pieces.reject { |piece| piece.position == move[-2..-1] }
           .map do |piece|
+            game_piece = Piece.new(
+              color: piece.color,
+              piece_type: piece.piece_type,
+              position_index: piece.position_index,
+              game_id: piece.game_id,
+              position: piece.position,
+              moved_two: piece.moved_two,
+              has_moved: piece.has_moved
+            )
+
             if piece.position_index == position_index_from_move(move)
-              piece = Piece.new(
-                color: piece.color,
-                piece_type: piece.piece_type,
-                position_index: piece.position_index,
-                game_id: piece.game_id,
-                position: move[-2..-1],
-                moved_two: piece.moved_two,
-                has_moved: true
-              )
+              game_piece.position = move[-2..-1]
+              game_piece.has_moved = true
             end
-            piece
+
+            game_piece
           end
   end
 
@@ -40,7 +44,7 @@ module BoardLogic
   end
 
   def update_board(piece, updated_piece)
-    new_pieces = pieces_with_next_move(updated_piece.position_index.to_s + updated_piece.position)
+    new_pieces = pieces_with_next_move(pieces, updated_piece.position_index.to_s + updated_piece.position)
     new_pieces = handle_castle(piece, updated_piece.position, new_pieces) if piece.king_moved_two?(updated_piece.position)
     new_pieces = handle_en_passant(piece, updated_piece.position, new_pieces) if en_passant?(piece, updated_piece.position)
     update_pieces(new_pieces)
@@ -51,6 +55,9 @@ module BoardLogic
 
   def create_setup(new_pieces)
     setup = Setup.find_or_create_by(position_signature: create_signature(new_pieces))
+
+    new_pieces.each { |piece| piece.valid_moves(new_pieces) }
+
     attack_signature = create_attack_signature(new_pieces)
     if attack_signature.present?
       attack_signature = AttackSignature.find_or_create_by(signature: attack_signature)
@@ -61,10 +68,12 @@ module BoardLogic
 
   def create_attack_signature(new_pieces)
     signature = new_pieces.select { |piece| piece.enemy_targets.present? }.map do |piece|
-      piece.find_piece_code + 'x' + piece.enemy_targets.join('x') + current_turn[0]
+      piece.find_piece_code + 'x' + piece.enemy_targets.join('x')
     end
-
-    signature.join('.') if signature.present?
+    if signature.present?
+      signature.push(current_turn[0])
+      signature.join('.')
+    end
   end
 
   def new_move(piece)
@@ -153,7 +162,7 @@ module BoardLogic
 
   def no_valid_moves?(game_pieces, turn)
     game_pieces.select { |piece| piece.color == turn }.all? do |piece|
-      piece.valid_moves.blank?
+      piece.valid_moves(game_pieces).blank?
     end
   end
 end

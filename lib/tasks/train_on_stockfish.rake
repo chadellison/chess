@@ -17,10 +17,8 @@ task train_on_stockfish: :environment do
         upgraded_type = stockfish_integration.find_upgraded_type(stockfish_move[4])
 
         game.move(position_index, stockfish_move[2..3], upgraded_type)
-        puts game.moves.order(:move_count).last.value + ' ' + turn
       else
         game.ai_move
-        puts game.moves.order(:move_count).last.value + ' ' + turn
       end
     end
 

@@ -89,7 +89,7 @@ RSpec.describe Piece, type: :model do
         piece = game.find_piece_by_index(5)
         expected = ['d8', 'f8', 'd7', 'f7']
 
-        expect(piece.valid_moves).to eq expected
+        expect(piece.valid_moves(game.pieces)).to eq expected
       end
     end
 
@@ -127,7 +127,7 @@ RSpec.describe Piece, type: :model do
 
         expected = ['e7']
 
-        expect(piece1.valid_moves).to eq expected
+        expect(piece1.valid_moves(game.pieces)).to eq expected
       end
     end
 
@@ -173,7 +173,7 @@ RSpec.describe Piece, type: :model do
 
         expected = []
 
-        expect(piece1.valid_moves).to eq expected
+        expect(piece1.valid_moves(game.pieces)).to eq expected
       end
     end
 
@@ -183,7 +183,7 @@ RSpec.describe Piece, type: :model do
 
         piece = game.find_piece_by_position('d1')
 
-        expect(piece.valid_moves).to eq []
+        expect(piece.valid_moves(game.pieces)).to eq []
       end
     end
 
@@ -193,7 +193,7 @@ RSpec.describe Piece, type: :model do
         game.move(20, 'd3')
         piece = game.find_piece_by_position('d1')
 
-        expect(piece.valid_moves).to eq ['d2']
+        expect(piece.valid_moves(game.pieces)).to eq ['d2']
       end
     end
   end
@@ -419,29 +419,29 @@ RSpec.describe Piece, type: :model do
       game.pieces << piece
       expect_any_instance_of(Piece).to receive(:valid_move_path?)
         .with('e5', piece.game.pieces.map(&:position))
-      piece.valid_move?('e5')
+      piece.valid_move?(game.pieces, 'e5')
     end
 
     it 'calls valid_destination?' do
       expect_any_instance_of(Piece).to receive(:valid_destination?)
-        .with('e5', piece.game.pieces)
+        .with('e5', game.pieces)
 
-      piece.valid_move?('e5')
+      piece.valid_move?(game.pieces, 'e5')
     end
 
     it 'calls valid_for_piece?' do
       expect_any_instance_of(Piece).to receive(:valid_for_piece?)
-        .with('e5', piece.game.pieces)
+        .with('e5', game.pieces)
 
-      piece.valid_move?('e5')
+      piece.valid_move?(game.pieces, 'e5')
     end
 
     it 'calls king_is_safe?' do
       expect_any_instance_of(Piece).to receive(:king_is_safe?)
       expect_any_instance_of(Game).to receive(:pieces_with_next_move)
-        .with('13e5')
+        .with(game.pieces, '13e5')
 
-      piece.valid_move?('e5')
+      piece.valid_move?(game.pieces, 'e5')
     end
   end
 end
