@@ -25,7 +25,7 @@ module MoveLogic
         move[1].to_i > position[1].to_i + 1 ||
         move[1].to_i < position[1].to_i - 1
     end
-    
+
     castle_moves = [(position[0].ord - 2).chr + position[1], position[0].next.next + position[1]]
     king_moves + castle_moves
   end
@@ -144,12 +144,7 @@ module MoveLogic
 
   def valid_destination?(destination, game_pieces)
     destination_piece = game_pieces.detect { |piece| piece.position == destination }
-
-    if destination_piece.present?
-      return false if destination_piece.color == color
-      @enemy_targets.push(destination_piece.find_piece_code + destination)
-    end
-    true
+    destination_piece.blank? || destination_piece.color == opposite_color
   end
 
   def find_piece_code
@@ -239,9 +234,9 @@ module MoveLogic
     rook = game_pieces.detect { |piece| piece.position == (column + next_move[1]) }
 
     if next_move[0] == 'c'
-      through_check_moves = game.pieces_with_next_move("#{position_index}d#{next_move[1]}")
+      through_check_moves = game.pieces_with_next_move(game.pieces, "#{position_index}d#{next_move[1]}")
     else
-      through_check_moves = game.pieces_with_next_move("#{position_index}f#{next_move[1]}")
+      through_check_moves = game.pieces_with_next_move(game.pieces, "#{position_index}f#{next_move[1]}")
     end
 
     [

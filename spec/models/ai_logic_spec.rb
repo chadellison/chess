@@ -225,16 +225,19 @@ RSpec.describe AiLogic, type: :module do
     end
   end
 
-  describe 'weight_analysis' do
+  describe 'position_analysis' do
     it 'returns the sum of all ratios' do
       allow_any_instance_of(Game).to receive(:handle_ratio)
         .and_return(0.5)
-      game = Game.new
+      game = Game.create
+      move = game.moves.create(value: '1d4')
+      move = game.moves.create(value: '8c6')
+      move = game.moves.create(value: '28a6')
 
       signature = ['1d4', '8c6', '28a6']
       possible_move_value = '4a7'
 
-      expect(game.weight_analysis(signature, possible_move_value)).to eq 1.5
+      expect(game.position_analysis(signature, possible_move_value)).to eq 1.5
     end
   end
 end

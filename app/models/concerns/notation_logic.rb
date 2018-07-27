@@ -46,13 +46,13 @@ module NotationLogic
       game_pieces.first
     else
       notation_without_type = piece_type == 'pawn' ? move_notation : move_notation[1..-1]
-      piece_from_start(game_pieces, notation_without_type)
+      piece_from_start(game_pieces, notation_without_type.sub('x', '')[0])
     end
   end
 
-  def piece_from_start(game_pieces, notation_without_type)
+  def piece_from_start(game_pieces, starting_notation)
     game_pieces.detect do |game_piece|
-      game_piece.position.include?(notation_without_type[0])
+      game_piece.position.include?(starting_notation)
     end
   end
 
@@ -105,7 +105,7 @@ module NotationLogic
     pieces.select do |piece|
       piece.piece_type == piece_type &&
         piece.color == piece_color &&
-        piece.valid_moves.include?(new_position)
+        piece.valid_moves(pieces).include?(new_position)
     end
   end
 
