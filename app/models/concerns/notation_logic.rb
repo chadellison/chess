@@ -5,6 +5,18 @@ module NotationLogic
     king: 'K', queen: 'Q', bishop: 'B', knight: 'N', rook: 'R', pawn: ''
   }
 
+  def update_game_from_notation(move_notation, turn)
+    piece = find_piece(move_notation, turn)
+    if piece.blank?
+      binding.pry
+      puts 'ERROR #######################'
+      puts 'Move: ' + moves.count.to_s
+      puts 'Notation: ' + notation
+    else
+      update_game(piece, find_move_position(move_notation), upgrade_value(move_notation))
+    end
+  end
+
   def find_move_position(move_notation)
     if move_notation.include?('=')
       move_notation[-4..-3]
@@ -14,18 +26,6 @@ module NotationLogic
       column + king.position[1]
     else
       move_notation[-2..-1]
-    end
-  end
-
-  def update_game_from_notation(move_notation, turn)
-    reload
-    piece = find_piece(move_notation, turn)
-    if piece.blank?
-      puts 'ERROR #######################'
-      puts 'Move: ' + moves.count.to_s
-      puts 'Notation: ' + notation
-    else
-      update_game(piece, find_move_position(move_notation), upgrade_value(move_notation))
     end
   end
 
