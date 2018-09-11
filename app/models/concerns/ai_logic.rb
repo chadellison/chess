@@ -49,7 +49,7 @@ module AiLogic
     matching_games = Game.similar_games(notation)
     matching_wins = matching_games.winning_games(win_value)
 
-    if matching_wins.count > matching_games.winning_games(loss_value).count
+    if matching_wins.count > (matching_games.winning_games(loss_value).count * 0.8)
       offset_amount = rand(matching_wins.count)
       matching_wins.offset(offset_amount).first
     end

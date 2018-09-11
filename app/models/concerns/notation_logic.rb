@@ -8,7 +8,6 @@ module NotationLogic
   def update_game_from_notation(move_notation, turn)
     piece = find_piece(move_notation, turn)
     if piece.blank?
-      binding.pry
       puts 'ERROR #######################'
       puts 'Move: ' + moves.count.to_s
       puts 'Notation: ' + notation
