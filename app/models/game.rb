@@ -49,8 +49,12 @@ class Game < ApplicationRecord
     update_game(piece, new_position, upgraded_type)
     GameEventBroadcastJob.perform_later(self)
     reload_pieces
-    return handle_outcome if checkmate?(pieces, current_turn) || stalemate?(pieces, current_turn)
+    return handle_outcome if game_over?(pieces, current_turn)
     ai_move if ai_turn?
+  end
+
+  def game_over?(pieces, current_turn)
+    checkmate?(pieces, current_turn) || stalemate?(pieces, current_turn)
   end
 
   def handle_outcome
@@ -102,6 +106,10 @@ class Game < ApplicationRecord
       if move.setup.attack_signature.present?
         move.setup.attack_signature.update(rank: updated_rank)
       end
+
+      # if move.setup.material_signature.present?
+        move.setup.material_signature.update(rank: updated_rank)
+      # end
     end
   end
 end
