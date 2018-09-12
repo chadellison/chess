@@ -55,15 +55,26 @@ module BoardLogic
 
   def create_setup(new_pieces)
     setup = Setup.find_or_create_by(position_signature: create_signature(new_pieces))
-
     new_pieces.each { |piece| piece.valid_moves(new_pieces) }
+    setup = handle_attack_signature(setup, new_pieces)
 
+    setup.material_signature = MaterialSignature.find_or_create_by(
+      signature: create_material_signature(new_pieces)
+    )
+    setup
+  end
+
+  def handle_attack_signature(setup, new_pieces)
     attack_signature = create_attack_signature(new_pieces)
     if attack_signature.present?
       attack_signature = AttackSignature.find_or_create_by(signature: attack_signature)
       setup.attack_signature = attack_signature
     end
     setup
+  end
+
+  def create_material_signature(new_pieces)
+    new_pieces.map(&:position_index).join
   end
 
   def create_attack_signature(new_pieces)

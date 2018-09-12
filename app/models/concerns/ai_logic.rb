@@ -17,10 +17,6 @@ module AiLogic
   def find_next_moves
     pieces.select { |piece| piece.color == current_turn }.map do |piece|
       all_next_moves_for_piece(piece)
-      # game_move = all_next_moves_for_piece(piece)
-      # game_move.next_setup_pieces = pieces_with_next_move(pieces, game_move.value)
-      # game_move.next_setup_pieces.each { |piece| piece.valid_moves(game_move.next_setup_pieces)}
-      # game_move
     end.flatten
   end
 
@@ -95,15 +91,15 @@ module AiLogic
     weighted_moves = {}
     current_signature = create_signature(pieces).split('.')
     possible_moves.each do |possible_move|
-      weight = material_analysis(possible_move.value)
-      weight += position_analysis(current_signature, possible_move.value)
+      weight = position_analysis(current_signature, possible_move.value)
+      weight += material_analysis(possible_move)
       weight += attack_analysis(possible_move)
       weight -= moves.pluck(:value).select { |move| move == possible_move.value }.count
       weighted_moves[weight] = possible_move
     end
 
     best_move = weighted_moves.max_by { |weight, move| weight }
-    puts best_move.first.to_s + '***************** weight'
+    puts 'WEIGHT ***************** ' + best_move.first.to_s
     best_move.last
   end
 
@@ -177,56 +173,63 @@ module AiLogic
     end
   end
 
-  def material_analysis(move_value)
-    next_setup = pieces_with_next_move(pieces, move_value)
-
-    current_enemy_setup = pieces.select { |piece| piece.color == opponent_color }
-    next_enemy_setup = pieces_with_enemy_targets(next_setup, opponent_color)
-
-    ally_attack_value(next_setup, current_enemy_setup, next_enemy_setup) +
-      enemy_attack_value(next_setup, current_enemy_setup)
+  def material_analysis(game_move)
+    rank = game_move.setup.material_signature.rank
+    rank *= -1 if current_turn == 'black'
+    rank
   end
 
-  def ally_attack_value(next_setup, enemy_pieces, next_enemy_setup)
-    enemy_pieces = pieces.select { |piece| piece.color == opponent_color }
-    current_enemy_material = enemy_pieces.reduce(0) do |sum, piece|
-      sum + find_piece_value(piece.piece_type[0].downcase)
-    end
+  # def material_analysis(move_value)
+  #   next_setup = pieces_with_next_move(pieces, move_value)
+  #
+  #   current_enemy_setup = pieces.select { |piece| piece.color == opponent_color }
+  #   next_enemy_setup = pieces_with_enemy_targets(next_setup, opponent_color)
+  #
+  #   ally_attack_value(next_setup, current_enemy_setup, next_enemy_setup) +
+  #     enemy_attack_value(next_setup, current_enemy_setup)
+  # end
 
-    next_setup_enemy_material = next_enemy_setup.reduce(0) do |sum, piece|
-      sum + find_piece_value(piece.piece_type[0].downcase)
-    end
 
-    current_enemy_material - next_setup_enemy_material
-  end
+  # def ally_attack_value(next_setup, enemy_pieces, next_enemy_setup)
+  #   enemy_pieces = pieces.select { |piece| piece.color == opponent_color }
+  #   current_enemy_material = enemy_pieces.reduce(0) do |sum, piece|
+  #     sum + find_piece_value(piece.piece_type[0].downcase)
+  #   end
+  #
+  #   next_setup_enemy_material = next_enemy_setup.reduce(0) do |sum, piece|
+  #     sum + find_piece_value(piece.piece_type[0].downcase)
+  #   end
+  #
+  #   current_enemy_material - next_setup_enemy_material
+  # end
 
-  def enemy_attack_value(next_setup, current_setup)
-    next_enemy_setup = pieces_with_enemy_targets(next_setup, opponent_color)
-    find_attacked_value(current_setup) - find_attacked_value(next_enemy_setup)
-  end
+  # def enemy_attack_value(next_setup, current_setup)
+  #   next_enemy_setup = pieces_with_enemy_targets(next_setup, opponent_color)
+  #   find_attacked_value(current_setup) - find_attacked_value(next_enemy_setup)
+  # end
+  #
+  # def pieces_with_enemy_targets(game_pieces, color)
+  #   game_pieces.select do |piece|
+  #     if piece.color == color
+  #       piece.valid_moves(game_pieces)
+  #       true
+  #     end
+  #   end
+  # end
 
-  def pieces_with_enemy_targets(game_pieces, color)
-    game_pieces.select do |piece|
-      if piece.color == color
-        piece.valid_moves(game_pieces)
-        true
-      end
-    end
-  end
+  # def find_attacked_value(game_pieces)
+  #   enemy_attackers = game_pieces.select { |piece| piece.enemy_targets.present? }
+  #
+  #   enemy_attackers.reduce(0) do |sum, piece|
+  #     attacked_material_value = piece.enemy_targets.reduce(0) do |total, target|
+  #       total + find_piece_value(target[0].downcase)
+  #     end
+  #
+  #     sum + attacked_material_value
+  #   end
+  # end
 
-  def find_attacked_value(game_pieces)
-    enemy_attackers = game_pieces.select { |piece| piece.enemy_targets.present? }
-
-    enemy_attackers.reduce(0) do |sum, piece|
-      attacked_material_value = piece.enemy_targets.reduce(0) do |total, target|
-        total + find_piece_value(target[0].downcase)
-      end
-
-      sum + attacked_material_value
-    end
-  end
-
-  def find_piece_value(piece_type)
-    { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 }[piece_type.to_sym]
-  end
+  # def find_piece_value(piece_type)
+  #   { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 }[piece_type.to_sym]
+  # end
 end

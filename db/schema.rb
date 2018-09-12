@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_14_000636) do
+ActiveRecord::Schema.define(version: 2018_09_12_010721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,14 @@ ActiveRecord::Schema.define(version: 2018_07_14_000636) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "material_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_material_signatures_on_signature"
+  end
+
   create_table "moves", force: :cascade do |t|
     t.integer "game_id"
     t.integer "setup_id"
@@ -76,6 +84,7 @@ ActiveRecord::Schema.define(version: 2018_07_14_000636) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "attack_signature_id"
+    t.integer "material_signature_id"
     t.index ["position_signature"], name: "index_setups_on_position_signature"
   end
 
