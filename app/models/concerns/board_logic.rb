@@ -61,6 +61,7 @@ module BoardLogic
     setup.material_signature = MaterialSignature.find_or_create_by(
       signature: create_material_signature(new_pieces)
     )
+    setup.save
     setup
   end
 

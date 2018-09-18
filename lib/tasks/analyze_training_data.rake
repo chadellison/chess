@@ -1,16 +1,20 @@
 desc 'Train AI'
 task analyze_training_data: :environment do
+  analyzed_games = []
   game_scope.find_each do |game|
     puts 'Game ' + game.id.to_s
-    game.notation.split('.').each_with_index do |move_notation, index|
-      turn = index.even? ? 'white' : 'black'
-      game.update_game_from_notation(move_notation.sub('#', ''), turn)
-      game.reload_pieces
-      puts 'Setup ' + game.moves.last.setup.position_signature
+    analyzed_game = Concurrent::Future.execute do
+      game.notation.split('.').each_with_index do |move_notation, index|
+        turn = index.even? ? 'white' : 'black'
+        game.update_game_from_notation(move_notation.sub('#', ''), turn)
+        game.reload_pieces
+        puts 'Setup ' + game.moves.last.setup.position_signature
+      end
+      game.propogate_results
     end
-
-    game.propogate_results
+    analyzed_games << analyzed_game
   end
+  analyzed_games.each(&:value)
   puts '---------------THE END---------------'
 end
 

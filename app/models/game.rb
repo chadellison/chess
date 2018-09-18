@@ -106,10 +106,7 @@ class Game < ApplicationRecord
       if move.setup.attack_signature.present?
         move.setup.attack_signature.update(rank: updated_rank)
       end
-
-      # if move.setup.material_signature.present?
-        move.setup.material_signature.update(rank: updated_rank)
-      # end
+      move.setup.material_signature.update(rank: updated_rank)
     end
   end
 end
