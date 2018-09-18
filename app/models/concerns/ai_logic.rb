@@ -9,8 +9,11 @@ module AiLogic
       move_from_notation(game_notation)
     elsif find_checkmate(possible_moves).present?
       checkmate_opponent(possible_moves)
+    elsif setup_analysis(possible_moves).present?
+      best_move = setup_analysis(possible_moves)
+      move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
     else
-      move_from_analysis(possible_moves)
+      move_analysis(possible_moves)
     end
   end
 
@@ -56,11 +59,15 @@ module AiLogic
     move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
   end
 
-  def move_from_analysis(possible_moves)
-    best_move = setup_analysis(possible_moves)
-    best_move = move_analysis(possible_moves) if best_move.blank?
-    move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
-  end
+  # def move_from_analysis(possible_moves)
+  #   best_move = setup_analysis(possible_moves)
+  #
+  #   if best_move.present?
+  #     move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
+  #   else
+  #     move_analysis(possible_moves)
+  #   end
+  # end
 
   def setup_analysis(possible_moves)
     signatures = possible_moves.map { |move| move.setup.position_signature }
@@ -87,20 +94,40 @@ module AiLogic
     current_turn == 'white' ? 'rank > ?' : 'rank < ?'
   end
 
-  def move_analysis(possible_moves)
-    weighted_moves = {}
+  def move_analysis(possible_moves, weighted_moves = {})
     current_signature = create_signature(pieces).split('.')
     possible_moves.each do |possible_move|
-      weight = position_analysis(current_signature, possible_move.value)
-      weight += material_analysis(possible_move)
-      weight += attack_analysis(possible_move)
-      weight -= moves.pluck(:value).select { |move| move == possible_move.value }.count
-      weighted_moves[weight] = possible_move
+      total_weight = Concurrent::Future.execute do
+        position_analysis(current_signature, possible_move.value) +
+        material_analysis(possible_move) +
+        attack_analysis(possible_move) -
+        moves.pluck(:value).select { |move| move == possible_move.value }.count
+      end
+      weighted_moves[possible_move.value] = total_weight
     end
 
-    best_move = weighted_moves.max_by { |weight, move| weight }
-    puts 'WEIGHT ***************** ' + best_move.first.to_s
-    best_move.last
+    retry_move_analysis(possible_moves, weighted_moves)
+  end
+
+  def retry_move_analysis(retry_moves, weighted_moves)
+    if weighted_moves.any? { |move_value, weight| weight.rejected? }
+      retry_move_values = possible_moves.select do |move_value, weight|
+        weight.rejected?
+      end.map(&:first)
+
+      retry_possible_moves = possible_moves.select do |possible_move|
+        retry_move_values.include?(possible_move.value)
+      end
+      move_analysis(possible_moves, weighted_moves)
+    end
+
+    best_move_value = weighted_moves.max_by { |move_value, weight| weight.value }.first
+
+    move(
+      position_index_from_move(best_move_value),
+      best_move_value[-2..-1],
+      promote_pawn(best_move_value)
+    )
   end
 
   def position_analysis(signature, possible_move_value)
