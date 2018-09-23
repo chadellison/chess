@@ -14,7 +14,14 @@ task analyze_training_data: :environment do
     end
     analyzed_games << analyzed_game
   end
-  analyzed_games.each(&:value)
+
+
+  analyzed_games.each do |ag|
+    if ag.rejected?
+      puts 'WE BLEW UP!!!'
+    end
+    ag.value
+  end
   puts '---------------THE END---------------'
 end
 

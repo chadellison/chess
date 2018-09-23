@@ -12,7 +12,7 @@ module PieceHelper
   end
 
   def pieces
-    if moves.count > 0
+    if moves.present?
       @pieces ||= reload_pieces
     else
       @pieces ||= add_pieces
