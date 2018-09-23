@@ -59,13 +59,11 @@ class StockfishIntegration
   end
 
   def fen_game_data
-    fen_notation = ''
-    fen_notation += " #{game.current_turn[0]}"
-    fen_notation += fen_castle_codes(game)
-    fen_notation += fen_code_pawn_moved_two(game)
-    fen_notation += ' 0'
-    fen_notation += " #{game.moves.count / 2}"
-    fen_notation
+    " #{game.current_turn[0]}" +
+      fen_castle_codes(game) +
+      fen_code_pawn_moved_two(game) +
+      ' 0' +
+      " #{game.moves.count / 2}"
   end
 
   def fen_code_pawn_moved_two(game)
@@ -84,11 +82,11 @@ class StockfishIntegration
   def fen_castle_codes(game)
     castle_codes = ''
     black_king = game.find_piece_by_index(5)
-    black_king_rook = game.find_piece_by_index(32)
-    black_queen_rook = game.find_piece_by_index(25)
+    black_king_rook = game.find_piece_by_index(8)
+    black_queen_rook = game.find_piece_by_index(1)
     white_king = game.find_piece_by_index(29)
-    white_king_rook = game.find_piece_by_index(32)
-    white_queen_rook = game.find_piece_by_index(25)
+    white_king_rook = game.find_piece_by_index(25)
+    white_queen_rook = game.find_piece_by_index(32)
 
     castle_codes += 'K' if white_king_rook.present? && [white_king, white_king_rook].none?(&:has_moved)
     castle_codes += 'Q' if white_queen_rook.present? && [white_king, white_queen_rook].none?(&:has_moved)

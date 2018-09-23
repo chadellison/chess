@@ -3,15 +3,15 @@ module AiLogic
 
   def ai_move
     possible_moves = find_next_moves
-    game_notation = wins_from_notation
+    # game_notation = wins_from_notation
 
-    if game_notation.present?
-      move_from_notation(game_notation)
-    elsif find_checkmate(possible_moves).present?
+    # if game_notation.present?
+    #   move_from_notation(game_notation)
+    if find_checkmate(possible_moves).present?
       checkmate_opponent(possible_moves)
-    elsif setup_analysis(possible_moves).present?
-      best_move = setup_analysis(possible_moves)
-      move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
+    # elsif setup_analysis(possible_moves).present?
+    #   best_move = setup_analysis(possible_moves)
+    #   move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
     else
       move_analysis(possible_moves)
     end
@@ -32,27 +32,27 @@ module AiLogic
     end
   end
 
-  def move_from_notation(game_notation)
-    game_piece = find_piece(game_notation, current_turn)
-    move_position = find_move_position(game_notation)
-    move_value = game_piece.position_index.to_s + move_position
-    move(game_piece.position_index, move_position, promote_pawn(move_value))
-  end
+  # def move_from_notation(game_notation)
+  #   game_piece = find_piece(game_notation, current_turn)
+  #   move_position = find_move_position(game_notation)
+  #   move_value = game_piece.position_index.to_s + move_position
+  #   move(game_piece.position_index, move_position, promote_pawn(move_value))
+  # end
 
-  def wins_from_notation
-    winning_game = random_winning_game
-    winning_game.notation.split('.')[moves.count] if winning_game.present?
-  end
+  # def wins_from_notation
+  #   winning_game = random_winning_game
+  #   winning_game.notation.split('.')[moves.count] if winning_game.present?
+  # end
 
-  def random_winning_game
-    matching_games = Game.similar_games(notation)
-    matching_wins = matching_games.winning_games(win_value)
-
-    if matching_wins.count > (matching_games.winning_games(loss_value).count * 0.8)
-      offset_amount = rand(matching_wins.count)
-      matching_wins.offset(offset_amount).first
-    end
-  end
+  # def random_winning_game
+  #   matching_games = Game.similar_games(notation)
+  #   matching_wins = matching_games.winning_games(win_value)
+  #
+  #   if matching_wins.count > (matching_games.winning_games(loss_value).count * 0.8)
+  #     offset_amount = rand(matching_wins.count)
+  #     matching_wins.offset(offset_amount).first
+  #   end
+  # end
 
   def checkmate_opponent(possible_moves)
     best_move = find_checkmate(possible_moves)
@@ -69,15 +69,15 @@ module AiLogic
   #   end
   # end
 
-  def setup_analysis(possible_moves)
-    signatures = possible_moves.map { |move| move.setup.position_signature }
-    game_setups = Setup.where(position_signature: signatures)
-    best_ranked_position = best_rank_setup(game_setups)
-
-    possible_moves.detect do |move|
-      best_ranked_position.present? && move.setup.position_signature == best_ranked_position
-    end
-  end
+  # def setup_analysis(possible_moves)
+  #   signatures = possible_moves.map { |move| move.setup.position_signature }
+  #   game_setups = Setup.where(position_signature: signatures)
+  #   best_ranked_position = best_rank_setup(game_setups)
+  #
+  #   possible_moves.detect do |move|
+  #     best_ranked_position.present? && move.setup.position_signature == best_ranked_position
+  #   end
+  # end
 
   def best_rank_setup(game_setups)
     if current_turn == 'white'
@@ -96,11 +96,12 @@ module AiLogic
 
   def move_analysis(possible_moves, weighted_moves = {})
     current_signature = create_signature(pieces).split('.')
+    game_turn = current_turn
     possible_moves.each do |possible_move|
       total_weight = Concurrent::Future.execute do
         position_analysis(current_signature, possible_move.value) +
-        material_analysis(possible_move) +
-        attack_analysis(possible_move) -
+        material_analysis(possible_move, game_turn) +
+        attack_analysis(possible_move, game_turn) -
         moves.pluck(:value).select { |move| move == possible_move.value }.count
       end
       weighted_moves[possible_move.value] = total_weight
@@ -111,6 +112,7 @@ module AiLogic
 
   def retry_move_analysis(retry_moves, weighted_moves)
     if weighted_moves.any? { |move_value, weight| weight.rejected? }
+      'RETRY MOVES'
       retry_move_values = possible_moves.select do |move_value, weight|
         weight.rejected?
       end.map(&:first)
@@ -121,7 +123,10 @@ module AiLogic
       move_analysis(possible_moves, weighted_moves)
     end
 
-    best_move_value = weighted_moves.max_by { |move_value, weight| weight.value }.first
+    best_move_value = weighted_moves.max_by do |move_value, weight|
+      puts move_value + ' ********* WEIGHT ********* '  + weight.value.to_s
+      weight.value
+    end.first
 
     move(
       position_index_from_move(best_move_value),
@@ -190,19 +195,19 @@ module AiLogic
     win_value == 1 ? -1 : 1
   end
 
-  def attack_analysis(game_move)
+  def attack_analysis(game_move, game_turn)
     if game_move.setup.attack_signature.present?
       rank = game_move.setup.attack_signature.rank
-      rank *= -1 if current_turn == 'black'
+      rank *= -1 if game_turn == 'black'
       rank
     else
       0
     end
   end
 
-  def material_analysis(game_move)
+  def material_analysis(game_move, game_turn)
     rank = game_move.setup.material_signature.rank
-    rank *= -1 if current_turn == 'black'
+    rank *= -1 if game_turn == 'black'
     rank
   end
 
@@ -215,8 +220,8 @@ module AiLogic
   #   ally_attack_value(next_setup, current_enemy_setup, next_enemy_setup) +
   #     enemy_attack_value(next_setup, current_enemy_setup)
   # end
-
-
+  #
+  #
   # def ally_attack_value(next_setup, enemy_pieces, next_enemy_setup)
   #   enemy_pieces = pieces.select { |piece| piece.color == opponent_color }
   #   current_enemy_material = enemy_pieces.reduce(0) do |sum, piece|
@@ -229,7 +234,7 @@ module AiLogic
   #
   #   current_enemy_material - next_setup_enemy_material
   # end
-
+  #
   # def enemy_attack_value(next_setup, current_setup)
   #   next_enemy_setup = pieces_with_enemy_targets(next_setup, opponent_color)
   #   find_attacked_value(current_setup) - find_attacked_value(next_enemy_setup)
@@ -243,7 +248,7 @@ module AiLogic
   #     end
   #   end
   # end
-
+  #
   # def find_attacked_value(game_pieces)
   #   enemy_attackers = game_pieces.select { |piece| piece.enemy_targets.present? }
   #
@@ -255,7 +260,7 @@ module AiLogic
   #     sum + attacked_material_value
   #   end
   # end
-
+  #
   # def find_piece_value(piece_type)
   #   { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 }[piece_type.to_sym]
   # end
