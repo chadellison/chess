@@ -18,16 +18,18 @@ module MoveLogic
     moves_for_rook + moves_for_bishop
   end
 
-  def moves_for_king
-    king_moves = moves_for_queen.reject do |move|
+  def spaces_near_king
+    moves_for_queen.reject do |move|
       move[0] > position[0].next ||
-        move[0] < (position[0].ord - 1).chr ||
-        move[1].to_i > position[1].to_i + 1 ||
-        move[1].to_i < position[1].to_i - 1
+      move[0] < (position[0].ord - 1).chr ||
+      move[1].to_i > position[1].to_i + 1 ||
+      move[1].to_i < position[1].to_i - 1
     end
+  end
 
+  def moves_for_king
     castle_moves = [(position[0].ord - 2).chr + position[1], position[0].next.next + position[1]]
-    king_moves + castle_moves
+    spaces_near_king + castle_moves
   end
 
   def moves_for_knight
