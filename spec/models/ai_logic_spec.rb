@@ -51,82 +51,6 @@ RSpec.describe AiLogic, type: :module do
     end
   end
 
-  describe 'handle_ratio' do
-    it 'calls double_position_match and single_position_match' do
-      expect_any_instance_of(Game).to receive(:find_matching_moves)
-        .with('1a4')
-        .and_return([])
-      expect_any_instance_of(Game).to receive(:find_double_matching_moves)
-        .with([], '2b4')
-        .and_return([])
-
-      game = Game.new
-
-      game.handle_ratio('1a4', '2b4')
-    end
-
-    context 'when the match amount is 0' do
-      it 'returns 0' do
-        setup = Setup.new
-        allow_any_instance_of(Game).to receive(:find_matching_moves)
-          .with('1a4')
-          .and_return([setup])
-        allow_any_instance_of(Game).to receive(:find_double_matching_moves)
-          .with([setup], '2b4')
-          .and_return([])
-
-        game = Game.new
-
-        expect(game.handle_ratio('1a4', '2b4')).to eq 0
-      end
-    end
-
-    context 'when the total is 0' do
-      it 'returns 0' do
-        allow_any_instance_of(Game).to receive(:find_matching_moves)
-          .with('1a4')
-          .and_return([])
-        allow_any_instance_of(Game).to receive(:find_double_matching_moves)
-          .with([], '2b4')
-          .and_return([Setup.new])
-
-        game = Game.new
-
-        expect(game.handle_ratio('1a4', '2b4')).to eq 0
-      end
-    end
-
-    context 'when neither the match nor the total is 0' do
-      it 'returns the ratio' do
-        setup = Setup.new
-        allow_any_instance_of(Game).to receive(:find_matching_moves)
-          .with('1a4')
-          .and_return([setup, setup])
-        allow_any_instance_of(Game).to receive(:find_double_matching_moves)
-          .with([setup, setup], '2b4')
-          .and_return([setup])
-
-        game = Game.new
-
-        expect(game.handle_ratio('1a4', '2b4')).to eq 0.5
-      end
-    end
-  end
-
-  describe 'find_matching_moves' do
-    # Move.where(value: value).joins(:setup).where(winning_moves, 0)
-    xit 'test' do
-
-    end
-  end
-
-  describe 'find_double_matching_moves' do
-    # moves.joins(:setup).where(winning_moves, 0)
-    #      .where('position_signature LIKE ?', "%#{index_two}%")
-    xit 'test' do
-    end
-  end
-
   describe 'current_turn' do
     context 'when there are an even number of moves on a game' do
       it 'returns white' do
@@ -226,18 +150,7 @@ RSpec.describe AiLogic, type: :module do
   end
 
   describe 'position_analysis' do
-    it 'returns the sum of all ratios' do
-      allow_any_instance_of(Game).to receive(:handle_ratio)
-        .and_return(0.5)
-      game = Game.create
-      move = game.moves.create(value: '1d4')
-      move = game.moves.create(value: '8c6')
-      move = game.moves.create(value: '28a6')
-
-      signature = ['1d4', '8c6', '28a6']
-      possible_move_value = '4a7'
-
-      expect(game.position_analysis(signature, possible_move_value)).to eq 1.5
+    xit 'test' do
     end
   end
 end
