@@ -36,21 +36,6 @@ module AiLogic
     move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
   end
 
-  # def best_rank_setup(game_setups)
-  #   if current_turn == 'white'
-  #     rank = game_setups.maximum(:rank)
-  #     return nil if rank.blank? || rank < 1
-  #   else
-  #     rank = game_setups.minimum(:rank)
-  #     return nil if rank.blank? || rank > -1
-  #   end
-  #   game_setups.find_by(rank: rank).position_signature
-  # end
-
-  # def winning_moves
-  #   current_turn == 'white' ? 'rank > ?' : 'rank < ?'
-  # end
-
   def move_analysis(possible_moves, weighted_moves = {})
     current_signature = create_signature(pieces).split('.')
     game_turn = current_turn
@@ -99,8 +84,6 @@ module AiLogic
       if move_values.include?(move_value)
         setup_weight = Move.where(value: possible_move_value).joins(:setup).where('position_signature LIKE ?',
                                   "%#{move_value}%").average(:rank).to_f.round(4)
-        # setup_weight = Setup.where('position_signature LIKE ? AND position_signature LIKE ?',
-        #                        "%#{possible_move_value}%", "%#{move_value}%").average(:rank).to_f.round(4)
         setup_weight *= -1 if game_turn == 'black'
         weight + setup_weight
       else
@@ -108,26 +91,6 @@ module AiLogic
       end
     end
   end
-
-  # def handle_ratio(index_one, index_two)
-  #   matching_moves = find_matching_moves(index_one)
-  #
-  #   double_matches = find_double_matching_moves(matching_moves, index_two)
-  #   if double_matches.count == 0 || matching_moves.count == 0
-  #     0
-  #   else
-  #     double_matches.count.to_f / matching_moves.count.to_f
-  #   end
-  # end
-
-  # def find_matching_moves(value)
-  #   Move.where(value: value).joins(:setup).where(winning_moves, 0)
-  # end
-
-  # def find_double_matching_moves(moves, index_two)
-  #   moves.joins(:setup).where(winning_moves, 0)
-  #        .where('position_signature LIKE ?', "%#{index_two}%")
-  # end
 
   def find_checkmate(possible_moves)
     possible_moves.detect do |next_move|
