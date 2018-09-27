@@ -22,8 +22,6 @@ task train_on_stockfish: :environment do
       end
     end
 
-    game.propogate_results if game.outcome.present? && game.outcome != 0
-
     end_time = Time.now
 
     total_time = end_time - start_time

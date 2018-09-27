@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_12_010721) do
+ActiveRecord::Schema.define(version: 2018_09_25_041828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,7 +85,16 @@ ActiveRecord::Schema.define(version: 2018_09_12_010721) do
     t.datetime "updated_at", null: false
     t.integer "attack_signature_id"
     t.integer "material_signature_id"
+    t.integer "threat_signature_id"
     t.index ["position_signature"], name: "index_setups_on_position_signature"
+  end
+
+  create_table "threat_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_threat_signatures_on_signature"
   end
 
   create_table "users", force: :cascade do |t|
