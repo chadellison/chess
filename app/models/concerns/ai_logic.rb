@@ -38,9 +38,7 @@ module AiLogic
       total_weight = position_analysis(current_signature, possible_move.value, game_turn) +
       material_analysis(possible_move.setup.material_signature, game_turn) +
       threat_analysis(possible_move.setup.threat_signature, game_turn) +
-      attack_analysis(possible_move.setup.attack_signature, game_turn) -
-      moves.pluck(:value).select { |move| move == possible_move.value }.count
-
+      attack_analysis(possible_move.setup.attack_signature, game_turn)
       weighted_moves[possible_move.value] = total_weight
     end
 
