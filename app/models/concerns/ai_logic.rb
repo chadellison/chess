@@ -1,15 +1,10 @@
 module AiLogic
   extend ActiveSupport::Concern
 
-  OPENINGS = ['19c4', '20d4', '21ef', '31f3']
-
   def ai_move
     possible_moves = find_next_moves
 
-    if moves.blank?
-      opening = OPENINGS.sample
-      move(position_index_from_move(opening), opening[-2..-1], '')
-    elsif find_checkmate(possible_moves).present?
+    if find_checkmate(possible_moves).present?
       checkmate_opponent(possible_moves)
     else
       move_analysis(possible_moves)
@@ -40,35 +35,18 @@ module AiLogic
     current_signature = create_signature(pieces).split('.')
     game_turn = current_turn
     possible_moves.shuffle.each do |possible_move|
-      total_weight = Concurrent::Future.execute do
-        position_analysis(current_signature, possible_move.value, game_turn) +
-        material_analysis(possible_move.setup.material_signature, game_turn) +
-        threat_analysis(possible_move.setup.threat_signature, game_turn) +
-        attack_analysis(possible_move.setup.attack_signature, game_turn) -
-        moves.pluck(:value).select { |move| move == possible_move.value }.count
-      end
+      total_weight = position_analysis(current_signature, possible_move.value, game_turn) +
+      material_analysis(possible_move.setup.material_signature, game_turn) +
+      threat_analysis(possible_move.setup.threat_signature, game_turn) +
+      attack_analysis(possible_move.setup.attack_signature, game_turn) -
+      moves.pluck(:value).select { |move| move == possible_move.value }.count
+
       weighted_moves[possible_move.value] = total_weight
     end
 
-    retry_move_analysis(possible_moves, weighted_moves)
-  end
-
-  def retry_move_analysis(retry_moves, weighted_moves)
-    if weighted_moves.any? { |move_value, weight| weight.rejected? }
-      'RETRY MOVES'
-      retry_move_values = possible_moves.select do |move_value, weight|
-        weight.rejected?
-      end.map(&:first)
-
-      retry_possible_moves = possible_moves.select do |possible_move|
-        retry_move_values.include?(possible_move.value)
-      end
-      move_analysis(possible_moves, weighted_moves)
-    end
-
     best_move_value = weighted_moves.max_by do |move_value, weight|
-      puts move_value + ' ********* WEIGHT ********* ' + weight.value.to_s
-      weight.value
+      puts move_value + ' ********* WEIGHT ********* ' + weight.to_s
+      weight
     end.first
 
     move(
@@ -82,8 +60,10 @@ module AiLogic
     move_values = moves.pluck(:value)
     signature.reduce(0) do |weight, move_value|
       if move_values.include?(move_value)
-        setup_weight = Move.where(value: possible_move_value).joins(:setup).where('position_signature LIKE ?',
-                                  "%#{move_value}%").average(:rank).to_f.round(4)
+        setup_weight = Move.where(value: possible_move_value)
+                           .joins(:setup)
+                           .where('position_signature LIKE ?', "%#{move_value}%")
+                           .average(:rank).to_f.round(4)
         setup_weight *= -1 if game_turn == 'black'
         weight + setup_weight
       else
