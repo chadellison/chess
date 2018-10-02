@@ -35,7 +35,7 @@ module AiLogic
     current_signature = create_signature(pieces).split('.')
     game_turn = current_turn
     possible_moves.shuffle.each do |possible_move|
-      total_weight = position_analysis(current_signature, possible_move.value) +
+      total_weight = position_analysis(current_signature, possible_move.value, game_turn) +
       material_analysis(possible_move.setup.material_signature, game_turn) +
       threat_analysis(possible_move.setup.threat_signature, game_turn) +
       attack_analysis(possible_move.setup.attack_signature, game_turn)
@@ -70,16 +70,16 @@ module AiLogic
   #   end
   # end
 
-  def position_analysis(signature, possible_move_value)
+  def position_analysis(signature, possible_move_value, game_turn)
     signature.reduce(0) do |weight, move_value|
-      weight + handle_ratio(possible_move_value, move_value)
+      weight + handle_ratio(possible_move_value, move_value, game_turn)
     end
   end
 
-  def handle_ratio(index_one, index_two)
-    matching_moves = find_matching_moves(index_one)
+  def handle_ratio(index_one, index_two, game_turn)
+    matching_moves = find_matching_moves(index_one, game_turn)
 
-    double_matches = find_double_matching_moves(matching_moves, index_two)
+    double_matches = find_double_matching_moves(matching_moves, index_two, game_turn)
 
     if double_matches.count == 0 || matching_moves.count == 0
       0
@@ -88,13 +88,17 @@ module AiLogic
     end
   end
 
-  def find_matching_moves(value)
-    Move.where(value: value).joins(:setup).where(winning_moves, 0)
+  def find_matching_moves(value, game_turn)
+    Move.where(value: value).joins(:setup).where(winning_moves(game_turn), 0)
   end
 
-  def find_double_matching_moves(moves, index_two)
-    moves.joins(:setup).where(winning_moves, 0)
+  def find_double_matching_moves(moves, index_two, game_turn)
+    moves.joins(:setup).where(winning_moves(game_turn), 0)
          .where('position_signature LIKE ?', "%#{index_two}%")
+  end
+
+  def winning_moves(game_turn)
+    game_turn == 'white' ? 'rank > ?' : 'rank < ?'
   end
 
   def find_checkmate(possible_moves)
