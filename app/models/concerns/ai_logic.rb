@@ -35,7 +35,7 @@ module AiLogic
     current_signature = create_signature(pieces).split('.')
     game_turn = current_turn
     possible_moves.shuffle.each do |possible_move|
-      total_weight = position_analysis(current_signature, possible_move.value, game_turn) +
+      total_weight = position_analysis(current_signature, possible_move.value) +
       material_analysis(possible_move.setup.material_signature, game_turn) +
       threat_analysis(possible_move.setup.threat_signature, game_turn) +
       attack_analysis(possible_move.setup.attack_signature, game_turn)
@@ -54,20 +54,47 @@ module AiLogic
     )
   end
 
-  def position_analysis(signature, possible_move_value, game_turn)
-    move_values = moves.pluck(:value)
+  # def position_analysis(signature, possible_move_value, game_turn)
+  #   move_values = moves.pluck(:value)
+  #   signature.reduce(0) do |weight, move_value|
+  #     if move_values.include?(move_value)
+  #       setup_weight = Move.where(value: possible_move_value)
+  #                          .joins(:setup)
+  #                          .where('position_signature LIKE ?', "%#{move_value}%")
+  #                          .average(:rank).to_f.round(4)
+  #       setup_weight *= -1 if game_turn == 'black'
+  #       weight + setup_weight
+  #     else
+  #       weight + 0
+  #     end
+  #   end
+  # end
+
+  def position_analysis(signature, possible_move_value)
     signature.reduce(0) do |weight, move_value|
-      if move_values.include?(move_value)
-        setup_weight = Move.where(value: possible_move_value)
-                           .joins(:setup)
-                           .where('position_signature LIKE ?', "%#{move_value}%")
-                           .average(:rank).to_f.round(4)
-        setup_weight *= -1 if game_turn == 'black'
-        weight + setup_weight
-      else
-        weight + 0
-      end
+      weight + handle_ratio(possible_move_value, move_value)
     end
+  end
+
+  def handle_ratio(index_one, index_two)
+    matching_moves = find_matching_moves(index_one)
+
+    double_matches = find_double_matching_moves(matching_moves, index_two)
+
+    if double_matches.count == 0 || matching_moves.count == 0
+      0
+    else
+      double_matches.count.to_f / matching_moves.count.to_f
+    end
+  end
+
+  def find_matching_moves(value)
+    Move.where(value: value).joins(:setup).where(winning_moves, 0)
+  end
+
+  def find_double_matching_moves(moves, index_two)
+    moves.joins(:setup).where(winning_moves, 0)
+         .where('position_signature LIKE ?', "%#{index_two}%")
   end
 
   def find_checkmate(possible_moves)
