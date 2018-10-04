@@ -2,6 +2,10 @@ module BoardLogic
   extend ActiveSupport::Concern
 
   def pieces_with_next_move(game_pieces, move)
+    # need to handle castle here
+    # need to handle en passant
+    # need to handle promoted pawn
+    piece_index = position_index_from_move(move)
     game_pieces.reject { |piece| piece.position == move[-2..-1] }
       .map do |piece|
         game_piece = Piece.new(
@@ -14,7 +18,7 @@ module BoardLogic
           has_moved: piece.has_moved
         )
 
-        if piece.position_index == position_index_from_move(move)
+        if piece.position_index == piece_index
           game_piece.position = move[-2..-1]
           game_piece.has_moved = true
         end
@@ -56,58 +60,8 @@ module BoardLogic
   def create_setup(new_pieces)
     setup = Setup.find_or_create_by(position_signature: create_signature(new_pieces))
     new_pieces.each { |piece| piece.valid_moves(new_pieces) }
-    game_turn_code = current_turn[0]
-    setup.attack_signature = handle_attack_signature(new_pieces, game_turn_code)
-    setup.threat_signature = handle_threat_signature(new_pieces, game_turn_code)
-    setup.material_signature = MaterialSignature.find_or_create_by(
-      signature: (new_pieces.map(&:position_index).join + game_turn_code)
-    )
-    setup.save
+    setup.add_signatures(new_pieces, current_turn[0])
     setup
-  end
-
-  def handle_attack_signature(new_pieces, game_turn_code)
-    attack_signature = create_attack_signature(new_pieces, game_turn_code)
-    if attack_signature.present?
-      AttackSignature.find_or_create_by(signature: attack_signature)
-    end
-  end
-
-  def handle_threat_signature(new_pieces, game_turn_code)
-    threat_signature = create_threat_signature(new_pieces, game_turn_code)
-    if threat_signature.length > 1
-      ThreatSignature.find_or_create_by(signature: threat_signature)
-    end
-  end
-
-  def create_attack_signature(new_pieces, game_turn_code)
-    signature = new_pieces.select { |piece| piece.enemy_targets.present? }.map do |piece|
-      piece.find_piece_code + 'x' + piece.enemy_targets.join('x')
-    end
-    if signature.present?
-      signature.push(game_turn_code)
-      signature.join('.')
-    end
-  end
-
-  def create_threat_signature(new_pieces, game_turn_code)
-    white_king_spaces = new_pieces.detect { |piece| piece.position_index == 29 }.spaces_near_king
-    black_king_spaces = new_pieces.detect { |piece| piece.position_index == 5 }.spaces_near_king
-
-    black_pieces = new_pieces.select { |piece| piece.color == 'black' }
-    white_pieces = new_pieces.select { |piece| piece.color == 'white' }
-
-    white_threats = map_enemy_threats(white_king_spaces, black_pieces, new_pieces)
-    black_threats = map_enemy_threats(black_king_spaces, white_pieces, new_pieces)
-    white_threats + black_threats + game_turn_code
-  end
-
-  def map_enemy_threats(spaces, enemy_pieces, new_pieces)
-    enemy_pieces.select do |enemy_piece|
-      (enemy_piece.valid_moves(new_pieces) & spaces).present?
-    end.map do |enemy_piece|
-      enemy_piece.find_piece_code + spaces.select { |space| enemy_piece.valid_moves(new_pieces).include?(space) }.join
-    end.join('.')
   end
 
   def new_move(piece)

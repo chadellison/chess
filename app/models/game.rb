@@ -113,6 +113,13 @@ class Game < ApplicationRecord
         attack_signature.update(rank: updated_attack_signature_rank)
       end
 
+      general_attack_signature = move.setup.general_attack_signature
+
+      if general_attack_signature.present?
+        updated_general_attack_signature_rank = general_attack_signature.rank + outcome
+        general_attack_signature.update(rank: updated_general_attack_signature_rank)
+      end
+
       threat_signature = move.setup.threat_signature
 
       if threat_signature.present?

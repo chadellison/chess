@@ -31,17 +31,29 @@ module AiLogic
     move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
   end
 
-  def move_analysis(possible_moves, weighted_moves = {})
+  def move_analysis(possible_moves)
+    weighted_moves = {}
+
     current_signature = create_signature(pieces).split('.')
     game_turn = current_turn
     possible_moves.shuffle.each do |possible_move|
-      total_weight = position_analysis(current_signature, possible_move.value, game_turn) +
-      material_analysis(possible_move.setup.material_signature, game_turn) +
-      threat_analysis(possible_move.setup.threat_signature, game_turn) +
-      attack_analysis(possible_move.setup.attack_signature, game_turn)
+      game_setup = possible_move.setup
+      total_weight = position_analysis(current_signature, possible_move.value)
+
+      total_weight += [
+        game_setup.material_signature,
+        game_setup.threat_signature,
+        game_setup.attack_signature,
+        game_setup.general_attack_signature
+      ].reduce(0) { |weight, signature| weight + analyze_signature(signature) }
+      total_weight *= -1 if game_turn == 'black'
       weighted_moves[possible_move.value] = total_weight
     end
 
+    find_best_move(weighted_moves)
+  end
+
+  def find_best_move(weighted_moves)
     best_move_value = weighted_moves.max_by do |move_value, weight|
       puts move_value + ' ********* WEIGHT ********* ' + weight.to_s
       weight
@@ -54,20 +66,15 @@ module AiLogic
     )
   end
 
-  def position_analysis(signature, possible_move_value, game_turn)
-    move_values = moves.pluck(:value)
-    signature.reduce(0) do |weight, move_value|
-      if move_values.include?(move_value)
-        setup_weight = Move.where(value: possible_move_value)
-                           .joins(:setup)
-                           .where('position_signature LIKE ?', "%#{move_value}%")
-                           .average(:rank).to_f.round(4)
-        setup_weight *= -1 if game_turn == 'black'
-        weight + setup_weight
-      else
-        weight + 0
-      end
+  def position_analysis(signature, possible_move_value)
+    move_weight = signature.reduce(0) do |weight, move_value|
+      weight + Move.where(value: possible_move_value)
+                   .joins(:setup)
+                   .where('position_signature LIKE ?', "%#{move_value}%")
+                   .average(:rank).to_f
     end
+
+    (move_weight / signature.count.to_f).round(4)
   end
 
   def find_checkmate(possible_moves)
@@ -98,29 +105,7 @@ module AiLogic
     win_value == 1 ? -1 : 1
   end
 
-  def attack_analysis(attack_signature, game_turn)
-    if attack_signature.present?
-      rank = attack_signature.rank
-      rank *= -1 if game_turn == 'black'
-      rank
-    else
-      0
-    end
-  end
-
-  def material_analysis(material_signature, game_turn)
-    rank = material_signature.rank
-    rank *= -1 if game_turn == 'black'
-    rank
-  end
-
-  def threat_analysis(threat_signature, game_turn)
-    if threat_signature.present?
-      rank = threat_signature.rank
-      rank *= -1 if game_turn == 'black'
-      rank
-    else
-      0
-    end
+  def analyze_signature(signature)
+    signature.present? ? signature.rank : 0
   end
 end
