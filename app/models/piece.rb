@@ -1,5 +1,6 @@
 class Piece
   include MoveLogic
+  include PieceLogic
 
   attr_accessor :game_id, :piece_type, :color, :position, :position_index,
     :moved_two, :has_moved, :valid_moves, :enemy_targets

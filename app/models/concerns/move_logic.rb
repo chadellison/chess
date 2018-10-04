@@ -149,12 +149,6 @@ module MoveLogic
     destination_piece.blank? || destination_piece.color == opposite_color
   end
 
-  def find_piece_code
-   code = { king: 'k', queen: 'q', rook: 'r', bishop: 'b', knight: 'n', pawn: 'p' }
-      piece_code = code[piece_type.to_sym]
-      color == 'white' ? piece_code.capitalize : piece_code
-  end
-
   def vertical_collision?(destination, occupied_spaces)
     row = position[1].to_i
     difference = (row - destination[1].to_i).abs - 1
