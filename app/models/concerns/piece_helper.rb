@@ -21,11 +21,11 @@ module PieceHelper
 
   def reload_pieces
     last_move = moves.order(:move_count).last
-    move_indices = moves.map { |move| position_index_from_move(move.value).to_i }
+    move_indices = moves.map { |move| position_index_from_move(move.value) }
     pawn_moved_two = pawn_moved_two?
 
     @pieces = last_move.setup.position_signature.split('.').map do |piece_value|
-      position_index = position_index_from_move(piece_value).to_i
+      position_index = position_index_from_move(piece_value)
       Piece.new({
         game_id: id,
         position: piece_value[-2..-1],
@@ -33,7 +33,7 @@ module PieceHelper
         color: color_from_position_index(position_index),
         piece_type: piece_type_from_position_index(position_index),
         has_moved: move_indices.include?(position_index),
-        moved_two: pawn_moved_two && position_index == last_move_index(last_move)
+        moved_two: pawn_moved_two #&& position_index == last_move_index(last_move)
       })
     end
   end
@@ -74,7 +74,8 @@ module PieceHelper
   end
 
   def pawn_moved_two?
-    last_move = moves.order(:move_count).last
+    ordered_moves = moves.order(:move_count)
+    last_move = ordered_moves.last
     last_moved_piece_type = piece_type_from_position_index(last_move_index(last_move))
     return false unless last_moved_piece_type == 'pawn'
 
@@ -82,8 +83,8 @@ module PieceHelper
       ['4', '5'].include?(last_move.value[-1])
       true
     else
-      previous_position = moves[-2].setup.position_signature.split('.').detect do |value|
-        position_index_from_move(value).to_i == last_move_index(last_move)
+      previous_position = ordered_moves[-2].setup.position_signature.split('.').detect do |value|
+        position_index_from_move(value) == last_move_index(last_move)
       end[-2..-1]
 
       (previous_position[1].to_i - last_move.value[-1].to_i).abs == 2
