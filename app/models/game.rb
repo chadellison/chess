@@ -65,7 +65,7 @@ class Game < ApplicationRecord
     end
     update(outcome: outcome)
     GameEventBroadcastJob.perform_later(self)
-    propogate_results if game_type == 'machine vs machine'
+    propogate_results if game_type == 'machine vs machine' && outcome != 0
   end
 
   def join_user_to_game(user_id)
