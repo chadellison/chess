@@ -116,8 +116,8 @@ RSpec.describe BoardLogic, type: :module do
     end
   end
 
-  describe 'handle_castle' do
-    context 'when the king has castled queen side' do
+  describe 'update_rook' do
+    context 'when the white king has castled queen side' do
       let(:game) { Game.create }
 
       it 'updates the rook\'s position to the f column' do
@@ -126,34 +126,48 @@ RSpec.describe BoardLogic, type: :module do
 
         game.update_pieces([rook, king])
 
-        game.handle_castle(king, 'c1', [rook, king])
+        game.update_rook('29c1', [rook, king])
 
         expect(game.find_piece_by_index(25).position).to eq 'd1'
       end
     end
 
-    context 'when the king has castled king side' do
+    context 'when the white king has castled king side' do
       let(:game) { Game.create }
 
       it 'updates the rook\'s position to the f column' do
         piece = game.find_piece_by_index(29)
 
-        game.handle_castle(piece, 'g1', game.pieces)
+        game.update_rook('29g1', game.pieces)
 
         expect(game.find_piece_by_index(32).position).to eq 'f1'
       end
     end
 
-    context 'when the king has not moved two spaces' do
+    context 'when the black king has castled queen side' do
       let(:game) { Game.create }
 
-      it 'does nothing' do
-        piece = game.find_piece_by_index(29)
+      it 'updates the rook\'s position to the f column' do
+        king = game.find_piece_by_index(5)
+        rook = game.find_piece_by_index(1)
 
-        game.handle_castle(piece, 'f1', game.pieces)
+        game.update_pieces([rook, king])
 
-        expect(game.find_piece_by_index(25).position).to eq 'a1'
-        expect(game.find_piece_by_index(32).position).to eq 'h1'
+        game.update_rook('5c8', [rook, king])
+
+        expect(game.find_piece_by_index(1).position).to eq 'd8'
+      end
+    end
+
+    context 'when the black king has castled king side' do
+      let(:game) { Game.create }
+
+      it 'updates the rook\'s position to the f column' do
+        piece = game.find_piece_by_index(5)
+
+        game.update_rook('5g8', game.pieces)
+
+        expect(game.find_piece_by_index(8).position).to eq 'f8'
       end
     end
   end
@@ -166,9 +180,9 @@ RSpec.describe BoardLogic, type: :module do
       piece.position = 'd5'
       game.find_piece_by_position('e7').position = 'e5'
 
-      actual = game.handle_en_passant(piece, 'e6', game.pieces)
+      actual = game.handle_en_passant('20e6', game.pieces)
       expect(actual.count).to eq 31
-      expect(actual.detect { |p| p.position == 'e5' }.blank?).to be true
+      expect(actual.detect { |pawn| pawn.position == 'e5' }.blank?).to be true
     end
   end
 

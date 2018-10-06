@@ -5,8 +5,12 @@ class Setup < ApplicationRecord
   belongs_to :material_signature, optional: true
   belongs_to :threat_signature, optional: true
 
+  SIGNATURE_CLASSES = [
+    AttackSignature, ThreatSignature, MaterialSignature, GeneralAttackSignature
+  ]
+
   def add_signatures(new_pieces, game_turn_code)
-    signatures_classes.each do |signature_class|
+    SIGNATURE_CLASSES.each do |signature_class|
       signature = signature_class.create_signature(new_pieces, game_turn_code)
 
       if signature.present?
@@ -15,14 +19,5 @@ class Setup < ApplicationRecord
     end
 
     save
-  end
-
-  def signatures_classes
-    [
-      AttackSignature,
-      ThreatSignature,
-      MaterialSignature,
-      GeneralAttackSignature
-    ]
   end
 end
