@@ -17,7 +17,5 @@ class Setup < ApplicationRecord
         signature_class.find_or_create_by(signature: signature).setups << self
       end
     end
-
-    save
   end
 end
