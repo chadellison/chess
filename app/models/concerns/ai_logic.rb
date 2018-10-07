@@ -67,11 +67,17 @@ module AiLogic
   end
 
   def position_analysis(signature, possible_move_value)
+    move_values = moves.pluck(:value)
+
     move_weight = signature.reduce(0) do |weight, move_value|
-      weight + Move.where(value: possible_move_value)
-                   .joins(:setup)
-                   .where('position_signature LIKE ?', "%#{move_value}%")
-                   .average(:rank).to_f
+      if move_values.include?(move_value)
+        weight + Move.where(value: possible_move_value)
+                     .joins(:setup)
+                     .where('position_signature LIKE ?', "%#{move_value}%")
+                     .average(:rank).to_f
+      else
+        0
+      end
     end
 
     (move_weight / signature.count.to_f).round(4)
