@@ -100,31 +100,18 @@ class Game < ApplicationRecord
 
   def propogate_results
     moves.each do |move|
-      updated_setup_rank = move.setup.rank + outcome
-      move.setup.update(rank: updated_setup_rank)
+      setup = move.setup
+      move.setup.update(rank: (setup.rank + outcome))
 
-      updated_material_rank = move.setup.material_signature.rank + outcome
-      move.setup.material_signature.update(rank: updated_material_rank)
-
-      attack_signature = move.setup.attack_signature
-
-      if attack_signature.present?
-        updated_attack_signature_rank = attack_signature.rank + outcome
-        attack_signature.update(rank: updated_attack_signature_rank)
-      end
-
-      general_attack_signature = move.setup.general_attack_signature
-
-      if general_attack_signature.present?
-        updated_general_attack_signature_rank = general_attack_signature.rank + outcome
-        general_attack_signature.update(rank: updated_general_attack_signature_rank)
-      end
-
-      threat_signature = move.setup.threat_signature
-
-      if threat_signature.present?
-        updated_threat_signature_rank = threat_signature.rank + outcome
-        threat_signature.update(rank: updated_threat_signature_rank)
+      [
+        setup.attack_signature,
+        setup.material_signature,
+        setup.general_attack_signature,
+        setup.threat_signature
+      ].each do |signature|
+        if signature.present?
+          signature.update(rank: (signature.rank + outcome))
+        end
       end
     end
   end
