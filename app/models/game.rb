@@ -92,7 +92,7 @@ class Game < ApplicationRecord
   def machine_vs_machine
     until outcome.present? do
       ai_move
-      update(outcome: 0) if moves.count > 200
+      update(outcome: 0) if moves.count > 300
       puts moves.order(:move_count).last.value
       puts current_turn + '******************'
     end

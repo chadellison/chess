@@ -6,7 +6,7 @@ task train_on_stockfish: :environment do
 
     start_time = Time.now
 
-    until game.outcome.present? || game.moves.count > 200 do
+    until game.outcome.present? do
       turn = game.current_turn
 
       if turn == stockfish_integration.stockfish_color(game_number)
