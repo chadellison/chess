@@ -67,20 +67,17 @@ module AiLogic
   end
 
   def position_analysis(signature, possible_move_value)
-    move_values = moves.pluck(:value)
+    best_setups = Move.where(value: possible_move_value).joins(:setup)
+    game_setups = best_setups
+    previous_moves = moves.order(:move_count).to_a.map(&:value) << possible_move_value
 
-    move_weight = signature.reduce(0) do |weight, move_value|
-      if move_values.include?(move_value)
-        weight + Move.where(value: possible_move_value)
-                     .joins(:setup)
-                     .where('position_signature LIKE ?', "%#{move_value}%")
-                     .average(:rank).to_f
-      else
-        0
-      end
+    until game_setups.blank? || previous_moves.blank? do
+      previous_move = previous_moves.pop
+      game_setups = best_setups.where('position_signature LIKE ?', "%#{previous_move}%")
+      best_setups = game_setups if game_setups.present?
     end
 
-    (move_weight / signature.count.to_f).round(4)
+    best_setups.average(:rank).to_f
   end
 
   def find_checkmate(possible_moves)
