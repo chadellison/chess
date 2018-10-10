@@ -33,7 +33,7 @@ module PieceHelper
         color: color_from_position_index(position_index),
         piece_type: piece_type_from_position_index(position_index),
         has_moved: move_indices.include?(position_index),
-        moved_two: pawn_moved_two #&& position_index == last_move_index(last_move)
+        moved_two: pawn_moved_two
       })
     end
   end

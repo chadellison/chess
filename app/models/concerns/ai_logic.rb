@@ -34,11 +34,12 @@ module AiLogic
   def move_analysis(possible_moves)
     weighted_moves = {}
 
-    current_signature = create_signature(pieces).split('.')
     game_turn = current_turn
+    previous_moves = moves.order(:move_count).pluck(:value)
+
     possible_moves.shuffle.each do |possible_move|
       game_setup = possible_move.setup
-      total_weight = position_analysis(current_signature, possible_move.value)
+      total_weight = position_analysis(possible_move, previous_moves)
 
       total_weight += [
         game_setup.material_signature,
@@ -66,17 +67,16 @@ module AiLogic
     )
   end
 
-  def position_analysis(signature, possible_move_value)
-    best_setups = Move.where(value: possible_move_value).joins(:setup)
-    game_setups = best_setups
-    previous_moves = moves.order(:move_count).pluck(:value)
+  def position_analysis(possible_move, previous_moves)
+    similar_setups = possible_move.setup.material_signature.setups
+    game_setups = similar_setups
 
     previous_moves.each do |previous_move|
-      game_setups = best_setups.where('position_signature LIKE ?', "%#{previous_move}%")
-      best_setups = game_setups if game_setups.present?
+      game_setups = similar_setups.where('position_signature LIKE ?', "%#{previous_move}%")
+      similar_setups = game_setups if game_setups.present?
     end
 
-    best_setups.average(:rank).to_f
+    similar_setups.average(:rank).to_f
   end
 
   def find_checkmate(possible_moves)
