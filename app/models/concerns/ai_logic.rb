@@ -71,9 +71,8 @@ module AiLogic
     game_setups = best_setups
     previous_moves = moves.order(:move_count).to_a.map(&:value)
 
-    until game_setups.blank? || previous_moves.blank? do
-      previous_move = previous_moves.pop
-      game_setups = best_setups.where('position_signature LIKE ?', "%#{previous_move}%") if previous_move.present?
+    previous_moves.each do |previous_move|
+      game_setups = best_setups.where('position_signature LIKE ?', "%#{previous_move}%")
       best_setups = game_setups if game_setups.present?
     end
 
