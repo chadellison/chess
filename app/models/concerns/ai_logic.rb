@@ -69,7 +69,7 @@ module AiLogic
   def position_analysis(signature, possible_move_value)
     best_setups = Move.where(value: possible_move_value).joins(:setup)
     game_setups = best_setups
-    previous_moves = moves.order(:move_count).to_a.map(&:value)
+    previous_moves = moves.order(:move_count).pluck(:value)
 
     previous_moves.each do |previous_move|
       game_setups = best_setups.where('position_signature LIKE ?', "%#{previous_move}%")
