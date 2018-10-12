@@ -35,7 +35,7 @@ module AiLogic
     weighted_moves = {}
 
     game_turn = current_turn
-    previous_moves = moves.order(:move_count).pluck(:value)
+    previous_moves = moves.map { |move| position_index_from_move(move.value) }
 
     possible_moves.shuffle.each do |possible_move|
       game_setup = possible_move.setup
@@ -50,7 +50,6 @@ module AiLogic
       total_weight *= -1 if game_turn == 'black'
       weighted_moves[possible_move.value] = total_weight
     end
-
     find_best_move(weighted_moves)
   end
 
@@ -71,9 +70,11 @@ module AiLogic
     similar_setups = possible_move.setup.material_signature.setups
     game_setups = similar_setups
 
-    previous_moves.each do |previous_move|
-      game_setups = similar_setups.where('position_signature LIKE ?', "%#{previous_move}%")
-      similar_setups = game_setups if game_setups.present?
+    possible_move.setup.position_signature.split('.').each do |move_value|
+      if previous_moves.include?(position_index_from_move(move_value))
+        game_setups = similar_setups.where('position_signature LIKE ?', "%#{move_value}%")
+        similar_setups = game_setups if game_setups.present?
+      end
     end
 
     similar_setups.average(:rank).to_f
