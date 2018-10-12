@@ -133,7 +133,7 @@ module MoveLogic
   end
 
   def valid_move_path?(destination, occupied_spaces)
-    if piece_type == 'knight'
+    if self.class.is_a? Knight
       true
     elsif position[0] == destination[0]
       !vertical_collision?(destination, occupied_spaces)
@@ -187,14 +187,14 @@ module MoveLogic
 
   def king_is_safe?(allied_color, game_pieces)
     king = game_pieces.detect do |piece|
-      piece.piece_type == 'king' && piece.color == allied_color
+      piece.class.is_a? King && piece.color == allied_color
     end
 
     return false if king.nil? || kings_too_close?(game_pieces)
 
     occupied_spaces = game_pieces.map(&:position)
     opponent_pieces = game_pieces.reject do |piece|
-      piece.color == allied_color || piece.piece_type == 'king'
+      piece.color == allied_color || (piece.class.is_a? King)
     end
 
     opponent_pieces.none? do |piece|
@@ -206,7 +206,7 @@ module MoveLogic
   end
 
   def kings_too_close?(game_pieces)
-    positions = game_pieces.select { |piece| piece.piece_type == 'king' }
+    positions = game_pieces.select { |piece| piece.is_a? King }
                        .map(&:position)
 
     [
@@ -217,12 +217,12 @@ module MoveLogic
 
   def valid_for_piece?(next_move, game_pieces)
     return castle?(next_move, game_pieces) if king_moved_two?(next_move)
-    return valid_for_pawn?(next_move, game_pieces) if piece_type == 'pawn'
+    return valid_for_pawn?(next_move, game_pieces) if self.class.is_a? Pawn
     true
   end
 
   def king_moved_two?(next_move)
-    piece_type == 'king' && (position[0].ord - next_move[0].ord).abs == 2
+    self.class.is_a? King && (position[0].ord - next_move[0].ord).abs == 2
   end
 
   def castle?(next_move, game_pieces)

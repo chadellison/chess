@@ -4,15 +4,14 @@ RSpec.describe MoveLogic, type: :module do
   describe 'moves_for_rook' do
     it 'returns an array of all possible moves for a rook in a given position' do
       position = 'd4'
-      piece = Piece.new(
+      rook = Rook.new(
         position: position,
-        piece_type: 'rook',
         color: 'black'
       )
       expected = ['d5', 'd6', 'd7', 'd8', 'd3', 'd2', 'd1', 'c4', 'b4', 'a4',
                   'e4', 'f4', 'g4', 'h4']
 
-      expect(piece.moves_for_rook).to eq expected
+      expect(rook.moves).to eq expected
     end
   end
 

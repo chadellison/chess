@@ -20,7 +20,7 @@ module NotationLogic
     if move_notation.include?('=')
       move_notation[-4..-3]
     elsif move_notation.include?('O')
-      king = pieces.detect { |piece| piece.piece_type == 'king' && piece.color == current_turn }
+      king = pieces.detect { |piece| (piece.class.is_a? King) && piece.color == current_turn }
       column = move_notation == 'O-O' ? 'g' : 'c'
       column + king.position[1]
     else
@@ -44,7 +44,7 @@ module NotationLogic
     if game_pieces.count == 1
       game_pieces.first
     else
-      notation_without_type = piece_type == 'pawn' ? move_notation : move_notation[1..-1]
+      notation_without_type = piece_type == Pawn ? move_notation : move_notation[1..-1]
       piece_from_start(game_pieces, notation_without_type.sub('x', '')[0])
     end
   end
@@ -56,7 +56,7 @@ module NotationLogic
   end
 
   def piece_from_castle(turn)
-    pieces.detect { |piece| piece.piece_type == 'king' && piece.color == turn }
+    pieces.detect { |piece| (piece.class.is_a? King) && piece.color == turn }
   end
 
   def piece_from_crossed_pawn(move_notation, turn)
@@ -70,19 +70,19 @@ module NotationLogic
   end
 
   def find_piece_type(move_notation)
-    return 'king' if move_notation.include?('K')
-    return 'queen' if move_notation.include?('Q')
-    return 'bishop' if move_notation.include?('B')
-    return 'knight' if move_notation.include?('N')
-    return 'rook' if move_notation.include?('R')
-    'pawn'
+    return King if move_notation.include?('K')
+    return Queen if move_notation.include?('Q')
+    return Bishop if move_notation.include?('B')
+    return Knight if move_notation.include?('N')
+    return Rook if move_notation.include?('R')
+    Pawn
   end
 
   def create_notation(position_index, new_position, upgraded_type)
     piece = find_piece_by_index(position_index)
     return castle_notation(new_position) if piece.king_moved_two?(new_position)
-    new_notation = PIECE_CODE[piece.piece_type.to_sym]
-    new_notation += start_notation(piece, new_position) unless ['king', 'queen'].include?(piece.piece_type)
+    new_notation = PIECE_CODE[piece.class.to_s.downcase.to_sym]
+    new_notation += start_notation(piece, new_position) unless [King, Queen].include?(piece.class)
     new_notation += capture_notation(new_notation, piece, new_position)
     new_notation += new_position
     new_notation += '=' + PIECE_CODE[upgraded_type.to_sym] if upgraded_type.present?
@@ -94,7 +94,7 @@ module NotationLogic
   end
 
   def start_notation(piece, next_move)
-    same_pieces = matching_pieces(piece.piece_type, piece.color, next_move)
+    same_pieces = matching_pieces(piece.class, piece.color, next_move)
     return '' if same_pieces.count < 2
 
     column_is_unique?(same_pieces, piece.position) ? piece.position[0] : piece.position[1]
@@ -102,7 +102,7 @@ module NotationLogic
 
   def matching_pieces(piece_type, piece_color, new_position)
     pieces.select do |piece|
-      piece.piece_type == piece_type &&
+      piece.class == piece_type &&
         piece.color == piece_color &&
         piece.valid_moves(pieces).include?(new_position)
     end
