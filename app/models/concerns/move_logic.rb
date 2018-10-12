@@ -187,7 +187,7 @@ module MoveLogic
 
   def king_is_safe?(allied_color, game_pieces)
     king = game_pieces.detect do |piece|
-      piece.class.is_a? King && piece.color == allied_color
+      (piece.is_a? King) && piece.color == allied_color
     end
 
     return false if king.nil? || kings_too_close?(game_pieces)
@@ -198,7 +198,7 @@ module MoveLogic
     end
 
     opponent_pieces.none? do |piece|
-      piece.moves_for_piece.include?(king.position) &&
+      piece.moves.include?(king.position) &&
         piece.valid_move_path?(king.position, occupied_spaces) &&
         piece.valid_destination?(king.position, game_pieces) &&
         piece.valid_for_piece?(king.position, game_pieces)
@@ -222,7 +222,7 @@ module MoveLogic
   end
 
   def king_moved_two?(next_move)
-    self.class.is_a? King && (position[0].ord - next_move[0].ord).abs == 2
+    (is_a? King) && (position[0].ord - next_move[0].ord).abs == 2
   end
 
   def castle?(next_move, game_pieces)

@@ -32,42 +32,42 @@ RSpec.describe NotationLogic, type: :module do
     context 'when the piece is K' do
       it 'returns king' do
         game = Game.new
-        expect(game.find_piece_type('Kd4')).to eq 'king'
+        expect(game.find_piece_type('Kd4')).to eq King
       end
     end
 
     context 'when the piece is Q' do
       it 'returns queen' do
         game = Game.new
-        expect(game.find_piece_type('Qd4')).to eq 'queen'
+        expect(game.find_piece_type('Qd4')).to eq Queen
       end
     end
 
     context 'when the piece is B' do
       it 'returns bishop' do
         game = Game.new
-        expect(game.find_piece_type('Bd4')).to eq 'bishop'
+        expect(game.find_piece_type('Bd4')).to eq Bishop
       end
     end
 
     context 'when the piece is R' do
       it 'returns rook' do
         game = Game.new
-        expect(game.find_piece_type('Rd4')).to eq 'rook'
+        expect(game.find_piece_type('Rd4')).to eq Rook
       end
     end
 
     context 'when the piece is N' do
       it 'returns knight' do
         game = Game.new
-        expect(game.find_piece_type('Nd4')).to eq 'knight'
+        expect(game.find_piece_type('Nd4')).to eq Knight
       end
     end
 
     context 'when the piece is an empty string' do
       it 'returns pawn' do
         game = Game.new
-        expect(game.find_piece_type('d4')).to eq 'pawn'
+        expect(game.find_piece_type('d4')).to eq Pawn
       end
     end
   end

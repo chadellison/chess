@@ -20,7 +20,7 @@ module NotationLogic
     if move_notation.include?('=')
       move_notation[-4..-3]
     elsif move_notation.include?('O')
-      king = pieces.detect { |piece| (piece.class.is_a? King) && piece.color == current_turn }
+      king = pieces.detect { |piece| (piece.is_a? King) && piece.color == current_turn }
       column = move_notation == 'O-O' ? 'g' : 'c'
       column + king.position[1]
     else
@@ -56,7 +56,7 @@ module NotationLogic
   end
 
   def piece_from_castle(turn)
-    pieces.detect { |piece| (piece.class.is_a? King) && piece.color == turn }
+    pieces.detect { |piece| (piece.is_a? King) && piece.color == turn }
   end
 
   def piece_from_crossed_pawn(move_notation, turn)

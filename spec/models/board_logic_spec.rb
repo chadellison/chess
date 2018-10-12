@@ -108,8 +108,8 @@ RSpec.describe BoardLogic, type: :module do
       game = Game.new
 
       pieces = [
-        Piece.new(position_index: 1, position: 'd2'),
-        Piece.new(position_index: 10, position: 'b3')
+        Rook.new(position_index: 1, position: 'd2'),
+        Pawn.new(position_index: 10, position: 'b3')
       ]
 
       expect(game.create_signature(pieces)).to eq '1d2.10b3'
@@ -221,25 +221,22 @@ RSpec.describe BoardLogic, type: :module do
     context 'when the king is in checkmate' do
       it 'returns true' do
         pieces = [
-          Piece.new(
+          Queen.new(
             position: 'e7',
-            piece_type: 'queen',
             color: 'white',
             position_index: 28,
             game_id: checkmate_game.id
           ),
 
-          Piece.new(
+          King.new(
             position: 'e8',
-            piece_type: 'king',
             color: 'black',
             position_index: 5,
             game_id: checkmate_game.id
           ),
 
-          Piece.new(
+          King.new(
             position: 'e6',
-            piece_type: 'king',
             color: 'white',
             position_index: 29,
             game_id: checkmate_game.id
@@ -263,7 +260,7 @@ RSpec.describe BoardLogic, type: :module do
     context 'when there are no valid moves and the king is safe' do
       it 'returns true' do
         allow_any_instance_of(Game).to receive(:no_valid_moves?).and_return(true)
-        allow_any_instance_of(Piece).to receive(:king_is_safe?).and_return(true)
+        allow_any_instance_of(King).to receive(:king_is_safe?).and_return(true)
 
         expect(game.stalemate?(game.pieces, 'white')).to be true
       end

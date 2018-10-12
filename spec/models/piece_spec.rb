@@ -9,76 +9,75 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  describe 'moves_for_piece' do
-    context 'when the piece_type is a pawn' do
-      it 'calls moves_for_pawn' do
-        piece = Piece.new(piece_type: 'pawn')
-
-        expect_any_instance_of(Piece).to receive(:moves_for_pawn)
-
-        piece.moves_for_piece
-      end
-    end
-
-    context 'when the piece_type is a knight' do
-      it 'calls moves_for_knight' do
-        piece = Piece.new(piece_type: 'knight')
-
-        expect_any_instance_of(Piece).to receive(:moves_for_knight)
-
-        piece.moves_for_piece
-      end
-    end
-
-    context 'when the piece_type is a bishop' do
-      it 'calls moves_for_bishop' do
-        piece = Piece.new(piece_type: 'bishop')
-
-        expect_any_instance_of(Piece).to receive(:moves_for_bishop)
-
-        piece.moves_for_piece
-      end
-    end
-
-    context 'when the piece_type is a rook' do
-      it 'calls moves_for_rook' do
-        piece = Piece.new(piece_type: 'rook')
-
-        expect_any_instance_of(Piece).to receive(:moves_for_rook)
-
-        piece.moves_for_piece
-      end
-    end
-
-    context 'when the piece_type is a queen' do
-      it 'calls moves_for_queen' do
-        piece = Piece.new(piece_type: 'queen')
-
-        expect_any_instance_of(Piece).to receive(:moves_for_queen)
-
-        piece.moves_for_piece
-      end
-    end
-
-    context 'when the piece_type is a king' do
-      it 'calls moves_for_king' do
-        piece = Piece.new(piece_type: 'king')
-
-        expect_any_instance_of(Piece).to receive(:moves_for_king)
-
-        piece.moves_for_piece
-      end
-    end
-  end
+  # describe 'moves' do
+  #   context 'when the piece_type is a pawn' do
+  #     it 'calls moves_for_pawn' do
+  #       pawn = Pawn.new(piece_type: 'pawn')
+  #
+  #       expect_any_instance_of(Piece).to receive(:moves)
+  #
+  #       piece.moves
+  #     end
+  #   end
+  #
+  #   context 'when the piece_type is a knight' do
+  #     it 'calls moves_for_knight' do
+  #       piece = Piece.new(piece_type: 'knight')
+  #
+  #       expect_any_instance_of(Piece).to receive(:moves_for_knight)
+  #
+  #       piece.moves_for_piece
+  #     end
+  #   end
+  #
+  #   context 'when the piece_type is a bishop' do
+  #     it 'calls moves_for_bishop' do
+  #       piece = Piece.new(piece_type: 'bishop')
+  #
+  #       expect_any_instance_of(Piece).to receive(:moves_for_bishop)
+  #
+  #       piece.moves_for_piece
+  #     end
+  #   end
+  #
+  #   context 'when the piece_type is a rook' do
+  #     it 'calls moves_for_rook' do
+  #       piece = Rook.new(
+  #       expect_any_instance_of(Piece).to receive(:moves_for_rook)
+  #
+  #       piece.moves_for_piece
+  #     end
+  #   end
+  #
+  #   context 'when the piece_type is a queen' do
+  #     it 'calls moves_for_queen' do
+  #       piece = Piece.new(piece_type: 'queen')
+  #
+  #       expect_any_instance_of(Piece).to receive(:moves_for_queen)
+  #
+  #       piece.moves_for_piece
+  #     end
+  #   end
+  #
+  #   context 'when the piece_type is a king' do
+  #     it 'calls moves_for_king' do
+  #       piece = Piece.new(piece_type: 'king')
+  #
+  #       expect_any_instance_of(Piece).to receive(:moves_for_king)
+  #
+  #       piece.moves_for_piece
+  #     end
+  #   end
+  # end
 
   describe 'valid_moves' do
     context 'when the king is in check' do
       it 'returns all moves to get the king out of check' do
 
         game_pieces = [
-          Piece.new(piece_type: 'king', color: 'black', position_index: 5, position: 'e8'),
-          Piece.new(piece_type: 'king', color: 'white', position_index: 29, position: 'e1'),
-          Piece.new(piece_type: 'queen', color: 'white', position_index: 28, position: 'e2'),
+          King.new(color: 'black', position_index: 5, position: 'e8'),
+          King.new(color: 'white', position_index: 29, position: 'e1'),
+          Queen.new(color: 'white', position_index: 28, position: 'e2'),
         ]
         allow_any_instance_of(Game).to receive(:add_pieces).and_return(game_pieces)
 
@@ -98,23 +97,20 @@ RSpec.describe Piece, type: :model do
         allow_any_instance_of(Game).to receive(:add_pieces).and_return([])
         game = Game.create
 
-        piece1 = Piece.new(
-          piece_type: 'king',
+        piece1 = King.new(
           color: 'black',
           position_index: 5,
           position: 'e8',
           game_id: game.id
         )
-        piece2 = Piece.new(
-          piece_type: 'king',
+        piece2 = King.new(
           color: 'white',
           position_index: 29,
           position: 'e1',
           game_id: game.id
         )
 
-        piece3 = Piece.new(
-          piece_type: 'queen',
+        piece3 = Queen.new(
           color: 'white',
           position_index: 28,
           position: 'e7',
@@ -135,23 +131,20 @@ RSpec.describe Piece, type: :model do
       it 'returns an empty array' do
         game = Game.create
 
-        piece1 = Piece.new(
-          piece_type: 'king',
+        piece1 = King.new(
           color: 'black',
           position_index: 5,
           position: 'e8',
           game_id: game.id
         )
-        piece2 = Piece.new(
-          piece_type: 'king',
+        piece2 = King.new(
           color: 'white',
           position_index: 29,
           position: 'e1',
           game_id: game.id
         )
 
-        piece3 = Piece.new(
-          piece_type: 'queen',
+        piece3 = Queen.new(
           color: 'white',
           position_index: 28,
           position: 'e7',
@@ -260,10 +253,10 @@ RSpec.describe Piece, type: :model do
     context 'when a king cannot castle due to being in check' do
       it 'returns false' do
         game_pieces = [
-          Piece.new(piece_type: 'queen', position: 'e7', color: 'black', position_index: 4),
-          Piece.new(piece_type: 'king', position: 'e8', color: 'black', position_index: 5),
-          Piece.new(piece_type: 'king', position: 'e1', color: 'white', position_index: 29),
-          Piece.new(piece_type: 'rook', position: 'a8', color: 'white', position_index: 25)
+          Queen.new(position: 'e7', color: 'black', position_index: 4),
+          King.new(position: 'e8', color: 'black', position_index: 5),
+          King.new(position: 'e1', color: 'white', position_index: 29),
+          Rook.new(position: 'a8', color: 'white', position_index: 25)
         ]
 
         allow_any_instance_of(Game).to receive(:add_pieces)
@@ -282,10 +275,10 @@ RSpec.describe Piece, type: :model do
     context 'when a king cannot castle due to moving through check' do
       it 'returns false when the next move is a castle' do
         game_pieces = [
-          Piece.new(piece_type: 'rook', position: 'd8', color: 'black'),
-          Piece.new(piece_type: 'king', position: 'e8', color: 'black'),
-          Piece.new(piece_type: 'king', position: 'e1', color: 'white'),
-          Piece.new(piece_type: 'rook', position: 'a8', color: 'white')
+          Rook.new(position: 'd8', color: 'black'),
+          King.new(position: 'e8', color: 'black'),
+          King.new(position: 'e1', color: 'white'),
+          Rook.new(position: 'a8', color: 'white')
         ]
 
         allow_any_instance_of(Game).to receive(:add_pieces)
@@ -304,10 +297,10 @@ RSpec.describe Piece, type: :model do
     context 'when the king can castle' do
       it 'returns true' do
         game_pieces = [
-          Piece.new(piece_type: 'rook', position: 'h8', color: 'black', position_index: 1),
-          Piece.new(piece_type: 'king', position: 'e8', color: 'black', position_index: 5),
-          Piece.new(piece_type: 'king', position: 'e1', color: 'white', position_index: 29),
-          Piece.new(piece_type: 'rook', position: 'a1', color: 'white', position_index: 25)
+          Rook.new(position: 'h8', color: 'black', position_index: 1),
+          King.new(position: 'e8', color: 'black', position_index: 5),
+          King.new(position: 'e1', color: 'white', position_index: 29),
+          Rook.new(position: 'a1', color: 'white', position_index: 25)
         ]
 
         allow_any_instance_of(Game).to receive(:add_pieces).and_return(game_pieces)
@@ -324,9 +317,9 @@ RSpec.describe Piece, type: :model do
         allow_any_instance_of(Game).to receive(:add_pieces).and_return([])
         game = Game.create
 
-        piece1 = Piece.new(piece_type: 'rook', position: 'd8', color: 'black', game_id: game.id)
-        piece2 = Piece.new(piece_type: 'king', position: 'e1', color: 'white', game_id: game.id)
-        piece3 = Piece.new(piece_type: 'rook', position: 'a8', color: 'white', game_id: game.id)
+        piece1 = Rook.new(position: 'd8', color: 'black', game_id: game.id)
+        piece2 = King.new(position: 'e1', color: 'white', game_id: game.id)
+        piece3 = Rook.new(position: 'a8', color: 'white', game_id: game.id)
 
         game.pieces << piece1
         game.pieces << piece2
@@ -339,10 +332,10 @@ RSpec.describe Piece, type: :model do
     context 'when the king cannot castle because the king has moved' do
       it 'returns true' do
         game_pieces = [
-          Piece.new(piece_type: 'rook', position: 'h8', color: 'black', position_index: 1),
-          Piece.new(piece_type: 'king', position: 'e8', color: 'black', position_index: 5),
-          Piece.new(piece_type: 'king', position: 'e1', color: 'white', position_index: 29, has_moved: true),
-          Piece.new(piece_type: 'rook', position: 'a1', color: 'white', position_index: 25)
+          Rook.new(position: 'h8', color: 'black', position_index: 1),
+          King.new(position: 'e8', color: 'black', position_index: 5),
+          King.new(position: 'e1', color: 'white', position_index: 29, has_moved: true),
+          Rook.new(position: 'a1', color: 'white', position_index: 25)
         ]
 
         allow_any_instance_of(Game).to receive(:add_pieces).and_return(game_pieces)
@@ -357,10 +350,10 @@ RSpec.describe Piece, type: :model do
     context 'when the king cannot castle because the rook has moved' do
       it 'returns true' do
         game_pieces = [
-          Piece.new(piece_type: 'rook', position: 'h8', color: 'black', position_index: 1),
-          Piece.new(piece_type: 'king', position: 'e8', color: 'black', position_index: 5),
-          Piece.new(piece_type: 'king', position: 'e1', color: 'white', position_index: 29),
-          Piece.new(piece_type: 'rook', position: 'a1', color: 'white', position_index: 25, has_moved: true)
+          Rook.new(position: 'h8', color: 'black', position_index: 1),
+          King.new(position: 'e8', color: 'black', position_index: 5),
+          King.new(position: 'e1', color: 'white', position_index: 29),
+          Rook.new(position: 'a1', color: 'white', position_index: 25, has_moved: true)
         ]
 
         allow_any_instance_of(Game).to receive(:add_pieces).and_return(game_pieces)
@@ -376,25 +369,25 @@ RSpec.describe Piece, type: :model do
   describe 'king_moved_two?' do
     context 'when the piece is not a king' do
       it 'returns false' do
-        piece = Piece.new(position: 'e1', piece_type: 'queen')
+        queen = Queen.new(position: 'e1')
 
-        expect(piece.king_moved_two?('d4')).to be false
+        expect(queen.king_moved_two?('d4')).to be false
       end
     end
 
     context 'when the piece is a king and did not move two' do
       it 'returns false' do
-        piece = Piece.new(position: 'd2', piece_type: 'king')
+        king = King.new(position: 'd2')
 
-        expect(piece.king_moved_two?('d3')).to be false
+        expect(king.king_moved_two?('d3')).to be false
       end
     end
 
     context 'when the piece is a king and did move two' do
       it 'returns true' do
-        piece = Piece.new(position: 'e1', piece_type: 'king')
+        king = King.new(position: 'e1')
 
-        expect(piece.king_moved_two?('c1')).to be true
+        expect(king.king_moved_two?('c1')).to be true
       end
     end
   end
@@ -403,8 +396,7 @@ RSpec.describe Piece, type: :model do
     let(:game) { Game.create }
 
     let(:piece) {
-      Piece.new(
-        piece_type: 'king',
+      King.new(
         color: 'black',
         position_index: 13,
         position: 'e7',
@@ -417,27 +409,27 @@ RSpec.describe Piece, type: :model do
         .and_return([])
 
       game.pieces << piece
-      expect_any_instance_of(Piece).to receive(:valid_move_path?)
+      expect_any_instance_of(King).to receive(:valid_move_path?)
         .with('e5', piece.game.pieces.map(&:position))
       piece.valid_move?(game.pieces, 'e5')
     end
 
     it 'calls valid_destination?' do
-      expect_any_instance_of(Piece).to receive(:valid_destination?)
+      expect_any_instance_of(King).to receive(:valid_destination?)
         .with('e5', game.pieces)
 
       piece.valid_move?(game.pieces, 'e5')
     end
 
     it 'calls valid_for_piece?' do
-      expect_any_instance_of(Piece).to receive(:valid_for_piece?)
+      expect_any_instance_of(King).to receive(:valid_for_piece?)
         .with('e5', game.pieces)
 
       piece.valid_move?(game.pieces, 'e5')
     end
 
     it 'calls king_is_safe?' do
-      expect_any_instance_of(Piece).to receive(:king_is_safe?)
+      expect_any_instance_of(King).to receive(:king_is_safe?)
       expect_any_instance_of(Game).to receive(:pieces_with_next_move)
         .with(game.pieces, '13e5')
 

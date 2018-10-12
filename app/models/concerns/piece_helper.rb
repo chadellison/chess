@@ -11,7 +11,7 @@ module PieceHelper
 
     json_pieces.map do |json_piece|
       piece_class = PIECE_CLASS[json_piece.keys.first]
-      piece = piece_class.new(json_piece[json_piece.keys.first])
+      piece = piece_class.new(json_piece[json_piece.keys.first].symbolize_keys)
 
       piece.game_id = id
       piece
@@ -33,7 +33,8 @@ module PieceHelper
 
     @pieces = last_move.setup.position_signature.split('.').map do |piece_value|
       position_index = position_index_from_move(piece_value)
-      piece = piece_class_from_index(index)
+      # need to handle promoted pawn
+      piece = piece_class_from_index(position_index)
 
       piece.new({
         game_id: id,

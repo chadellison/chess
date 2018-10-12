@@ -479,7 +479,7 @@ RSpec.describe MoveLogic, type: :module do
       it 'returns false' do
         game.find_piece_by_index(2).position = 'f3'
 
-        piece = game.pieces.detect { |piece| piece.color == 'white' && piece.piece_type == 'king' }
+        piece = game.pieces.detect { |piece| piece.color == 'white' && (piece.is_a? King) }
         expect(piece.king_is_safe?('white', game.pieces)).to be false
       end
     end

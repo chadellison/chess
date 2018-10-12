@@ -7,8 +7,7 @@ module BoardLogic
     piece_index = position_index_from_move(move)
     updated_pieces = game_pieces.reject { |piece| piece.position == move[-2..-1] }
       .map do |piece|
-        position_index = position_index_from_move(piece_value)
-        piece_class = piece_class_from_index(index)
+        piece_class = piece_class_from_index(piece.position_index)
 
         game_piece = piece_class.new(
           color: piece.color,
@@ -19,11 +18,10 @@ module BoardLogic
         )
 
         if piece.position_index == piece_index
-          game_piece.moved_two = (game_piece.class.is_a? Pawn) && game_piece.forward_two?(move[-2..-1])
+          game_piece.moved_two = (game_piece.is_a? Pawn) && game_piece.forward_two?(move[-2..-1])
           castle = game_piece.king_moved_two?(move[-2..-1])
           en_passant = en_passant?(piece, move[-2..-1])
-          # change class
-          # game_piece.piece_type = 'queen' if should_promote_pawn?(move)
+          game_piece = promote_to_queen(game_piece) if should_promote_pawn?(move)
           game_piece.position = move[-2..-1]
           game_piece.has_moved = true
         end
@@ -41,6 +39,16 @@ module BoardLogic
       (move_value[-1] == '8' || move_value[-1] == '1')
   end
 
+  def promote_to_queen(game_piece)
+    Queen.new(
+      color: piece.color,
+      position_index: piece.position_index,
+      game_id: piece.game_id,
+      position: piece.position,
+      has_moved: piece.has_moved
+    )
+  end
+
   def update_notation(position_index, new_position, upgraded_type)
     new_notation = create_notation(position_index, new_position, upgraded_type)
 
@@ -55,12 +63,15 @@ module BoardLogic
   def update_piece(piece, new_position, upgraded_type)
     # position_index = position_index_from_move(piece_value)
     # piece_class = piece_class_from_index(index)
-    piece.class.new(
-      position_index: piece.position_index,
-      position: new_position,
-      has_moved: true,
+    piece.position = new_position
+    piece.has_moved = true
+    piece
+    # piece.class.new(
+    #   position_index: piece.position_index,
+    #   position: new_position,
+    #   has_moved: true,
       # piece_type: (upgraded_type.present? ? upgraded_type : piece.piece_type)
-    )
+    # )
   end
 
   def update_board(piece, updated_piece)
@@ -88,7 +99,7 @@ module BoardLogic
   end
 
   def promoted_pawn?(piece)
-    (9..24).include?(piece.position_index) && (!piece.class.is_a? Pawn)
+    (9..24).include?(piece.position_index) && (!piece.is_a? Pawn)
   end
 
   def create_signature(game_pieces)
@@ -127,7 +138,7 @@ module BoardLogic
 
   def en_passant?(piece, position)
     [
-      (piece.class.is_a? Pawn),
+      (piece.is_a? Pawn),
       piece.position[0] != position[0],
       pieces.detect { |piece| piece.position == position }.blank?
     ].all?
