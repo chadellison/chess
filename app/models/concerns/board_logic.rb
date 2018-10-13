@@ -1,10 +1,11 @@
 module BoardLogic
   extend ActiveSupport::Concern
 
-  def pieces_with_next_move(game_pieces, move)
+  def pieces_with_next_move(game_pieces, move, upgraded_type = nil)
     castle = false
     en_passant = false
     piece_index = position_index_from_move(move)
+    
     updated_pieces = game_pieces.reject { |piece| piece.position == move[-2..-1] }
       .map do |piece|
         piece_class = piece_class_from_index(piece.position_index)
@@ -21,7 +22,7 @@ module BoardLogic
           game_piece.moved_two = (game_piece.is_a? Pawn) && game_piece.forward_two?(move[-2..-1])
           castle = game_piece.king_moved_two?(move[-2..-1])
           en_passant = en_passant?(piece, move[-2..-1])
-          game_piece = promote_to_queen(game_piece) if should_promote_pawn?(move)
+          game_piece = promote_pawn(game_piece, upgraded_type) if should_promote_pawn?(move)
           game_piece.position = move[-2..-1]
           game_piece.has_moved = true
         end
@@ -39,8 +40,9 @@ module BoardLogic
       (move_value[-1] == '8' || move_value[-1] == '1')
   end
 
-  def promote_to_queen(game_piece)
-    Queen.new(
+  def promote_pawn(piece, upgraded_type)
+    promoted_class = upgraded_type.present? ? upgraded_type : Queen
+    promoted_class.new(
       color: piece.color,
       position_index: piece.position_index,
       game_id: piece.game_id,
@@ -55,28 +57,10 @@ module BoardLogic
     update(notation: (notation.to_s + new_notation.to_s))
   end
 
-  def update_game(piece, new_position, upgraded_type = '')
-    updated_piece = update_piece(piece, new_position, upgraded_type)
-    update_board(piece, updated_piece)
-  end
-
-  def update_piece(piece, new_position, upgraded_type)
-    # position_index = position_index_from_move(piece_value)
-    # piece_class = piece_class_from_index(index)
-    piece.position = new_position
-    piece.has_moved = true
-    piece
-    # piece.class.new(
-    #   position_index: piece.position_index,
-    #   position: new_position,
-    #   has_moved: true,
-      # piece_type: (upgraded_type.present? ? upgraded_type : piece.piece_type)
-    # )
-  end
-
-  def update_board(piece, updated_piece)
-    new_pieces = pieces_with_next_move(pieces, updated_piece.position_index.to_s + updated_piece.position)
+  def update_board(piece, new_position, upgraded_type = nil)
+    new_pieces = pieces_with_next_move(pieces, piece.position_index.to_s + new_position, upgraded_type)
     update_pieces(new_pieces)
+    updated_piece = new_pieces.detect { |p| p.position_index == piece.position_index }
     game_move = new_move(updated_piece)
     game_move.setup = create_setup(new_pieces)
     game_move.save

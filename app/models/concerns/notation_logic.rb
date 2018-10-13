@@ -5,6 +5,8 @@ module NotationLogic
     king: 'K', queen: 'Q', bishop: 'B', knight: 'N', rook: 'R', pawn: ''
   }
 
+  PROMOTE_PAWN_CLASS = { 'Q' => Queen, 'B' => Bishop, 'N' => Knight, 'R' => Rook }
+
   def update_game_from_notation(move_notation, turn)
     piece = find_piece(move_notation, turn)
     if piece.blank?
@@ -12,7 +14,7 @@ module NotationLogic
       puts 'Move: ' + moves.count.to_s
       puts 'Notation: ' + notation
     else
-      update_game(piece, find_move_position(move_notation), upgrade_value(move_notation))
+      update_board(piece, find_move_position(move_notation), upgrade_value(move_notation))
     end
   end
 
@@ -30,7 +32,7 @@ module NotationLogic
 
   def upgrade_value(move_notation)
     piece_code = move_notation[-1]
-    PIECE_CODE.invert[piece_code].to_s if move_notation.include?('=')
+    PROMOTE_PAWN_CLASS[piece_code] if move_notation.include?('=')
   end
 
   def find_piece(move_notation, turn)
@@ -61,7 +63,7 @@ module NotationLogic
 
   def piece_from_crossed_pawn(move_notation, turn)
     if move_notation.include?('x')
-      pawns = matching_pieces('pawn', turn, move_notation[-4..-3])
+      pawns = matching_pieces(Pawn, turn, move_notation[-4..-3])
       pawns.detect { |pawn| pawn.position.include?(move_notation[0]) }
     else
       start_row = move_notation[1] == '8' ? '7' : '2'
@@ -80,6 +82,7 @@ module NotationLogic
 
   def create_notation(position_index, new_position, upgraded_type)
     piece = find_piece_by_index(position_index)
+
     return castle_notation(new_position) if piece.king_moved_two?(new_position)
     new_notation = PIECE_CODE[piece.class.to_s.downcase.to_sym]
     new_notation += start_notation(piece, new_position) unless [King, Queen].include?(piece.class)

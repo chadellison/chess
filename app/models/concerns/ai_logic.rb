@@ -28,7 +28,7 @@ module AiLogic
 
   def checkmate_opponent(possible_moves)
     best_move = find_checkmate(possible_moves)
-    move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
+    move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_to_queen(best_move.value))
   end
 
   def move_analysis(possible_moves)
@@ -62,7 +62,7 @@ module AiLogic
     move(
       position_index_from_move(best_move_value),
       best_move_value[-2..-1],
-      promote_pawn(best_move_value)
+      promote_to_queen(best_move_value)
     )
   end
 
@@ -96,8 +96,8 @@ module AiLogic
       (move_value[-1] == '1' || move_value[-1] == '8')
   end
 
-  def promote_pawn(move_value)
-    crossed_pawn?(move_value) ? 'queen' : ''
+  def promote_to_queen(move_value)
+    Queen if crossed_pawn?(move_value)
   end
 
   def win_value

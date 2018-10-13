@@ -105,15 +105,15 @@ RSpec.describe AiLogic, type: :module do
     end
   end
 
-  describe 'promote_pawn' do
+  describe 'promote_to_queen' do
     context 'when there is a crossed pawn' do
       it 'calls crossed_pawn? and returns queen' do
         game = Game.new
         expect(game).to receive(:crossed_pawn?).with('17a8')
           .and_return(true)
 
-        actual = game.promote_pawn('17a8')
-        expect(actual).to eq 'queen'
+        actual = game.promote_to_queen('17a8')
+        expect(actual).to eq Queen
       end
     end
 
@@ -123,8 +123,8 @@ RSpec.describe AiLogic, type: :module do
         expect(game).to receive(:crossed_pawn?).with('17a7')
           .and_return(false)
 
-        actual = game.promote_pawn('17a7')
-        expect(actual).to eq ''
+        actual = game.promote_to_queen('17a7')
+        expect(actual).to be_nil
       end
     end
   end

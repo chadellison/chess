@@ -25,7 +25,7 @@ RSpec.describe Game, type: :model do
 
     it 'calls create_notation' do
       expect_any_instance_of(Game).to receive(:update_notation)
-        .with(9, 'a3', '')
+        .with(9, 'a3', nil)
       game = Game.create
       game.move(9, 'a3')
     end
@@ -33,8 +33,8 @@ RSpec.describe Game, type: :model do
     it 'calls update_game and reload_pieces' do
       game = Game.create
       piece = game.find_piece_by_index(9)
-      expect_any_instance_of(Game).to receive(:update_game)
-        .with(piece, 'a3', '')
+      expect_any_instance_of(Game).to receive(:update_board)
+        .with(piece, 'a3', nil)
 
       expect_any_instance_of(Game).to receive(:reload_pieces)
 

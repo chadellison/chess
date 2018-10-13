@@ -133,7 +133,7 @@ module MoveLogic
   end
 
   def valid_move_path?(destination, occupied_spaces)
-    if self.class.is_a? Knight
+    if self.is_a? Knight
       true
     elsif position[0] == destination[0]
       !vertical_collision?(destination, occupied_spaces)
@@ -217,7 +217,7 @@ module MoveLogic
 
   def valid_for_piece?(next_move, game_pieces)
     return castle?(next_move, game_pieces) if king_moved_two?(next_move)
-    return valid_for_pawn?(next_move, game_pieces) if self.class.is_a? Pawn
+    return valid_for_pawn?(next_move, game_pieces) if self.is_a? Pawn
     true
   end
 

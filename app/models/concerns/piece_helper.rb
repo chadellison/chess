@@ -67,21 +67,6 @@ module PieceHelper
     position_index < 17 ? 'black' : 'white'
   end
 
-  # def piece_type_from_position_index(position_index)
-  #   promoted = moves.detect do |move|
-  #     position_index_from_move(move.value) == position_index &&
-  #       move.promoted_pawn.present?
-  #   end
-  #
-  #   return promoted.promoted_pawn if promoted.present?
-  #   return 'knight' if [2, 7, 26, 31].include?(position_index)
-  #   return 'bishop' if [3, 6, 27, 30].include?(position_index)
-  #   return 'rook' if [1, 8, 25, 32].include?(position_index)
-  #   return 'queen' if [4, 28].include?(position_index)
-  #   return 'king' if [5, 29].include?(position_index)
-  #   return 'pawn'
-  # end
-
   def find_piece_by_position(position)
     pieces.detect { |piece| piece.position == position }
   end
@@ -97,8 +82,6 @@ module PieceHelper
   def pawn_moved_two?
     ordered_moves = moves.order(:move_count)
     last_move = ordered_moves.last
-    # last_moved_piece_type = piece_type_from_position_index(last_move_index(last_move))
-    # position_index_from_move()
     last_moved_piece_type = piece_class_from_index(last_move_index(last_move))
     return false unless last_moved_piece_type.is_a? Pawn
 

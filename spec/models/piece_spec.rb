@@ -275,10 +275,10 @@ RSpec.describe Piece, type: :model do
     context 'when a king cannot castle due to moving through check' do
       it 'returns false when the next move is a castle' do
         game_pieces = [
-          Rook.new(position: 'd8', color: 'black'),
-          King.new(position: 'e8', color: 'black'),
-          King.new(position: 'e1', color: 'white'),
-          Rook.new(position: 'a8', color: 'white')
+          Rook.new(position: 'd8', color: 'black', position_index: 1),
+          King.new(position: 'e8', color: 'black', position_index: 5),
+          King.new(position: 'e1', color: 'white', position_index: 29),
+          Rook.new(position: 'a8', color: 'white', position_index: 25)
         ]
 
         allow_any_instance_of(Game).to receive(:add_pieces)
@@ -287,7 +287,7 @@ RSpec.describe Piece, type: :model do
         game = Game.create
 
         game.pieces.each { |piece| piece.game_id = game.id }
-        king = game.pieces.detect { |piece| piece.piece_type == 'king' }
+        king = game.pieces.detect { |piece| piece.is_a? King }
         expect(king.valid_for_piece?('c1', game.pieces)).to be false
       end
     end
@@ -317,14 +317,14 @@ RSpec.describe Piece, type: :model do
         allow_any_instance_of(Game).to receive(:add_pieces).and_return([])
         game = Game.create
 
-        piece1 = Rook.new(position: 'd8', color: 'black', game_id: game.id)
-        piece2 = King.new(position: 'e1', color: 'white', game_id: game.id)
-        piece3 = Rook.new(position: 'a8', color: 'white', game_id: game.id)
+        piece1 = Rook.new(position: 'd8', color: 'black', game_id: game.id, position_index: 1)
+        piece2 = King.new(position: 'e1', color: 'white', game_id: game.id, position_index: 29)
+        piece3 = Rook.new(position: 'a8', color: 'white', game_id: game.id, position_index: 25)
 
         game.pieces << piece1
         game.pieces << piece2
         game.pieces << piece3
-        king = game.pieces.detect { |piece| piece.piece_type == 'king' }
+        king = game.pieces.detect { |piece| piece.is_a? King }
         expect(king.castle?('c1', game.pieces)).to be false
       end
     end

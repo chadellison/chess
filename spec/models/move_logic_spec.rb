@@ -399,7 +399,6 @@ RSpec.describe MoveLogic, type: :module do
 
         game_piece.color = 'white'
         game_piece.position = 'a7'
-        game_piece.piece_type = 'rook'
         game_piece.position_index = 32
 
         expect(piece.valid_destination?('a7', game.pieces)).to be false

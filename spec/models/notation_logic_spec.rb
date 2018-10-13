@@ -205,7 +205,6 @@ RSpec.describe NotationLogic, type: :module do
         game.moves << move
 
         game.pieces.select! { |piece| [17, 29, 5].include?(piece.position_index) }
-        game.find_piece_by_index(17).position = 'a7'
 
         actual = game.create_notation(17, 'a8', 'queen')
         expect(actual).to eq 'a8=Q.'
@@ -226,9 +225,9 @@ RSpec.describe NotationLogic, type: :module do
   describe 'start_notation' do
     it 'calls matching_pieces' do
       game = Game.new
-      piece = Piece.new(piece_type: 'pawn', color: 'white')
+      piece = Pawn.new(color: 'white')
       expect_any_instance_of(Game).to receive(:matching_pieces)
-        .with('pawn', 'white','d4').and_return([piece])
+        .with(Pawn, 'white','d4').and_return([piece])
 
         game.start_notation(piece, 'd4')
     end
@@ -236,9 +235,9 @@ RSpec.describe NotationLogic, type: :module do
     context 'when only one piece can move to the destination' do
       it 'returns an empty string' do
         game = Game.new
-        piece = Piece.new(piece_type: 'pawn', color: 'white')
+        piece = Pawn.new(color: 'white')
         allow_any_instance_of(Game).to receive(:matching_pieces)
-          .with('pawn', 'white','d4').and_return([piece])
+          .with(Pawn, 'white','d4').and_return([piece])
 
         actual = game.start_notation(piece, 'd4')
         expect(actual).to eq ''
@@ -248,9 +247,9 @@ RSpec.describe NotationLogic, type: :module do
     context 'when more than one piece can move to the destination' do
       it 'calls column_is_unique' do
         game = Game.new
-        piece = Piece.new(piece_type: 'pawn', color: 'white', position: 'd2')
+        piece = Pawn.new(color: 'white', position: 'd2')
         allow_any_instance_of(Game).to receive(:matching_pieces)
-          .with('pawn', 'white','d4').and_return([piece, piece])
+          .with(Pawn, 'white','d4').and_return([piece, piece])
 
         expect_any_instance_of(Game).to receive(:column_is_unique?)
           .with([piece, piece], 'd2')
@@ -264,7 +263,7 @@ RSpec.describe NotationLogic, type: :module do
       it 'returns an empty string' do
 
         game = Game.create
-        piece = Piece.new(position: 'd4')
+        piece = Pawn.new(position: 'd4')
         actual = game.capture_notation('abc123', piece, 'd5')
         expect(actual).to eq ''
       end
@@ -274,8 +273,8 @@ RSpec.describe NotationLogic, type: :module do
       it 'returns an x' do
 
         game = Game.create
-        piece1 = Piece.new(position: 'd4', game_id: game.id)
-        piece2 = Piece.new(position: 'c3', game_id: game.id)
+        piece1 = Pawn.new(position: 'd4', game_id: game.id)
+        piece2 = Pawn.new(position: 'c3', game_id: game.id)
         game.pieces << piece1
         game.pieces << piece2
         actual = game.capture_notation('abc123', piece1, 'c3')
@@ -286,8 +285,8 @@ RSpec.describe NotationLogic, type: :module do
     context 'when a piece is present on the destination and the notation is blank' do
       it 'returns a the column and an x' do
         game = Game.create
-        piece1 = Piece.new(position: 'd4', game_id: game.id)
-        piece2 = Piece.new(position: 'c3', game_id: game.id)
+        piece1 = Pawn.new(position: 'd4', game_id: game.id)
+        piece2 = Pawn.new(position: 'c3', game_id: game.id)
         game.pieces << piece1
         game.pieces << piece2
         actual = game.capture_notation('', piece1, 'c3')
@@ -328,7 +327,7 @@ RSpec.describe NotationLogic, type: :module do
       knight1.position = 'e3'
       knight2.position = 'c3'
 
-      actual = game.matching_pieces('knight', 'white', 'd5')
+      actual = game.matching_pieces(Knight, 'white', 'd5')
 
       expect(actual.sort_by(&:position_index)).to eq [knight1, knight2]
     end
@@ -367,7 +366,7 @@ RSpec.describe NotationLogic, type: :module do
     context 'when the move_notation includes an \'=\' sign' do
       it 'returns the upgraded piece type' do
         game = Game.new
-        expect(game.upgrade_value('a8=Q')).to eq 'queen'
+        expect(game.upgrade_value('a8=Q')).to eq Queen
       end
     end
 

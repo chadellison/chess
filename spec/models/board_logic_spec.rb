@@ -34,38 +34,11 @@ RSpec.describe BoardLogic, type: :module do
     end
   end
 
-  describe 'update_game' do
-    it 'calls update_piece and update_board' do
-      game = Game.create
-      piece = game.find_piece_by_index(9)
-
-      expect_any_instance_of(Game).to receive(:update_piece)
-        .with(piece, 'a3', '')
-      expect_any_instance_of(Game).to receive(:update_board)
-
-      game.update_game(piece, 'a3')
-    end
-  end
-
-  describe 'update_piece' do
-    it 'returns a piece with the updated attributes' do
-      game = Game.create
-
-      piece = game.find_piece_by_position('d2')
-
-      actual = game.update_piece(piece, 'd4', '')
-
-      expect(actual.position_index).to eq piece.position_index
-      expect(actual.position).to eq 'd4'
-    end
-  end
-
   describe 'update_board' do
     it 'creates a move position_signature of the current board positions' do
       game = Game.create
       piece = game.find_piece_by_index(1)
-      updated_piece = Piece.new(position_index: 1, position: 'a6', piece_type: 'rook', color: 'black', game_id: game.id)
-      game.update_board(piece, updated_piece)
+      game.update_board(piece, 'a6')
 
       expected = '1a6.2b8.3c8.4d8.5e8.6f8.7g8.8h8.9a7.10b7.11c7.12d7.13e7.14f7.15g7.16h7.17a2.18b2.19c2.20d2.21e2.22f2.23g2.24h2.25a1.26b1.27c1.28d1.29e1.30f1.31g1.32h1'
 
@@ -76,19 +49,15 @@ RSpec.describe BoardLogic, type: :module do
     it 'creates a setup if it does not already exist' do
       game = Game.create
       piece = game.pieces.first
-      updated_piece = piece
-      updated_piece.position = 'd6'
 
-      expect { game.update_board(piece, updated_piece) }.to change { Setup.count }.by(1)
+      expect { game.update_board(piece, 'd6') }.to change { Setup.count }.by(1)
     end
 
     it 'creates a move' do
       game = Game.create
       piece = game.pieces.first
-      updated_piece = piece
-      updated_piece.position = 'd5'
 
-      expect { game.update_board(piece, updated_piece) }.to change { game.moves.count }.by(1)
+      expect { game.update_board(piece, 'd5') }.to change { game.moves.count }.by(1)
     end
   end
 
