@@ -50,7 +50,7 @@ module PieceHelper
       position_index_from_move(move.value) == index && move.promoted_pawn.present?
     end
 
-    return promoted.promoted_pawn.to_sym[PIECE_CLASS] if promoted.present?
+    return PIECE_CLASS[promoted.promoted_pawn.to_sym] if promoted.present?
     return Pawn if (9..24).include?(index)
     return Knight if [2, 7, 26, 31].include?(index)
     return Bishop if [3, 6, 27, 30].include?(index)

@@ -5,7 +5,7 @@ module BoardLogic
     castle = false
     en_passant = false
     piece_index = position_index_from_move(move)
-    
+
     updated_pieces = game_pieces.reject { |piece| piece.position == move[-2..-1] }
       .map do |piece|
         piece_class = piece_class_from_index(piece.position_index)
@@ -74,7 +74,7 @@ module BoardLogic
   end
 
   def new_move(piece)
-    promoted_pawn = promoted_pawn?(piece) ? piece.class : nil
+    promoted_pawn = promoted_pawn?(piece) ? piece.class.to_s.downcase : nil
     moves.new(
       value: (piece.position_index.to_s + piece.position),
       move_count: (moves.count + 1),

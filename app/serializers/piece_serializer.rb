@@ -5,7 +5,7 @@ class PieceSerializer
         position: piece.position,
         positionIndex: piece.position_index,
         color: piece.color,
-        pieceType: piece.piece_type,
+        pieceType: piece.class.to_s.downcase,
         movedTwo: piece.moved_two,
         hasMoved: piece.has_moved
       }

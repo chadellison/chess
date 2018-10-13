@@ -1,4 +1,9 @@
 class GameChannel < ApplicationCable::Channel
+
+  PROMOTE_CLASS = {
+    'knight' => Knight, 'bishop' => Bishop, 'rook' => Rook, 'queen' => Queen
+  }
+
   def subscribed
     stream_from "game_#{params[:game_id]}"
   end
@@ -16,7 +21,8 @@ class GameChannel < ApplicationCable::Channel
 
   def update(opts)
     game = Game.find(opts['game_id'])
-    game.move(opts['position_index'], opts['new_position'], opts['upgraded_type'])
+    promoted_class = PROMOTE_CLASS[opts['upgraded_type']]
+    game.move(opts['position_index'], opts['new_position'], promoted_class)
   end
 
   def ai_move(opts)

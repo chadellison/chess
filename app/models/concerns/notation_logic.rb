@@ -88,7 +88,7 @@ module NotationLogic
     new_notation += start_notation(piece, new_position) unless [King, Queen].include?(piece.class)
     new_notation += capture_notation(new_notation, piece, new_position)
     new_notation += new_position
-    new_notation += '=' + PIECE_CODE[upgraded_type.to_sym] if upgraded_type.present?
+    new_notation += '=' + PIECE_CODE[upgraded_type.to_s.downcase.to_sym] if upgraded_type.present?
     new_notation + '.'
   end
 

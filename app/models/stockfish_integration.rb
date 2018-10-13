@@ -46,7 +46,7 @@ class StockfishIntegration
         if piece.present?
           fen_notation += space_count.to_s if space_count > 0
           space_count = 0
-          fen_notation += fen_piece_type(piece.piece_type, piece.color)
+          fen_notation += fen_piece_type(piece.class, piece.color)
         else
           space_count += 1
           fen_notation += space_count.to_s if column == 'h'
@@ -98,10 +98,10 @@ class StockfishIntegration
 
   def fen_piece_type(type, color)
     piece_key = {
-      king: 'k', queen: 'q', rook: 'r', bishop: 'b', knight: 'n', pawn: 'p'
+      King => 'k', Queen => 'q', Rook => 'r', Bishop => 'b', Knight => 'n', Pawn => 'p'
     }
 
-    piece_type_code = piece_key[type.to_sym]
+    piece_type_code = piece_key[type]
 
     color == 'white' ? piece_type_code.capitalize : piece_type_code
   end
