@@ -83,7 +83,7 @@ module PieceHelper
     ordered_moves = moves.order(:move_count)
     last_move = ordered_moves.last
     last_moved_piece_type = piece_class_from_index(last_move_index(last_move))
-    return false unless last_moved_piece_type.is_a? Pawn
+    return false unless last_moved_piece_type == Pawn
 
     if moves.count == 1
       ['4', '5'].include?(last_move.value[-1])
