@@ -67,7 +67,7 @@ module AiLogic
   end
 
   def position_analysis(possible_move, previous_moves)
-    similar_setups = possible_move.setup.material_signature.setups
+    similar_setups = Move.where(value: possible_move.value).joins(:setup)
     game_setups = similar_setups
 
     possible_move.setup.position_signature.split('.').each do |move_value|
