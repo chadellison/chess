@@ -20,4 +20,8 @@ class Setup < ApplicationRecord
       end
     end
   end
+
+  def all_signatures
+    [material_signature, threat_signature, attack_signature, general_attack_signature]
+  end
 end

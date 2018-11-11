@@ -2,26 +2,29 @@ module AiLogic
   extend ActiveSupport::Concern
 
   def ai_move
-    possible_moves = find_next_moves
+    game_turn = current_turn
+    possible_moves = find_next_moves(game_turn)
 
     if find_checkmate(possible_moves).present?
       checkmate_opponent(possible_moves)
     else
-      move_analysis(possible_moves)
+      move_analysis(possible_moves, game_turn)
     end
   end
 
-  def find_next_moves
-    pieces.select { |piece| piece.color == current_turn }.map do |piece|
-      all_next_moves_for_piece(piece)
+  def find_next_moves(game_turn)
+    pieces.select { |piece| piece.color == game_turn }.map do |piece|
+      all_next_moves_for_piece(piece, game_turn)
     end.flatten
   end
 
-  def all_next_moves_for_piece(piece)
+  def all_next_moves_for_piece(piece, game_turn)
     piece.valid_moves(pieces).map do |move|
-      game_move = Move.new(value: piece.position_index.to_s + move, move_count: (moves.count + 1))
-      game_pieces = pieces_with_next_move(pieces, piece.position_index.to_s + move)
-      game_move.setup = create_setup(game_pieces)
+      move_value = piece.position_index.to_s + move
+
+      game_move = Move.new(value: move_value, move_count: (moves.count + 1))
+      game_pieces = pieces_with_next_move(pieces, move_value)
+      game_move.setup = create_setup(game_pieces, game_turn)
       game_move
     end
   end
@@ -31,22 +34,18 @@ module AiLogic
     move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
   end
 
-  def move_analysis(possible_moves)
+  def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
 
-    game_turn = current_turn
     previous_moves = moves.map { |move| position_index_from_move(move.value) }
 
     possible_moves.shuffle.each do |possible_move|
       game_setup = possible_move.setup
       total_weight = position_analysis(possible_move, previous_moves)
 
-      total_weight += [
-        game_setup.material_signature,
-        game_setup.threat_signature,
-        game_setup.attack_signature,
-        game_setup.general_attack_signature
-      ].reduce(0) { |weight, signature| weight + analyze_signature(signature) }
+      total_weight += game_setup.all_signatures.reduce(0) do |weight, signature|
+        weight + analyze_signature(signature)
+      end
       total_weight *= -1 if game_turn == 'black'
       weighted_moves[possible_move.value] = total_weight
     end
