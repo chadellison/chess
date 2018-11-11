@@ -47,7 +47,7 @@ class Game < ApplicationRecord
     update_notation(position_index, new_position, upgraded_type)
     piece = find_piece_by_index(position_index)
     update_game(piece, new_position, upgraded_type)
-    GameEventBroadcastJob.perform_later(self)
+    GameEventBroadcastJob.perform_later(self) if game_type.include?('human')
     reload_pieces
     return handle_outcome if game_over?(pieces, current_turn)
     ai_move if ai_turn?
@@ -64,7 +64,7 @@ class Game < ApplicationRecord
       outcome = 0
     end
     update(outcome: outcome)
-    GameEventBroadcastJob.perform_later(self)
+    GameEventBroadcastJob.perform_later(self) if game_type.include?('human')
     propogate_results if game_type == 'machine vs machine' && outcome != 0
   end
 
@@ -92,7 +92,7 @@ class Game < ApplicationRecord
   def machine_vs_machine
     until outcome.present? do
       ai_move
-      update(outcome: 0) if moves.count > 300
+      update(outcome: 0) if moves.count > 400
       puts moves.order(:move_count).last.value
       puts current_turn + '******************'
     end
