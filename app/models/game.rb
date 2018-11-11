@@ -47,7 +47,7 @@ class Game < ApplicationRecord
     update_notation(position_index, new_position, upgraded_type)
     piece = find_piece_by_index(position_index)
     update_game(piece, new_position, upgraded_type)
-    GameEventBroadcastJob.perform_later(self) if game_type.include?('human')
+    GameEventBroadcastJob.perform_later(self)
     reload_pieces
     return handle_outcome if game_over?(pieces, current_turn)
     ai_move if ai_turn?
