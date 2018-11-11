@@ -300,7 +300,7 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  describe 'castle?' do
+  describe 'can_castle?' do
     context 'when the king can castle' do
       it 'returns true' do
         game_pieces = [
@@ -315,7 +315,7 @@ RSpec.describe Piece, type: :model do
         game = Game.create
         game.pieces.each { |piece| piece.game_id = game.id }
         king = game.find_piece_by_index(29)
-        expect(king.castle?('c1', game.pieces)).to be true
+        expect(king.can_castle?('c1', game.pieces)).to be true
       end
     end
 
@@ -332,7 +332,7 @@ RSpec.describe Piece, type: :model do
         game.pieces << piece2
         game.pieces << piece3
         king = game.pieces.detect { |piece| piece.piece_type == 'king' }
-        expect(king.castle?('c1', game.pieces)).to be false
+        expect(king.can_castle?('c1', game.pieces)).to be false
       end
     end
 
@@ -350,7 +350,7 @@ RSpec.describe Piece, type: :model do
         game = Game.create
         game.pieces.each { |piece| piece.game_id = game.id }
         king = game.find_piece_by_index(29)
-        expect(king.castle?('c1', game.pieces)).to be false
+        expect(king.can_castle?('c1', game.pieces)).to be false
       end
     end
 
@@ -368,7 +368,7 @@ RSpec.describe Piece, type: :model do
         game = Game.create
         game.pieces.each { |piece| piece.game_id = game.id }
         king = game.find_piece_by_index(29)
-        expect(king.castle?('c1', game.pieces)).to be false
+        expect(king.can_castle?('c1', game.pieces)).to be false
       end
     end
   end

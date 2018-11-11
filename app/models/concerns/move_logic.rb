@@ -216,7 +216,7 @@ module MoveLogic
   end
 
   def valid_for_piece?(next_move, game_pieces)
-    return castle?(next_move, game_pieces) if king_moved_two?(next_move)
+    return can_castle?(next_move, game_pieces) if king_moved_two?(next_move)
     return valid_for_pawn?(next_move, game_pieces) if piece_type == 'pawn'
     true
   end
@@ -225,7 +225,7 @@ module MoveLogic
     piece_type == 'king' && (position[0].ord - next_move[0].ord).abs == 2
   end
 
-  def castle?(next_move, game_pieces)
+  def can_castle?(next_move, game_pieces)
     column = next_move[0] == 'c' ? 'a' : 'h'
     rook = game_pieces.detect { |piece| piece.position == (column + next_move[1]) }
 
@@ -237,9 +237,18 @@ module MoveLogic
 
     [
       rook.present? && rook.has_moved.blank?, has_moved.blank?,
+      knight_is_gone?(next_move, game_pieces),
       king_is_safe?(color, game.pieces),
       king_is_safe?(color, through_check_moves)
     ].all?
+  end
+
+  def knight_is_gone?(next_move, game_pieces)
+    if next_move[0] == 'c'
+      empty_square?('b' + next_move[1], game_pieces)
+    else
+      true
+    end
   end
 
   def valid_for_pawn?(next_move, game_pieces)
