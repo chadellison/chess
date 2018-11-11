@@ -20,7 +20,7 @@ RSpec.describe AiLogic, type: :module do
         "17a3", "17a4"
       ]
 
-      actual = game.find_next_moves.pluck(:value).all? { |value| values.include?(value) }
+      actual = game.find_next_moves('white').pluck(:value).all? { |value| values.include?(value) }
 
       expect(actual).to be true
     end

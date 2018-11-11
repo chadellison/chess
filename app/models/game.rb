@@ -53,8 +53,8 @@ class Game < ApplicationRecord
     ai_move if ai_turn?
   end
 
-  def game_over?(pieces, current_turn)
-    checkmate?(pieces, current_turn) || stalemate?(pieces, current_turn)
+  def game_over?(pieces, game_turn)
+    checkmate?(pieces, game_turn) || stalemate?(pieces, game_turn)
   end
 
   def handle_outcome
@@ -94,7 +94,7 @@ class Game < ApplicationRecord
       ai_move
       update(outcome: 0) if moves.count > 400
       puts moves.order(:move_count).last.value
-      puts current_turn + '******************'
+      puts '******************'
     end
   end
 
@@ -103,12 +103,7 @@ class Game < ApplicationRecord
       setup = move.setup
       move.setup.update(rank: (setup.rank + outcome))
 
-      [
-        setup.attack_signature,
-        setup.material_signature,
-        setup.general_attack_signature,
-        setup.threat_signature
-      ].each do |signature|
+      setup.all_signatures.each do |signature|
         if signature.present?
           signature.update(rank: (signature.rank + outcome))
         end
