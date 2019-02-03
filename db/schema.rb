@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_03_015719) do
+ActiveRecord::Schema.define(version: 2019_02_03_050112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,7 +107,13 @@ ActiveRecord::Schema.define(version: 2019_02_03_015719) do
     t.integer "black_threat_signature_id"
     t.integer "white_attack_signature_id"
     t.integer "black_attack_signature_id"
+    t.index ["black_attack_signature_id"], name: "index_setups_on_black_attack_signature_id"
+    t.index ["black_threat_signature_id"], name: "index_setups_on_black_threat_signature_id"
+    t.index ["general_attack_signature_id"], name: "index_setups_on_general_attack_signature_id"
+    t.index ["material_signature_id"], name: "index_setups_on_material_signature_id"
     t.index ["position_signature"], name: "index_setups_on_position_signature"
+    t.index ["white_attack_signature_id"], name: "index_setups_on_white_attack_signature_id"
+    t.index ["white_threat_signature_id"], name: "index_setups_on_white_threat_signature_id"
   end
 
   create_table "users", force: :cascade do |t|
