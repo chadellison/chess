@@ -67,7 +67,8 @@ module BoardLogic
   end
 
   def create_setup(new_pieces, game_turn)
-    setup = Setup.find_or_create_by(position_signature: create_signature(new_pieces))
+    game_signature = create_signature(new_pieces)
+    setup = Setup.find_or_create_by(position_signature: game_signature)
     new_pieces.each { |piece| piece.valid_moves(new_pieces) }
     setup.add_signatures(new_pieces, game_turn[0])
     setup

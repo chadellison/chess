@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_04_005946) do
+ActiveRecord::Schema.define(version: 2019_02_03_015719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,12 +22,20 @@ ActiveRecord::Schema.define(version: 2018_10_04_005946) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "attack_signatures", force: :cascade do |t|
+  create_table "black_attack_signatures", force: :cascade do |t|
     t.string "signature"
     t.integer "rank", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["signature"], name: "index_attack_signatures_on_signature"
+    t.index ["signature"], name: "index_black_attack_signatures_on_signature"
+  end
+
+  create_table "black_threat_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_black_threat_signatures_on_signature"
   end
 
   create_table "chat_messages", force: :cascade do |t|
@@ -95,15 +103,11 @@ ActiveRecord::Schema.define(version: 2018_10_04_005946) do
     t.integer "material_signature_id"
     t.integer "threat_signature_id"
     t.integer "general_attack_signature_id"
+    t.integer "white_threat_signature_id"
+    t.integer "black_threat_signature_id"
+    t.integer "white_attack_signature_id"
+    t.integer "black_attack_signature_id"
     t.index ["position_signature"], name: "index_setups_on_position_signature"
-  end
-
-  create_table "threat_signatures", force: :cascade do |t|
-    t.string "signature"
-    t.integer "rank", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["signature"], name: "index_threat_signatures_on_signature"
   end
 
   create_table "users", force: :cascade do |t|
@@ -116,6 +120,22 @@ ActiveRecord::Schema.define(version: 2018_10_04_005946) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["token"], name: "index_users_on_token"
+  end
+
+  create_table "white_attack_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_white_attack_signatures_on_signature"
+  end
+
+  create_table "white_threat_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_white_threat_signatures_on_signature"
   end
 
 end

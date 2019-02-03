@@ -9,7 +9,7 @@ task analyze_training_data: :environment do
       game.reload_pieces
       puts 'Setup ' + game.moves.last.setup.position_signature
     end
-      game.propogate_results
+    game.propogate_results
   end
   puts '---------------THE END---------------'
 end

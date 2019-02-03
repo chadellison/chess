@@ -10,13 +10,13 @@ task train_on_stockfish: :environment do
       turn = game.current_turn
 
       if turn == stockfish_integration.stockfish_color(game_number)
-        puts stockfish_integration.find_fen_notation
+        puts game.find_fen_notation
 
         stockfish_move = stockfish_integration.find_stockfish_move
-        position_index = stockfish_integration.find_piece_index(stockfish_move)
+        position_index = game.find_piece_by_position(stockfish_move[0..1]).position_index
         upgraded_type = stockfish_integration.find_upgraded_type(stockfish_move[4])
 
-        game.move(position_index, stockfish_move[2..3], upgraded_type)
+        game.handle_move(position_index, stockfish_move[2..3], upgraded_type)
       else
         game.ai_move
       end

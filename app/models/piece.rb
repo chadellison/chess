@@ -1,6 +1,8 @@
 class Piece
   include MoveLogic
-  include PieceLogic
+
+  PIECE_CODE = { king: 'k', queen: 'q', rook: 'r', bishop: 'b', knight: 'n', pawn: 'p' }
+  PIECE_VALUE = { king: 0, queen: 9, rook: 5, bishop: 3, knight: 3, pawn: 1 }
 
   attr_accessor :game_id, :piece_type, :color, :position, :position_index,
     :moved_two, :has_moved, :valid_moves, :enemy_targets
@@ -60,5 +62,14 @@ class Piece
 
   def game
     @game ||= Game.find(game_id)
+  end
+
+  def find_piece_code
+    piece_code = PIECE_CODE[piece_type.to_sym]
+    color == 'white' ? piece_code.capitalize : piece_code
+  end
+
+  def find_piece_value
+    PIECE_VALUE[piece_type.to_sym]
   end
 end

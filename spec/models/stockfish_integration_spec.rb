@@ -31,20 +31,6 @@ RSpec.describe StockfishIntegration do
     end
   end
 
-  describe 'find_piece_index' do
-    let(:game) { Game.new }
-    let(:stockfish_integration) { StockfishIntegration.new(game) }
-
-    it 'calls find_piece_by_position on a game' do
-      piece = Piece.new(position_index: 1)
-      expect(game).to receive(:find_piece_by_position)
-        .with('a1')
-        .and_return(piece)
-
-        expect(stockfish_integration.find_piece_index('a1b2')).to eq 1
-    end
-  end
-
   describe 'find_upgraded_type' do
     let(:game) { Game.new }
     let(:stockfish_integration) { StockfishIntegration.new(game) }
@@ -77,58 +63,6 @@ RSpec.describe StockfishIntegration do
       it 'returns an empty string' do
         expect(stockfish_integration.find_upgraded_type('')).to eq ''
       end
-    end
-  end
-
-  describe 'find_fen_notation' do
-    context 'when there are no game moves' do
-      let(:game) { Game.new }
-      let(:stockfish_integration) { StockfishIntegration.new(game) }
-
-      it 'returns the new board setup' do
-        expected = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
-        expect(stockfish_integration.find_fen_notation).to eq expected
-      end
-    end
-
-    context 'when there are game moves' do
-      let(:game) { Game.new }
-      let(:stockfish_integration) { StockfishIntegration.new(game) }
-
-      it 'calls fen_piece_positions and fen_game_data' do
-        game.moves << Move.new
-        expect(stockfish_integration).to receive(:fen_piece_positions)
-          .and_return('fen_position')
-
-        expect(stockfish_integration).to receive(:fen_game_data)
-          .and_return('fen_game_data')
-
-        stockfish_integration.find_fen_notation
-      end
-    end
-  end
-
-  describe 'fen_piece_positions' do
-    xit 'test' do
-
-    end
-  end
-
-  describe 'fen_game_data' do
-    xit 'test' do
-
-    end
-  end
-
-  describe 'fen_castle_codes' do
-    xit 'test' do
-
-    end
-  end
-
-  describe 'fen_piece_type' do
-    xit 'test' do
-
     end
   end
 end

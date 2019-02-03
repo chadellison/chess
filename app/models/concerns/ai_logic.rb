@@ -31,19 +31,17 @@ module AiLogic
 
   def checkmate_opponent(possible_moves)
     best_move = find_checkmate(possible_moves)
-    move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
+    handle_move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
   end
 
   def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
-
     previous_moves = moves.map { |move| position_index_from_move(move.value) }
 
     possible_moves.shuffle.each do |possible_move|
-      game_setup = possible_move.setup
-      total_weight = position_analysis(possible_move, previous_moves)
+      setup = possible_move.setup
 
-      total_weight += game_setup.all_signatures.reduce(0) do |weight, signature|
+      total_weight = setup.all_signatures.reduce(setup.rank) do |weight, signature|
         weight + analyze_signature(signature)
       end
       total_weight *= -1 if game_turn == 'black'
@@ -53,30 +51,12 @@ module AiLogic
   end
 
   def find_best_move(weighted_moves)
-    best_move_value = weighted_moves.max_by do |move_value, weight|
+    best_move = weighted_moves.max_by do |move_value, weight|
       puts move_value + ' ********* WEIGHT ********* ' + weight.to_s
       weight
     end.first
 
-    move(
-      position_index_from_move(best_move_value),
-      best_move_value[-2..-1],
-      promote_pawn(best_move_value)
-    )
-  end
-
-  def position_analysis(possible_move, previous_moves)
-    similar_setups = Move.where(value: possible_move.value).joins(:setup)
-    game_setups = similar_setups
-
-    possible_move.setup.position_signature.split('.').each do |move_value|
-      if previous_moves.include?(position_index_from_move(move_value))
-        game_setups = similar_setups.where('position_signature LIKE ?', "%#{move_value}%")
-        similar_setups = game_setups if game_setups.present?
-      end
-    end
-
-    similar_setups.average(:rank).to_f
+    handle_move(position_index_from_move(best_move), best_move[-2..-1], promote_pawn(best_move))
   end
 
   def find_checkmate(possible_moves)

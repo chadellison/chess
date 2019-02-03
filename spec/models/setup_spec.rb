@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Setup, type: :model do
-  it 'belongs to an attack_signature' do
-    attack_signature = AttackSignature.create
+  it 'belongs to a white_attack_signature' do
+    attack_signature = WhiteAttackSignature.create
     setup = Setup.create(position_signature: 'abc')
 
     attack_signature.setups << setup
-    expect(setup.attack_signature).to eq attack_signature
+    expect(setup.white_attack_signature).to eq attack_signature
   end
 
   it 'validates_uniqueness_of position_signature' do
