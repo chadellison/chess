@@ -1,15 +1,19 @@
 class Setup < ApplicationRecord
   validates_uniqueness_of :position_signature
-  belongs_to :attack_signature, optional: true
   belongs_to :general_attack_signature, optional: true
   belongs_to :material_signature, optional: true
-  belongs_to :threat_signature, optional: true
+  belongs_to :white_attack_signature, optional: true
+  belongs_to :black_attack_signature, optional: true
+  belongs_to :white_threat_signature, optional: true
+  belongs_to :black_threat_signature, optional: true
 
   SIGNATURE_CLASSES = {
-    attack_signature: AttackSignature,
-    threat_signature: ThreatSignature,
+    general_attack_signature: GeneralAttackSignature,
     material_signature: MaterialSignature,
-    general_attack_signature: GeneralAttackSignature
+    white_attack_signature: WhiteAttackSignature,
+    black_attack_signature: BlackAttackSignature,
+    white_threat_signature: WhiteThreatSignature,
+    black_threat_signature: BlackThreatSignature
   }
 
   def add_signatures(new_pieces, game_turn_code)
@@ -22,6 +26,7 @@ class Setup < ApplicationRecord
   end
 
   def all_signatures
-    [material_signature, threat_signature, attack_signature, general_attack_signature]
+    [general_attack_signature, material_signature, white_attack_signature,
+      black_attack_signature, white_threat_signature, black_threat_signature]
   end
 end

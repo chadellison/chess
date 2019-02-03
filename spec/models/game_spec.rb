@@ -30,15 +30,26 @@ RSpec.describe Game, type: :model do
       game.move(9, 'a3')
     end
 
-    it 'calls update_game and reload_pieces' do
+    it 'calls update_game' do
       game = Game.create
       piece = game.find_piece_by_index(9)
       expect_any_instance_of(Game).to receive(:update_game)
         .with(piece, 'a3', '')
 
-      expect_any_instance_of(Game).to receive(:reload_pieces)
-
       game.move(9, 'a3')
+    end
+
+    context 'when the game has a human player' do
+      it 'calls reload_pieces' do
+        game = Game.create(game_type: 'human vs human')
+        piece = game.find_piece_by_index(9)
+        expect_any_instance_of(Game).to receive(:update_game)
+          .with(piece, 'a3', '')
+
+        expect_any_instance_of(Game).to receive(:reload_pieces)
+
+        game.move(9, 'a3')
+      end
     end
   end
 

@@ -4,6 +4,7 @@ class Game < ApplicationRecord
   belongs_to :ai_player, optional: true, dependent: :destroy
 
   include NotationLogic
+  include FenNotationLogic
   include BoardLogic
   include AiLogic
   include PieceHelper
@@ -47,10 +48,22 @@ class Game < ApplicationRecord
     update_notation(position_index, new_position, upgraded_type)
     piece = find_piece_by_index(position_index)
     update_game(piece, new_position, upgraded_type)
-    GameEventBroadcastJob.perform_later(self)
-    reload_pieces
+    handle_human_game if game_type.include?('human')
     return handle_outcome if game_over?(pieces, current_turn)
     ai_move if ai_turn?
+  end
+
+  def handle_human_game
+    GameEventBroadcastJob.perform_later(self)
+    reload_pieces
+  end
+
+  def handle_move(position_index, new_position, upgraded_type = '')
+    update_notation(position_index, new_position, upgraded_type)
+    piece = find_piece_by_index(position_index)
+    update_game(piece, new_position, upgraded_type)
+    handle_human_game if game_type.include?('human')
+    return handle_outcome if game_over?(pieces, current_turn)
   end
 
   def game_over?(pieces, game_turn)
