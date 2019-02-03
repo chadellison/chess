@@ -1,12 +1,20 @@
 class AttackLogic
-  def self.create_attack_signature(new_pieces, game_turn_code, color)
-    signature = new_pieces.select do |piece|
-      piece.color == color && piece.enemy_targets.present?
-    end.map { |piece| piece.find_piece_code + 'x' + piece.enemy_targets.join('x') }
-
-    if signature.present?
-      signature << game_turn_code
-      signature.join('.')
+  def self.create_attack_signature(new_pieces, piece_code)
+    attack_count = new_pieces.reduce(0) do |sum, piece|
+      sum + piece.enemy_targets(piece_code).count
     end
+
+    spaces = []
+    new_pieces.each do |piece|
+      if piece.find_piece_code == piece_code
+        spaces.push(piece.position)
+      end
+    end
+
+    defense_count = new_pieces.reduce(0) do |sum, piece|
+      sum + spaces.count { |space| piece.defend?(space, new_pieces) }
+    end
+
+    (defense_count - attack_count).to_s
   end
 end

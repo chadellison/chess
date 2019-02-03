@@ -1,19 +1,32 @@
 class Setup < ApplicationRecord
   validates_uniqueness_of :position_signature
-  belongs_to :general_attack_signature, optional: true
   belongs_to :material_signature, optional: true
-  belongs_to :white_attack_signature, optional: true
-  belongs_to :black_attack_signature, optional: true
   belongs_to :white_threat_signature, optional: true
   belongs_to :black_threat_signature, optional: true
+  belongs_to :wpa_signature, optional: true
+  belongs_to :bpa_signature, optional: true
+  belongs_to :wna_signature, optional: true
+  belongs_to :bna_signature, optional: true
+  belongs_to :wba_signature, optional: true
+  belongs_to :bba_signature, optional: true
+  belongs_to :wra_signature, optional: true
+  belongs_to :bra_signature, optional: true
+  belongs_to :wqa_signature, optional: true
+  belongs_to :bqa_signature, optional: true
 
   SIGNATURE_CLASSES = {
-    general_attack_signature: GeneralAttackSignature,
     material_signature: MaterialSignature,
-    white_attack_signature: WhiteAttackSignature,
-    black_attack_signature: BlackAttackSignature,
     white_threat_signature: WhiteThreatSignature,
-    black_threat_signature: BlackThreatSignature
+    black_threat_signature: BlackThreatSignature,
+    wpa_signature: WpaSignature,
+    bpa_signature: BpaSignature,
+    wna_signature: WnaSignature,
+    wba_signature: WbaSignature,
+    bba_signature: BbaSignature,
+    wra_signature: WraSignature,
+    bra_signature: BraSignature,
+    wqa_signature: WqaSignature,
+    bqa_signature: BqaSignature
   }
 
   def add_signatures(new_pieces, game_turn_code)
@@ -26,7 +39,8 @@ class Setup < ApplicationRecord
   end
 
   def all_signatures
-    [general_attack_signature, material_signature, white_attack_signature,
-      black_attack_signature, white_threat_signature, black_threat_signature]
+    [material_signature, white_threat_signature, black_threat_signature,
+      wpa_signature, bpa_signature, wna_signature, bna_signature, wba_signature,
+      bba_signature, bra_signature, wqa_signature, bqa_signature]
   end
 end

@@ -5,7 +5,7 @@ class Piece
   PIECE_VALUE = { king: 0, queen: 9, rook: 5, bishop: 3, knight: 3, pawn: 1 }
 
   attr_accessor :game_id, :piece_type, :color, :position, :position_index,
-    :moved_two, :has_moved, :valid_moves, :enemy_targets
+    :moved_two, :has_moved, :valid_moves
 
   def initialize(attributes = {})
     @piece_type = attributes[:piece_type]
@@ -58,6 +58,19 @@ class Piece
     if destination_piece.present?
       @enemy_targets.push(destination_piece.find_piece_code + move)
     end
+  end
+
+  def enemy_targets(piece_code = nil)
+    return @enemy_targets if piece_code.blank?
+    @enemy_targets.select { |target| target[0] == piece_code }
+  end
+
+  def defend?(square, game_pieces)
+    [
+      valid_move_path?(square, game_pieces.map(&:position)),
+      valid_for_piece?(square, game_pieces),
+      king_is_safe?(color, game.pieces_with_next_move(game_pieces, position_index.to_s + square))
+    ].all?
   end
 
   def game

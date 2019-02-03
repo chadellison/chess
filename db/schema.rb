@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_03_050112) do
+ActiveRecord::Schema.define(version: 2019_02_03_202047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,12 +22,12 @@ ActiveRecord::Schema.define(version: 2019_02_03_050112) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "black_attack_signatures", force: :cascade do |t|
+  create_table "bba_signatures", force: :cascade do |t|
     t.string "signature"
     t.integer "rank", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["signature"], name: "index_black_attack_signatures_on_signature"
+    t.index ["signature"], name: "index_bba_signatures_on_signature"
   end
 
   create_table "black_threat_signatures", force: :cascade do |t|
@@ -36,6 +36,38 @@ ActiveRecord::Schema.define(version: 2019_02_03_050112) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["signature"], name: "index_black_threat_signatures_on_signature"
+  end
+
+  create_table "bna_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_bna_signatures_on_signature"
+  end
+
+  create_table "bpa_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_bpa_signatures_on_signature"
+  end
+
+  create_table "bqa_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_bqa_signatures_on_signature"
+  end
+
+  create_table "bra_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_bra_signatures_on_signature"
   end
 
   create_table "chat_messages", force: :cascade do |t|
@@ -57,14 +89,6 @@ ActiveRecord::Schema.define(version: 2019_02_03_050112) do
     t.string "game_type", default: "machine vs machine"
     t.integer "ai_player_id"
     t.index ["notation"], name: "index_games_on_notation"
-  end
-
-  create_table "general_attack_signatures", force: :cascade do |t|
-    t.string "signature"
-    t.integer "rank", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["signature"], name: "index_general_attack_signatures_on_signature"
   end
 
   create_table "group_chats", force: :cascade do |t|
@@ -102,18 +126,32 @@ ActiveRecord::Schema.define(version: 2019_02_03_050112) do
     t.integer "attack_signature_id"
     t.integer "material_signature_id"
     t.integer "threat_signature_id"
-    t.integer "general_attack_signature_id"
     t.integer "white_threat_signature_id"
     t.integer "black_threat_signature_id"
-    t.integer "white_attack_signature_id"
-    t.integer "black_attack_signature_id"
-    t.index ["black_attack_signature_id"], name: "index_setups_on_black_attack_signature_id"
+    t.integer "wpa_signature_id"
+    t.integer "bpa_signature_id"
+    t.integer "wna_signature_id"
+    t.integer "bna_signature_id"
+    t.integer "wba_signature_id"
+    t.integer "bba_signature_id"
+    t.integer "wra_signature_id"
+    t.integer "bra_signature_id"
+    t.integer "wqa_signature_id"
+    t.integer "bqa_signature_id"
+    t.index ["bba_signature_id"], name: "index_setups_on_bba_signature_id"
     t.index ["black_threat_signature_id"], name: "index_setups_on_black_threat_signature_id"
-    t.index ["general_attack_signature_id"], name: "index_setups_on_general_attack_signature_id"
+    t.index ["bna_signature_id"], name: "index_setups_on_bna_signature_id"
+    t.index ["bpa_signature_id"], name: "index_setups_on_bpa_signature_id"
+    t.index ["bqa_signature_id"], name: "index_setups_on_bqa_signature_id"
+    t.index ["bra_signature_id"], name: "index_setups_on_bra_signature_id"
     t.index ["material_signature_id"], name: "index_setups_on_material_signature_id"
     t.index ["position_signature"], name: "index_setups_on_position_signature"
-    t.index ["white_attack_signature_id"], name: "index_setups_on_white_attack_signature_id"
+    t.index ["wba_signature_id"], name: "index_setups_on_wba_signature_id"
     t.index ["white_threat_signature_id"], name: "index_setups_on_white_threat_signature_id"
+    t.index ["wna_signature_id"], name: "index_setups_on_wna_signature_id"
+    t.index ["wpa_signature_id"], name: "index_setups_on_wpa_signature_id"
+    t.index ["wqa_signature_id"], name: "index_setups_on_wqa_signature_id"
+    t.index ["wra_signature_id"], name: "index_setups_on_wra_signature_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -128,12 +166,12 @@ ActiveRecord::Schema.define(version: 2019_02_03_050112) do
     t.index ["token"], name: "index_users_on_token"
   end
 
-  create_table "white_attack_signatures", force: :cascade do |t|
+  create_table "wba_signatures", force: :cascade do |t|
     t.string "signature"
     t.integer "rank", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["signature"], name: "index_white_attack_signatures_on_signature"
+    t.index ["signature"], name: "index_wba_signatures_on_signature"
   end
 
   create_table "white_threat_signatures", force: :cascade do |t|
@@ -142,6 +180,38 @@ ActiveRecord::Schema.define(version: 2019_02_03_050112) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["signature"], name: "index_white_threat_signatures_on_signature"
+  end
+
+  create_table "wna_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_wna_signatures_on_signature"
+  end
+
+  create_table "wpa_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_wpa_signatures_on_signature"
+  end
+
+  create_table "wqa_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_wqa_signatures_on_signature"
+  end
+
+  create_table "wra_signatures", force: :cascade do |t|
+    t.string "signature"
+    t.integer "rank", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature"], name: "index_wra_signatures_on_signature"
   end
 
 end
