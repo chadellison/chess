@@ -21,6 +21,7 @@ class Setup < ApplicationRecord
     wpa_signature: WpaSignature,
     bpa_signature: BpaSignature,
     wna_signature: WnaSignature,
+    bna_signature: BnaSignature,
     wba_signature: WbaSignature,
     bba_signature: BbaSignature,
     wra_signature: WraSignature,
@@ -41,6 +42,6 @@ class Setup < ApplicationRecord
   def all_signatures
     [material_signature, white_threat_signature, black_threat_signature,
       wpa_signature, bpa_signature, wna_signature, bna_signature, wba_signature,
-      bba_signature, bra_signature, wqa_signature, bqa_signature]
+      bba_signature, wra_signature, bra_signature, wqa_signature, bqa_signature]
   end
 end
