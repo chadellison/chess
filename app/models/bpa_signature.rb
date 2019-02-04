@@ -4,6 +4,6 @@ class BpaSignature < ApplicationRecord
   has_many :setups
 
   def self.create_signature(new_pieces, game_turn_code)
-    AttackLogic.create_attack_signature(new_pieces, (9..16).to_a)
+    AttackLogic.create_attack_signature(new_pieces, (9..16).to_a, game_turn_code)
   end
 end

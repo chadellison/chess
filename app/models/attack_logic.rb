@@ -1,5 +1,5 @@
 class AttackLogic
-  def self.create_attack_signature(new_pieces, position_indices)
+  def self.create_attack_signature(new_pieces, position_indices, game_turn_code)
     signature = {}
     color = position_indices.max <= 16 ? 'black' : 'white'
 
@@ -19,7 +19,9 @@ class AttackLogic
       end
     end
 
-    signature.map { |index, attack_count| index.to_s + attack_count.to_s }.join('.')
+    signature.map do |index, attack_count|
+      index.to_s + attack_count.to_s
+    end.join('.') + game_turn_code
   end
 
   def self.update_attack_count(signature, key, value)
