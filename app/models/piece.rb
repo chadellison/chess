@@ -56,16 +56,17 @@ class Piece
   def find_enemy_targets(move, game_pieces)
     destination_piece = game_pieces.detect { |piece| piece.position == move }
     if destination_piece.present?
-      @enemy_targets.push(destination_piece.find_piece_code + move)
+      @enemy_targets.push(destination_piece.position_index.to_s + move)
     end
   end
 
-  def enemy_targets(piece_code = nil)
-    return @enemy_targets if piece_code.blank?
-    @enemy_targets.select { |target| target[0] == piece_code }
+  def enemy_targets(index = nil)
+    return @enemy_targets if index.blank?
+    @enemy_targets.select { |target| target[0..-3] == index }
   end
 
-  def defend?(square, game_pieces)
+  def defend?(index, game_pieces)
+    square = game_pieces.detect { |piece| piece.position_index == index }.position
     [
       valid_move_path?(square, game_pieces.map(&:position)),
       valid_for_piece?(square, game_pieces),

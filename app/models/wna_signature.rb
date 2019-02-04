@@ -4,6 +4,6 @@ class WnaSignature < ApplicationRecord
   has_many :setups
 
   def self.create_signature(new_pieces, game_turn_code)
-    AttackLogic.create_attack_signature(new_pieces, 'N')
+    AttackLogic.create_attack_signature(new_pieces, [26, 31])
   end
 end
