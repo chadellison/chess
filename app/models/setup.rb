@@ -13,6 +13,9 @@ class Setup < ApplicationRecord
   belongs_to :bra_signature, optional: true
   belongs_to :wqa_signature, optional: true
   belongs_to :bqa_signature, optional: true
+  belongs_to :wka_signature, optional: true
+  belongs_to :bka_signature, optional: true
+  belongs_to :activity_signature, optional: true
 
   SIGNATURE_CLASSES = {
     material_signature: MaterialSignature,
@@ -27,7 +30,10 @@ class Setup < ApplicationRecord
     wra_signature: WraSignature,
     bra_signature: BraSignature,
     wqa_signature: WqaSignature,
-    bqa_signature: BqaSignature
+    bqa_signature: BqaSignature,
+    wka_signature: WkaSignature,
+    bka_signature: BkaSignature,
+    activity_signature: ActivitySignature
   }
 
   def add_signatures(new_pieces, game_turn_code)
@@ -42,6 +48,7 @@ class Setup < ApplicationRecord
   def all_signatures
     [material_signature, white_threat_signature, black_threat_signature,
       wpa_signature, bpa_signature, wna_signature, bna_signature, wba_signature,
-      bba_signature, wra_signature, bra_signature, wqa_signature, bqa_signature]
+      bba_signature, wra_signature, bra_signature, wqa_signature, bqa_signature,
+      wka_signature, bka_signature, activity_signature]
   end
 end

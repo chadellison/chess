@@ -114,7 +114,7 @@ class Game < ApplicationRecord
   def propogate_results
     moves.each do |move|
       setup = move.setup
-      move.setup.update(rank: (setup.rank + outcome))
+      setup.update(rank: (setup.rank + outcome))
 
       setup.all_signatures.each do |signature|
         if signature.present?

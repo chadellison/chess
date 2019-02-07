@@ -67,7 +67,7 @@ module BoardLogic
   end
 
   def create_setup(new_pieces, game_turn)
-    game_signature = create_signature(new_pieces)
+    game_signature = create_signature(new_pieces, game_turn[0])
     setup = Setup.find_or_create_by(position_signature: game_signature)
     new_pieces.each { |piece| piece.valid_moves(new_pieces) }
     setup.add_signatures(new_pieces, game_turn[0])
@@ -87,10 +87,10 @@ module BoardLogic
     (9..24).include?(piece.position_index) && piece.piece_type != 'pawn'
   end
 
-  def create_signature(game_pieces)
+  def create_signature(game_pieces, game_turn_code)
     game_pieces.sort_by(&:position_index).map do |piece|
       piece.position_index.to_s + piece.position
-    end.join('.')
+    end.join('.') + game_turn_code
   end
 
   def update_rook(king_move, game_pieces)
