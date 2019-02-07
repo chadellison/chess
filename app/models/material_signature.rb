@@ -1,8 +1,4 @@
-class MaterialSignature < ApplicationRecord
-  validates_presence_of :signature
-  validates_uniqueness_of :signature
-  has_many :setups
-
+class MaterialSignature
   def self.create_signature(new_pieces, game_turn_code)
     white_pieces = new_pieces.select { |piece| piece.color == 'white' }
     black_pieces = new_pieces.select { |piece| piece.color == 'black' }
