@@ -41,8 +41,8 @@ module AiLogic
     possible_moves.shuffle.each do |possible_move|
       setup = possible_move.setup
 
-      total_weight = setup.all_signatures.reduce(setup.rank) do |weight, signature|
-        weight + analyze_signature(signature)
+      total_weight = setup.signatures.reduce(setup.rank) do |weight, signature|
+        weight + signature.rank
       end
       total_weight *= -1 if game_turn == 'black'
       weighted_moves[possible_move.value] = total_weight
@@ -85,9 +85,5 @@ module AiLogic
 
   def loss_value
     win_value == 1 ? -1 : 1
-  end
-
-  def analyze_signature(signature)
-    signature.present? ? signature.rank : 0
   end
 end
