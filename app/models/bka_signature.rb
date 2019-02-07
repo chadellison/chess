@@ -1,9 +1,9 @@
-class BkaSignature < ApplicationRecord
-  validates_presence_of :signature
-  validates_uniqueness_of :signature
-  has_many :setups
-
-  def self.create_signature(new_pieces, game_turn_code)
-    AttackLogic.create_attack_signature(new_pieces, [5], game_turn_code)
-  end
-end
+# class BkaSignature < ApplicationRecord
+#   validates_presence_of :signature
+#   validates_uniqueness_of :signature
+#   has_many :setups
+#
+#   def self.create_signature(new_pieces, game_turn_code)
+#     AttackLogic.create_attack_signature(new_pieces, [5], game_turn_code)
+#   end
+# end

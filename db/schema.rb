@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_07_013441) do
+ActiveRecord::Schema.define(version: 2019_02_07_105816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,15 @@ ActiveRecord::Schema.define(version: 2019_02_07_013441) do
     t.index ["value"], name: "index_moves_on_value"
   end
 
+  create_table "setup_signatures", force: :cascade do |t|
+    t.integer "setup_id"
+    t.integer "signature_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["setup_id"], name: "index_setup_signatures_on_setup_id"
+    t.index ["signature_id"], name: "index_setup_signatures_on_signature_id"
+  end
+
   create_table "setups", force: :cascade do |t|
     t.text "position_signature"
     t.integer "rank", default: 0
@@ -175,6 +184,15 @@ ActiveRecord::Schema.define(version: 2019_02_07_013441) do
     t.index ["wpa_signature_id"], name: "index_setups_on_wpa_signature_id"
     t.index ["wqa_signature_id"], name: "index_setups_on_wqa_signature_id"
     t.index ["wra_signature_id"], name: "index_setups_on_wra_signature_id"
+  end
+
+  create_table "signatures", force: :cascade do |t|
+    t.string "value"
+    t.integer "rank", default: 0
+    t.string "signature_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["value"], name: "index_signatures_on_value"
   end
 
   create_table "users", force: :cascade do |t|

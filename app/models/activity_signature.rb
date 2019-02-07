@@ -1,8 +1,4 @@
-class ActivitySignature < ApplicationRecord
-  validates_presence_of :signature
-  validates_uniqueness_of :signature
-  has_many :setups
-
+class ActivitySignature
   def self.create_signature(new_pieces, game_turn_code)
     activity_signature = new_pieces.reduce(0) do |sum, piece|
       if piece.color == 'white'

@@ -116,10 +116,8 @@ class Game < ApplicationRecord
       setup = move.setup
       setup.update(rank: (setup.rank + outcome))
 
-      setup.all_signatures.each do |signature|
-        if signature.present?
-          signature.update(rank: (signature.rank + outcome))
-        end
+      setup.signatures.each do |signature|
+        signature.update(rank: (signature.rank + outcome))
       end
     end
   end
