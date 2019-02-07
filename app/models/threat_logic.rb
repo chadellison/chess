@@ -1,14 +1,10 @@
 class ThreatLogic
-  def self.create_threat_signature(new_pieces, game_turn_code, color)
+  def self.create_threat_signature(new_pieces, color)
     king_spaces = new_pieces.detect { |piece| piece.position_index == 29 }.spaces_near_king
 
     enemy_pieces = new_pieces.select { |piece| piece.color == color }
 
-    threats = map_enemy_threats(king_spaces, enemy_pieces, new_pieces)
-
-    if threats.present?
-      threats + game_turn_code
-    end
+    map_enemy_threats(king_spaces, enemy_pieces, new_pieces)
   end
 
   def self.map_enemy_threats(spaces, enemy_pieces, new_pieces)
