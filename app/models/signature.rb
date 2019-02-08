@@ -1,16 +1,14 @@
 class Signature < ApplicationRecord
-  validates_presence_of :value
-  validates_uniqueness_of :value
+  validates_presence_of :value, :signature_type
+  validates :value, uniqueness: { scope: :signature_type }
   has_many :setup_signatures
   has_many :setups, through: :setup_signatures
 
   def self.create_signature(type, new_pieces, game_turn_code)
     signature_value = write_signature(type, new_pieces)
     if signature_value.present?
-      Signature.find_or_create_by(
-        signature_type: type,
-        value: signature_value + game_turn_code
-      )
+      Signature.where(signature_type: type, value: signature_value + game_turn_code)
+        .first_or_create
     end
   end
 
