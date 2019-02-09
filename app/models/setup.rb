@@ -24,7 +24,7 @@ class Setup < ApplicationRecord
   ]
 
   def add_signatures(new_pieces, game_turn_code)
-    SIGNATURES.map do |signature_type|
+    SIGNATURES.each do |signature_type|
       if signatures.find_by(signature_type: signature_type).blank?
         signature = Signature.create_signature(signature_type, new_pieces, game_turn_code)
         signature.setups << self if signature.present?
