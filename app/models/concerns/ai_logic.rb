@@ -14,17 +14,17 @@ module AiLogic
 
   def find_next_moves(game_turn)
     pieces.select { |piece| piece.color == game_turn }.map do |piece|
-      all_next_moves_for_piece(piece, game_turn)
+      all_next_moves_for_piece(piece)
     end.flatten
   end
 
-  def all_next_moves_for_piece(piece, game_turn)
+  def all_next_moves_for_piece(piece)
     piece.valid_moves(pieces).map do |move|
       move_value = piece.position_index.to_s + move
 
       game_move = Move.new(value: move_value, move_count: (moves.count + 1))
       game_pieces = pieces_with_next_move(pieces, move_value)
-      game_move.setup = create_setup(game_pieces, game_turn)
+      game_move.setup = create_setup(game_pieces, opponent_color)
       game_move
     end
   end
