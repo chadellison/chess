@@ -22,30 +22,8 @@ class Signature < ApplicationRecord
       ThreatLogic.create_threat_signature(new_pieces, 'white')
     when 'black_threat'
       ThreatLogic.create_threat_signature(new_pieces, 'black')
-    when 'white_pawn_attack'
-      AttackLogic.create_attack_signature(new_pieces, (17..24).to_a)
-    when 'black_pawn_attack'
-      AttackLogic.create_attack_signature(new_pieces, (9..16).to_a)
-    when 'white_knight_attack'
-      AttackLogic.create_attack_signature(new_pieces, [26, 31])
-    when 'black_knight_attack'
-      AttackLogic.create_attack_signature(new_pieces, [2, 7])
-    when 'white_bishop_attack'
-      AttackLogic.create_attack_signature(new_pieces, [27, 30])
-    when 'black_bishop_attack'
-      AttackLogic.create_attack_signature(new_pieces, [3, 6])
-    when 'white_rook_attack'
-      AttackLogic.create_attack_signature(new_pieces, [25, 32])
-    when 'black_rook_attack'
-      AttackLogic.create_attack_signature(new_pieces, [1, 8])
-    when 'white_queen_attack'
-      AttackLogic.create_attack_signature(new_pieces, [28])
-    when 'black_queen_attack'
-      AttackLogic.create_attack_signature(new_pieces, [4])
-    when 'white_king_attack'
-      AttackLogic.create_attack_signature(new_pieces, [29])
-    when 'black_king_attack'
-      AttackLogic.create_attack_signature(new_pieces, [5])
+    when 'attack'
+      AttackLogic.create_attack_signature(new_pieces)
     end
   end
 end
