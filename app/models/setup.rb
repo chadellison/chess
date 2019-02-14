@@ -8,18 +8,7 @@ class Setup < ApplicationRecord
     'material',
     'white_threat',
     'black_threat',
-    'white_pawn_attack',
-    'black_pawn_attack',
-    'white_knight_attack',
-    'black_knight_attack',
-    'white_bishop_attack',
-    'black_bishop_attack',
-    'white_rook_attack',
-    'black_rook_attack',
-    'white_queen_attack',
-    'black_queen_attack',
-    'white_king_attack',
-    'black_king_attack',
+    'attack',
     'activity'
   ]
 

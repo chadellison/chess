@@ -5,7 +5,23 @@ class Piece
   PIECE_VALUE = { king: 0, queen: 9, rook: 5, bishop: 3, knight: 3, pawn: 1 }
 
   attr_accessor :game_id, :piece_type, :color, :position, :position_index,
-    :moved_two, :has_moved, :valid_moves
+    :moved_two, :has_moved, :valid_moves, :enemy_targets
+
+  def self.defenders(index, game_pieces)
+    target_piece = game_pieces.detect { |piece| piece.position_index == index }
+    square = target_piece.position
+    destination_color = target_piece.color
+
+    game_pieces.select do |piece|
+      [
+        target_piece.color == piece.color,
+        piece != target_piece,
+        piece.valid_move_path?(square, game_pieces.map(&:position)),
+        piece.valid_for_piece?(square, game_pieces),
+        piece.king_is_safe?(piece.color, piece.game.pieces_with_next_move(game_pieces, piece.position_index.to_s + square))
+      ].all?
+    end
+  end
 
   def initialize(attributes = {})
     @piece_type = attributes[:piece_type]
@@ -38,7 +54,7 @@ class Piece
   def valid_moves(game_pieces)
     @valid_moves ||= moves_for_piece.select do |move|
       if valid_move?(game_pieces, move)
-        find_enemy_targets(move, game_pieces)
+        load_enemy_targets(move, game_pieces)
         true
       end
     end
@@ -53,25 +69,11 @@ class Piece
     ].all?
   end
 
-  def find_enemy_targets(move, game_pieces)
+  def load_enemy_targets(move, game_pieces)
     destination_piece = game_pieces.detect { |piece| piece.position == move }
     if destination_piece.present?
-      @enemy_targets.push(destination_piece.position_index.to_s + move)
+      @enemy_targets.push(destination_piece.position_index)
     end
-  end
-
-  def enemy_targets(index = nil)
-    return @enemy_targets if index.blank?
-    @enemy_targets.select { |target| target[0..-3] == index }
-  end
-
-  def defend?(index, game_pieces)
-    square = game_pieces.detect { |piece| piece.position_index == index }.position
-    [
-      valid_move_path?(square, game_pieces.map(&:position)),
-      valid_for_piece?(square, game_pieces),
-      king_is_safe?(color, game.pieces_with_next_move(game_pieces, position_index.to_s + square))
-    ].all?
   end
 
   def game
