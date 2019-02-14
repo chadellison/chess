@@ -42,6 +42,8 @@ module AiLogic
       setup = possible_move.setup
 
       total_weight = setup.signatures.reduce(setup.rank) do |weight, signature|
+        puts "$$$$$$$$$$$$$$$$#{signature.signature_type}$$$$$$$$$$$$$$$$$$$$$$$"
+        puts "******************* #{possible_move.value} #{signature.rank.to_s}*****************"
         weight + signature.rank
       end
       total_weight *= -1 if game_turn == 'black'
@@ -52,7 +54,6 @@ module AiLogic
 
   def find_best_move(weighted_moves)
     best_move = weighted_moves.max_by do |move_value, weight|
-      puts move_value + ' ********* WEIGHT ********* ' + weight.to_s
       weight
     end.first
 
