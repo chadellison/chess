@@ -112,13 +112,15 @@ class Game < ApplicationRecord
   end
 
   def propogate_results
+    adjusted_weight = outcome * moves.count
     moves.each do |move|
       setup = move.setup
-      setup.update(rank: (setup.rank + outcome))
+      setup.update(rank: (setup.rank + adjusted_weight))
 
       setup.signatures.each do |signature|
-        signature.update(rank: (signature.rank + outcome))
+        signature.update(rank: (signature.rank + adjusted_weight))
       end
+      adjusted_weight > 0 ? adjusted_weight -= 1 : adjusted_weight += 1
     end
   end
 end
