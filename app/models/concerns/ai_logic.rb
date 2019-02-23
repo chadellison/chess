@@ -7,6 +7,8 @@ module AiLogic
 
     if find_checkmate(possible_moves).present?
       checkmate_opponent(possible_moves)
+    elsif matching_setup?(possible_moves, game_turn)
+      move_from_setup(possible_moves, game_turn)
     else
       move_analysis(possible_moves, game_turn)
     end
@@ -34,6 +36,26 @@ module AiLogic
     handle_move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
   end
 
+  def matching_setup?(possible_moves, game_turn)
+    if game_turn == 'black'
+      possible_moves.any? { |possible_move| possible_move.rank < 0 }
+    else
+      possible_moves.any? { |possible_move| possible_move.rank > 0 }
+    end
+  end
+
+  def move_from_setup(possible_moves, game_turn)
+    best_move = possible_moves.max_by do |possible_move|
+      if game_turn == 'black'
+        possible_move.rank * -1
+      else
+        possible_move.rank
+      end
+    end
+
+    handle_move(position_index_from_move(best_move), best_move[-2..-1], promote_pawn(best_move))
+  end
+
   def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
     previous_moves = moves.map { |move| position_index_from_move(move.value) }
@@ -43,6 +65,7 @@ module AiLogic
 
       total_weight = setup.signatures.reduce(setup.rank) do |weight, signature|
         puts "$$$$$$$$$$$$$$$$#{signature.signature_type}$$$$$$$$$$$$$$$$$$$$$$$"
+        puts "$$$$$$$$$$$$$$$$#{signature.value}$$$$$$$$$$$$$$$$$$$$$$$"
         puts "******************* #{possible_move.value} #{signature.rank.to_s}*****************"
         weight + signature.rank
       end
