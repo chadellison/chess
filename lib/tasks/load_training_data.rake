@@ -1,8 +1,8 @@
 desc "load_training_data"
 task load_training_data: :environment do
-  92.times do |count|
+  46.times do |count|
     puts 'file: ' + count.to_s
-    parse_file(count + 1)
+    parse_file(46 + count + 1)
   end
   puts '---------------GAMES LOADED---------------'
 end
