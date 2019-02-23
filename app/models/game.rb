@@ -112,13 +112,12 @@ class Game < ApplicationRecord
   end
 
   def propogate_results
-    adjusted_rank = outcome
     moves.each do |move|
       setup = move.setup
-      setup.update(rank: adjusted_rank)
+      setup.update(rank: setup.rank + outcome)
 
       setup.signatures.each do |signature|
-        signature.update(rank: adjusted_rank)
+        signature.update(rank: signature.rank + outcome)
       end
     end
   end
