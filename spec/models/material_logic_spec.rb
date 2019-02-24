@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe MaterialSignature, type: :model do
+RSpec.describe MaterialLogic, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end

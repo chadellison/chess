@@ -62,15 +62,15 @@ module BoardLogic
     new_pieces = pieces_with_next_move(pieces, updated_piece.position_index.to_s + updated_piece.position)
     update_pieces(new_pieces)
     game_move = new_move(updated_piece)
-    game_move.setup = create_setup(new_pieces, current_turn)
+    game_move.setup = create_setup(new_pieces)
     game_move.save
   end
 
-  def create_setup(new_pieces, game_turn)
-    game_signature = create_signature(new_pieces, game_turn[0])
+  def create_setup(new_pieces)
+    game_signature = create_signature(new_pieces, opponent_color[0])
     setup = Setup.find_or_create_by(position_signature: game_signature)
     new_pieces.each { |piece| piece.valid_moves(new_pieces) }
-    setup.add_signatures(new_pieces, game_turn[0])
+    setup.add_signatures(new_pieces, opponent_color[0])
     setup
   end
 
