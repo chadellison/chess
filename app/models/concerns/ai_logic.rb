@@ -26,7 +26,7 @@ module AiLogic
 
       game_move = Move.new(value: move_value, move_count: (moves.count + 1))
       game_pieces = pieces_with_next_move(pieces, move_value)
-      game_move.setup = create_setup(game_pieces, opponent_color)
+      game_move.setup = create_setup(game_pieces)
       game_move
     end
   end
@@ -38,9 +38,9 @@ module AiLogic
 
   def matching_setup?(possible_moves, game_turn)
     if game_turn == 'black'
-      possible_moves.any? { |possible_move| possible_move.rank < 0 }
+      possible_moves.any? { |possible_move| possible_move.setup.rank < 0 }
     else
-      possible_moves.any? { |possible_move| possible_move.rank > 0 }
+      possible_moves.any? { |possible_move| possible_move.setup.rank > 0 }
     end
   end
 
@@ -63,7 +63,7 @@ module AiLogic
     possible_moves.shuffle.each do |possible_move|
       setup = possible_move.setup
 
-      total_weight = setup.signatures.reduce(setup.rank) do |weight, signature|
+      total_weight = setup.signatures.reduce(0) do |weight, signature|
         puts "$$$$$$$$$$$$$$$$#{signature.signature_type}$$$$$$$$$$$$$$$$$$$$$$$"
         puts "$$$$$$$$$$$$$$$$#{signature.value}$$$$$$$$$$$$$$$$$$$$$$$"
         puts "******************* #{possible_move.value} #{signature.rank.to_s}*****************"
