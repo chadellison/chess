@@ -49,9 +49,9 @@ module AiLogic
   def move_from_setup(possible_moves, game_turn)
     best_move = possible_moves.max_by do |possible_move|
       if game_turn == 'black'
-        possible_move.rank * -1
+        possible_move.setup.rank * -1
       else
-        possible_move.rank
+        possible_move.setup.rank
       end
     end
 
@@ -67,7 +67,7 @@ module AiLogic
         log_move_data(game_turn, signature, possible_move)
         weight + signature.rank
       end
-      
+
       total_weight *= -1 if game_turn == 'black'
       weighted_moves[possible_move.value] = total_weight
     end
@@ -76,9 +76,10 @@ module AiLogic
 
   def log_move_data(game_turn, signature, possible_move)
     puts "^^^^^^^^^^^^^^^^^^^^^^#{game_turn}^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-    puts "$$$$$$$$$$$$$$$$#{signature.signature_type}$$$$$$$$$$$$$$$$$$$$$$$"
-    puts "$$$$$$$$$$$$$$$$#{signature.value}$$$$$$$$$$$$$$$$$$$$$$$"
-    puts "******************* #{possible_move.value} #{signature.rank.to_s}*****************"
+    puts "$$$$$$$$$$$$$$$$ TYPE #{signature.signature_type}$$$$$$$$$$$$$$$$$$$$$$$"
+    puts "$$$$$$$$$$$$$$$$ SIGNATURE: #{signature.value}$$$$$$$$$$$$$$$$$$$$$$$"
+    puts "******************* MATERIAL VALUE: #{possible_move.material_value}*****************"
+    puts "******************* MOVE VALUE: #{possible_move.value} #{signature.rank.to_s}*****************"
   end
 
   def find_best_move(weighted_moves)

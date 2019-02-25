@@ -3,6 +3,7 @@ class Setup < ApplicationRecord
 
   has_many :setup_signatures
   has_many :signatures, through: :setup_signatures
+  has_many :outcomes
 
   SIGNATURES = {
     threat: ThreatLogic,
@@ -28,5 +29,9 @@ class Setup < ApplicationRecord
 
       signature.setups << self if signature.present?
     end
+  end
+
+  def rank
+    outcomes.reduce(0) { |sum, total| sum + total }
   end
 end
