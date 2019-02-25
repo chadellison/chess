@@ -35,10 +35,21 @@ module AiLogic
 
   def checkmate_opponent(possible_moves)
     best_move = find_checkmate(possible_moves)
-    handle_move(position_index_from_move(best_move.value), best_move.value[-2..-1], promote_pawn(best_move.value))
+    handle_move(best_move.value, promote_pawn(best_move.value))
   end
 
   def matching_setup?(possible_moves, game_turn)
+    possible_moves.any? do |possible_move|
+      setup_rank = possible_move.setup.rank
+      if setup_rank != 0
+        if game_turn == 'black'
+          setup_rank / possible_move.setup.outcomes.count < 0.2
+        else
+          setup_rank / possible_move.setup.outcomes.count > -0.2
+        end
+      end
+    end
+
     if game_turn == 'black'
       possible_moves.any? { |possible_move| possible_move.setup.rank < 0 }
     else
@@ -55,7 +66,7 @@ module AiLogic
       end
     end
 
-    handle_move(position_index_from_move(best_move), best_move[-2..-1], promote_pawn(best_move))
+    handle_move(best_move.value, promote_pawn(best_move.value))
   end
 
   def move_analysis(possible_moves, game_turn)
@@ -83,9 +94,9 @@ module AiLogic
   end
 
   def find_best_move(weighted_moves)
-    best_move = weighted_moves.max_by { |move_value, weight| weight }.first
+    best_move_value = weighted_moves.max_by { |move_value, weight| weight }.first
 
-    handle_move(position_index_from_move(best_move), best_move[-2..-1], promote_pawn(best_move))
+    handle_move(best_move_value, promote_pawn(best_move_value))
   end
 
   def find_checkmate(possible_moves)
