@@ -1,9 +1,9 @@
 class Setup < ApplicationRecord
+  serialize :outcomes, Array
   validates_uniqueness_of :position_signature
 
   has_many :setup_signatures
   has_many :signatures, through: :setup_signatures
-  has_many :outcomes
 
   SIGNATURES = {
     threat: ThreatLogic,

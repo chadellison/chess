@@ -11,7 +11,6 @@ class Game < ApplicationRecord
 
   scope :winning_games, ->(win) { where(outcome: win) }
   scope :user_games, ->(user_id) { where(white_player: user_id).or(where(black_player: user_id))}
-  scope :similar_games, ->(move_notation) { where('notation LIKE ?', "#{move_notation}%") }
 
   scope :find_open_games, (lambda do |user_id|
     where.not(white_player: user_id)
@@ -118,11 +117,13 @@ class Game < ApplicationRecord
     moves.each do |move|
 
       setup = move.setup
-      setup.outcomes.create(value: outome)
+      setup.outcomes << outcome
 
       setup.signatures.each do |signature|
         signature.update(rank: signature.rank + outcome)
       end
+
+      setup.save
     end
   end
 end
