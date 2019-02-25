@@ -40,20 +40,14 @@ module AiLogic
 
   def matching_setup?(possible_moves, game_turn)
     possible_moves.any? do |possible_move|
-      setup_rank = possible_move.setup.rank
-      if setup_rank != 0
+      if possible_move.setup.outcomes.present?
+        average_win_amount = possible_move.setup.average_outcome
         if game_turn == 'black'
-          setup_rank / possible_move.setup.outcomes.count < 0.2
+          average_win_amount < 0.2
         else
-          setup_rank / possible_move.setup.outcomes.count > -0.2
+          average_win_amount > -0.2
         end
       end
-    end
-
-    if game_turn == 'black'
-      possible_moves.any? { |possible_move| possible_move.setup.rank < 0 }
-    else
-      possible_moves.any? { |possible_move| possible_move.setup.rank > 0 }
     end
   end
 

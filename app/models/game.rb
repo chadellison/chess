@@ -115,15 +115,12 @@ class Game < ApplicationRecord
 
   def propogate_results
     moves.each do |move|
-
       setup = move.setup
-      setup.outcomes << outcome
+      setup.update_outcomes(outcome)
 
       setup.signatures.each do |signature|
         signature.update(rank: signature.rank + outcome)
       end
-
-      setup.save
     end
   end
 end
