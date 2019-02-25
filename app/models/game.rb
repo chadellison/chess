@@ -58,8 +58,11 @@ class Game < ApplicationRecord
     reload_pieces
   end
 
-  def handle_move(position_index, new_position, upgraded_type = '')
-    update_notation(position_index, new_position, upgraded_type)
+  def handle_move(move_value, upgraded_type = '')
+    position_index = move_value.to_i
+    new_position = move_value[-2..-1]
+
+    update_notation(move_value.to_i, new_position, upgraded_type)
     piece = find_piece_by_index(position_index)
     update_game(piece, new_position, upgraded_type)
     handle_human_game if game_type.include?('human')
@@ -113,8 +116,9 @@ class Game < ApplicationRecord
 
   def propogate_results
     moves.each do |move|
+
       setup = move.setup
-      setup.update(rank: setup.rank + outcome)
+      setup.outcomes.create(value: outome)
 
       setup.signatures.each do |signature|
         signature.update(rank: signature.rank + outcome)
