@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_07_120301) do
+ActiveRecord::Schema.define(version: 2019_02_25_152035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,14 @@ ActiveRecord::Schema.define(version: 2019_02_07_120301) do
     t.index ["value"], name: "index_moves_on_value"
   end
 
+  create_table "outcomes", force: :cascade do |t|
+    t.integer "setup_id"
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["setup_id"], name: "index_outcomes_on_setup_id"
+  end
+
   create_table "setup_signatures", force: :cascade do |t|
     t.integer "setup_id"
     t.integer "signature_id"
@@ -74,7 +82,6 @@ ActiveRecord::Schema.define(version: 2019_02_07_120301) do
 
   create_table "setups", force: :cascade do |t|
     t.text "position_signature"
-    t.integer "rank", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["position_signature"], name: "index_setups_on_position_signature"
