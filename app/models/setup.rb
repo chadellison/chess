@@ -5,7 +5,6 @@ class Setup < ApplicationRecord
   has_many :signatures, through: :setup_signatures
 
   SIGNATURES = {
-    material: MaterialLogic,
     threat: ThreatLogic,
     attack: AttackLogic,
     activity: ActivityLogic

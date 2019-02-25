@@ -63,7 +63,10 @@ module AiLogic
     possible_moves.shuffle.each do |possible_move|
       setup = possible_move.setup
 
+      # MaterialLogic.material_value(setup.position_signature, game_turn[0])
+
       total_weight = setup.signatures.reduce(0) do |weight, signature|
+        puts "^^^^^^^^^^^^^^^^^^^^^^#{game_turn}^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         puts "$$$$$$$$$$$$$$$$#{signature.signature_type}$$$$$$$$$$$$$$$$$$$$$$$"
         puts "$$$$$$$$$$$$$$$$#{signature.value}$$$$$$$$$$$$$$$$$$$$$$$"
         puts "******************* #{possible_move.value} #{signature.rank.to_s}*****************"
@@ -76,9 +79,7 @@ module AiLogic
   end
 
   def find_best_move(weighted_moves)
-    best_move = weighted_moves.max_by do |move_value, weight|
-      weight
-    end.first
+    best_move = weighted_moves.max_by { |move_value, weight| weight }.first
 
     handle_move(position_index_from_move(best_move), best_move[-2..-1], promote_pawn(best_move))
   end
