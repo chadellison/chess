@@ -1,10 +1,10 @@
 desc 'Train AI'
 task analyze_training_data: :environment do
-  do_the_thing
+  analyze_game
   puts '---------------THE END---------------'
 end
 
-def do_the_thing
+def analyze_game
   game = Game.find_by(analyzed: false)
   if game.present?
     game.update(analyzed: true)
@@ -16,6 +16,6 @@ def do_the_thing
       puts 'Setup ' + game.moves.last.setup.position_signature
     end
     game.propogate_results
-    do_the_thing
+    analyze_game
   end
 end
