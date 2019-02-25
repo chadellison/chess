@@ -1,5 +1,5 @@
 class Setup < ApplicationRecord
-  serialize :outcomes, Array
+  serialize :outcomes, Hash
   validates_uniqueness_of :position_signature
 
   has_many :setup_signatures
@@ -32,6 +32,21 @@ class Setup < ApplicationRecord
   end
 
   def rank
-    outcomes.reduce(0) { |sum, total| sum + total }
+    outcomes[:white_wins].to_i - outcomes[:black_wins].to_i
+  end
+
+  def average_outcome
+    rank / (outcomes[:white_wins].to_f + outcomes[:black_wins].to_f + outcomes[:draws].to_f)
+  end
+
+  def update_outcomes(outcome)
+    key = { 1 => :white_wins, -1 => :black_wins, 0 => :draws }[outcome]
+
+    if outcomes[key].present?
+      outcomes[key] += 1
+    else
+      outcomes[key] = 1
+    end
+    save
   end
 end

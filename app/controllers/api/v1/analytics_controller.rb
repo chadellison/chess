@@ -3,9 +3,7 @@ module Api
     class AnalyticsController < ApplicationController
       def index
         setup = setup = Setup.find_by(position_signature: params[:setup])
-        analytics = Analytics.new(setup)
-        analytics.find_outcomes
-        render json: AnalyticsSerializer.serialize(analytics)
+        render json: AnalyticsSerializer.serialize(setup)
       end
     end
 
