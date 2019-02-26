@@ -6,9 +6,9 @@ class Setup < ApplicationRecord
   has_many :signatures, through: :setup_signatures
 
   SIGNATURES = {
-    threat: ThreatLogic,
-    attack: AttackLogic,
-    activity: ActivityLogic
+    # threat: ThreatLogic,
+    # activity: ActivityLogic,
+    attack: AttackLogic
   }
 
   def add_signatures(new_pieces, game_turn_code)
