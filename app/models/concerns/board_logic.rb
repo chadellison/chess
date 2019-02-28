@@ -44,9 +44,16 @@ module BoardLogic
     update(notation: (notation.to_s + new_notation.to_s))
   end
 
-  def update_game(piece, new_position, upgraded_type = '')
-    updated_piece = update_piece(piece, new_position, upgraded_type)
-    update_board(piece, updated_piece)
+  def update_game(position_index, new_position, upgraded_type = '')
+    move_key = notation.split('.')[0..(moves.count)].join('.')
+
+    if in_cache?(move_key)
+      update_game_from_cache(move_key)
+    else
+      piece = find_piece_by_index(position_index)
+      updated_piece = update_piece(piece, new_position, upgraded_type)
+      update_board(piece, updated_piece)
+    end
   end
 
   def update_piece(piece, new_position, upgraded_type)
@@ -62,7 +69,10 @@ module BoardLogic
     new_pieces = pieces_with_next_move(pieces, updated_piece.position_index.to_s + updated_piece.position)
     update_pieces(new_pieces)
     game_move = new_move(updated_piece)
+
     game_move.setup = create_setup(new_pieces)
+    cache_move(notation.split('.')[0..(moves.count)].join('.'), game_move)
+    moves << game_move
     game_move.save
   end
 
@@ -76,7 +86,7 @@ module BoardLogic
 
   def new_move(piece)
     promoted_pawn = promoted_pawn?(piece) ? piece.piece_type : nil
-    moves.new(
+    Move.new(
       value: (piece.position_index.to_s + piece.position),
       move_count: (moves.count + 1),
       promoted_pawn: promoted_pawn

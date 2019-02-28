@@ -8,6 +8,7 @@ class Game < ApplicationRecord
   include BoardLogic
   include AiLogic
   include PieceHelper
+  include CacheLogic
 
   scope :winning_games, ->(win) { where(outcome: win) }
   scope :user_games, ->(user_id) { where(white_player: user_id).or(where(black_player: user_id))}
@@ -45,8 +46,7 @@ class Game < ApplicationRecord
 
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
-    piece = find_piece_by_index(position_index)
-    update_game(piece, new_position, upgraded_type)
+    update_game(position_index, new_position, upgraded_type)
     handle_human_game if game_type.include?('human')
     return handle_outcome if game_over?(pieces, current_turn)
     ai_move if ai_turn?
@@ -60,10 +60,8 @@ class Game < ApplicationRecord
   def handle_move(move_value, upgraded_type = '')
     position_index = move_value.to_i
     new_position = move_value[-2..-1]
-
     update_notation(move_value.to_i, new_position, upgraded_type)
-    piece = find_piece_by_index(position_index)
-    update_game(piece, new_position, upgraded_type)
+    update_game(position_index, new_position, upgraded_type)
     handle_human_game if game_type.include?('human')
     return handle_outcome if game_over?(pieces, current_turn)
   end
@@ -117,7 +115,6 @@ class Game < ApplicationRecord
     moves.each do |move|
       setup = move.setup
       setup.update_outcomes(outcome)
-
       setup.signatures.each do |signature|
         signature.update(rank: signature.rank + outcome)
       end
