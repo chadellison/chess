@@ -15,6 +15,7 @@ def analyze_game
       game.reload_pieces
       puts 'Setup ' + game.moves.last.setup.position_signature
     end
+    
     game.propogate_results
     analyze_game
   end
