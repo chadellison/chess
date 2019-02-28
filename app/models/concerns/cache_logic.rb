@@ -1,17 +1,21 @@
 module CacheLogic
   extend ActiveSupport::Concern
 
-  def in_cache?(notation)
-    REDIS.get(notation).present?
+  def in_cache?(key)
+    REDIS.get(key).present?
+  end
+
+  def get_next_moves_from_cache(setup_id)
+    JSON.parse(REDIS.get(setup_id)).map { |move| Move.new(move) }
   end
 
   def get_move(notation)
     Move.new(JSON.parse(REDIS.get(notation)))
   end
 
-  def cache_move(move_key, game_move)
-    REDIS.set(move_key, game_move.to_json)
-    REDIS.expire(move_key, 5.hour.to_i)
+  def add_to_cache(key, value)
+    REDIS.set(key, value.to_json)
+    REDIS.expire(key, 5.hour.to_i)
   end
 
   def update_game_from_cache(notation)

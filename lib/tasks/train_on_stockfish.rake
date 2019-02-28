@@ -1,7 +1,7 @@
 desc 'Train on stockfish'
 task train_on_stockfish: :environment do
   ENV['COUNT'].to_i.times do |game_number|
-    game = Game.create
+    game = Game.create(analyzed: true)
     stockfish_integration = StockfishIntegration.new(game)
 
     start_time = Time.now
