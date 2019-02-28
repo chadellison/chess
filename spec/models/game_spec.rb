@@ -13,6 +13,7 @@ RSpec.describe Game, type: :model do
   describe 'move' do
     before do
       allow_any_instance_of(Game).to receive(:ai_turn?).and_return(false)
+      allow_any_instance_of(Game).to receive(:in_cache?).and_return(false)
     end
 
     it 'updates the moved piece\'s position' do
@@ -26,7 +27,7 @@ RSpec.describe Game, type: :model do
     it 'calls create_notation' do
       expect_any_instance_of(Game).to receive(:update_notation)
         .with(9, 'a3', '')
-      game = Game.create
+      game = Game.create(notation: 'abc')
       game.move(9, 'a3')
     end
 

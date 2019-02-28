@@ -73,9 +73,15 @@ module PieceHelper
     position_index_from_move(last_move.value).to_i
   end
 
+  def last_move
+    ordered_moves.last
+  end
+
+  def ordered_moves
+    moves.order(:move_count)
+  end
+
   def pawn_moved_two?
-    ordered_moves = moves.order(:move_count)
-    last_move = ordered_moves.last
     last_moved_piece_type = piece_type_from_position_index(last_move_index(last_move))
     return false unless last_moved_piece_type == 'pawn'
 

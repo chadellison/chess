@@ -71,7 +71,7 @@ module BoardLogic
     game_move = new_move(updated_piece)
 
     game_move.setup = create_setup(new_pieces)
-    cache_move(notation.split('.')[0..(moves.count)].join('.'), game_move)
+    add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
     moves << game_move
     game_move.save
   end

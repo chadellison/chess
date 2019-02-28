@@ -36,7 +36,7 @@ RSpec.describe BoardLogic, type: :module do
 
   describe 'update_game' do
     it 'calls update_piece and update_board' do
-      game = Game.create
+      game = Game.create(notation: 'abc')
       piece = game.find_piece_by_index(9)
 
       expect_any_instance_of(Game).to receive(:update_piece)
@@ -49,7 +49,7 @@ RSpec.describe BoardLogic, type: :module do
 
   describe 'update_piece' do
     it 'returns a piece with the updated attributes' do
-      game = Game.create
+      game = Game.create(notation: 'abc')
 
       piece = game.find_piece_by_position('d2')
 
@@ -61,8 +61,12 @@ RSpec.describe BoardLogic, type: :module do
   end
 
   describe 'update_board' do
+    let(:game) { game = Game.create(notation: 'abc') }
+    before do
+      game.moves.create(value: 'value')
+    end
+
     it 'creates a move position_signature of the current board positions' do
-      game = Game.create
       piece = game.find_piece_by_index(1)
       updated_piece = Piece.new(position_index: 1, position: 'a6', piece_type: 'rook', color: 'black', game_id: game.id)
       game.update_board(piece, updated_piece)
@@ -74,7 +78,6 @@ RSpec.describe BoardLogic, type: :module do
     end
 
     it 'creates a setup if it does not already exist' do
-      game = Game.create
       piece = game.pieces.first
       updated_piece = piece
       updated_piece.position = 'd6'
@@ -83,7 +86,6 @@ RSpec.describe BoardLogic, type: :module do
     end
 
     it 'creates a move' do
-      game = Game.create
       piece = game.pieces.first
       updated_piece = piece
       updated_piece.position = 'd5'

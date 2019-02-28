@@ -15,9 +15,16 @@ module AiLogic
   end
 
   def find_next_moves(game_turn)
-    pieces.select { |piece| piece.color == game_turn }.map do |piece|
-      all_next_moves_for_piece(piece)
-    end.flatten
+    setup_key = last_move.present? ? last_move.setup_id : 'initial_setup'
+    if in_cache?(setup_key)
+      get_next_moves_from_cache(setup_key)
+    else
+      next_moves = pieces.select { |piece| piece.color == game_turn }.map do |piece|
+        all_next_moves_for_piece(piece)
+      end.flatten
+      add_to_cache(setup_key, next_moves)
+      next_moves
+    end
   end
 
   def all_next_moves_for_piece(piece)
@@ -68,6 +75,7 @@ module AiLogic
 
     possible_moves.shuffle.each do |possible_move|
       setup = possible_move.setup
+      binding.pry if possible_move.material_value.blank?
       total_weight = setup.signatures.reduce(possible_move.material_value) do |weight, signature|
         log_move_data(game_turn, signature, possible_move)
         weight + signature.rank

@@ -7,7 +7,11 @@ module NotationLogic
 
   def update_game_from_notation(move_notation, turn)
     piece = find_piece(move_notation, turn)
-    update_game(piece.position_index, find_move_position(move_notation), upgrade_value(move_notation))
+    begin
+      update_game(piece.position_index, find_move_position(move_notation), upgrade_value(move_notation))
+    rescue
+      log_error(move_notation, turn)
+    end
   end
 
   def find_move_position(move_notation)
@@ -36,13 +40,11 @@ module NotationLogic
     game_pieces = matching_pieces(piece_type, turn, move_notation[-2..-1])
 
     if game_pieces.count == 1
-      piece = game_pieces.first
+      game_pieces.first
     else
       notation_without_type = piece_type == 'pawn' ? move_notation : move_notation[1..-1]
-      piece = piece_from_start(game_pieces, notation_without_type.sub('x', '')[0])
+      piece_from_start(game_pieces, notation_without_type.sub('x', '')[0])
     end
-    log_error(move_notation, turn) if piece.blank?
-    piece
   end
 
   def log_error(move_notation, turn)
