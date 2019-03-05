@@ -2,6 +2,8 @@ desc 'Train on stockfish'
 task train_on_stockfish: :environment do
   ENV['COUNT'].to_i.times do |game_number|
     game = Game.create(analyzed: true)
+    openings = ['20d4', '21e4', '31f3', '19c4', '23g4']
+    game.handle_move(openings.sample)
     stockfish_integration = StockfishIntegration.new(game)
 
     start_time = Time.now
@@ -16,7 +18,7 @@ task train_on_stockfish: :environment do
         position_index = game.find_piece_by_position(stockfish_move[0..1]).position_index
         upgraded_type = stockfish_integration.find_upgraded_type(stockfish_move[4])
 
-        game.handle_move(position_index, stockfish_move[2..3], upgraded_type)
+        game.handle_move(position_index.to_s + stockfish_move[2..3], upgraded_type)
       else
         game.ai_move
       end

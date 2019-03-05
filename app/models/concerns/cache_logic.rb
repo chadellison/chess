@@ -15,7 +15,7 @@ module CacheLogic
 
   def add_to_cache(key, value)
     REDIS.set(key, value.to_json)
-    REDIS.expire(key, 5.hour.to_i)
+    REDIS.expire(key, 1.day.to_i)
   end
 
   def update_game_from_cache(notation)
