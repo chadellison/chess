@@ -1,13 +1,25 @@
 module Api
   module V1
     class AnalyticsController < ApplicationController
-      def index
-        render json: Analytics.fetch_analytics(params[:signature], params[:type])
-      end
-    end
+      before_action :find_analytics
 
-    def login_params
-      params.permit(:signature, :type)
+      def index
+        render json: @analytics.win_ratio
+      end
+
+      def create
+        render json: @analytics.next_move_analytics(login_params[:moves])
+      end
+
+      private
+
+      def find_analytics
+        @analytics = Analytics.new(Setup.find_by(position_signature: login_params[:signature]))
+      end
+
+      def login_params
+        params.permit(:signature, moves: [])
+      end
     end
   end
 end
