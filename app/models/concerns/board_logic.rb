@@ -4,7 +4,7 @@ module BoardLogic
   def pieces_with_next_move(game_pieces, move)
     castle = false
     en_passant = false
-    piece_index = position_index_from_move(move)
+    piece_index = move.to_i
     updated_pieces = game_pieces.reject { |piece| piece.position == move[-2..-1] }
       .map do |piece|
         game_piece = Piece.new(
@@ -34,7 +34,7 @@ module BoardLogic
   end
 
   def should_promote_pawn?(move_value)
-    (9..24).include?(position_index_from_move(move_value)) &&
+    (9..24).include?(move_value.to_i) &&
       (move_value[-1] == '8' || move_value[-1] == '1')
   end
 

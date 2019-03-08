@@ -108,12 +108,8 @@ module AiLogic
     end
   end
 
-  def position_index_from_move(move_value)
-    move_value.length == 3 ? move_value[0].to_i : move_value[0..1].to_i
-  end
-
   def crossed_pawn?(move_value)
-    (9..24).include?(position_index_from_move(move_value)) &&
+    (9..24).include?(move_value.to_i) &&
       (move_value[-1] == '1' || move_value[-1] == '8')
   end
 

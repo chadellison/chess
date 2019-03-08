@@ -40,7 +40,7 @@ module FenNotationLogic
 
   def fen_code_pawn_moved_two
     last_move = moves.order(:move_count).last
-    position_index = position_index_from_move(last_move.value)
+    position_index = last_move.value.to_i
     piece = find_piece_by_index(position_index)
 
     if pawn_moved_two?
