@@ -2,13 +2,12 @@ module Api
   module V1
     class AnalyticsController < ApplicationController
       def index
-        setup = setup = Setup.find_by(position_signature: params[:setup])
-        render json: AnalyticsSerializer.serialize(setup)
+        render json: Analytics.fetch_analytics(params[:signature], params[:type])
       end
     end
 
     def login_params
-      params.permit(:setup)
+      params.permit(:signature, :type)
     end
   end
 end
