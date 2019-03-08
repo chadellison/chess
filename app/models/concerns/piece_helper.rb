@@ -24,12 +24,7 @@ module PieceHelper
     move_indices = moves.map { |move| position_index_from_move(move.value) }
     pawn_moved_two = pawn_moved_two?
 
-    @pieces = pieces_from_signature(last_move.setup.position_signature)
-    end
-  end
-
-  def pieces_from_signature(signature)
-    signature[0..-2].split('.').map do |piece_value|
+    @pieces = last_move.setup.position_signature[0..-2].split('.').map do |piece_value|
       position_index = position_index_from_move(piece_value)
       Piece.new({
         game_id: id,
@@ -40,6 +35,7 @@ module PieceHelper
         has_moved: move_indices.include?(position_index),
         moved_two: pawn_moved_two
       })
+    end
   end
 
   def update_pieces(pieces)
