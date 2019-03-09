@@ -31,7 +31,7 @@ module AiLogic
     piece.valid_moves(pieces).map do |move|
       move_value = piece.position_index.to_s + move
 
-      game_move = Move.new(value: move_value, move_count: (moves.count + 1))
+      game_move = Move.new(value: move_value, move_count: (moves.size + 1))
       game_pieces = Game.pieces_with_next_move(pieces, move_value)
 
       game_move.setup = create_setup(game_pieces)
