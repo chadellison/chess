@@ -32,6 +32,7 @@ class Setup < ApplicationRecord
   end
 
   def average_outcome
+    return 0 if rank == 0
     rank / (outcomes[:white_wins].to_f + outcomes[:black_wins].to_f + outcomes[:draws].to_f)
   end
 
