@@ -228,7 +228,7 @@ module MoveLogic
   def can_castle?(next_move, game_pieces)
     through_column = next_move[0] == 'c' ? 'd' : 'f'
     through_value = position_index.to_s + through_column + next_move[1]
-    through_check_moves = game.pieces_with_next_move(game.pieces, through_value)
+    through_castle = game.pieces_with_next_move(game_pieces, through_value)
 
     column = next_move[0] == 'c' ? 'a' : 'h'
     rook = game_pieces.detect { |piece| piece.position == (column + next_move[1]) }
@@ -237,8 +237,8 @@ module MoveLogic
       rook.present? && rook.has_moved.blank?,
       has_moved.blank?,
       knight_is_gone?(next_move, game_pieces),
-      king_is_safe?(color, game.pieces),
-      king_is_safe?(color, through_check_moves)
+      king_is_safe?(color, game_pieces),
+      king_is_safe?(color, through_castle)
     ].all?
   end
 
