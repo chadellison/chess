@@ -1,43 +1,6 @@
 module BoardLogic
   extend ActiveSupport::Concern
 
-  def pieces_with_next_move(game_pieces, move)
-    castle = false
-    en_passant = false
-    piece_index = move.to_i
-    updated_pieces = game_pieces.reject { |piece| piece.position == move[-2..-1] }
-      .map do |piece|
-        game_piece = Piece.new(
-          color: piece.color,
-          piece_type: piece.piece_type,
-          position_index: piece.position_index,
-          game_id: piece.game_id,
-          position: piece.position,
-          has_moved: piece.has_moved
-        )
-
-        if piece.position_index == piece_index
-          game_piece.moved_two = game_piece.piece_type == 'pawn' && game_piece.forward_two?(move[-2..-1])
-          castle = game_piece.king_moved_two?(move[-2..-1])
-          en_passant = en_passant?(piece, move[-2..-1])
-          game_piece.piece_type = 'queen' if should_promote_pawn?(move)
-          game_piece.position = move[-2..-1]
-          game_piece.has_moved = true
-        end
-
-        game_piece
-      end
-
-    updated_pieces = update_rook(move, updated_pieces) if castle
-    updated_pieces = handle_en_passant(move, updated_pieces) if en_passant
-    updated_pieces
-  end
-
-  def should_promote_pawn?(move_value)
-    (9..24).include?(move_value.to_i) &&
-      (move_value[-1] == '8' || move_value[-1] == '1')
-  end
-
   def update_notation(position_index, new_position, upgraded_type)
     new_notation = create_notation(position_index, new_position, upgraded_type)
 
@@ -66,7 +29,7 @@ module BoardLogic
   end
 
   def update_board(piece, updated_piece)
-    new_pieces = pieces_with_next_move(pieces, updated_piece.position_index.to_s + updated_piece.position)
+    new_pieces = Game.pieces_with_next_move(pieces, updated_piece.position_index.to_s + updated_piece.position)
     update_pieces(new_pieces)
     game_move = new_move(updated_piece)
 
@@ -101,42 +64,6 @@ module BoardLogic
     game_pieces.sort_by(&:position_index).map do |piece|
       piece.position_index.to_s + piece.position
     end.join('.') + game_turn_code
-  end
-
-  def update_rook(king_move, game_pieces)
-    new_rook_column = king_move[-2] == 'g' ? 'f' : 'd'
-    new_rook_row = king_move[-1] == '1' ? '1' : '8'
-
-    new_rook_position = new_rook_column + new_rook_row
-
-    rook_index = case new_rook_position
-    when 'd8' then 1
-    when 'f8' then 8
-    when 'd1' then 25
-    when 'f1' then 32
-    end
-
-    game_pieces.map do |game_piece|
-      if game_piece.position_index == rook_index
-        game_piece.position = new_rook_position
-      end
-      game_piece
-    end
-  end
-
-  def handle_en_passant(pawn_move_value, updated_pieces)
-    captured_row = pawn_move_value[-1] == '6' ? '5' : '3'
-    updated_pieces.reject do |game_piece|
-      game_piece.position == pawn_move_value[-2] + captured_row
-    end
-  end
-
-  def en_passant?(piece, position)
-    [
-      piece.piece_type == 'pawn',
-      piece.position[0] != position[0],
-      pieces.detect { |piece| piece.position == position }.blank?
-    ].all?
   end
 
   def checkmate?(game_pieces, turn)

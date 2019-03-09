@@ -32,7 +32,7 @@ module AiLogic
       move_value = piece.position_index.to_s + move
 
       game_move = Move.new(value: move_value, move_count: (moves.count + 1))
-      game_pieces = pieces_with_next_move(pieces, move_value)
+      game_pieces = Game.pieces_with_next_move(pieces, move_value)
 
       game_move.setup = create_setup(game_pieces)
       game_move.material_value = MaterialLogic.calculate_value(game_pieces, opponent_color[0])
@@ -103,7 +103,7 @@ module AiLogic
 
   def find_checkmate(possible_moves)
     possible_moves.detect do |next_move|
-      game_pieces = pieces_with_next_move(pieces, next_move.value)
+      game_pieces = Game.pieces_with_next_move(pieces, next_move.value)
       checkmate?(game_pieces, opponent_color)
     end
   end
