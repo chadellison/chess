@@ -14,7 +14,9 @@ module Api
       private
 
       def find_analytics
-        @analytics = Analytics.new(Setup.find_by(position_signature: login_params[:signature]))
+        @analytics = Analytics.new(
+          Setup.find_or_create_by(position_signature: login_params[:signature])
+        )
       end
 
       def login_params
