@@ -228,7 +228,7 @@ module MoveLogic
   def can_castle?(next_move, game_pieces)
     through_column = next_move[0] == 'c' ? 'd' : 'f'
     through_value = position_index.to_s + through_column + next_move[1]
-    through_castle = game.pieces_with_next_move(game_pieces, through_value)
+    through_castle = Game.pieces_with_next_move(game_pieces, through_value)
 
     column = next_move[0] == 'c' ? 'a' : 'h'
     rook = game_pieces.detect { |piece| piece.position == (column + next_move[1]) }

@@ -18,7 +18,7 @@ class Piece
         piece != target_piece,
         piece.valid_move_path?(square, game_pieces.map(&:position)),
         piece.valid_for_piece?(square, game_pieces),
-        piece.king_is_safe?(piece.color, piece.game.pieces_with_next_move(game_pieces, piece.position_index.to_s + square))
+        piece.king_is_safe?(piece.color, Game.pieces_with_next_move(game_pieces, piece.position_index.to_s + square))
       ].all?
     end
   end
@@ -65,7 +65,7 @@ class Piece
       valid_move_path?(move, game_pieces.map(&:position)),
       valid_destination?(move, game_pieces),
       valid_for_piece?(move, game_pieces),
-      king_is_safe?(color, game.pieces_with_next_move(game_pieces, position_index.to_s + move))
+      king_is_safe?(color, Game.pieces_with_next_move(game_pieces, position_index.to_s + move))
     ].all?
   end
 
