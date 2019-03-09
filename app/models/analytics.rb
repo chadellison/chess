@@ -17,20 +17,19 @@ class Analytics
   end
 
   def next_move_analytics(moves)
-    win_ratio
-    # game = Game.new
-    # move_count = 0
-    # game.moves = moves.map do |move_value|
-    #   move_count += 1
-    #   Move.new(value: move_value, move_count: move_count)
-    # end
-    #
-    # if game.moves.blank?
-    #   game.pieces
-    # else
-    #   game.last_move.setup = setup
-    # end
-    # turn = game.moves.size.even? ? 'white' : 'black'
-    # game.find_next_moves(turn)
+    game = Game.new
+    game.moves = moves.map { |attributes| Move.new(attributes) }
+
+    if game.moves.blank?
+      game.pieces
+    else
+      game.last_move.setup = setup
+    end
+
+    turn = game.moves.size.even? ? 'white' : 'black'
+    attributes = game.find_next_moves(turn).map do |move|
+      { move.value => move.setup.average_outcome }
+    end
+    AnalyticsSerializer.serialize(attributes)
   end
 end
