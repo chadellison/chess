@@ -18,7 +18,7 @@ module Api
       end
 
       def login_params
-        params.permit(:signature, moves: [])
+        params.permit(:signature, moves: [:value, :move_count])
       end
     end
   end
