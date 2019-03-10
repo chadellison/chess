@@ -7,6 +7,20 @@ class Setup < ApplicationRecord
 
   SIGNATURES = { attack: AttackLogic }
 
+  def self.create_setup(new_pieces, opponent_color_code)
+    game_signature = Setup.create_signature(new_pieces, opponent_color_code)
+    setup = Setup.find_or_create_by(position_signature: game_signature)
+    new_pieces.each { |piece| piece.valid_moves(new_pieces) }
+    setup.add_signatures(new_pieces, opponent_color_code)
+    setup
+  end
+
+  def self.create_signature(game_pieces, game_turn_code)
+    game_pieces.sort_by(&:position_index).map do |piece|
+      piece.position_index.to_s + piece.position
+    end.join('.') + game_turn_code
+  end
+
   def add_signatures(new_pieces, game_turn_code)
     SIGNATURES.each do |signature_type, signature_class|
       if signatures.find_by(signature_type: signature_type.to_s).blank?

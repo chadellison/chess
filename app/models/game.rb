@@ -6,7 +6,6 @@ class Game < ApplicationRecord
   include NotationLogic
   include FenNotationLogic
   include BoardLogic
-  include AiLogic
   include PieceHelper
   include CacheLogic
 
@@ -32,7 +31,7 @@ class Game < ApplicationRecord
         game.status = 'awaiting player'
       end
       game.save
-      game.ai_move if game.ai_turn?
+      ai_logic.ai_move(current_turn) if game.ai_turn?
       game
     end
 
@@ -119,12 +118,16 @@ class Game < ApplicationRecord
     end
   end
 
+  def ai_logic
+    @ai_logic ||= AiLogic.new(self)
+  end
+
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
     update_game(position_index, new_position, upgraded_type)
     handle_human_game if game_type.include?('human')
     return handle_outcome if game_over?(pieces, current_turn)
-    ai_move if ai_turn?
+    ai_logic.ai_move(current_turn) if ai_turn?
   end
 
   def handle_human_game
@@ -179,7 +182,7 @@ class Game < ApplicationRecord
 
   def machine_vs_machine
     until outcome.present? do
-      ai_move
+      ai_logic.ai_move(current_turn)
       update(outcome: 0) if moves.count > 400
       puts moves.order(:move_count).last.value
       puts '******************'
