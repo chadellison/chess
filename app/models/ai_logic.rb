@@ -1,8 +1,13 @@
-module AiLogic
-  extend ActiveSupport::Concern
+class AiLogic
+  include CacheLogic
 
-  def ai_move
-    game_turn = current_turn
+  attr_reader :game
+
+  def initialize(game)
+    @game = game
+  end
+
+  def ai_move(game_turn)
     possible_moves = find_next_moves(game_turn)
 
     if find_checkmate(possible_moves).present?
@@ -15,11 +20,11 @@ module AiLogic
   end
 
   def find_next_moves(game_turn)
-    setup_key = last_move.present? ? last_move.setup_id : 'initial_setup'
+    setup_key = game.last_move.present? ? game.last_move.setup_id : 'initial_setup'
     if in_cache?(setup_key)
       get_next_moves_from_cache(setup_key)
     else
-      next_moves = pieces.select { |piece| piece.color == game_turn }.map do |piece|
+      next_moves = game.pieces.select { |piece| piece.color == game_turn }.map do |piece|
         all_next_moves_for_piece(piece)
       end.flatten
       add_to_cache(setup_key, next_moves)
@@ -28,21 +33,22 @@ module AiLogic
   end
 
   def all_next_moves_for_piece(piece)
-    piece.valid_moves(pieces).map do |move|
+    opponent_color_code = game.opponent_color[0]
+    move_count = game.moves.size + 1
+
+    piece.valid_moves(game.pieces).map do |move|
       move_value = piece.position_index.to_s + move
-
-      game_move = Move.new(value: move_value, move_count: (moves.size + 1))
-      game_pieces = Game.pieces_with_next_move(pieces, move_value)
-
-      game_move.setup = create_setup(game_pieces)
-      game_move.material_value = MaterialLogic.calculate_value(game_pieces, opponent_color[0])
+      game_move = Move.new(value: move_value, move_count: move_count)
+      game_pieces = Game.pieces_with_next_move(game.pieces, move_value)
+      game_move.setup = Setup.create_setup(game_pieces, opponent_color_code)
+      game_move.material_value = MaterialLogic.calculate_value(game_pieces, opponent_color_code)
       game_move
     end
   end
 
   def checkmate_opponent(possible_moves)
     best_move = find_checkmate(possible_moves)
-    handle_move(best_move.value, promote_pawn(best_move.value))
+    game.handle_move(best_move.value, promote_pawn(best_move.value))
   end
 
   def matching_setup?(possible_moves, game_turn)
@@ -67,7 +73,7 @@ module AiLogic
       end
     end
 
-    handle_move(best_move.value, promote_pawn(best_move.value))
+    game.handle_move(best_move.value, promote_pawn(best_move.value))
   end
 
   def move_analysis(possible_moves, game_turn)
@@ -98,13 +104,13 @@ module AiLogic
   def find_best_move(weighted_moves)
     best_move_value = weighted_moves.max_by { |move_value, weight| weight }.first
 
-    handle_move(best_move_value, promote_pawn(best_move_value))
+    game.handle_move(best_move_value, promote_pawn(best_move_value))
   end
 
   def find_checkmate(possible_moves)
     possible_moves.detect do |next_move|
-      game_pieces = Game.pieces_with_next_move(pieces, next_move.value)
-      checkmate?(game_pieces, opponent_color)
+      game_pieces = Game.pieces_with_next_move(game.pieces, next_move.value)
+      game.checkmate?(game_pieces, game.opponent_color)
     end
   end
 
@@ -115,13 +121,5 @@ module AiLogic
 
   def promote_pawn(move_value)
     crossed_pawn?(move_value) ? 'queen' : ''
-  end
-
-  def win_value
-    current_turn == 'white' ? 1 : -1
-  end
-
-  def loss_value
-    win_value == 1 ? -1 : 1
   end
 end

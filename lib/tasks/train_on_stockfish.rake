@@ -7,6 +7,7 @@ task train_on_stockfish: :environment do
     stockfish_integration = StockfishIntegration.new(game)
 
     start_time = Time.now
+    ai_logic = AiLogic.new(game)
 
     until game.outcome.present? do
       turn = game.current_turn
@@ -20,7 +21,7 @@ task train_on_stockfish: :environment do
 
         game.handle_move(position_index.to_s + stockfish_move[2..3], upgraded_type)
       else
-        game.ai_move
+        ai_logic.ai_move(turn)
       end
     end
 

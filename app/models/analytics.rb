@@ -27,7 +27,8 @@ class Analytics
     end
 
     turn = game.moves.size.even? ? 'white' : 'black'
-    attributes = game.find_next_moves(turn).map do |move|
+    ai = AiLogic.new(game)
+    attributes = ai.find_next_moves(turn).map do |move|
       { move: move.value, weight: move.setup.average_outcome }
     end
     AnalyticsSerializer.serialize(attributes)

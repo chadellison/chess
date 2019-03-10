@@ -33,19 +33,19 @@ module BoardLogic
     update_pieces(new_pieces)
     game_move = new_move(updated_piece)
 
-    game_move.setup = create_setup(new_pieces)
+    game_move.setup = Setup.create_setup(new_pieces, opponent_color[0])
     add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
     moves << game_move
     game_move.save
   end
 
-  def create_setup(new_pieces)
-    game_signature = create_signature(new_pieces, opponent_color[0])
-    setup = Setup.find_or_create_by(position_signature: game_signature)
-    new_pieces.each { |piece| piece.valid_moves(new_pieces) }
-    setup.add_signatures(new_pieces, opponent_color[0])
-    setup
-  end
+  # def create_setup(new_pieces)
+  #   game_signature = Setup.create_signature(new_pieces, opponent_color[0])
+  #   setup = Setup.find_or_create_by(position_signature: game_signature)
+  #   new_pieces.each { |piece| piece.valid_moves(new_pieces) }
+  #   setup.add_signatures(new_pieces, opponent_color[0])
+  #   setup
+  # end
 
   def new_move(piece)
     promoted_pawn = promoted_pawn?(piece) ? piece.piece_type : nil
@@ -60,11 +60,11 @@ module BoardLogic
     (9..24).include?(piece.position_index) && piece.piece_type != 'pawn'
   end
 
-  def create_signature(game_pieces, game_turn_code)
-    game_pieces.sort_by(&:position_index).map do |piece|
-      piece.position_index.to_s + piece.position
-    end.join('.') + game_turn_code
-  end
+  # def create_signature(game_pieces, game_turn_code)
+  #   game_pieces.sort_by(&:position_index).map do |piece|
+  #     piece.position_index.to_s + piece.position
+  #   end.join('.') + game_turn_code
+  # end
 
   def checkmate?(game_pieces, turn)
     no_valid_moves?(game_pieces, turn) &&
