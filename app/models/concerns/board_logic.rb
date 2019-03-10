@@ -39,14 +39,6 @@ module BoardLogic
     game_move.save
   end
 
-  # def create_setup(new_pieces)
-  #   game_signature = Setup.create_signature(new_pieces, opponent_color[0])
-  #   setup = Setup.find_or_create_by(position_signature: game_signature)
-  #   new_pieces.each { |piece| piece.valid_moves(new_pieces) }
-  #   setup.add_signatures(new_pieces, opponent_color[0])
-  #   setup
-  # end
-
   def new_move(piece)
     promoted_pawn = promoted_pawn?(piece) ? piece.piece_type : nil
     Move.new(
@@ -59,12 +51,6 @@ module BoardLogic
   def promoted_pawn?(piece)
     (9..24).include?(piece.position_index) && piece.piece_type != 'pawn'
   end
-
-  # def create_signature(game_pieces, game_turn_code)
-  #   game_pieces.sort_by(&:position_index).map do |piece|
-  #     piece.position_index.to_s + piece.position
-  #   end.join('.') + game_turn_code
-  # end
 
   def checkmate?(game_pieces, turn)
     no_valid_moves?(game_pieces, turn) &&
