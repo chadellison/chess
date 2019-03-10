@@ -23,6 +23,15 @@ class Piece
     end
   end
 
+  def self.new_piece(piece, new_position, upgraded_type)
+    new(
+      position_index: piece.position_index,
+      position: new_position,
+      has_moved: true,
+      piece_type: (upgraded_type.present? ? upgraded_type : piece.piece_type)
+    )
+  end
+
   def initialize(attributes = {})
     @piece_type = attributes[:piece_type]
     @color = attributes[:color]
