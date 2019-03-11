@@ -13,7 +13,7 @@ task train_on_stockfish: :environment do
       turn = game.current_turn
 
       if turn == stockfish_integration.stockfish_color(game_number)
-        puts game.find_fen_notation
+        puts stockfish_integration.fen_notation.find_fen_notation
 
         stockfish_move = stockfish_integration.find_stockfish_move
         position_index = game.find_piece_by_position(stockfish_move[0..1]).position_index

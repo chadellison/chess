@@ -1,7 +1,12 @@
-module FenNotationLogic
-  extend ActiveSupport::Concern
-
+class FenNotation
   NEW_BOARD = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+
+  attr_reader :game, :moves
+
+  def initialize(game)
+    @game = game
+    @moves = game.moves
+  end
 
   def find_fen_notation
     return NEW_BOARD if moves.blank?
@@ -14,7 +19,7 @@ module FenNotationLogic
     ('1'..'8').to_a.reverse.each do |row|
       space_count = 0
       ('a'..'h').each do |column|
-        piece = find_piece_by_position(column + row)
+        piece = game.find_piece_by_position(column + row)
         if piece.present?
           fen_notation += space_count.to_s if space_count > 0
           space_count = 0
@@ -31,7 +36,7 @@ module FenNotationLogic
   end
 
   def fen_game_data
-    " #{current_turn[0]}" +
+    " #{game.current_turn[0]}" +
       fen_castle_codes +
       fen_code_pawn_moved_two +
       ' 0' +
@@ -39,11 +44,11 @@ module FenNotationLogic
   end
 
   def fen_code_pawn_moved_two
-    last_move = moves.order(:move_count).last
-    position_index = last_move.value.to_i
-    piece = find_piece_by_index(position_index)
+    last_move = moves.sort_by(&:move_count).last
+    position_index = game.last_move.value.to_i
+    piece = game.find_piece_by_index(position_index)
 
-    if pawn_moved_two?
+    if game.pawn_moved_two?
       position_row = piece.color == 'black' ? piece.position[1].to_i + 1 : piece.position[1].to_i - 1
       " #{piece.position[0]}#{position_row}"
     else
@@ -53,12 +58,12 @@ module FenNotationLogic
 
   def fen_castle_codes
     castle_codes = ''
-    black_king = find_piece_by_index(5)
-    black_king_rook = find_piece_by_index(8)
-    black_queen_rook = find_piece_by_index(1)
-    white_king = find_piece_by_index(29)
-    white_king_rook = find_piece_by_index(25)
-    white_queen_rook = find_piece_by_index(32)
+    black_king = game.find_piece_by_index(5)
+    black_king_rook = game.find_piece_by_index(8)
+    black_queen_rook = game.find_piece_by_index(1)
+    white_king = game.find_piece_by_index(29)
+    white_king_rook = game.find_piece_by_index(25)
+    white_queen_rook = game.find_piece_by_index(32)
 
     castle_codes += 'K' if white_king_rook.present? && [white_king, white_king_rook].none?(&:has_moved)
     castle_codes += 'Q' if white_queen_rook.present? && [white_king, white_queen_rook].none?(&:has_moved)

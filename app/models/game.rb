@@ -4,7 +4,6 @@ class Game < ApplicationRecord
   belongs_to :ai_player, optional: true, dependent: :destroy
 
   include NotationLogic
-  include FenNotationLogic
   include PieceHelper
   include CacheLogic
 
