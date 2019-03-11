@@ -1,14 +1,29 @@
-module NotationLogic
-  extend ActiveSupport::Concern
-
+class Notation
   PIECE_CODE = {
     king: 'K', queen: 'Q', bishop: 'B', knight: 'N', rook: 'R', pawn: ''
   }
 
+  attr_reader :game
+
+  def initialize(game)
+    @game = game
+  end
+
+  def create_notation(position_index, new_position, upgraded_type)
+    piece = game.pieces.detect { |p| p.position_index == position_index }
+    return castle_notation(new_position) if piece.king_moved_two?(new_position)
+    new_notation = PIECE_CODE[piece.piece_type.to_sym]
+    new_notation += start_notation(piece, new_position) unless ['king', 'queen'].include?(piece.piece_type)
+    new_notation += capture_notation(new_notation, piece, new_position)
+    new_notation += new_position
+    new_notation += '=' + PIECE_CODE[upgraded_type.to_sym] if upgraded_type.present?
+    new_notation + '.'
+  end
+
   def update_game_from_notation(move_notation, turn)
     piece = find_piece(move_notation, turn)
     begin
-      update_game(piece.position_index, find_move_position(move_notation), upgrade_value(move_notation))
+      game.update_game(piece.position_index, find_move_position(move_notation), upgrade_value(move_notation))
     rescue
       log_error(move_notation, turn)
     end
@@ -18,7 +33,9 @@ module NotationLogic
     if move_notation.include?('=')
       move_notation[-4..-3]
     elsif move_notation.include?('O')
-      king = pieces.detect { |piece| piece.piece_type == 'king' && piece.color == current_turn }
+      king = game.pieces.detect do |piece|
+        piece.piece_type == 'king' && piece.color == game.current_turn
+      end
       column = move_notation == 'O-O' ? 'g' : 'c'
       column + king.position[1]
     else
@@ -49,7 +66,7 @@ module NotationLogic
 
   def log_error(move_notation, turn)
     puts 'ERROR #######################'
-    puts 'NOTATION: ' + notation
+    puts 'NOTATION: ' + game.notation
     puts 'MOVE: ' + move_notation + ' ' + turn
     puts 'GAME ID: ' + id.to_s
   end
@@ -61,7 +78,7 @@ module NotationLogic
   end
 
   def piece_from_castle(turn)
-    pieces.detect { |piece| piece.piece_type == 'king' && piece.color == turn }
+    game.pieces.detect { |piece| piece.piece_type == 'king' && piece.color == turn }
   end
 
   def piece_from_crossed_pawn(move_notation, turn)
@@ -70,7 +87,7 @@ module NotationLogic
       pawns.detect { |pawn| pawn.position.include?(move_notation[0]) }
     else
       start_row = move_notation[1] == '8' ? '7' : '2'
-      pieces.detect { |piece| piece.position == (move_notation[0] + start_row) }
+      game.pieces.detect { |piece| piece.position == (move_notation[0] + start_row) }
     end
   end
 
@@ -81,17 +98,6 @@ module NotationLogic
     return 'knight' if move_notation.include?('N')
     return 'rook' if move_notation.include?('R')
     'pawn'
-  end
-
-  def create_notation(position_index, new_position, upgraded_type)
-    piece = find_piece_by_index(position_index)
-    return castle_notation(new_position) if piece.king_moved_two?(new_position)
-    new_notation = PIECE_CODE[piece.piece_type.to_sym]
-    new_notation += start_notation(piece, new_position) unless ['king', 'queen'].include?(piece.piece_type)
-    new_notation += capture_notation(new_notation, piece, new_position)
-    new_notation += new_position
-    new_notation += '=' + PIECE_CODE[upgraded_type.to_sym] if upgraded_type.present?
-    new_notation + '.'
   end
 
   def castle_notation(new_position)
@@ -106,15 +112,15 @@ module NotationLogic
   end
 
   def matching_pieces(piece_type, piece_color, new_position)
-    pieces.select do |piece|
+    game.pieces.select do |piece|
       piece.piece_type == piece_type &&
         piece.color == piece_color &&
-        piece.valid_moves(pieces).include?(new_position)
+        piece.valid_moves(game.pieces).include?(new_position)
     end
   end
 
   def capture_notation(notation, piece, new_position)
-    if pieces.select { |piece| piece.position == new_position }.present?
+    if game.pieces.select { |piece| piece.position == new_position }.present?
       notation.blank? ? piece.position[0] + 'x' : 'x'
     else
       ''

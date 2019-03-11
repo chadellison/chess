@@ -3,7 +3,6 @@ class Game < ApplicationRecord
   has_many :chat_messages, dependent: :destroy
   belongs_to :ai_player, optional: true, dependent: :destroy
 
-  include NotationLogic
   include PieceHelper
   include CacheLogic
 
@@ -119,6 +118,10 @@ class Game < ApplicationRecord
     @ai_logic ||= AiLogic.new(self)
   end
 
+  def notation_logic
+    @notation_logic ||= Notation.new(self)
+  end
+
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
     update_game(position_index, new_position, upgraded_type)
@@ -178,7 +181,7 @@ class Game < ApplicationRecord
   end
 
   def update_notation(position_index, new_position, upgraded_type)
-    new_notation = create_notation(position_index, new_position, upgraded_type)
+    new_notation = notation_logic.create_notation(position_index, new_position, upgraded_type)
 
     update(notation: (notation.to_s + new_notation.to_s))
   end
