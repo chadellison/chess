@@ -68,7 +68,7 @@ class Notation
     puts 'ERROR #######################'
     puts 'NOTATION: ' + game.notation
     puts 'MOVE: ' + move_notation + ' ' + turn
-    puts 'GAME ID: ' + id.to_s
+    puts 'GAME ID: ' + game.id.to_s
   end
 
   def piece_from_start(game_pieces, starting_notation)
