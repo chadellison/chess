@@ -1,15 +1,14 @@
 class StockfishIntegration
-  attr_reader :game
-  attr_accessor :engine
+  attr_reader :fen_notation, :engine
 
   def initialize(game)
-    @game = game
     @engine = Stockfish::Engine.new('lib/stockfish-9-mac/Mac/stockfish-9-bmi2')
+    @fen_notation = FenNotation.new(game)
   end
 
   def find_stockfish_move
     engine.multipv(3)
-    stockfish_result = engine.analyze(game.find_fen_notation, { depth: 12 })
+    stockfish_result = engine.analyze(fen_notation.find_fen_notation, { depth: 12 })
     stockfish_result.split('bestmove').last.split('ponder').first.strip
   end
 
