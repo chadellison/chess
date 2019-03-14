@@ -30,8 +30,8 @@ def create_training_game(moves)
     puts "\ngame *****************************************************"
     puts moves[0..-4]
 
-    oucome = find_outcome(result)
-    game = Game.create(notation: moves[0..-4], outcome: oucome)
+    outcome = find_outcome(result)
+    game = Game.create(notation: moves[0..-4], outcome: outcome)
 
     puts(oucome)
   end
