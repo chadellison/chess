@@ -18,9 +18,9 @@ module CacheLogic
     REDIS.expire(key, 1.day.to_i)
   end
 
-  def update_game_from_cache(notation)
+  def update_game_from_cache(notation, r)
     puts 'YAYAAYAY WE ARE USING THE CACHE+++++++++++++++++++++++++'
-    game_move = get_move(notation)
+    game_move = Move.new(r['data'])
     moves << game_move
     game_move.save
     reload_pieces

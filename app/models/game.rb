@@ -189,8 +189,10 @@ class Game < ApplicationRecord
   def update_game(position_index, new_position, upgraded_type = '')
     move_key = notation.split('.')[0..(moves.count)].join('.')
 
-    if in_cache?(move_key)
-      update_game_from_cache(move_key)
+    # if in_cache?(move_key)
+    r = HTTParty.get('http://localhost:8080/api/?key=' + move_key)
+    if(r['data'].present?)
+      update_game_from_cache(move_key, r)
     else
       piece = find_piece_by_index(position_index)
       updated_piece = Piece.new_piece(piece, new_position, upgraded_type)
@@ -209,7 +211,13 @@ class Game < ApplicationRecord
     )
 
     game_move.setup = Setup.create_setup(new_pieces, opponent_color[0])
-    add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
+    body = {
+      key: notation.split('.')[0..(moves.count)].join('.'),
+      data: JSON.parse(game_move.to_json)
+    }
+
+    r = HTTParty.post('http://localhost:8080/api/', {body: body})
+    # add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
     moves << game_move
     game_move.save
   end
