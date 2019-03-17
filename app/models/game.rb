@@ -203,9 +203,9 @@ class Game < ApplicationRecord
     update_pieces(new_pieces)
 
     game_move = Move.new(
-      value: (piece.position_index.to_s + piece.position),
+      value: (piece.position_index.to_s + updated_piece.position),
       move_count: (moves.count + 1),
-      promoted_pawn: (promoted_pawn?(piece) ? piece.piece_type : nil)
+      promoted_pawn: (promoted_pawn?(updated_piece) ? updated_piece.piece_type : nil)
     )
 
     game_move.setup = Setup.create_setup(new_pieces, opponent_color[0])
