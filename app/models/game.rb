@@ -156,7 +156,7 @@ class Game < ApplicationRecord
     end
     update(outcome: outcome)
     GameEventBroadcastJob.perform_later(self) if game_type.include?('human')
-    propogate_results if game_type == 'machine vs machine' && outcome != 0
+    propagate_results if game_type == 'machine vs machine' && outcome != 0
   end
 
   def join_user_to_game(user_id)
@@ -262,13 +262,8 @@ class Game < ApplicationRecord
     end
   end
 
-  def propogate_results
-    moves.each do |move|
-      setup = move.setup
-      setup.update_outcomes(outcome)
-      setup.signatures.each do |signature|
-        signature.update(rank: signature.rank + outcome)
-      end
-    end
+  def propagate_results
+    @propagator ||= OutcomePropagator.new
+    @propagator.propagate_results(moves, outcome)
   end
 end
