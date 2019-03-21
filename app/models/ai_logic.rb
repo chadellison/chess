@@ -12,8 +12,8 @@ class AiLogic
 
     if find_checkmate(possible_moves, game_turn).present?
       checkmate_opponent(possible_moves, game_turn)
-    elsif matching_setup?(possible_moves, game_turn)
-      move_from_setup(possible_moves, game_turn)
+    # elsif matching_setup?(possible_moves, game_turn)
+    #   move_from_setup(possible_moves, game_turn)
     else
       move_analysis(possible_moves, game_turn)
     end
@@ -41,7 +41,6 @@ class AiLogic
       game_move = Move.new(value: move_value, move_count: move_count)
       game_pieces = Game.pieces_with_next_move(game.pieces, move_value)
       game_move.setup = Setup.create_setup(game_pieces, opponent_color_code)
-      game_move.material_value = MaterialLogic.calculate_value(game_pieces, opponent_color_code)
       game_move
     end
   end
@@ -51,40 +50,14 @@ class AiLogic
     game.handle_move(best_move.value, promote_pawn(best_move.value))
   end
 
-  def matching_setup?(possible_moves, game_turn)
-    possible_moves.any? do |possible_move|
-      if possible_move.setup.outcomes.present?
-        average_win_amount = possible_move.setup.average_outcome
-        if game_turn == 'black'
-          average_win_amount < 0.2
-        else
-          average_win_amount > -0.2
-        end
-      end
-    end
-  end
-
-  def move_from_setup(possible_moves, game_turn)
-    best_move = possible_moves.max_by do |possible_move|
-      if game_turn == 'black'
-        possible_move.setup.rank * -1
-      else
-        possible_move.setup.rank
-      end
-    end
-
-    game.handle_move(best_move.value, promote_pawn(best_move.value))
-  end
-
   def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
 
     possible_moves.shuffle.each do |possible_move|
       setup = possible_move.setup
-      binding.pry if possible_move.material_value.blank?
-      total_weight = setup.signatures.reduce(possible_move.material_value) do |weight, signature|
+      total_weight = setup.signatures.reduce(setup.average_outcome) do |weight, signature|
         log_move_data(game_turn, signature, possible_move)
-        weight + signature.rank
+        weight + signature.average_outcome
       end
 
       total_weight *= -1 if game_turn == 'black'
@@ -94,11 +67,10 @@ class AiLogic
   end
 
   def log_move_data(game_turn, signature, possible_move)
-    puts "^^^^^^^^^^^^^^^^^^^^^^#{game_turn}^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-    puts "$$$$$$$$$$$$$$$$ TYPE #{signature.signature_type}$$$$$$$$$$$$$$$$$$$$$$$"
-    puts "$$$$$$$$$$$$$$$$ SIGNATURE: #{signature.value}$$$$$$$$$$$$$$$$$$$$$$$"
-    puts "******************* MATERIAL VALUE: #{possible_move.material_value}*****************"
-    puts "******************* MOVE VALUE: #{possible_move.value} #{signature.rank.to_s}*****************"
+    puts "TURN: #{game_turn}"
+    puts "SIGNATURE TYPE #{signature.signature_type}"
+    puts "SIGNATURE: #{signature.value}"
+    puts "WEIGHT: #{possible_move.value} #{signature.rank.to_s}"
   end
 
   def find_best_move(weighted_moves)

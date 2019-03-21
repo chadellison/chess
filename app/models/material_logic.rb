@@ -9,18 +9,23 @@ class MaterialLogic
     MATERIAL_VALUE[index]
   end
 
-  def self.calculate_value(new_pieces, game_turn_code)
-    enemy_attackers = new_pieces.select do |piece|
-      piece.color[0] == game_turn_code && piece.enemy_targets.present?
+  def self.create_signature(new_pieces)
+    white_attack_value = 0
+    black_attack_value = 0
+
+    new_pieces.each do |piece|
+      if piece.enemy_targets.present?
+        if piece.color == 'white'
+          value = find_value(piece.enemy_targets.max_by { |target| find_value(target) })
+          white_attack_value = value if value > white_attack_value
+        else
+          value = find_value(piece.enemy_targets.max_by { |target| find_value(target) })
+          black_attack_value = value if value > black_attack_value
+        end
+      end
     end
 
-    enemy_attack_value = 0
-    enemy_attackers.each do |piece|
-      value = find_value(piece.enemy_targets.max_by { |target| find_value(target) })
-      enemy_attack_value = value if value > enemy_attack_value
-    end
-
-    enemy_attack_value *= -1 if game_turn_code == 'b'
+    attack_value = white_attack_value - black_attack_value
 
     material_value = new_pieces.reduce(0) do |total, piece|
       if piece.color == 'black'
@@ -30,6 +35,6 @@ class MaterialLogic
       end
     end
 
-    material_value + enemy_attack_value
+    (material_value - attack_value).to_s
   end
 end
