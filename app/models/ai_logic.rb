@@ -12,8 +12,6 @@ class AiLogic
 
     if find_checkmate(possible_moves, game_turn).present?
       checkmate_opponent(possible_moves, game_turn)
-    # elsif matching_setup?(possible_moves, game_turn)
-    #   move_from_setup(possible_moves, game_turn)
     else
       move_analysis(possible_moves, game_turn)
     end
