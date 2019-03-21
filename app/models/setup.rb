@@ -5,7 +5,11 @@ class Setup < ApplicationRecord
   has_many :setup_signatures
   has_many :signatures, through: :setup_signatures
 
-  SIGNATURES = { attack: AttackLogic, material: MaterialLogic }
+  SIGNATURES = {
+    attack: AttackLogic,
+    material: MaterialLogic,
+    activity: ActivityLogic
+  }
 
   include WeightCalculator
 
