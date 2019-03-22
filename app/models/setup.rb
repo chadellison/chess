@@ -8,7 +8,8 @@ class Setup < ApplicationRecord
   SIGNATURES = {
     attack: AttackLogic,
     material: MaterialLogic,
-    activity: ActivityLogic
+    activity: ActivityLogic,
+    threat: ThreatLogic
   }
 
   include WeightCalculator
@@ -30,17 +31,17 @@ class Setup < ApplicationRecord
   def add_signatures(new_pieces, game_turn_code)
     SIGNATURES.each do |signature_type, signature_class|
       if signatures.find_by(signature_type: signature_type.to_s).blank?
-        signature_value = signature_class.create_signature(new_pieces)
-        handle_signature(signature_type.to_s, signature_value, game_turn_code)
+        signature_value = signature_class.create_signature(new_pieces, game_turn_code)
+        handle_signature(signature_type.to_s, signature_value)
       end
     end
   end
 
-  def handle_signature(signature_type, signature_value, game_turn_code)
-    if signature_value.present?
+  def handle_signature(signature_type, signature_value)
+    if signature_value.size > 1
       signature = Signature.where(
         signature_type: signature_type,
-        value: signature_value + game_turn_code
+        value: signature_value
       ).first_or_create
 
       signature.setups << self if signature.present?
