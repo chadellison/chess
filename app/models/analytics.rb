@@ -37,12 +37,12 @@ class Analytics
       activity_weight = find_weight(signatures, 'activity')
       {
         move: move.value,
-        setupWeight: setup_weight,
-        materialWeight: material_weight,
-        attackWeight: attack_weight,
-        threatWeight: threat_weight,
-        activityWeight: activity_weight,
-        totalWeight: ((setup_weight + material_weight + attack_weight + threat_weight + activity) / 5)
+        setup: setup_weight,
+        material: material_weight,
+        attack: attack_weight,
+        threat: threat_weight,
+        activity: activity_weight,
+        total: ((setup_weight + material_weight + attack_weight + threat_weight + activity_weight) / 5)
       }
     end
     AnalyticsSerializer.serialize(attributes)
