@@ -33,7 +33,7 @@ def create_training_game(moves)
     outcome = find_outcome(result)
     game = Game.create(notation: moves[0..-4], outcome: outcome)
 
-    puts(oucome)
+    puts(outcome)
   end
 end
 
