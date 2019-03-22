@@ -42,7 +42,7 @@ class Analytics
         attackWeight: attack_weight,
         threatWeight: threat_weight,
         activityWeight: activity_weight,
-        totalWeight: ((setup_weight + material_weight + attack_weight + threat_weight) / 4)
+        totalWeight: ((setup_weight + material_weight + attack_weight + threat_weight + activity) / 5)
       }
     end
     AnalyticsSerializer.serialize(attributes)

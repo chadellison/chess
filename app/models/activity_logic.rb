@@ -10,6 +10,6 @@ class ActivityLogic
       end
     end
 
-    (white_activity / black_activity.to_f).to_s + game_turn_code
+    (white_activity / black_activity.to_f).round(4).to_s + game_turn_code
   end
 end
