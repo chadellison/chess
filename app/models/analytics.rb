@@ -34,12 +34,14 @@ class Analytics
       material_weight = find_weight(signatures, 'material')
       attack_weight = find_weight(signatures, 'attack')
       threat_weight = find_weight(signatures, 'threat')
+      activity_weight = find_weight(signatures, 'activity')
       {
         move: move.value,
         setupWeight: setup_weight,
         materialWeight: material_weight,
         attackWeight: attack_weight,
         threatWeight: threat_weight,
+        activityWeight: activity_weight,
         totalWeight: ((setup_weight + material_weight + attack_weight + threat_weight) / 4)
       }
     end
