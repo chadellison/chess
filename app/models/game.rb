@@ -27,7 +27,7 @@ class Game < ApplicationRecord
         game.status = 'awaiting player'
       end
       game.save
-      ai_logic.ai_move(current_turn) if game.ai_turn?
+      game.ai_logic.ai_move(game.current_turn) if game.ai_turn?
       game
     end
 
