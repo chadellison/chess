@@ -35,6 +35,9 @@ class Analytics
       attack_weight = find_weight(signatures, 'attack')
       threat_weight = find_weight(signatures, 'threat')
       activity_weight = find_weight(signatures, 'activity')
+      layer_two_weight = find_weight(signatures, 'layer_two')
+      average = (setup_weight + material_weight + attack_weight + threat_weight + activity_weight) / 5
+      
       {
         move: move.value,
         setup: setup_weight,
@@ -42,7 +45,7 @@ class Analytics
         attack: attack_weight,
         threat: threat_weight,
         activity: activity_weight,
-        total: ((setup_weight + material_weight + attack_weight + threat_weight + activity_weight) / 5)
+        total: (average * layer_two_weight)
       }
     end
     AnalyticsSerializer.serialize(attributes)
