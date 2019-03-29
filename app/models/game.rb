@@ -122,6 +122,10 @@ class Game < ApplicationRecord
     @notation_logic ||= Notation.new(self)
   end
 
+  def neural_network
+    @neural_network ||= NeuralNetwork.new
+  end
+
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
     update_game(position_index, new_position, upgraded_type)
@@ -156,7 +160,7 @@ class Game < ApplicationRecord
     end
     update(outcome: outcome)
     GameEventBroadcastJob.perform_later(self) if game_type.include?('human')
-    propagate_results if game_type == 'machine vs machine' && outcome != 0
+    neural_network.propagate_results(moves, outcome) if game_type == 'machine vs machine' && outcome != 0
   end
 
   def join_user_to_game(user_id)
@@ -260,10 +264,5 @@ class Game < ApplicationRecord
       puts moves.order(:move_count).last.value
       puts '******************'
     end
-  end
-
-  def propagate_results
-    @propagator ||= OutcomePropagator.new
-    @propagator.propagate_results(moves, outcome)
   end
 end
