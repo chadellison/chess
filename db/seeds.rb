@@ -1,7 +1,18 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+class Seeds
+  def create_weights
+    types = ['material', 'attack', 'activity', 'threat']
+    win_values = ['white', 'black', 'draw']
+
+    puts 'creating weights'
+
+    types.each do |type|
+      win_values.each do |win_value|
+        Weight.create(weight_type: type, value: rand.to_s[0..5], win_value: win_value)
+      end
+    end
+
+    puts '__________________________THE END__________________________'
+  end
+end
+
+Seeds.new.create_weights
