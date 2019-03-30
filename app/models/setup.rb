@@ -12,7 +12,7 @@ class Setup < ApplicationRecord
     threat: ThreatLogic
   }
 
-  include WeightCalculator
+  include OutcomeCalculator
 
   def self.create_setup(new_pieces, opponent_color_code)
     game_signature = Setup.create_signature(new_pieces, opponent_color_code)
