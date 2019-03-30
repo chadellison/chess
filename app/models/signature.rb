@@ -5,5 +5,5 @@ class Signature < ApplicationRecord
   has_many :setup_signatures
   has_many :setups, through: :setup_signatures
 
-  include WeightCalculator
+  include OutcomeCalculator
 end

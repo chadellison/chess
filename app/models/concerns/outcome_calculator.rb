@@ -1,4 +1,4 @@
-module WeightCalculator
+module OutcomeCalculator
   extend ActiveSupport::Concern
 
   def rank
