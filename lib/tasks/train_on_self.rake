@@ -6,7 +6,7 @@ task train_on_self: :environment do
 
     game.machine_vs_machine
 
-    game.propogate_results if game.outcome.present? && game.outcome != 0
+    game.update_game_results if game.outcome.present? && game.outcome != 0
 
     end_time = Time.now
 
