@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_29_221938) do
+ActiveRecord::Schema.define(version: 2019_03_31_114212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2019_03_29_221938) do
     t.text "notation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "outcome"
+    t.string "outcome"
     t.string "status"
     t.integer "white_player"
     t.integer "black_player"

@@ -1,12 +1,14 @@
 desc 'Train on self'
 task train_on_self: :environment do
+  neural_network = NeuralNetwork.new
+
   ENV['COUNT'].to_i.times do
     game = Game.create(analyzed: true)
     start_time = Time.now
 
     game.machine_vs_machine
 
-    game.update_game_results if game.outcome.present? && game.outcome != 0
+    neural_network.propagate_results(game.moves, game.outcome.to_f)
 
     end_time = Time.now
 

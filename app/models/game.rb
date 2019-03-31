@@ -150,13 +150,12 @@ class Game < ApplicationRecord
 
   def handle_outcome
     if checkmate?(pieces, current_turn)
-      outcome = current_turn == 'black' ? 1 : -1
+      outcome = current_turn == 'black' ? 1 : 0
     else
-      outcome = 0
+      outcome = 0.5
     end
-    update(outcome: outcome)
+    update(outcome: outcome.to_s)
     GameEventBroadcastJob.perform_later(self) if game_type.include?('human')
-    update_game_results(moves, outcome) if game_type == 'machine vs machine' && outcome != 0
   end
 
   def join_user_to_game(user_id)
@@ -262,7 +261,7 @@ class Game < ApplicationRecord
     end
   end
 
-  def update_game_results(moves, outcome)
+  def update_analytics(moves, outcome)
     moves.each do |move|
       setup = move.setup
       setup.update_outcomes(outcome)
