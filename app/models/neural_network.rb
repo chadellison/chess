@@ -54,7 +54,7 @@ class NeuralNetwork
     puts 'PREDICTION: ' + (input * weight).to_s
     puts 'OUTCOME: ' + outcome.to_s
     puts 'ERROR: ' + (((input * weight) - outcome) ** 2).to_s
-    weight - (ALPHA * derivative(input, prediction, outcome))
+    weight - (ALPHA * derivative(input, prediction - outcome))
   end
 
   def weighted_sum(signatures, weights)
@@ -65,8 +65,7 @@ class NeuralNetwork
     total_weight
   end
 
-  def derivative(input, prediction, outcome)
-    delta = prediction - outcome
+  def derivative(input, delta)
     input * delta
   end
 
