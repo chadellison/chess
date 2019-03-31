@@ -6,10 +6,12 @@ class NeuralNetwork
 
     possible_moves.each do |possible_move|
       signatures = ordered_signatures(possible_move.setup.signatures)
+      weights = Weight.where(weight_type: signatures.pluck(:signature_type))
+
       predictions = {
-        white: calculate_prediction(signatures, 'white'),
-        black: calculate_prediction(signatures, 'black'),
-        draw: calculate_prediction(signatures, 'draw')
+        white: calculate_prediction(signatures, weights, 'white'),
+        black: calculate_prediction(signatures, weights, 'black'),
+        draw: calculate_prediction(signatures, weights, 'draw')
       }
       weighted_moves[possible_move.value] = predictions
       puts "#{possible_move.value} ==> #{weighted_moves[possible_move.value]}"
@@ -27,14 +29,15 @@ class NeuralNetwork
       # draw win = 0.5
 
       signatures = ordered_signatures(setup.signatures)
-      win_values.each do |win_value|
+      weights = Weight.where(weight_type: signatures.pluck(:signature_type))
 
-        weights = ordered_weights(signatures.pluck(:signature_type), win_value)
+      win_values.each do |win_value|
+        sorted_weights = filter_and_sort(weights, win_value)
 
         signatures.each_with_index do |signature, index|
           adjusted_weight_value = adjust_weight(
             signature.average_outcome.to_f,
-            weights[index].value.to_f,
+            sorted_weights[index].value.to_f,
             outcome
           )
           weight.update(value: adjusted_weight_value.to_s)
@@ -48,9 +51,9 @@ class NeuralNetwork
     weight - (ALPHA * derivative(input, prediction, outcome))
   end
 
-  def calculate_prediction(signatures, win_value)
-    weights = ordered_weights(signatures.pluck(:signature_type), win_value)
-    weighted_sum(signatures, weights)
+  def calculate_prediction(signatures, weights, win_value)
+    sorted_weights = filter_and_sort(weights, win_value)
+    weighted_sum(signatures, sorted_weights)
   end
 
   def weighted_sum(signatures, weights)
@@ -69,8 +72,7 @@ class NeuralNetwork
     signatures.order(:signature_type)
   end
 
-  def ordered_weights(weight_types, win_value)
-    Weight.where(weight_type: weight_types, win_value: win_value)
-      .order(:weight_type)
+  def filter_and_sort(weights, win_value)
+    weights.select { |weight| weight.win_value == win_value }.sort_by(&:weight_type)
   end
 end
