@@ -20,34 +20,37 @@ class NeuralNetwork
   end
 
   def propagate_results(moves, outcome)
+    weights_to_be_updated = []
+
     moves.each do |move|
-      setup = move.setup
-
       win_values = ['white', 'black', 'draw']
-      # black win = 0
-      # white win = 1
-      # draw win = 0.5
-
-      signatures = ordered_signatures(setup.signatures)
+      signatures = ordered_signatures(move.setup.signatures)
       weights = Weight.where(weight_type: signatures.pluck(:signature_type))
 
       win_values.each do |win_value|
         sorted_weights = filter_and_sort(weights, win_value)
 
         signatures.each_with_index do |signature, index|
+          weight = sorted_weights[index]
+
           adjusted_weight_value = adjust_weight(
-            signature.average_outcome.to_f,
-            sorted_weights[index].value.to_f,
-            outcome
+            signature.average_outcome.to_f, weight.value.to_f, outcome
           )
-          weight.update(value: adjusted_weight_value.to_s)
+          puts 'old weight: ' + weight.value
+          weight.value = adjusted_weight_value.to_s
+          puts 'adjusted weight: ' + weight.value
+          weights_to_be_updated << weight
         end
       end
     end
+    weights_to_be_updated.each(&:save)
   end
 
   def adjust_weight(input, weight, outcome)
     prediction = input * weight
+    puts 'PREDICTION: ' + (input * weight).to_s
+    puts 'OUTCOME: ' + outcome.to_s
+    puts 'ERROR: ' + (((input * weight) - outcome) ** 2).to_s
     weight - (ALPHA * derivative(input, prediction, outcome))
   end
 
@@ -65,7 +68,8 @@ class NeuralNetwork
   end
 
   def derivative(input, prediction, outcome)
-    input * (prediction - outcome)
+    delta = prediction - outcome
+    input * delta
   end
 
   def ordered_signatures(signatures)

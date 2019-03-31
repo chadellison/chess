@@ -1,5 +1,7 @@
 desc 'Train on stockfish'
 task train_on_stockfish: :environment do
+  neural_network = NeuralNetwork.new
+
   ENV['COUNT'].to_i.times do |game_number|
     game = Game.create(analyzed: true)
     openings = ['20d4', '21e4', '31f3', '19c4', '23g4']
@@ -24,6 +26,8 @@ task train_on_stockfish: :environment do
         ai_logic.ai_move(turn)
       end
     end
+
+    neural_network.propagate_results(game.moves, game.outcome.to_f)
 
     end_time = Time.now
 
