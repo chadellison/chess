@@ -24,9 +24,9 @@ class NeuralNetwork
 
   def propagate_results(moves, outcome)
     weights_to_be_updated = []
+    win_values = ['white', 'black', 'draw']
 
     moves.each do |move|
-      win_values = ['white', 'black', 'draw']
       signatures = ordered_signatures(move.setup.signatures)
       weights = Weight.where(weight_type: signatures.pluck(:signature_type))
 
