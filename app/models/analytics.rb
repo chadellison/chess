@@ -1,8 +1,9 @@
 class Analytics
-  attr_reader :setup
+  attr_reader :setup, :neural_network
 
   def initialize(setup)
     @setup = setup
+    @neural_network = NeuralNetwork.new
   end
 
   def win_ratio
@@ -28,27 +29,12 @@ class Analytics
 
     turn = game.moves.size.even? ? 'white' : 'black'
     ai = AiLogic.new(game)
-    attributes = ai.find_next_moves(turn).map do |move|
-      signatures = move.setup.signatures
-      setup_weight = move.setup.average_outcome
-      material_weight = find_weight(signatures, 'material')
-      attack_weight = find_weight(signatures, 'attack')
-      threat_weight = find_weight(signatures, 'threat')
-      activity_weight = find_weight(signatures, 'activity')
-      layer_two_weight = find_weight(signatures, 'layer_two')
-      average = (setup_weight + material_weight + attack_weight + threat_weight + activity_weight) / 5
-      
-      {
-        move: move.value,
-        setup: setup_weight,
-        material: material_weight,
-        attack: attack_weight,
-        threat: threat_weight,
-        activity: activity_weight,
-        total: (average * layer_two_weight)
-      }
+    possible_moves = ai.find_next_moves(turn)
+    analyzed_moves = neural_network.move_analysis(possible_moves, turn).map do |next_move, analytics|
+      analytics[:move] = next_move
+      analytics
     end
-    AnalyticsSerializer.serialize(attributes)
+    AnalyticsSerializer.serialize(analyzed_moves)
   end
 
   def find_weight(signatures, signature_type)
