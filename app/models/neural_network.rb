@@ -4,76 +4,104 @@ class NeuralNetwork
   def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
 
+    weight_matrix = find_weights
     possible_moves.each do |possible_move|
-      signatures = ordered_signatures(possible_move.setup.signatures)
-      weights = Weight.where(weight_type: signatures.pluck(:signature_type))
-      white_weights = filter_and_sort(weights, 'white')
-      black_weights = filter_and_sort(weights, 'black')
-      draw_weights = filter_and_sort(weights, 'draw')
+      initial_input = signature_input(possible_move.setup.signatures)
+      predictions = multiply_vector(initial_input, weight_matrix)
 
-      predictions = {
-        white: weighted_sum(signatures, white_weights),
-        black: weighted_sum(signatures, black_weights),
-        draw: weighted_sum(signatures, draw_weights)
-      }
       weighted_moves[possible_move.value] = predictions
       puts "#{possible_move.value} ==> #{weighted_moves[possible_move.value]}"
     end
     weighted_moves
   end
 
+  def find_weights
+    weights = Weight.where(weight_count: 1..12).order(:weight_count)
+    [weights[0..3], weights[4..7], weights[8..11]]
+  end
+
+  # def layer_two(predictions)
+  #   weights = Weight.where(weight_type: ['layer_two 0', 'layer_two 1', 'layer_two 2', 'layer_two 3'])
+  #
+  #   predictions.each do |output_type, value|
+  #     value = relu(value)
+  #     weighted_sum([value], weights)
+  #   end
+  # end
+
+  def weight_deltas(input, deltas)
+    weighted_deltas = [[]]
+    input.size.times do |index|
+      deltas.size.times do |count|
+        weighted_deltas[index][count] = input[index] * deltas[count]
+      end
+    end
+    weighted_deltas
+  end
+
+  def actual_outcomes(outcome)
+    case outcome
+    when 1
+      [1, 0, 0]
+    when 0
+      [0, 1, 0]
+    when 0.5
+      [0, 0, 1]
+    end
+  end
+
   def propagate_results(moves, outcome)
     weights_to_be_updated = []
-    win_values = ['white', 'black', 'draw']
+    weight_matrix = find_weights
+
+    outcomes = actual_outcomes(outcome)
 
     moves.each do |move|
-      signatures = ordered_signatures(move.setup.signatures)
-      weights = Weight.where(weight_type: signatures.pluck(:signature_type))
+      initial_input = signature_input(move.setup.signatures)
+      predictions = multiply_vector(initial_input, weight_matrix)
+      deltas = []
 
-      win_values.each do |win_value|
-        sorted_weights = filter_and_sort(weights, win_value)
-        prediction = weighted_sum(signatures, sorted_weights)
+      predictions.size.times do |index|
+        delta = predictions[index] - outcomes[index]
+        deltas[index] = delta
+        puts 'ERROR: ' + (delta ** 2).to_s
+      end
 
-        signatures.each_with_index do |signature, index|
-          weight = sorted_weights[index]
+      weighted_deltas = weight_deltas(initial_input, deltas)
 
-          adjusted_weight_value = adjust_weight(
-            signature.average_outcome.to_f, weight.value.to_f, outcome, prediction
-          )
-          puts 'old weight: ' + weight.value
-          weight.value = adjusted_weight_value.to_s
-          puts 'adjusted weight: ' + weight.value
+      weight_matrix.size.times do |index|
+        weight_matrix[index].size.times do |count|
+          weight = weight_matrix[index][count]
+          weight.value.to_f -= (ALPHA * weighted_deltas[index][count])
           weights_to_be_updated << weight
         end
       end
     end
+
     weights_to_be_updated.each(&:save)
   end
 
-  def adjust_weight(input, weight, outcome, prediction)
-    puts 'PREDICTION: ' + (input * weight).to_s
-    puts 'OUTCOME: ' + outcome.to_s
-    puts 'ERROR: ' + (((input * weight) - outcome) ** 2).to_s
-    weight - (ALPHA * derivative(input, prediction - outcome))
-  end
-
-  def weighted_sum(signatures, weights)
+  def weighted_sum(input, weights)
     total_weight = 0
-    signatures.each_with_index do |signature, index|
-      total_weight += signature.average_outcome.to_f * weights[index].value.to_f
+    input.size.times do |index|
+      total_weight += input[index] * weights[index].value.to_f
     end
     total_weight
   end
 
-  def derivative(input, delta)
-    input * delta
+  def multiply_vector(input, weight_matrix)
+    predictions = []
+    3.times do |index|
+      predictions[index] = weighted_sum(input, weight_matrix[index])
+    end
+    predictions
   end
 
-  def ordered_signatures(signatures)
-    signatures.order(:signature_type)
+  def signature_input(signatures)
+    signatures.order(:signature_type).map { |signature| signature.average_outcome.to_f }
   end
 
-  def filter_and_sort(weights, win_value)
-    weights.select { |weight| weight.win_value == win_value }.sort_by(&:weight_type)
+  def relu(input)
+    [0, input].max
   end
 end

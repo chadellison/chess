@@ -261,7 +261,7 @@ class Game < ApplicationRecord
     end
   end
 
-  def update_analytics(moves, outcome)
+  def update_analytics
     moves.each do |move|
       setup = move.setup
       setup.update_outcomes(outcome)
