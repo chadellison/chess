@@ -103,9 +103,8 @@ ActiveRecord::Schema.define(version: 2019_03_31_114212) do
   end
 
   create_table "weights", force: :cascade do |t|
-    t.string "weight_type"
+    t.integer "weight_count"
     t.string "value"
-    t.string "win_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

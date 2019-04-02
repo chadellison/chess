@@ -1,14 +1,11 @@
 class Seeds
   def create_weights
-    types = ['material', 'attack', 'activity', 'threat']
-    win_values = ['white', 'black', 'draw']
+    Weight.destroy_all
 
     puts 'creating weights'
 
-    types.each do |type|
-      win_values.each do |win_value|
-        Weight.create(weight_type: type, value: rand.to_s[0..5], win_value: win_value)
-      end
+    12.times do |count|
+      Weight.create(weight_count: count + 1, value: rand.to_s)
     end
 
     puts '__________________________THE END__________________________'

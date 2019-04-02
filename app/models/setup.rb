@@ -38,13 +38,11 @@ class Setup < ApplicationRecord
   end
 
   def handle_signature(signature_type, signature_value)
-    if signature_value.size > 1
-      signature = Signature.where(
-        signature_type: signature_type,
-        value: signature_value
-      ).first_or_create
+    signature = Signature.where(
+      signature_type: signature_type,
+      value: signature_value
+    ).first_or_create
 
-      signature.setups << self if signature.present?
-    end
+    signature.setups << self
   end
 end

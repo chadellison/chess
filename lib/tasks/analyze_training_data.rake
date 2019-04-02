@@ -20,7 +20,7 @@ def analyze_game
       puts 'Setup ' + game.moves.last.setup.position_signature
     end
 
-    game.propagate_results
+    game.update_analytics
     analyze_game
   end
 end
