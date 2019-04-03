@@ -15,6 +15,22 @@ class NeuralNetwork
     weighted_moves
   end
 
+  def weighted_sum(input, weights)
+    total_weight = 0
+    input.size.times do |index|
+      total_weight += input[index] * weights[index].value.to_f
+    end
+    total_weight
+  end
+
+  def multiply_vector(input, weight_matrix)
+    predictions = []
+    weight_matrix.size.times do |index|
+      predictions[index] = weighted_sum(input, weight_matrix[index])
+    end
+    predictions
+  end
+
   def find_weights
     weights = Weight.where(weight_count: 1..12).order(:weight_count)
     [weights[0..3], weights[4..7], weights[8..11]]
@@ -28,16 +44,6 @@ class NeuralNetwork
   #     weighted_sum([value], weights)
   #   end
   # end
-
-  def weight_deltas(input, deltas)
-    weighted_deltas = [[]]
-    input.size.times do |index|
-      deltas.size.times do |count|
-        weighted_deltas[index][count] = input[index] * deltas[count]
-      end
-    end
-    weighted_deltas
-  end
 
   def actual_outcomes(outcome)
     case outcome
@@ -66,35 +72,31 @@ class NeuralNetwork
         deltas[index] = delta
         puts 'ERROR: ' + (delta ** 2).to_s
       end
-
       weighted_deltas = weight_deltas(initial_input, deltas)
 
       weight_matrix.size.times do |index|
         weight_matrix[index].size.times do |count|
           weight = weight_matrix[index][count]
-          weight.value.to_f -= (ALPHA * weighted_deltas[index][count])
+          puts 'OLD WEIGHT: ' + weight.value
+          adjusted_value = (weight.value.to_f - (ALPHA * weighted_deltas[index][count])).to_s
+          puts 'ADJUSTED WEIGHT: ' + adjusted_value
+          weight.value = adjusted_value
           weights_to_be_updated << weight
         end
       end
     end
-
-    weights_to_be_updated.each(&:save)
   end
 
-  def weighted_sum(input, weights)
-    total_weight = 0
-    input.size.times do |index|
-      total_weight += input[index] * weights[index].value.to_f
-    end
-    total_weight
-  end
+  def weight_deltas(input, deltas)
+    weighted_deltas = [[], [], []]
 
-  def multiply_vector(input, weight_matrix)
-    predictions = []
-    3.times do |index|
-      predictions[index] = weighted_sum(input, weight_matrix[index])
+    deltas.size.times do |index|
+      input.size.times do |count|
+        weighted_deltas[index][count] = input[count] * deltas[index]
+      end
     end
-    predictions
+
+    weighted_deltas
   end
 
   def signature_input(signatures)
