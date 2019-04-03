@@ -8,7 +8,6 @@ class NeuralNetwork
     possible_moves.each do |possible_move|
       initial_input = signature_input(possible_move.setup.signatures)
       predictions = multiply_vector(initial_input, weight_matrix)
-
       weighted_moves[possible_move.value] = predictions
       puts "#{possible_move.value} ==> #{weighted_moves[possible_move.value]}"
     end
@@ -45,44 +44,42 @@ class NeuralNetwork
   #   end
   # end
 
-  def actual_outcomes(outcome)
-    case outcome
-    when 1
-      [1, 0, 0]
-    when 0
-      [0, 1, 0]
-    when 0.5
-      [0, 0, 1]
-    end
+  def find_outcomes(setup)
+    white_wins = setup.outcomes[:white_wins].to_i
+    black_wins = setup.outcomes[:black_wins].to_i
+    draws = setup.outcomes[:draws].to_i
+
+    total_setup_count = (white_wins + black_wins + draws).to_f
+    white_outcomes = white_wins / total_setup_count.to_f
+    black_outcomes = black_wins / total_setup_count.to_f
+    draw_outcomes = draws / total_setup_count.to_f
+
+    [white_outcomes, black_outcomes, draw_outcomes]
   end
 
-  def propagate_results(moves, outcome)
-    weights_to_be_updated = []
+  def propagate_results(setup)
     weight_matrix = find_weights
 
-    outcomes = actual_outcomes(outcome)
+    outcomes = find_outcomes(setup)
 
-    moves.each do |move|
-      initial_input = signature_input(move.setup.signatures)
-      predictions = multiply_vector(initial_input, weight_matrix)
-      deltas = []
+    initial_input = signature_input(setup.signatures)
+    predictions = multiply_vector(initial_input, weight_matrix)
+    deltas = []
 
-      predictions.size.times do |index|
-        delta = predictions[index] - outcomes[index]
-        deltas[index] = delta
-        puts 'ERROR: ' + (delta ** 2).to_s
-      end
-      weighted_deltas = weight_deltas(initial_input, deltas)
+    predictions.size.times do |index|
+      delta = predictions[index] - outcomes[index]
+      deltas[index] = delta
+      puts 'ERROR: ' + (delta ** 2).to_s
+    end
+    weighted_deltas = weight_deltas(signature_input(setup.signatures), deltas)
 
-      weight_matrix.size.times do |index|
-        weight_matrix[index].size.times do |count|
-          weight = weight_matrix[index][count]
-          puts 'OLD WEIGHT: ' + weight.value
-          adjusted_value = (weight.value.to_f - (ALPHA * weighted_deltas[index][count])).to_s
-          puts 'ADJUSTED WEIGHT: ' + adjusted_value
-          weight.value = adjusted_value
-          weights_to_be_updated << weight
-        end
+    weight_matrix.size.times do |index|
+      weight_matrix[index].size.times do |count|
+        weight = weight_matrix[index][count]
+        puts 'OLD WEIGHT: ' + weight.value
+        adjusted_value = (weight.value.to_f - (ALPHA * weighted_deltas[index][count])).to_s
+        puts 'ADJUSTED WEIGHT: ' + adjusted_value
+        weight.update(value: adjusted_value)
       end
     end
   end
