@@ -27,8 +27,7 @@ task train_on_stockfish: :environment do
       end
     end
 
-    neural_network.propagate_results(game.moves, game.outcome.to_f)
-
+    game.update_analytics
     end_time = Time.now
 
     total_time = end_time - start_time

@@ -8,7 +8,7 @@ task train_on_self: :environment do
 
     game.machine_vs_machine
 
-    neural_network.propagate_results(game.moves, game.outcome.to_f)
+    game.update_analytics
 
     end_time = Time.now
 
