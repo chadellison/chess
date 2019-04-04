@@ -16,6 +16,7 @@ class Setup < ApplicationRecord
 
   def self.create_setup(new_pieces, opponent_color_code)
     game_signature = Setup.create_signature(new_pieces, opponent_color_code)
+    # write this to redis instead...
     setup = Setup.find_or_create_by(position_signature: game_signature)
     new_pieces.each { |piece| piece.valid_moves(new_pieces) }
     setup.add_signatures(new_pieces, opponent_color_code)
@@ -38,11 +39,22 @@ class Setup < ApplicationRecord
   end
 
   def handle_signature(signature_type, signature_value)
+    # write to redis
+    # look and see if in the db--> if not. create new instance and write to redis
     signature = Signature.where(
       signature_type: signature_type,
       value: signature_value
     ).first_or_create
 
     signature.setups << self
+  end
+
+  def save_setup_and_signatures(new_pieces, game_turn_code)
+    # this just needs to find or create by on each thing
+    game_signature = Setup.create_signature(new_pieces, opponent_color_code)
+    setup = Setup.find_or_create_by(position_signature: game_signature)
+    # new_pieces.each { |piece| piece.valid_moves(new_pieces) }
+    setup.add_signatures(new_pieces, opponent_color_code)
+    setup
   end
 end
