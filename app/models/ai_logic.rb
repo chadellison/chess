@@ -34,17 +34,11 @@ class AiLogic
   end
 
   def find_next_moves(game_turn)
-    setup_key = game.last_move.present? ? game.last_move.setup_id : 'initial_setup'
-    if in_cache?(setup_key)
-      get_next_moves_from_cache(setup_key)
-    else
-      opponent_color_code = game_turn == 'white' ? 'b' : 'w'
-      next_moves = game.pieces.select { |piece| piece.color == game_turn }.map do |piece|
-        all_next_moves_for_piece(piece, opponent_color_code)
-      end.flatten
-      add_to_cache(setup_key, next_moves)
-      next_moves
-    end
+    opponent_color_code = game_turn == 'white' ? 'b' : 'w'
+    next_moves = game.pieces.select { |piece| piece.color == game_turn }.map do |piece|
+      all_next_moves_for_piece(piece, opponent_color_code)
+    end.flatten
+    next_moves
   end
 
   def all_next_moves_for_piece(piece, opponent_color_code)

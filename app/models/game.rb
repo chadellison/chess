@@ -187,9 +187,9 @@ class Game < ApplicationRecord
 
   def update_game(position_index, new_position, upgraded_type = '')
     move_key = notation.split('.')[0..(moves.count)].join('.')
-
     if in_cache?(move_key)
-      update_game_from_cache(move_key)
+      moves << get_move(move_key)
+      reload_pieces
     else
       piece = find_piece_by_index(position_index)
       updated_piece = Piece.new_piece(piece, new_position, upgraded_type)
@@ -209,9 +209,10 @@ class Game < ApplicationRecord
 
     setup = Setup.save_setup_and_signatures(new_pieces, opponent_color[0])
     game_move.setup = setup
+    add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
+    binding.pry if game_move.id.blank?
     moves << game_move
     game_move.save
-    add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
   end
 
   def promoted_pawn?(piece)
