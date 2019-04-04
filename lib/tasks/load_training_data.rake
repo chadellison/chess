@@ -30,8 +30,10 @@ def create_training_game(moves)
     puts "\ngame *****************************************************"
     puts moves[0..-4]
 
+    move_notation = moves[-7..-1] == '1/2-1/2' ? moves[0..-8] : moves[0..-4]
+
     outcome = find_outcome(result)
-    game = Game.create(notation: moves[0..-4], outcome: outcome)
+    game = Game.create(notation: move_notation, outcome: outcome)
 
     puts(outcome)
   end
