@@ -54,6 +54,7 @@ class AiLogic
       move_value = piece.position_index.to_s + move
       game_move = Move.new(value: move_value, move_count: move_count)
       game_pieces = Game.pieces_with_next_move(game.pieces, move_value)
+      # find_setup
       game_move.setup = Setup.create_setup(game_pieces, opponent_color_code)
       game_move
     end

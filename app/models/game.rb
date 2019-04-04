@@ -206,7 +206,7 @@ class Game < ApplicationRecord
       move_count: (moves.count + 1),
       promoted_pawn: (promoted_pawn?(updated_piece) ? updated_piece.piece_type : nil)
     )
-
+# here save setup with children
     game_move.setup = Setup.create_setup(new_pieces, opponent_color[0])
     add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
     moves << game_move
