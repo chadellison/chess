@@ -206,11 +206,12 @@ class Game < ApplicationRecord
       move_count: (moves.count + 1),
       promoted_pawn: (promoted_pawn?(updated_piece) ? updated_piece.piece_type : nil)
     )
-# here save setup with children
-    game_move.setup = Setup.create_setup(new_pieces, opponent_color[0])
-    add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
+
+    setup = Setup.save_setup_and_signatures(new_pieces, opponent_color[0])
+    game_move.setup = setup
     moves << game_move
     game_move.save
+    add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
   end
 
   def promoted_pawn?(piece)
