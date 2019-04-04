@@ -1,5 +1,5 @@
 class NeuralNetwork
-  ALPHA = 0.05
+  ALPHA = 0.01
 
   def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
@@ -101,6 +101,6 @@ class NeuralNetwork
   end
 
   def relu(input)
-    [0, input].max
+    input > 0 ? input : 0
   end
 end
