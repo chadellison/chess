@@ -6,7 +6,7 @@ task train_on_stockfish: :environment do
     game = Game.create(analyzed: true)
     openings = ['20d4', '21e4', '31f3', '19c4', '23g4']
     game.handle_move(openings.sample)
-    stockfish_integration = StockfishIntegration.new(game)
+    stockfish = StockfishIntegration.new(game)
 
     start_time = Time.now
     ai_logic = AiLogic.new(game)
@@ -14,12 +14,12 @@ task train_on_stockfish: :environment do
     until game.outcome.present? do
       turn = game.current_turn
 
-      if turn == stockfish_integration.stockfish_color(game_number)
-        puts stockfish_integration.fen_notation.find_fen_notation
+      if turn == stockfish.stockfish_color(game_number)
+        puts stockfish.fen_notation.find_fen_notation
 
-        stockfish_move = stockfish_integration.find_stockfish_move
+        stockfish_move = stockfish.find_stockfish_move
         position_index = game.find_piece_by_position(stockfish_move[0..1]).position_index
-        upgraded_type = stockfish_integration.find_upgraded_type(stockfish_move[4])
+        upgraded_type = stockfish.find_upgraded_type(stockfish_move[4])
 
         game.handle_move(position_index.to_s + stockfish_move[2..3], upgraded_type)
       else

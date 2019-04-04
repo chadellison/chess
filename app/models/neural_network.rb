@@ -97,7 +97,7 @@ class NeuralNetwork
   end
 
   def signature_input(signatures)
-    signatures.order(:signature_type).map { |signature| signature.average_outcome.to_f }
+    signatures.sort_by(&:signature_type).map { |signature| signature.average_outcome.to_f }
   end
 
   def relu(input)
