@@ -4,7 +4,7 @@ class Seeds
 
     puts 'creating weights'
 
-    12.times do |count|
+    15.times do |count|
       Weight.create(weight_count: count + 1, value: rand.to_s)
     end
 

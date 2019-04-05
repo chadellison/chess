@@ -31,8 +31,8 @@ class NeuralNetwork
   end
 
   def find_weights
-    weights = Weight.where(weight_count: 1..12).order(:weight_count)
-    [weights[0..3], weights[4..7], weights[8..11]]
+    weights = Weight.where(weight_count: 1..15).order(:weight_count)
+    [weights[0..4], weights[5..9], weights[10..14]]
   end
 
   # def layer_two(predictions)
