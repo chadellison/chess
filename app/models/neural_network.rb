@@ -49,19 +49,17 @@ class NeuralNetwork
   end
 
   def propagate_results(setup)
+    outcomes = find_outcomes(setup)
     weight_matrix = find_weights
 
     initial_input = signature_input(setup.signatures)
     predictions = multiply_vector(initial_input, weight_matrix)
-    deltas = []
-
-    deltas = find_deltas(predictions, setup)
+    deltas = find_deltas(predictions, outcomes)
     weighted_deltas = weight_deltas(initial_input, deltas)
     update_weights(weight_matrix, weighted_deltas)
   end
 
-  def find_deltas(predictions, setup)
-    outcomes = find_outcomes(setup)
+  def find_deltas(predictions, outcomes)
     deltas = []
     predictions.size.times do |index|
       delta = predictions[index] - outcomes[index]
