@@ -1,8 +1,10 @@
 desc "load_training_data"
 task load_training_data: :environment do
-  72.times do |count|
-    puts 'file: ' + count.to_s
-    parse_file(count + 1)
+  chess_file_numbers = (1..72).to_a
+
+  while chess_file_numbers.present?
+    file_number = chess_file_numbers.shuffle.pop
+    parse_file(file_number)
   end
   puts '---------------GAMES LOADED---------------'
 end
