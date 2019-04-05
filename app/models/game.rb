@@ -210,7 +210,6 @@ class Game < ApplicationRecord
     setup = Setup.save_setup_and_signatures(new_pieces, opponent_color[0])
     game_move.setup = setup
     add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
-    binding.pry if game_move.id.blank?
     moves << game_move
     game_move.save
   end

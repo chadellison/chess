@@ -9,7 +9,8 @@ class Setup < ApplicationRecord
     attack: AttackLogic,
     material: MaterialLogic,
     activity: ActivityLogic,
-    threat: ThreatLogic
+    threat: ThreatLogic,
+    pawn: PawnStructureLogic
   }
 
   include OutcomeCalculator
