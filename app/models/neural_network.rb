@@ -55,7 +55,7 @@ class NeuralNetwork
     initial_input = signature_input(setup.signatures)
     predictions = multiply_vector(initial_input, weight_matrix)
     deltas = find_deltas(predictions, outcomes)
-    weighted_deltas = weight_deltas(initial_input, deltas)
+    weighted_deltas = calculate_deltas(initial_input, deltas)
     update_weights(weight_matrix, weighted_deltas)
   end
 
@@ -82,8 +82,9 @@ class NeuralNetwork
     end
   end
 
-  def weight_deltas(input, deltas)
-    weighted_deltas = [[], [], []]
+  def calculate_deltas(input, deltas)
+    weighted_deltas = []
+    deltas.each { weighted_deltas.push([]) }
 
     deltas.size.times do |index|
       input.size.times do |count|
@@ -100,5 +101,9 @@ class NeuralNetwork
 
   def relu(input)
     input.map { |value| value > 0 ? value : 0 }
+  end
+
+  def relu_derivative(output)
+    input.map { |value| value > 0 ? 1 : 0 }
   end
 end
