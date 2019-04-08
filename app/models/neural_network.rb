@@ -99,6 +99,6 @@ class NeuralNetwork
   end
 
   def relu(input)
-    input > 0 ? input : 0
+    input.map { |value| value > 0 ? value : 0 }
   end
 end
