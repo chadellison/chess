@@ -12,6 +12,7 @@ gem 'redis', '~> 3.3', '>= 3.3.3'
 gem 'bcrypt'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'stockfish'
+gem 'matrix'
 
 group :development, :test do
   gem 'rspec-rails'
