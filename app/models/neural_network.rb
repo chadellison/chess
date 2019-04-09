@@ -4,11 +4,13 @@ class NeuralNetwork
   def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
 
-    weight_matrix = find_weights
+    layer_one_weights = find_layer_one_weights
+    layer_two_weights = find_layer_two_weights
     possible_moves.each do |possible_move|
       initial_input = signature_input(possible_move.setup.signatures)
-      predictions = multiply_vector(initial_input, weight_matrix)
-      weighted_moves[possible_move.value] = predictions
+      layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
+      layer_two_predictions = multiply_vector(relu(layer_one_predictions), layer_two_weights)
+      weighted_moves[possible_move.value] = layer_two_predictions
       puts "#{possible_move.value} ==> #{weighted_moves[possible_move.value]}"
     end
     weighted_moves
@@ -30,9 +32,14 @@ class NeuralNetwork
     predictions
   end
 
-  def find_weights
+  def find_layer_one_weights
     weights = Weight.where(weight_count: 1..15).order(:weight_count)
     [weights[0..4], weights[5..9], weights[10..14]]
+  end
+
+  def find_layer_two_weights
+    weights = Weight.where(weight_count: 16..24).order(:weight_count)
+    [weights[0..2], weights[3..5], weights[6..8]]
   end
 
   def find_outcomes(setup)
@@ -48,15 +55,24 @@ class NeuralNetwork
     [white_outcomes, black_outcomes, draw_outcomes]
   end
 
-  def propagate_results(setup)
+  def train(setup)
     outcomes = find_outcomes(setup)
-    weight_matrix = find_weights
+    layer_one_weights = find_layer_one_weights
+    layer_two_weights = find_layer_two_weights
 
     initial_input = signature_input(setup.signatures)
-    predictions = multiply_vector(initial_input, weight_matrix)
-    deltas = find_deltas(predictions, outcomes)
-    weighted_deltas = calculate_deltas(initial_input, deltas)
-    update_weights(weight_matrix, weighted_deltas)
+
+    layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
+    layer_two_predictions = multiply_vector(relu(layer_one_predictions), layer_two_weights)
+
+    layer_two_deltas = find_deltas(layer_two_predictions, outcomes)
+    layer_one_deltas = relu_derivative(multiply_vector(layer_two_deltas, layer_two_weights))
+
+    layer_two_weighted_deltas = calculate_deltas(layer_one_predictions, layer_two_deltas)
+    layer_one_weighted_deltas = calculate_deltas(initial_input, layer_one_deltas)
+
+    update_weights(layer_two_weights, layer_two_weighted_deltas)
+    update_weights(layer_one_weights, layer_one_weighted_deltas)
   end
 
   def find_deltas(predictions, outcomes)
@@ -104,6 +120,6 @@ class NeuralNetwork
   end
 
   def relu_derivative(output)
-    input.map { |value| value > 0 ? 1 : 0 }
+    output.map { |value| value > 0 ? 1 : 0 }
   end
 end
