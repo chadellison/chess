@@ -7,7 +7,7 @@ task train_with_setups: :environment do
     setup = Setup.where.not(outcome: {}).order('RANDOM()').first
 
     game_turn = setup.position_signature[-1] == 'w' ? 'white' : 'black'
-    neural_network.propagate_results(setup)
+    neural_network.train(setup)
     count += 1
     puts 'COUNT: ' + count.to_s
   end
