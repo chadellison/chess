@@ -18,7 +18,7 @@ class NeuralNetwork
 
   def weighted_sum(input, weights)
     total_weight = 0
-    binding.pry if input.size != weights.size
+    raise raise NeuralNetworkError, 'arrays are not equal length' if input.size != weights.size
     input.size.times do |index|
       total_weight += input[index] * weights[index].value.to_f
     end
@@ -67,7 +67,7 @@ class NeuralNetwork
     initial_input = signature_input(setup.signatures)
 
     layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
-    
+
     layer_two_predictions = multiply_vector(relu(layer_one_predictions), layer_two_weights)
     layer_two_deltas = find_deltas(layer_two_predictions, outcomes)
     layer_one_deltas = relu_derivative(multiply_vector(layer_two_deltas, layer_two_weights.transpose))
