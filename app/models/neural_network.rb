@@ -18,6 +18,7 @@ class NeuralNetwork
 
   def weighted_sum(input, weights)
     total_weight = 0
+    binding.pry if input.size != weights.size
     input.size.times do |index|
       total_weight += input[index] * weights[index].value.to_f
     end
@@ -33,13 +34,16 @@ class NeuralNetwork
   end
 
   def find_layer_one_weights
-    weights = Weight.where(weight_count: 1..15).order(:weight_count)
-    [weights[0..4], weights[5..9], weights[10..14]]
+    weights = Weight.where(weight_count: 1..40).order(:weight_count)
+    [
+      weights[0..4], weights[5..9], weights[10..14], weights[15..19],
+      weights[20..24], weights[25..29], weights[30..34], weights[35..39]
+    ]
   end
 
   def find_layer_two_weights
-    weights = Weight.where(weight_count: 16..24).order(:weight_count)
-    [weights[0..2], weights[3..5], weights[6..8]]
+    weights = Weight.where(weight_count: 41..64).order(:weight_count)
+    [weights[0..7], weights[8..15], weights[16..23]]
   end
 
   def find_outcomes(setup)
@@ -63,10 +67,10 @@ class NeuralNetwork
     initial_input = signature_input(setup.signatures)
 
     layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
+    
     layer_two_predictions = multiply_vector(relu(layer_one_predictions), layer_two_weights)
-
     layer_two_deltas = find_deltas(layer_two_predictions, outcomes)
-    layer_one_deltas = relu_derivative(multiply_vector(layer_two_deltas, layer_two_weights))
+    layer_one_deltas = relu_derivative(multiply_vector(layer_two_deltas, layer_two_weights.transpose))
 
     layer_two_weighted_deltas = calculate_deltas(layer_one_predictions, layer_two_deltas)
     layer_one_weighted_deltas = calculate_deltas(initial_input, layer_one_deltas)
