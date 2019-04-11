@@ -6,10 +6,9 @@ class Setup < ApplicationRecord
   has_many :signatures, through: :setup_signatures
 
   SIGNATURES = {
+    activity: ActivityLogic,
     attack: AttackLogic,
     material: MaterialLogic,
-    activity: ActivityLogic,
-    threat: ThreatLogic,
     pawn: PawnStructureLogic
   }
 
@@ -47,10 +46,17 @@ class Setup < ApplicationRecord
   end
 
   def add_signatures(new_pieces, game_turn_code)
+    # SIGNATURES.each do |signature_type, signature_class|
+    #   signature_value = signature_class.create_signature(new_pieces, game_turn_code)
+    #   handle_signature(signature_type.to_s, signature_value)
+    # end
     SIGNATURES.each do |signature_type, signature_class|
-      signature_value = signature_class.create_signature(new_pieces, game_turn_code)
+      signature_value = signature_class.create_signature(new_pieces)
       handle_signature(signature_type.to_s, signature_value)
     end
+
+    signature_value = ColorLogic.create_signature(game_turn_code)
+    handle_signature('color signature', signature_value)
   end
 
   def handle_signature(signature_type, signature_value)

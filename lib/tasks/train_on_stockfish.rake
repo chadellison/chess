@@ -27,7 +27,7 @@ task train_on_stockfish: :environment do
       end
     end
 
-    game.update_analytics
+    game.update_outcomes
     end_time = Time.now
 
     total_time = end_time - start_time

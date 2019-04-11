@@ -1,11 +1,18 @@
 class MaterialLogic
-  def self.create_signature(new_pieces, game_turn_code)
-    new_pieces.reduce(0) do |total, piece|
-      if piece.color == 'black'
-        total - piece.find_piece_value
+  def self.create_signature(new_pieces)
+    white_material = 0
+    black_material = 0
+
+    new_pieces.each do |piece|
+      piece_value = piece.find_piece_value
+
+      if piece.color == 'white'
+        white_material += piece_value
       else
-        total + piece.find_piece_value
+        black_material += piece_value
       end
-    end.to_s + game_turn_code
+    end
+
+    (white_material.to_f / black_material.to_f).round(3).to_s
   end
 end

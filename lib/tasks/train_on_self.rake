@@ -8,7 +8,7 @@ task train_on_self: :environment do
 
     game.machine_vs_machine
 
-    game.update_analytics
+    game.update_outcomes
 
     end_time = Time.now
 
