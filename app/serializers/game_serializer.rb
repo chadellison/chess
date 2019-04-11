@@ -21,12 +21,9 @@ class GameSerializer
 
     def format_outcome(outcome)
       case outcome
-      when 1
-        'White wins!'
-      when -1
-        'Black wins!'
-      when 0
-        'Draw'
+      when '1' then 'White wins!'
+      when '0' then 'Black wins!'
+      when '0.5' then 'Draw'
       end
     end
   end
