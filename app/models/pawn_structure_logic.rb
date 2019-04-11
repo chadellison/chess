@@ -1,7 +1,9 @@
 class PawnStructureLogic
+  INITIAL_VALUE = 0.01
+
   def self.create_signature(new_pieces)
-    white_pawn_weaknesses = 0
-    black_pawn_weaknesses = 0
+    white_pawn_weaknesses = INITIAL_VALUE
+    black_pawn_weaknesses = INITIAL_VALUE
 
     new_pieces.select { |piece| piece.piece_type == 'pawn' }.each do |pawn|
       undefended = Piece.defenders(pawn.position_index, new_pieces).size == 0
@@ -14,7 +16,6 @@ class PawnStructureLogic
       end
     end
 
-    return '0.0' if white_pawn_weaknesses == 0 || black_pawn_weaknesses == 0
-    (white_pawn_weaknesses.to_f / black_pawn_weaknesses.to_f).round(3).to_s
+    (white_pawn_weaknesses / black_pawn_weaknesses).round(3).to_s
   end
 end

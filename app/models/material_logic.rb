@@ -1,7 +1,9 @@
 class MaterialLogic
+  INITIAL_VALUE = 0.01
+
   def self.create_signature(new_pieces)
-    white_material = 0
-    black_material = 0
+    white_material = INITIAL_VALUE
+    black_material = INITIAL_VALUE
 
     new_pieces.each do |piece|
       piece_value = piece.find_piece_value
@@ -13,6 +15,6 @@ class MaterialLogic
       end
     end
 
-    (white_material.to_f / black_material.to_f).round(3).to_s
+    (white_material / black_material).round(3).to_s
   end
 end

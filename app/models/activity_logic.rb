@@ -1,7 +1,9 @@
 class ActivityLogic
+  INITIAL_VALUE = 0.01
+
   def self.create_signature(new_pieces)
-    white_activity = 0
-    black_activity = 0
+    white_activity = INITIAL_VALUE
+    black_activity = INITIAL_VALUE
 
     new_pieces.each do |piece|
       if piece.color == 'white'
@@ -11,6 +13,6 @@ class ActivityLogic
       end
     end
 
-    (white_activity.to_f / black_activity.to_f).round(3).to_s
+    (white_activity / black_activity).round(3).to_s
   end
 end
