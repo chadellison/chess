@@ -47,16 +47,9 @@ class NeuralNetwork
   end
 
   def find_outcomes(setup)
-    white_wins = setup.outcomes[:white_wins].to_i
-    black_wins = setup.outcomes[:black_wins].to_i
-    draws = setup.outcomes[:draws].to_i
-
-    total_setup_count = (white_wins + black_wins + draws).to_f
-    white_outcomes = white_wins / total_setup_count.to_f
-    black_outcomes = black_wins / total_setup_count.to_f
-    draw_outcomes = draws / total_setup_count.to_f
-
-    [white_outcomes, black_outcomes, draw_outcomes]
+    [:white_wins, :black_wins, :draws].map do |outcome|
+      setup.average_outcome(outcome)
+    end
   end
 
   def train(setup)
@@ -116,7 +109,7 @@ class NeuralNetwork
   end
 
   def signature_input(signatures)
-    signatures.sort_by(&:signature_type).map { |signature| signature.average_outcome.to_f }
+    signatures.sort_by(&:signature_type).map { |signature| signature.value.to_f }
   end
 
   def relu(input)
