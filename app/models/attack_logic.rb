@@ -1,4 +1,6 @@
 class AttackLogic
+  INITIAL_VALUE = 0.01
+
   VALUE_BY_INDEX = {
     1 => 5, 2 => 3, 3 => 3, 4 => 9, 5 => 0, 6 => 3, 7 => 3, 8 => 5, 9 => 1,
     10 => 1, 11 => 1, 12 => 1, 13 => 1, 14 => 1, 15 => 1, 16 => 1, 17 => 1,
@@ -14,13 +16,12 @@ class AttackLogic
     white_attack_ratio = attack_ratio(white_attackers, new_pieces)
     black_attack_ratio = attack_ratio(black_attackers, new_pieces)
 
-    return '0.0' if white_attack_ratio == 0 || black_attack_ratio == 0
     (white_attack_ratio / black_attack_ratio).round(3).to_s
   end
 
   def self.attack_ratio(attackers, new_pieces)
-    target_value = 0
-    defense_value = 0
+    target_value = INITIAL_VALUE
+    defense_value = INITIAL_VALUE
 
     attackers.each do |attacker|
       attacker.enemy_targets.each do |target|
@@ -29,7 +30,6 @@ class AttackLogic
       end
     end
 
-    return 0 if target_value == 0 || defense_value == 0
-    target_value.to_f / defense_value.to_f
+    target_value / defense_value
   end
 end
