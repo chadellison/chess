@@ -16,6 +16,6 @@ class PawnStructureLogic
       end
     end
 
-    (white_pawn_weaknesses / black_pawn_weaknesses).round(3).to_s
+    (white_pawn_weaknesses / black_pawn_weaknesses).to_s
   end
 end

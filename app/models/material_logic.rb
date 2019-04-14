@@ -15,6 +15,6 @@ class MaterialLogic
       end
     end
 
-    (white_material / black_material).round(3).to_s
+    (white_material / black_material).to_s
   end
 end

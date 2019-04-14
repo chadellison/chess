@@ -13,6 +13,6 @@ class ActivityLogic
       end
     end
 
-    (white_activity / black_activity).round(3).to_s
+    (white_activity / black_activity).to_s
   end
 end
