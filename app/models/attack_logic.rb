@@ -16,7 +16,7 @@ class AttackLogic
     white_attack_ratio = attack_ratio(white_attackers, new_pieces)
     black_attack_ratio = attack_ratio(black_attackers, new_pieces)
 
-    (white_attack_ratio / black_attack_ratio).round(3).to_s
+    (white_attack_ratio / black_attack_ratio).to_s
   end
 
   def self.attack_ratio(attackers, new_pieces)

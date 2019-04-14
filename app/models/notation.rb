@@ -93,11 +93,11 @@ class Notation
   end
 
   def find_piece_type(move_notation)
-    return 'king' if move_notation.include?('K')
-    return 'queen' if move_notation.include?('Q')
-    return 'bishop' if move_notation.include?('B')
     return 'knight' if move_notation.include?('N')
+    return 'bishop' if move_notation.include?('B')
+    return 'queen' if move_notation.include?('Q')
     return 'rook' if move_notation.include?('R')
+    return 'king' if move_notation.include?('K')
     'pawn'
   end
 
