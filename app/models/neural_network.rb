@@ -1,5 +1,5 @@
 class NeuralNetwork
-  ALPHA = 0.01
+  ALPHA = 0.001
 
   def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
@@ -88,7 +88,7 @@ class NeuralNetwork
       weight_matrix[index].size.times do |count|
         weight = weight_matrix[index][count]
         puts 'OLD WEIGHT: ' + weight.value
-        adjusted_value = (weight.value.to_f - (ALPHA * weighted_deltas[index][count])).to_s
+        adjusted_value = (weight.value.to_f + (ALPHA * weighted_deltas[index][count])).to_s
         puts 'ADJUSTED WEIGHT: ' + adjusted_value
         weight.update(value: adjusted_value)
       end
