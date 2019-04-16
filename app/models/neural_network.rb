@@ -18,7 +18,8 @@ class NeuralNetwork
 
   def weighted_sum(input, weights)
     total_weight = 0
-    raise raise NeuralNetworkError, 'arrays are not equal length' if input.size != weights.size
+    # raise raise NeuralNetworkError, 'arrays are not equal length' if input.size != weights.size
+    binding.pry if input.size != weights.size
     input.size.times do |index|
       total_weight += input[index] * weights[index].value.to_f
     end
@@ -113,10 +114,10 @@ class NeuralNetwork
   end
 
   def relu(input)
-    input.map { |value| value > 0 ? value : 0 }
+    input.map { |value| value > 0 ? value : 0.01 }
   end
 
   def relu_derivative(output)
-    output.map { |value| value > 0 ? 1 : 0 }
+    output.map { |value| value > 0 ? 1 : 0.01 }
   end
 end
