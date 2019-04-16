@@ -18,8 +18,8 @@ class NeuralNetwork
 
   def weighted_sum(input, weights)
     total_weight = 0
-    # raise raise NeuralNetworkError, 'arrays are not equal length' if input.size != weights.size
-    binding.pry if input.size != weights.size
+    raise raise NeuralNetworkError, 'arrays are not equal length' if input.size != weights.size
+    # binding.pry if input.size != weights.size
     input.size.times do |index|
       total_weight += input[index] * weights[index].value.to_f
     end
