@@ -1,5 +1,5 @@
 class NeuralNetwork
-  ALPHA = 0.001
+  ALPHA = 0.01
 
   def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
