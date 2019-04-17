@@ -1,11 +1,13 @@
 module OutcomeCalculator
   extend ActiveSupport::Concern
 
-  def average_outcome(result)
-    given_outcome = outcomes[result].to_f
-    return 0 if given_outcome == 0
+  def outcome_ratio
+    return 0 if rank = 0
+    rank / total_played
+  end
 
-    given_outcome / total_played
+  def rank
+    outcomes[:white_wins].to_f - outcomes[:black_wins].to_f
   end
 
   def total_played

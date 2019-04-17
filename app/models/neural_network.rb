@@ -9,8 +9,8 @@ class NeuralNetwork
     possible_moves.each do |possible_move|
       initial_input = signature_input(possible_move.setup.signatures)
       layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
-      layer_two_predictions = multiply_vector(relu(layer_one_predictions), layer_two_weights)
-      weighted_moves[possible_move.value] = layer_two_predictions
+      final_prediction = multiply_vector(relu(layer_one_predictions), layer_two_weights).first
+      weighted_moves[possible_move.value] = final_prediction
       puts "#{possible_move.value} ==> #{weighted_moves[possible_move.value]}"
     end
     weighted_moves
@@ -19,7 +19,6 @@ class NeuralNetwork
   def weighted_sum(input, weights)
     total_weight = 0
     raise raise NeuralNetworkError, 'arrays are not equal length' if input.size != weights.size
-    # binding.pry if input.size != weights.size
     input.size.times do |index|
       total_weight += input[index] * weights[index].value.to_f
     end
@@ -43,18 +42,12 @@ class NeuralNetwork
   end
 
   def find_layer_two_weights
-    weights = Weight.where(weight_count: 41..64).order(:weight_count)
-    [weights[0..7], weights[8..15], weights[16..23]]
-  end
-
-  def find_outcomes(setup)
-    [:white_wins, :black_wins, :draws].map do |outcome|
-      setup.average_outcome(outcome)
-    end
+    weights = Weight.where(weight_count: 41..48).order(:weight_count)
+    [weights[0..7]]
   end
 
   def train(setup)
-    outcomes = find_outcomes(setup)
+    outcome = setup.outcome_ratio
     layer_one_weights = find_layer_one_weights
     layer_two_weights = find_layer_two_weights
 
@@ -62,26 +55,21 @@ class NeuralNetwork
 
     layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
 
-    layer_two_predictions = multiply_vector(relu(layer_one_predictions), layer_two_weights)
-    layer_two_deltas = find_deltas(layer_two_predictions, outcomes)
-    layer_one_deltas = relu_derivative(multiply_vector(layer_two_deltas, layer_two_weights.transpose))
+    final_prediction = multiply_vector(relu(layer_one_predictions), layer_two_weights).first
+    final_delta = find_delta(final_prediction, outcome)
+    layer_one_deltas = relu_derivative(multiply_vector([final_delta], layer_two_weights.transpose))
 
-    layer_two_weighted_deltas = calculate_deltas(layer_one_predictions, layer_two_deltas)
+    layer_two_weighted_deltas = calculate_deltas(layer_one_predictions, [final_delta])
     layer_one_weighted_deltas = calculate_deltas(initial_input, layer_one_deltas)
 
     update_weights(layer_two_weights, layer_two_weighted_deltas)
     update_weights(layer_one_weights, layer_one_weighted_deltas)
   end
 
-  def find_deltas(predictions, outcomes)
-    deltas = []
-    predictions.size.times do |index|
-      delta = predictions[index] - outcomes[index]
-      deltas[index] = delta
-      puts 'ERROR: ' + (delta ** 2).to_s
-    end
-
-    deltas
+  def find_delta(prediction, outcome)
+    delta = prediction - outcome
+    puts 'ERROR: ' + (delta ** 2).to_s
+    delta
   end
 
   def update_weights(weight_matrix, weighted_deltas)

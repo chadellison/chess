@@ -30,13 +30,8 @@ class Analytics
     turn = game.moves.size.even? ? 'white' : 'black'
     ai = AiLogic.new(game)
     possible_moves = ai.find_next_moves(turn)
-    analyzed_moves = neural_network.move_analysis(possible_moves, turn).map do |next_move, analytics|
-      {
-        move: next_move,
-        white: analytics[0],
-        black: analytics[1],
-        draw: analytics[2]
-      }
+    analyzed_moves = neural_network.move_analysis(possible_moves, turn).map do |next_move, prediction|
+      { move: next_move, prediction: prediction }
     end
     AnalyticsSerializer.serialize(analyzed_moves)
   end

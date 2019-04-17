@@ -150,9 +150,9 @@ class Game < ApplicationRecord
 
   def handle_outcome
     if checkmate?(pieces, current_turn)
-      outcome = current_turn == 'black' ? 1 : 0
+      outcome = current_turn == 'black' ? 1 : -1
     else
-      outcome = 0.5
+      outcome = 0
     end
     update(outcome: outcome.to_s)
     GameEventBroadcastJob.perform_later(self) if game_type.include?('human')
@@ -209,7 +209,9 @@ class Game < ApplicationRecord
 
     setup = Setup.save_setup_and_signatures(new_pieces, opponent_color[0])
     game_move.setup = setup
-    add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
+    if moves.size < 20
+      add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
+    end
     moves << game_move
     game_move.save
   end
