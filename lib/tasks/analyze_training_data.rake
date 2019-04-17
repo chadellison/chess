@@ -17,7 +17,6 @@ def analyze_game
       notation.update_game_from_notation(move_notation.sub('#', ''), turn)
 
       game.reload_pieces
-      # puts 'Setup ' + game.moves.last.setup.position_signature
     end
 
     game.update_outcomes
