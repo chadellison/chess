@@ -263,6 +263,11 @@ class Game < ApplicationRecord
   end
 
   def update_outcomes
-    moves.each { |move| move.setup.update_outcomes(outcome) }
+    moves.each do |move|
+      setup = move.setup
+      setup.update_outcomes(outcome)
+
+      setup.signatures.each { |signature| signature.update_outcomes(outcome) }
+    end
   end
 end
