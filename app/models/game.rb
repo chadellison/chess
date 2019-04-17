@@ -186,8 +186,10 @@ class Game < ApplicationRecord
   end
 
   def update_game(position_index, new_position, upgraded_type = '')
-    move_key = notation.split('.')[0..(moves.count)].join('.')
-    if in_cache?(move_key)
+    move_count = moves.count
+    move_key = notation.split('.')[0..(move_count)].join('.')
+
+    if move_count < 30 && in_cache?(move_key)
       moves << get_move(move_key)
       reload_pieces
     else
@@ -209,7 +211,7 @@ class Game < ApplicationRecord
 
     setup = Setup.save_setup_and_signatures(new_pieces, opponent_color[0])
     game_move.setup = setup
-    if moves.size < 20
+    if moves.size < 30
       add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
     end
     moves << game_move
@@ -268,7 +270,6 @@ class Game < ApplicationRecord
     moves.each do |move|
       setup = move.setup
       setup.update_outcomes(outcome)
-
       setup.signatures.each { |signature| signature.update_outcomes(outcome) }
     end
   end

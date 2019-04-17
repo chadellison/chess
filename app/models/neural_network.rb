@@ -7,13 +7,18 @@ class NeuralNetwork
     layer_one_weights = find_layer_one_weights
     layer_two_weights = find_layer_two_weights
     possible_moves.each do |possible_move|
-      initial_input = signature_input(possible_move.setup.signatures)
-      layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
-      final_prediction = multiply_vector(relu(layer_one_predictions), layer_two_weights).first
+      final_prediction = calculate_prediction(possible_move.setup, layer_one_weights, layer_two_weights)
       weighted_moves[possible_move.value] = final_prediction
       puts "#{possible_move.value} ==> #{weighted_moves[possible_move.value]}"
     end
     weighted_moves
+  end
+
+  def calculate_prediction(setup, layer_one_weights, layer_two_weights)
+    initial_input = signature_input(setup.signatures)
+    layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
+    prediction = multiply_vector(leaky_relu(layer_one_predictions), layer_two_weights).first
+    prediction
   end
 
   def weighted_sum(input, weights)
@@ -50,12 +55,11 @@ class NeuralNetwork
     outcome = setup.outcome_ratio
     layer_one_weights = find_layer_one_weights
     layer_two_weights = find_layer_two_weights
-
     initial_input = signature_input(setup.signatures)
 
     layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
 
-    final_prediction = multiply_vector(relu(layer_one_predictions), layer_two_weights).first
+    final_prediction = multiply_vector(leaky_relu(layer_one_predictions), layer_two_weights).first
     final_delta = find_delta(final_prediction, outcome)
     layer_one_deltas = relu_derivative(multiply_vector([final_delta], layer_two_weights.transpose))
 
@@ -101,7 +105,7 @@ class NeuralNetwork
     signatures.sort_by(&:signature_type).map { |signature| signature.value.to_f }
   end
 
-  def relu(input)
+  def leaky_relu(input)
     input.map { |value| value > 0 ? value : 0.01 }
   end
 

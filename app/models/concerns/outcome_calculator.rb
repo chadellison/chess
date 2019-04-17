@@ -2,7 +2,7 @@ module OutcomeCalculator
   extend ActiveSupport::Concern
 
   def outcome_ratio
-    return 0 if rank = 0
+    return 0 if rank == 0
     rank / total_played
   end
 
