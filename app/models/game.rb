@@ -210,6 +210,7 @@ class Game < ApplicationRecord
     )
 
     setup = Setup.save_setup_and_signatures(new_pieces, opponent_color[0])
+    # setup = Setup.find_setup(new_pieces, opponent_color[0])
     game_move.setup = setup
     if moves.size < 30
       add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
@@ -267,10 +268,16 @@ class Game < ApplicationRecord
   end
 
   def update_outcomes
-    moves.each do |move|
-      setup = move.setup
-      setup.update_outcomes(outcome)
-      setup.signatures.each { |signature| signature.update_outcomes(outcome) }
+    moves.each_slice(4) do |move_chunks|
+      move_threads = move_chunks.map do |move|
+        Thread.new do
+          setup = move.setup
+          setup.update_outcomes(outcome)
+          setup.signatures.each { |signature| signature.update_outcomes(outcome) }
+        end
+      end
+
+      move_threads.each(&:join)
     end
   end
 end
