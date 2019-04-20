@@ -15,8 +15,7 @@ def analyze_game
       turn = index.even? ? 'white' : 'black'
 
       notation.update_game_from_notation(move_notation.sub('#', ''), turn)
-
-      game.reload_pieces
+      puts 'MOVE: ' + move_notation
     end
 
     game.update_outcomes
