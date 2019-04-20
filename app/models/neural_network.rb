@@ -103,7 +103,6 @@ class NeuralNetwork
   end
 
   def signature_input(signatures)
-    # signatures.sort_by(&:signature_type).map { |signature| signature.value.to_f }
     signatures.sort_by(&:signature_type).map { |signature| signature.outcome_ratio.to_f }
   end
 
