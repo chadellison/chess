@@ -1,21 +1,15 @@
 class PawnStructureLogic
-  INITIAL_VALUE = 0.01
-
   def self.create_signature(new_pieces)
-    white_pawn_weaknesses = INITIAL_VALUE
-    black_pawn_weaknesses = INITIAL_VALUE
-
-    new_pieces.select { |piece| piece.piece_type == 'pawn' }.each do |pawn|
-      undefended = Piece.defenders(pawn.position_index, new_pieces).size == 0
-      if undefended
+    new_pieces.select { |piece| piece.piece_type == 'pawn' }.reduce(0) do |total, pawn|
+      binding.pry if total.nil?
+      if Piece.defenders(pawn.position_index, new_pieces).size == 0
         if pawn.color == 'white'
-          white_pawn_weaknesses += 1
+          total + 1
         else
-          black_pawn_weaknesses += 1
+          total - 1
         end
       end
+      total
     end
-
-    (white_pawn_weaknesses / black_pawn_weaknesses).to_s
   end
 end

@@ -1,18 +1,12 @@
 class ActivityLogic
-  INITIAL_VALUE = 0.01
-
   def self.create_signature(new_pieces)
-    white_activity = INITIAL_VALUE
-    black_activity = INITIAL_VALUE
-
-    new_pieces.each do |piece|
+    new_pieces.reduce(0) do |total, piece|
+      move_count = piece.valid_moves(new_pieces).size
       if piece.color == 'white'
-        white_activity += piece.valid_moves(new_pieces).size
+        total + move_count
       else
-        black_activity += piece.valid_moves(new_pieces).size
+        total - move_count
       end
     end
-
-    (white_activity / black_activity).to_s
   end
 end
