@@ -1,0 +1,3 @@
+WHITE_WINS = '1'
+BLACK_WINS = '-1'
+DRAW = '0'

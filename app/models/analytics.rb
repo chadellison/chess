@@ -31,7 +31,7 @@ class Analytics
     ai = AiLogic.new(game)
     possible_moves = ai.find_next_moves(turn)
     analyzed_moves = neural_network.move_analysis(possible_moves, turn).map do |next_move, prediction|
-      { move: next_move, prediction: prediction }
+      { move: next_move, white: prediction, black: prediction * -1 }
     end
     AnalyticsSerializer.serialize(analyzed_moves)
   end
@@ -45,9 +45,9 @@ class Analytics
   end
 
   def initial_outcomes
-    white_wins = Game.where(outcome: '1').count
-    black_wins = Game.where(outcome: '0.5').count
-    draws = Game.where(outcome: '0').count
+    white_wins = Game.where(outcome: WHITE_WINS).count
+    black_wins = Game.where(outcome: BLACK_WINS).count
+    draws = Game.where(outcome: DRAW).count
     { white_wins: white_wins, black_wins: black_wins, draws: draws }
   end
 end
