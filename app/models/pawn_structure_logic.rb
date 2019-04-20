@@ -1,5 +1,5 @@
 class PawnStructureLogic
-  def self.create_signature(new_pieces)
+  def self.create_signature(new_pieces, game_turn_code)
     new_pieces.select { |piece| piece.piece_type == 'pawn' }.reduce(0) do |total, pawn|
       binding.pry if total.nil?
       if Piece.defenders(pawn.position_index, new_pieces).size == 0
@@ -10,6 +10,6 @@ class PawnStructureLogic
         end
       end
       total
-    end
+    end.to_s + game_turn_code
   end
 end
