@@ -150,9 +150,9 @@ class Game < ApplicationRecord
 
   def handle_outcome
     if checkmate?(pieces, current_turn)
-      outcome = current_turn == 'black' ? 1 : -1
+      outcome = current_turn == 'black' ? '1' : '-1'
     else
-      outcome = 0
+      outcome = '0'
     end
     update(outcome: outcome.to_s)
     GameEventBroadcastJob.perform_later(self) if game_type.include?('human')

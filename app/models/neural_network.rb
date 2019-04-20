@@ -17,7 +17,7 @@ class NeuralNetwork
   def calculate_prediction(setup, layer_one_weights, layer_two_weights)
     initial_input = signature_input(setup.signatures)
     layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
-    prediction = multiply_vector(leaky_relu(layer_one_predictions), layer_two_weights).first
+    prediction = multiply_vector(tanh(layer_one_predictions), layer_two_weights).first
     prediction
   end
 
@@ -59,9 +59,9 @@ class NeuralNetwork
 
     layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
 
-    final_prediction = multiply_vector(leaky_relu(layer_one_predictions), layer_two_weights).first
+    final_prediction = tanh(multiply_vector(tanh(layer_one_predictions), layer_two_weights)).first
     final_delta = find_delta(final_prediction, outcome)
-    layer_one_deltas = relu_derivative(multiply_vector([final_delta], layer_two_weights.transpose))
+    layer_one_deltas = tanh_derivative(multiply_vector([final_delta], layer_two_weights.transpose))
 
     layer_two_weighted_deltas = calculate_deltas(layer_one_predictions, [final_delta])
     layer_one_weighted_deltas = calculate_deltas(initial_input, layer_one_deltas)
@@ -72,7 +72,8 @@ class NeuralNetwork
 
   def find_delta(prediction, outcome)
     delta = prediction - outcome
-    puts 'ERROR: ' + (delta ** 2).to_s
+    error = delta ** 2
+    puts 'ERROR: ' + error.to_s
     delta
   end
 
@@ -102,14 +103,23 @@ class NeuralNetwork
   end
 
   def signature_input(signatures)
-    signatures.sort_by(&:signature_type).map { |signature| signature.value.to_f }
+    # signatures.sort_by(&:signature_type).map { |signature| signature.value.to_f }
+    signatures.sort_by(&:signature_type).map { |signature| signature.outcome_ratio.to_f }
   end
 
-  def leaky_relu(input)
-    input.map { |value| value > 0 ? value : 0.01 }
+  # def leaky_relu(input)
+  #   input.map { |value| value > 0 ? value : 0.01 }
+  # end
+
+  # def relu_derivative(output)
+  #   output.map { |value| value > 0 ? 1 : 0.01 }
+  # end
+
+  def tanh(input)
+    input.map { |value| Math.tanh(value) }
   end
 
-  def relu_derivative(output)
-    output.map { |value| value > 0 ? 1 : 0.01 }
+  def tanh_derivative(output)
+    output.map { |output| 1 - Math.tanh(output) ** 2 }
   end
 end

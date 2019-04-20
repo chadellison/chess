@@ -6,7 +6,7 @@ class AttackLogic
     26 => 3, 27 => 3, 28 => 9, 29 => 0, 30 => 3, 31 => 3, 32 => 5
   }
 
-  def self.create_signature(new_pieces)
+  def self.create_signature(new_pieces, game_turn_code)
     attackers = new_pieces.select { |piece| piece.enemy_targets.present? }
 
     attackers.reduce(0) do |total, attacker|
@@ -14,6 +14,6 @@ class AttackLogic
         sum + VALUE_BY_INDEX[target]
         sum - Piece.defenders(target, new_pieces).size * attacker.find_piece_value
       end
-    end
+    end.to_s + game_turn_code
   end
 end

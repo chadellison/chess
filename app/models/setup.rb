@@ -9,7 +9,8 @@ class Setup < ApplicationRecord
     activity: ActivityLogic,
     attack: AttackLogic,
     material: MaterialLogic,
-    pawn: PawnStructureLogic
+    pawn: PawnStructureLogic,
+    controlled_space: ControlledSpaceLogic
   }
 
   include OutcomeCalculator
@@ -47,12 +48,9 @@ class Setup < ApplicationRecord
 
   def add_signatures(new_pieces, game_turn_code)
     SIGNATURES.each do |signature_type, signature_class|
-      signature_value = signature_class.create_signature(new_pieces)
+      signature_value = signature_class.create_signature(new_pieces, game_turn_code)
       handle_signature(signature_type.to_s, signature_value)
     end
-
-    signature_value = ColorLogic.create_signature(game_turn_code)
-    handle_signature('color signature', signature_value)
   end
 
   def handle_signature(signature_type, signature_value)

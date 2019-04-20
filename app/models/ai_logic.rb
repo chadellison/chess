@@ -24,12 +24,9 @@ class AiLogic
   end
 
   def find_best_move(weighted_moves, game_turn)
-    weighted_moves.max_by do |move_value, predictions|
-      if game_turn == 'white'
-        predictions[0]
-      else
-        predictions[1]
-      end
+    weighted_moves.max_by do |move_value, prediction|
+      prediction *= -1 if game_turn == 'black'
+      prediction
     end.first
   end
 
