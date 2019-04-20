@@ -15,8 +15,7 @@ module OutcomeCalculator
   end
 
   def update_outcomes(outcome)
-    key = { '1' => :white_wins, '-1' => :black_wins, '0' => :draws }[outcome]
-
+    key = OUTCOME_KEY[outcome]
     if outcomes[key].present?
       outcomes[key] += 1
     else

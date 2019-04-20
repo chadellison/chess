@@ -43,9 +43,9 @@ end
 
 def find_outcome(result)
   case result
-  when '0-1' then '-1'
-  when '1-0' then '1'
-  else '0'
+  when '0-1' then BLACK_WINS
+  when '1-0' then WHITE_WINS
+  else DRAW
   end
 end
 
