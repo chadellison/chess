@@ -10,7 +10,8 @@ class Setup < ApplicationRecord
     attack: AttackLogic,
     material: MaterialLogic,
     pawn: PawnStructureLogic,
-    controlled_space: ControlledSpaceLogic
+    controlled_space: ControlledSpaceLogic,
+    threat: ThreatLogic
   }
 
   include OutcomeCalculator

@@ -23,7 +23,8 @@ class NeuralNetwork
 
   def weighted_sum(input, weights)
     total_weight = 0
-    raise raise NeuralNetworkError, 'arrays are not equal length' if input.size != weights.size
+    # raise raise NeuralNetworkError, 'arrays are not equal length' if input.size != weights.size
+    binding.pry if input.size != weights.size
     input.size.times do |index|
       total_weight += input[index] * weights[index].value.to_f
     end
@@ -39,16 +40,15 @@ class NeuralNetwork
   end
 
   def find_layer_one_weights
-    weights = Weight.where(weight_count: 1..40).order(:weight_count)
+    weights = Weight.where(weight_count: 1..48).order(:weight_count)
     [
-      weights[0..4], weights[5..9], weights[10..14], weights[15..19],
-      weights[20..24], weights[25..29], weights[30..34], weights[35..39]
+      weights[0..5], weights[6..11], weights[12..17], weights[18..23],
+      weights[24..29], weights[30..35], weights[36..41], weights[42..47]
     ]
   end
 
   def find_layer_two_weights
-    weights = Weight.where(weight_count: 41..48).order(:weight_count)
-    [weights[0..7]]
+    [Weight.where(weight_count: 49..56).order(:weight_count)]
   end
 
   def train(setup)
