@@ -16,9 +16,9 @@ class ControlledSpaceLogic
       new_pieces.each do |piece|
         if piece.valid_moves(new_pieces).include?(target_square)
           if piece.color == 'white'
-            total + 1
+            total += 1
           else
-            total - 1
+            total -= 1
           end
         end
       end

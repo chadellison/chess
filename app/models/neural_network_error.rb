@@ -1,3 +1,2 @@
 class NeuralNetworkError < StandardError
-  
 end

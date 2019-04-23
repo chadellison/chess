@@ -2,11 +2,7 @@ class Seeds
   def create_weights
     Weight.destroy_all
 
-    56.times do |count|
-      multiplyer = rand < 0.5 ? -1 : 1
-      weight_value = (rand * multiplyer).to_s
-      Weight.create(weight_count: count + 1, value: weight_value)
-    end
+    56.times { |count| Weight.create(weight_count: count + 1, value: rand) }
     puts 'created weights'
   end
 end

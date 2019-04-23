@@ -81,9 +81,7 @@ class NeuralNetwork
     weight_matrix.size.times do |index|
       weight_matrix[index].size.times do |count|
         weight = weight_matrix[index][count]
-        puts 'OLD WEIGHT: ' + weight.value
         adjusted_value = (weight.value.to_f + (ALPHA * weighted_deltas[index][count])).to_s
-        puts 'ADJUSTED WEIGHT: ' + adjusted_value
         weight.update(value: adjusted_value)
       end
     end
