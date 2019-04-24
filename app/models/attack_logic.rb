@@ -11,7 +11,7 @@ class AttackLogic
 
     attackers.reduce(0) do |total, attacker|
       total + attacker.enemy_targets.reduce(0) do |sum, target|
-        sum + VALUE_BY_INDEX[target] + (Piece.defenders(target, new_pieces).size * attacker.find_piece_value)
+        sum + VALUE_BY_INDEX[target] + (Piece.defenders(target, new_pieces).size * VALUE_BY_INDEX[attacker.position_index])
       end
     end.to_s + game_turn_code
   end
