@@ -2,7 +2,7 @@ module CacheLogic
   extend ActiveSupport::Concern
 
   def in_cache?(key)
-    get_from_cache(key).present?
+    REDIS.get(key).present?
   end
 
   def get_move(notation)
