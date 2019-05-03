@@ -16,23 +16,9 @@ class Setup < ApplicationRecord
 
   include OutcomeCalculator
 
-  def self.save_setup_and_signatures(new_pieces, opponent_color_code)
-    game_signature = Setup.create_signature(new_pieces, opponent_color_code)
-    setup = Setup.find_by(position_signature: game_signature)
-    return setup if setup.present?
-
-    setup = Setup.new(position_signature: game_signature)
-    new_pieces.each { |piece| piece.valid_moves(new_pieces) }
-    setup.add_signatures(new_pieces, opponent_color_code)
-    setup.signatures.each(&:save)
-    setup.save
-    setup
-  end
-
   def self.find_setup(new_pieces, opponent_color_code)
     game_signature = Setup.create_signature(new_pieces, opponent_color_code)
     setup = Setup.find_by(position_signature: game_signature)
-
     return setup if setup.present?
 
     setup = Setup.new(position_signature: game_signature) if setup.blank?

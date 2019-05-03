@@ -209,7 +209,10 @@ class Game < ApplicationRecord
       promoted_pawn: (promoted_pawn?(updated_piece) ? updated_piece.piece_type : nil)
     )
 
-    setup = Setup.save_setup_and_signatures(new_pieces, opponent_color[0])
+    setup = Setup.find_setup(new_pieces, opponent_color[0])
+    setup.signatures.each(&:save)
+    setup.save
+
     game_move.setup = setup
     if moves.size < 30
       add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
