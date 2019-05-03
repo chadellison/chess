@@ -1,23 +1,30 @@
 class NeuralNetwork
-  ALPHA = 0.01
+  ALPHA = 0.001
+  WEIGHT_COUNTS = [36, 18, 3]
+  OFFSETS = [0, 36, 54]
+  VECTOR_COUNTS = [6, 6, 3]
+
+  include CacheLogic
 
   def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
 
-    layer_one_weights = find_layer_one_weights
-    layer_two_weights = find_layer_two_weights
+    layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
+    layer_two_weights = find_weights(WEIGHT_COUNTS[1], OFFSETS[1], VECTOR_COUNTS[1])
+    layer_three_weights = find_weights(WEIGHT_COUNTS[2], OFFSETS[2], VECTOR_COUNTS[2])
     possible_moves.each do |possible_move|
-      final_prediction = calculate_prediction(possible_move.setup, layer_one_weights, layer_two_weights)
+      final_prediction = calculate_prediction(possible_move.setup, layer_one_weights, layer_two_weights, layer_three_weights)
       weighted_moves[possible_move.value] = final_prediction
       puts "#{possible_move.value} ==> #{weighted_moves[possible_move.value]}"
     end
     weighted_moves
   end
 
-  def calculate_prediction(setup, layer_one_weights, layer_two_weights)
+  def calculate_prediction(setup, layer_one_weights, layer_two_weights, layer_three_weights)
     initial_input = signature_input(setup.signatures)
     layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
-    multiply_vector(tanh(layer_one_predictions), layer_two_weights).first
+    layer_two_predictions = multiply_vector(tanh(layer_one_predictions), layer_two_weights)
+    multiply_vector(tanh(layer_two_predictions), layer_three_weights).first
   end
 
   def weighted_sum(input, weights)
@@ -37,33 +44,34 @@ class NeuralNetwork
     predictions
   end
 
-  def find_layer_one_weights
-    weights = Weight.where(weight_count: 1..48).order(:weight_count)
-    [
-      weights[0..5], weights[6..11], weights[12..17], weights[18..23],
-      weights[24..29], weights[30..35], weights[36..41], weights[42..47]
-    ]
-  end
+  def find_weights(weight_amount, offset, slice_value)
+    range = ((offset + 1)..(offset + weight_amount))
+    weights = Weight.where(weight_count: range).order(:weight_count)
 
-  def find_layer_two_weights
-    [Weight.where(weight_count: 49..56).order(:weight_count)]
+    weights.each_slice(slice_value).to_a
   end
 
   def train(setup)
     outcome = setup.outcome_ratio
-    layer_one_weights = find_layer_one_weights
-    layer_two_weights = find_layer_two_weights
+    layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
+    layer_two_weights = find_weights(WEIGHT_COUNTS[1], OFFSETS[1], VECTOR_COUNTS[1])
+    layer_three_weights = find_weights(WEIGHT_COUNTS[2], OFFSETS[2], VECTOR_COUNTS[2])
+
     initial_input = signature_input(setup.signatures)
 
     layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
+    layer_two_predictions = multiply_vector(tanh(layer_one_predictions), layer_two_weights)
+    final_prediction = multiply_vector(tanh(layer_two_predictions), layer_three_weights).first
 
-    final_prediction = tanh(multiply_vector(tanh(layer_one_predictions), layer_two_weights)).first
     final_delta = find_delta(final_prediction, outcome)
-    layer_one_deltas = tanh_derivative(multiply_vector([final_delta], layer_two_weights.transpose))
+    layer_two_deltas = tanh_derivative(multiply_vector([final_delta], layer_three_weights.transpose))
+    layer_one_deltas = tanh_derivative(multiply_vector(layer_two_deltas, layer_two_weights.transpose))
 
-    layer_two_weighted_deltas = calculate_deltas(layer_one_predictions, [final_delta])
+    layer_three_weighted_deltas = calculate_deltas(layer_two_predictions, [final_delta])
+    layer_two_weighted_deltas = calculate_deltas(layer_one_predictions, layer_two_deltas)
     layer_one_weighted_deltas = calculate_deltas(initial_input, layer_one_deltas)
 
+    update_weights(layer_three_weights, layer_three_weighted_deltas)
     update_weights(layer_two_weights, layer_two_weighted_deltas)
     update_weights(layer_one_weights, layer_one_weighted_deltas)
   end
@@ -72,6 +80,7 @@ class NeuralNetwork
     delta = prediction - outcome
     error = delta ** 2
     puts 'ERROR: ' + error.to_s
+    puts 'DELTA: ' + delta.to_s
     delta
   end
 
