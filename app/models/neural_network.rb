@@ -1,5 +1,5 @@
 class NeuralNetwork
-  ALPHA = 0.001
+  ALPHA = 0.01
   WEIGHT_COUNTS = [36, 18, 3]
   OFFSETS = [0, 36, 54]
   VECTOR_COUNTS = [6, 6, 3]
@@ -89,7 +89,7 @@ class NeuralNetwork
     weight_matrix.size.times do |index|
       weight_matrix[index].size.times do |count|
         weight = weight_matrix[index][count]
-        adjusted_value = (weight.value.to_f + (ALPHA * weighted_deltas[index][count])).to_s
+        adjusted_value = (weight.value.to_f - (ALPHA * weighted_deltas[index][count])).to_s
         weight.update(value: adjusted_value)
       end
     end
