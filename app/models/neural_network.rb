@@ -61,9 +61,9 @@ class NeuralNetwork
 
     layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
     layer_two_predictions = multiply_vector(tanh(layer_one_predictions), layer_two_weights)
-    final_prediction = multiply_vector(tanh(layer_two_predictions), layer_three_weights).first
+    final_predictions = multiply_vector(tanh(layer_two_predictions), layer_three_weights)
 
-    final_delta = find_delta(final_prediction, outcome)
+    final_delta = find_delta(tanh(final_predictions).first, outcome)
     layer_two_deltas = tanh_derivative(multiply_vector([final_delta], layer_three_weights.transpose))
     layer_one_deltas = tanh_derivative(multiply_vector(layer_two_deltas, layer_two_weights.transpose))
 
@@ -79,6 +79,7 @@ class NeuralNetwork
   def find_delta(prediction, outcome)
     delta = prediction - outcome
     error = delta ** 2
+    update_error_rate(error)
     puts 'ERROR: ' + error.to_s
     puts 'DELTA: ' + delta.to_s
     delta
@@ -125,5 +126,12 @@ class NeuralNetwork
 
   def tanh_derivative(output)
     output.map { |output| 1 - Math.tanh(output) ** 2 }
+  end
+
+  def update_error_rate(error)
+    error_object = JSON.parse(get_from_cache('error_rate')).symbolize_keys
+    error_object[:count] += 1
+    error_object[:error] += error
+    add_to_cache('error_rate', error_object)
   end
 end
