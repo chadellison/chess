@@ -21,7 +21,7 @@ class Setup < ApplicationRecord
     setup = Setup.find_by(position_signature: game_signature)
     return setup if setup.present?
 
-    setup = Setup.new(position_signature: game_signature) if setup.blank?
+    setup = Setup.new(position_signature: game_signature)
     new_pieces.each { |piece| piece.valid_moves(new_pieces) }
     setup.add_signatures(new_pieces, opponent_color_code)
     setup
