@@ -9,7 +9,7 @@ class Setup < ApplicationRecord
     activity: ActivityLogic,
     attack: AttackLogic,
     material: MaterialLogic,
-    pawn: PawnStructureLogic,
+    tempo: TempoLogic,
     controlled_space: ControlledSpaceLogic,
     threat: ThreatLogic
   }
