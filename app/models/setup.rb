@@ -9,9 +9,7 @@ class Setup < ApplicationRecord
     activity: ActivityLogic,
     attack: AttackLogic,
     material: MaterialLogic,
-    tempo: TempoLogic,
-    controlled_space: ControlledSpaceLogic,
-    threat: ThreatLogic
+    tempo: TempoLogic
   }
 
   include OutcomeCalculator

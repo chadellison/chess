@@ -1,8 +1,8 @@
 class NeuralNetwork
   ALPHA = 0.01
-  WEIGHT_COUNTS = [36, 18, 3]
-  OFFSETS = [0, 36, 54]
-  VECTOR_COUNTS = [6, 6, 3]
+  WEIGHT_COUNTS = [24, 18, 3]
+  OFFSETS = [0, 24, 42]
+  VECTOR_COUNTS = [4, 6, 3]
 
   include CacheLogic
 
@@ -24,7 +24,7 @@ class NeuralNetwork
     initial_input = signature_input(setup.signatures)
     layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
     layer_two_predictions = multiply_vector(tanh(layer_one_predictions), layer_two_weights)
-    multiply_vector(tanh(layer_two_predictions), layer_three_weights).first
+    multiply_vector(layer_two_predictions, layer_three_weights).first
   end
 
   def weighted_sum(input, weights)
