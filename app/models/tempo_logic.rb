@@ -7,16 +7,17 @@ class TempoLogic
   }
 
   def self.create_signature(new_pieces, game_turn_code)
-    max_white_target = nil
-    max_black_target = nil
+    max_white_target = 0
+    max_black_target = 0
 
     new_pieces.each do |piece|
       if piece.enemy_targets.present?
         current_target = piece.enemy_targets.max_by { |target| VALUE_BY_INDEX[target] }
+        target_value = VALUE_BY_INDEX[current_target]
         if piece.color == 'white'
-          max_black_target = current_target if VALUE_BY_INDEX[current_target] > max_black_target
+          max_black_target = target_value if target_value > max_black_target
         else
-          max_white_target = current_target if VALUE_BY_INDEX[current_target] > max_white_target
+          max_white_target = target_value if target_value > max_white_target
         end
       end
     end
