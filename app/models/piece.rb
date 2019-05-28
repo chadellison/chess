@@ -41,6 +41,7 @@ class Piece
     @has_moved = attributes[:has_moved]
     @moved_two = attributes[:moved_two]
     @enemy_targets = []
+    @valid_moves = []
     @game_move_logic = GameMoveLogic.new
   end
 

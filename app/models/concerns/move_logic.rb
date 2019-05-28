@@ -194,12 +194,10 @@ module MoveLogic
       piece.piece_type == 'king' && piece.color == allied_color
     end
 
-    return false if king.nil? || kings_too_close?(game_pieces)
+    return false if king.blank?
 
     occupied_spaces = game_pieces.map(&:position)
-    opponent_pieces = game_pieces.reject do |piece|
-      piece.color == allied_color || piece.piece_type == 'king'
-    end
+    opponent_pieces = game_pieces.reject { |piece| piece.color == allied_color }
 
     opponent_pieces.none? do |piece|
       piece.moves_for_piece.include?(king.position) &&
@@ -207,16 +205,6 @@ module MoveLogic
         piece.valid_destination?(king.position, game_pieces) &&
         piece.valid_for_piece?(king.position, game_pieces)
     end
-  end
-
-  def kings_too_close?(game_pieces)
-    positions = game_pieces.select { |piece| piece.piece_type == 'king' }
-                       .map(&:position)
-
-    [
-      (positions.first[0].ord - positions.last[0].ord).abs,
-      (positions.first[1].to_i - positions.last[1].to_i).abs
-    ].all? { |value| value < 2 }
   end
 
   def valid_for_piece?(next_move, game_pieces)
