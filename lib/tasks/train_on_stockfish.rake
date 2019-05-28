@@ -23,14 +23,7 @@ task train_on_stockfish: :environment do
 
         game.handle_move(position_index.to_s + stockfish_move[2..3], upgraded_type)
       else
-        # game_pieces = game.pieces.select { |piece| piece.color == turn }
-        # game_moves = game_pieces.map do |piece|
-        #   piece.valid_moves.map { |move| piece.position_index.to_s + move }
-        # end.flatten
-        #
-        # random_move_value = game_moves.sample
-        # game.handle_move(random_move_value, ai_logic.promote_pawn(random_move_value))
-        ai_logic.ai_move(turn)
+        engine_move(game, ai_logic, turn)
       end
     end
 
@@ -42,5 +35,20 @@ task train_on_stockfish: :environment do
     puts "FINISHED GAME IN #{Time.at(total_time).utc.strftime("%H:%M:%S")}!"
     puts "OUTCOME:  #{game.outcome}"
     puts '---------------THE END---------------'
+  end
+
+end
+
+def engine_move(game, ai_logic, turn)
+  if rand > (ENV['RANDOMIZER'].to_i * 0.1)
+    game_pieces = game.pieces.select { |piece| piece.color == turn }
+    game_moves = game_pieces.map do |piece|
+      piece.valid_moves.map { |move| piece.position_index.to_s + move }
+    end.flatten
+
+    random_move_value = game_moves.sample
+    game.handle_move(random_move_value, ai_logic.promote_pawn(random_move_value))
+  else
+    ai_logic.ai_move(turn)
   end
 end
