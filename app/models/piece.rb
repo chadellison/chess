@@ -5,7 +5,7 @@ class Piece
   PIECE_VALUE = { king: 0, queen: 9, rook: 5, bishop: 3, knight: 3, pawn: 1 }
 
   attr_accessor :game_id, :piece_type, :color, :position, :position_index,
-    :moved_two, :has_moved, :valid_moves, :enemy_targets
+    :moved_two, :has_moved, :valid_moves, :enemy_targets, :game_move_logic
 
   def self.defenders(index, game_pieces)
     target_piece = game_pieces.detect { |piece| piece.position_index == index }
@@ -18,7 +18,7 @@ class Piece
         piece != target_piece,
         piece.valid_move_path?(square, game_pieces.map(&:position)),
         piece.valid_for_piece?(square, game_pieces),
-        piece.king_is_safe?(piece.color, Game.pieces_with_next_move(game_pieces, piece.position_index.to_s + square))
+        piece.king_is_safe?(piece.color, piece.game_move_logic.pieces_with_next_move(game_pieces, piece.position_index.to_s + square))
       ].all?
     end
   end
@@ -41,6 +41,7 @@ class Piece
     @has_moved = attributes[:has_moved]
     @moved_two = attributes[:moved_two]
     @enemy_targets = []
+    @game_move_logic = GameMoveLogic.new
   end
 
   def moves_for_piece
@@ -60,29 +61,14 @@ class Piece
     end
   end
 
-  def valid_moves(game_pieces)
-    @valid_moves ||= moves_for_piece.select do |move|
-      if valid_move?(game_pieces, move)
-        load_enemy_targets(move, game_pieces)
-        true
-      end
-    end
-  end
-
   def valid_move?(game_pieces, move)
+    new_pieces = game_move_logic.pieces_with_next_move(game_pieces, position_index.to_s + move)
     [
       valid_move_path?(move, game_pieces.map(&:position)),
       valid_destination?(move, game_pieces),
       valid_for_piece?(move, game_pieces),
-      king_is_safe?(color, Game.pieces_with_next_move(game_pieces, position_index.to_s + move))
+      king_is_safe?(color, new_pieces)
     ].all?
-  end
-
-  def load_enemy_targets(move, game_pieces)
-    destination_piece = game_pieces.detect { |piece| piece.position == move }
-    if destination_piece.present?
-      @enemy_targets.push(destination_piece.position_index)
-    end
   end
 
   def game

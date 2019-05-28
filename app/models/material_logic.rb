@@ -1,5 +1,5 @@
 class MaterialLogic
-  def self.create_signature(new_pieces, game_turn_code)
+  def self.create_signature(new_pieces)
     new_pieces.reduce(0) do |total, piece|
       piece_value = piece.find_piece_value
 
@@ -8,6 +8,6 @@ class MaterialLogic
       else
         total - piece_value
       end
-    end.to_s + game_turn_code
+    end
   end
 end

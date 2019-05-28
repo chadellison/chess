@@ -116,7 +116,7 @@ class Notation
     game.pieces.select do |piece|
       piece.piece_type == piece_type &&
         piece.color == piece_color &&
-        piece.valid_moves(game.pieces).include?(new_position)
+        piece.valid_moves.include?(new_position)
     end
   end
 

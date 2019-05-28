@@ -9,7 +9,7 @@ class Setup < ApplicationRecord
     activity: ActivityLogic,
     attack: AttackLogic,
     material: MaterialLogic,
-    tempo: TempoLogic
+    threat: ThreatLogic
   }
 
   include OutcomeCalculator
@@ -20,8 +20,7 @@ class Setup < ApplicationRecord
     return setup if setup.present?
 
     setup = Setup.new(position_signature: game_signature)
-    new_pieces.each { |piece| piece.valid_moves(new_pieces) }
-    setup.add_signatures(new_pieces, opponent_color_code)
+    setup.add_signatures(new_pieces)
     setup
   end
 
@@ -31,9 +30,9 @@ class Setup < ApplicationRecord
     end.join('.') + game_turn_code
   end
 
-  def add_signatures(new_pieces, game_turn_code)
+  def add_signatures(new_pieces)
     SIGNATURES.each do |signature_type, signature_class|
-      signature_value = signature_class.create_signature(new_pieces, game_turn_code)
+      signature_value = signature_class.create_signature(new_pieces)
       handle_signature(signature_type.to_s, signature_value)
     end
   end

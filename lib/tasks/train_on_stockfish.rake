@@ -4,7 +4,7 @@ task train_on_stockfish: :environment do
 
   ENV['COUNT'].to_i.times do |game_number|
     game = Game.create(analyzed: true)
-    openings = ['20d4', '21e4', '31f3', '19c4', '23g4']
+    openings = ['17a3', '20d4', '21e4', '31f3', '19c4', '23g4', '23g3', '24h3']
     game.handle_move(openings.sample)
     stockfish = StockfishIntegration.new(game)
 
@@ -23,6 +23,13 @@ task train_on_stockfish: :environment do
 
         game.handle_move(position_index.to_s + stockfish_move[2..3], upgraded_type)
       else
+        # game_pieces = game.pieces.select { |piece| piece.color == turn }
+        # game_moves = game_pieces.map do |piece|
+        #   piece.valid_moves.map { |move| piece.position_index.to_s + move }
+        # end.flatten
+        #
+        # random_move_value = game_moves.sample
+        # game.handle_move(random_move_value, ai_logic.promote_pawn(random_move_value))
         ai_logic.ai_move(turn)
       end
     end

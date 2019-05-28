@@ -1,14 +1,12 @@
 class AiLogic
   include CacheLogic
 
-  attr_reader :game
+  attr_reader :game, :game_move_logic, :neural_network
 
   def initialize(game)
     @game = game
-  end
-
-  def neural_network
-    @neural_network ||= NeuralNetwork.new
+    @game_move_logic = GameMoveLogic.new
+    @neural_network = NeuralNetwork.new
   end
 
   def ai_move(game_turn)
@@ -41,10 +39,10 @@ class AiLogic
   def all_next_moves_for_piece(piece, opponent_color_code)
     move_count = game.moves.size + 1
 
-    piece.valid_moves(game.pieces).map do |move|
+    piece.valid_moves.map do |move|
       move_value = piece.position_index.to_s + move
       game_move = Move.new(value: move_value, move_count: move_count)
-      game_pieces = Game.pieces_with_next_move(game.pieces, move_value)
+      game_pieces = game_move_logic.refresh_board(game.pieces, move_value)
       setup = Setup.find_setup(game_pieces, opponent_color_code)
       game_move.setup = setup
       game_move
@@ -59,7 +57,7 @@ class AiLogic
   def find_checkmate(possible_moves, game_turn)
     opponent_color = game_turn == 'white' ? 'black' : 'white'
     possible_moves.detect do |next_move|
-      game_pieces = Game.pieces_with_next_move(game.pieces, next_move.value)
+      game_pieces = game_move_logic.refresh_board(game.pieces, next_move.value)
       game.checkmate?(game_pieces, opponent_color)
     end
   end
