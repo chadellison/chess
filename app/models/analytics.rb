@@ -1,8 +1,10 @@
 class Analytics
+  attr_reader :neural_network, :game_move_logic
   include CacheLogic
 
-  def neural_network
+  def initialize
     @neural_network = NeuralNetwork.new
+    @game_move_logic = GameMoveLogic.new
   end
 
   def move_analytics(analytics_params)
@@ -53,7 +55,7 @@ class Analytics
   end
 
   def dersialize_pieces(pieces)
-    pieces.map do |piece|
+    game_pieces = pieces.map do |piece|
       Piece.new(
         position_index: piece[:positionIndex],
         piece_type: piece[:pieceType],
@@ -63,6 +65,8 @@ class Analytics
         has_moved: piece[:hasMoved]
       )
     end
+    game_move_logic.load_move_attributes(game_pieces)
+    game_pieces
   end
 
   def dersialize_moves(moves)
