@@ -42,7 +42,6 @@ class Setup < ApplicationRecord
       signature_type: signature_type,
       value: signature_value
     )
-
     if signature.blank?
       signature = Signature.new(signature_type: signature_type, value: signature_value)
     end

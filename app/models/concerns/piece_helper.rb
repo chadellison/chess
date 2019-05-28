@@ -29,7 +29,6 @@ module PieceHelper
   def reload_pieces
     move_indices = moves.map { |move| move.value.to_i }
     pawn_moved_two = pawn_moved_two?
-
     @pieces = last_move.setup.position_signature[0..-2].split('.').map do |piece_value|
       position_index = piece_value.to_i
       Piece.new({
