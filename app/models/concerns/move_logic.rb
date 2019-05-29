@@ -203,7 +203,7 @@ module MoveLogic
       piece.moves_for_piece.include?(king.position) &&
         piece.valid_move_path?(king.position, occupied_spaces) &&
         piece.valid_destination?(king.position, game_pieces) &&
-        piece.valid_for_piece?(king.position, game_pieces)
+        (piece.piece_type != 'pawn' || piece.valid_for_pawn?(king.position, game_pieces))
     end
   end
 

@@ -99,11 +99,4 @@ class GameMoveLogic
     new_piece.position = move[-2..-1]
     new_piece.has_moved = true
   end
-
-  # def apply_piece_updates(pieces, move, castle, en_passant)
-  #   pieces = update_rook(move, pieces) if castle
-  #   pieces = handle_en_passant(move, pieces) if en_passant
-  #   load_move_attributes(pieces)
-  #   pieces
-  # end
 end
