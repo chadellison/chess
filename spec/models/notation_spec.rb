@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe NotationLogic, type: :module do
+RSpec.describe Notation, type: :module do
   describe 'update_game_from_notation' do
     xit 'test' do
     end
