@@ -23,7 +23,7 @@ task train_on_stockfish: :environment do
 
         game.handle_move(position_index.to_s + stockfish_move[2..3], upgraded_type)
       else
-        engine_move(game, ai_logic, turn)
+        make_random_move(game, ai_logic, turn)
       end
     end
 
@@ -39,8 +39,7 @@ task train_on_stockfish: :environment do
 
 end
 
-def engine_move(game, ai_logic, turn)
-  if rand > (ENV['RANDOMIZER'].to_i * 0.1)
+def make_random_move(game, ai_logic, turn)
     game_pieces = game.pieces.select { |piece| piece.color == turn }
     game_moves = game_pieces.map do |piece|
       piece.valid_moves.map { |move| piece.position_index.to_s + move }
@@ -48,7 +47,4 @@ def engine_move(game, ai_logic, turn)
 
     random_move_value = game_moves.sample
     game.handle_move(random_move_value, ai_logic.promote_pawn(random_move_value))
-  else
-    ai_logic.ai_move(turn)
-  end
 end
