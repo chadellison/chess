@@ -1,8 +1,8 @@
 class NeuralNetwork
   ALPHA = 0.01
-  WEIGHT_COUNTS = [24, 18, 3]
-  OFFSETS = [0, 24, 42]
-  VECTOR_COUNTS = [4, 6, 3]
+  WEIGHT_COUNTS = [30, 18, 3]
+  OFFSETS = [0, 30, 48]
+  VECTOR_COUNTS = [5, 6, 3]
 
   include CacheLogic
 
@@ -52,7 +52,7 @@ class NeuralNetwork
   end
 
   def train(setup)
-    outcome = setup.outcome_ratio
+    outcome = Math.tanh(setup.outcome_ratio)
     layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
     layer_two_weights = find_weights(WEIGHT_COUNTS[1], OFFSETS[1], VECTOR_COUNTS[1])
     layer_three_weights = find_weights(WEIGHT_COUNTS[2], OFFSETS[2], VECTOR_COUNTS[2])

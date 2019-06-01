@@ -9,6 +9,7 @@ class Setup < ApplicationRecord
     activity: ActivityLogic,
     attack: AttackLogic,
     material: MaterialLogic,
+    check: CheckLogic,
     threat: ThreatLogic
   }
 
