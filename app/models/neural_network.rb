@@ -22,8 +22,8 @@ class NeuralNetwork
 
   def calculate_prediction(setup, layer_one_weights, layer_two_weights, layer_three_weights)
     initial_input = signature_input(setup.signatures)
-    layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
-    layer_two_predictions = multiply_vector(tanh(layer_one_predictions), layer_two_weights)
+    layer_one_predictions = tanh(multiply_vector(initial_input, layer_one_weights))
+    layer_two_predictions = tanh(multiply_vector(layer_one_predictions, layer_two_weights))
     multiply_vector(layer_two_predictions, layer_three_weights).first
   end
 
@@ -59,9 +59,9 @@ class NeuralNetwork
 
     initial_input = signature_input(setup.signatures)
 
-    layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
-    layer_two_predictions = multiply_vector(tanh(layer_one_predictions), layer_two_weights)
-    final_predictions = multiply_vector(tanh(layer_two_predictions), layer_three_weights)
+    layer_one_predictions = tanh(multiply_vector(initial_input, layer_one_weights))
+    layer_two_predictions = tanh(multiply_vector(layer_one_predictions, layer_two_weights))
+    final_predictions = multiply_vector(layer_two_predictions, layer_three_weights)
 
     final_delta = find_delta(tanh(final_predictions).first, outcome)
     layer_two_deltas = tanh_derivative(multiply_vector([final_delta], layer_three_weights.transpose))
@@ -90,7 +90,7 @@ class NeuralNetwork
       weight_matrix[index].size.times do |count|
         weight = weight_matrix[index][count]
         adjusted_value = (weight.value.to_f - (ALPHA * weighted_deltas[index][count])).to_s
-        weight.update(value: adjusted_value)
+        weight.update(value: adjusted_value) if adjusted_value > 0
       end
     end
   end
