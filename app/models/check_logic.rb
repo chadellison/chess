@@ -5,7 +5,7 @@ class CheckLogic
     new_pieces.reduce(0) do |sum, piece|
       if can_check?(5, piece, new_pieces, targets)
         sum + 1
-      elsif can_check?(29, piece, new_pieces)
+      elsif can_check?(29, piece, new_pieces, targets)
         sum - 1
       else
         sum
