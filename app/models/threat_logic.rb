@@ -7,7 +7,7 @@ class ThreatLogic
     new_pieces.reduce(0) do |sum, piece|
       if can_threaten?(spaces_near_black_king, piece, new_pieces, targets)
         sum + 1
-      elsif can_threaten?(spaces_near_white_king, piece, new_pieces)
+      elsif can_threaten?(spaces_near_white_king, piece, new_pieces, targets)
         sum - 1
       else
         sum
