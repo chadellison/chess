@@ -2,7 +2,7 @@ module OutcomeCalculator
   extend ActiveSupport::Concern
 
   def outcome_ratio
-    outcomes[:white_wins].to_f - outcomes[:black_wins].to_f / 2
+    outcomes[:white_wins].to_f - outcomes[:black_wins].to_f
   end
 
   def update_outcomes(outcome)
