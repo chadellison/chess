@@ -22,8 +22,8 @@ class NeuralNetwork
 
   def calculate_prediction(setup, layer_one_weights, layer_two_weights, layer_three_weights)
     initial_input = signature_input(setup.signatures)
-    layer_one_predictions = tanh(multiply_vector(initial_input, layer_one_weights))
-    layer_two_predictions = tanh(multiply_vector(layer_one_predictions, layer_two_weights))
+    layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
+    layer_two_predictions = multiply_vector(layer_one_predictions, layer_two_weights)
     multiply_vector(layer_two_predictions, layer_three_weights).first
   end
 
@@ -53,6 +53,7 @@ class NeuralNetwork
 
   def train(setup)
     outcome = Math.tanh(setup.outcome_ratio)
+
     layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
     layer_two_weights = find_weights(WEIGHT_COUNTS[1], OFFSETS[1], VECTOR_COUNTS[1])
     layer_three_weights = find_weights(WEIGHT_COUNTS[2], OFFSETS[2], VECTOR_COUNTS[2])
@@ -61,8 +62,8 @@ class NeuralNetwork
 
     layer_one_predictions = tanh(multiply_vector(initial_input, layer_one_weights))
     layer_two_predictions = tanh(multiply_vector(layer_one_predictions, layer_two_weights))
-    final_predictions = multiply_vector(layer_two_predictions, layer_three_weights)
-
+    final_predictions = tanh(multiply_vector(layer_two_predictions, layer_three_weights))
+    
     final_delta = find_delta(tanh(final_predictions).first, outcome)
     layer_two_deltas = tanh_derivative(multiply_vector([final_delta], layer_three_weights.transpose))
     layer_one_deltas = tanh_derivative(multiply_vector(layer_two_deltas, layer_two_weights.transpose))
@@ -89,8 +90,8 @@ class NeuralNetwork
     weight_matrix.size.times do |index|
       weight_matrix[index].size.times do |count|
         weight = weight_matrix[index][count]
-        adjusted_value = (weight.value.to_f - (ALPHA * weighted_deltas[index][count])).to_s
-        weight.update(value: adjusted_value) if adjusted_value > 0
+        adjusted_value = (weight.value.to_f - (ALPHA * weighted_deltas[index][count]))
+        weight.update(value: adjusted_value.to_s) if adjusted_value > 0
       end
     end
   end
