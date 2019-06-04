@@ -6,19 +6,34 @@ class AttackLogic
     26 => 3, 27 => 3, 28 => 9, 29 => 0, 30 => 3, 31 => 3, 32 => 5
   }
 
-  def self.create_signature(new_pieces)
-    new_pieces.select { |piece| piece.enemy_targets.present? }.reduce(0) do |sum, piece|
+  def self.create_signature(game_data)
+    pieces = game_data[:pieces]
+
+    targets = pieces.map(&:enemy_targets).flatten
+    pieces.select { |piece| piece.enemy_targets.present? }.reduce(0) do |sum, piece|
       max_target_id = piece.enemy_targets.max_by do |target_id|
-        defended = Piece.defenders(target_id, new_pieces).present?
+        defended = Piece.defenders(target_id, pieces).present?
         recapture_cost = defended ? piece.find_piece_value : 0
         TARGET_VALUE[target_id] - recapture_cost
       end
 
-      if piece.color == 'white'
-        sum + TARGET_VALUE[max_target_id]
+      if should_evaluate?(targets, piece, pieces, game_data[:turn])
+        if piece.color == 'white'
+          sum + TARGET_VALUE[max_target_id]
+        else
+          sum - TARGET_VALUE[max_target_id]
+        end
       else
-        sum - TARGET_VALUE[max_target_id]
+        sum
       end
     end
+  end
+
+  def self.should_evaluate?(targets, piece, pieces, turn)
+    [
+      piece.color == turn,
+      !targets.include?(piece.position_index),
+      Piece.defenders(piece.position_index, pieces).present?
+    ].any?
   end
 end

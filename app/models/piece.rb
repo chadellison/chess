@@ -45,22 +45,22 @@ class Piece
     @game_move_logic = GameMoveLogic.new
   end
 
-  def moves_for_piece
-    case piece_type
-    when 'rook'
-      moves_for_rook
-    when 'bishop'
-      moves_for_bishop
-    when 'queen'
-      moves_for_queen
-    when 'king'
-      moves_for_king
-    when 'knight'
-      moves_for_knight
-    when 'pawn'
-      moves_for_pawn
-    end
-  end
+  # def moves_for_piece
+  #   case piece_type
+  #   when 'rook'
+  #     moves_for_rook
+  #   when 'bishop'
+  #     moves_for_bishop
+  #   when 'queen'
+  #     moves_for_queen
+  #   when 'king'
+  #     moves_for_king
+  #   when 'knight'
+  #     moves_for_knight
+  #   when 'pawn'
+  #     moves_for_pawn
+  #   end
+  # end
 
   def valid_move?(game_pieces, move)
     new_pieces = game_move_logic.pieces_with_next_move(game_pieces, position_index.to_s + move)

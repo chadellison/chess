@@ -5,6 +5,23 @@ module MoveLogic
     @game_move_logic ||= GameMoveLogic.new
   end
 
+  def moves_for_piece
+    case piece_type
+    when 'rook'
+      moves_for_rook
+    when 'bishop'
+      moves_for_bishop
+    when 'queen'
+      moves_for_queen
+    when 'king'
+      moves_for_king
+    when 'knight'
+      moves_for_knight
+    when 'pawn'
+      moves_for_pawn
+    end
+  end
+
   def moves_for_rook
     moves_up + moves_down + moves_left + moves_right
   end
