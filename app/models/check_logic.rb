@@ -1,11 +1,13 @@
 class CheckLogic
-  def self.create_signature(new_pieces)
-    targets = new_pieces.map(&:enemy_targets).flatten
+  def self.create_signature(game_data)
+    pieces = game_data[:pieces]
 
-    new_pieces.reduce(0) do |sum, piece|
-      if can_check?(5, piece, new_pieces, targets)
+    targets = pieces.map(&:enemy_targets).flatten
+
+    pieces.reduce(0) do |sum, piece|
+      if can_check?(5, piece, pieces, targets)
         sum + 1
-      elsif can_check?(29, piece, new_pieces, targets)
+      elsif can_check?(29, piece, pieces, targets)
         sum - 1
       else
         sum

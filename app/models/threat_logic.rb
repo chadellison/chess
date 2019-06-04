@@ -1,13 +1,15 @@
 class ThreatLogic
-  def self.create_signature(new_pieces)
-    spaces_near_black_king = king_spaces(new_pieces, 5)
-    spaces_near_white_king = king_spaces(new_pieces, 29)
-    targets = new_pieces.map(&:enemy_targets).flatten
+  def self.create_signature(game_data)
+    pieces = game_data[:pieces]
 
-    new_pieces.reduce(0) do |sum, piece|
-      if can_threaten?(spaces_near_black_king, piece, new_pieces, targets)
+    spaces_near_black_king = king_spaces(pieces, 5)
+    spaces_near_white_king = king_spaces(pieces, 29)
+    targets = pieces.map(&:enemy_targets).flatten
+
+    pieces.reduce(0) do |sum, piece|
+      if can_threaten?(spaces_near_black_king, piece, pieces, targets)
         sum + 1
-      elsif can_threaten?(spaces_near_white_king, piece, new_pieces, targets)
+      elsif can_threaten?(spaces_near_white_king, piece, pieces, targets)
         sum - 1
       else
         sum
@@ -16,8 +18,27 @@ class ThreatLogic
   end
 
   def self.can_threaten?(king_spaces, attacker, pieces, targets)
-    attacker.valid_moves.any? { |space| king_spaces.include?(space) } &&
-      !targets.include?(attacker.position_index)
+    strategic_threat = attacker.valid_moves.any? do |space|
+      king_spaces.include?(space) && space_control?(space, pieces, attacker.color)
+    end
+
+    strategic_threat && !targets.include?(attacker.position_index)
+  end
+
+  def self.space_control?(space, pieces, attacker_color)
+    control_count = pieces.reduce(0) do |sum, piece|
+      if piece.moves_for_piece.include?(space)
+        if piece.color == 'white'
+          sum + 1
+        else
+          sum - 1
+        end
+      else
+        sum
+      end
+    end
+
+    (control_count > 0 && attacker_color == 'white') || (control_count < 0 && attacker_color == 'black')
   end
 
   def self.king_spaces(pieces, king_index)

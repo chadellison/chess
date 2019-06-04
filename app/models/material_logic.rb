@@ -1,9 +1,10 @@
 class MaterialLogic
-  def self.create_signature(new_pieces)
-    targets = new_pieces.map(&:enemy_targets).flatten
+  def self.create_signature(game_data)
+    pieces = game_data[:pieces]
+    targets = pieces.map(&:enemy_targets).flatten
 
-    new_pieces.reduce(0) do |total, piece|
-      if !targets.include?(piece.position_index)
+    pieces.reduce(0) do |total, piece|
+      if game_data[:turn] == piece.color || !targets.include?(piece.position_index)
         piece_value = piece.find_piece_value
         if piece.color == 'white'
           total + piece_value
