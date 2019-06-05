@@ -63,7 +63,7 @@ class NeuralNetwork
     layer_one_predictions = tanh(multiply_vector(initial_input, layer_one_weights))
     layer_two_predictions = tanh(multiply_vector(layer_one_predictions, layer_two_weights))
     final_predictions = tanh(multiply_vector(layer_two_predictions, layer_three_weights))
-    
+
     final_delta = find_delta(tanh(final_predictions).first, outcome)
     layer_two_deltas = tanh_derivative(multiply_vector([final_delta], layer_three_weights.transpose))
     layer_one_deltas = tanh_derivative(multiply_vector(layer_two_deltas, layer_two_weights.transpose))
@@ -110,7 +110,7 @@ class NeuralNetwork
   end
 
   def signature_input(signatures)
-    signatures.sort_by(&:signature_type).map { |signature| signature.value }
+    signatures.sort_by(&:signature_type).map(&:value)
   end
 
   # def leaky_relu(input)

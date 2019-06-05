@@ -36,7 +36,6 @@ task train_on_stockfish: :environment do
     puts "OUTCOME:  #{game.outcome}"
     puts '---------------THE END---------------'
   end
-
 end
 
 def make_random_move(game, ai_logic, turn)
