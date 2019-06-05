@@ -15,7 +15,7 @@ class Piece
     game_pieces.select do |piece|
       [
         target_piece.color == piece.color,
-        piece != target_piece,
+        piece.moves_for_piece.include?(square),
         piece.valid_move_path?(square, game_pieces.map(&:position)),
         piece.valid_for_piece?(square, game_pieces),
         piece.king_is_safe?(piece.color, piece.game_move_logic.pieces_with_next_move(game_pieces, piece.position_index.to_s + square))
@@ -44,23 +44,6 @@ class Piece
     @valid_moves = []
     @game_move_logic = GameMoveLogic.new
   end
-
-  # def moves_for_piece
-  #   case piece_type
-  #   when 'rook'
-  #     moves_for_rook
-  #   when 'bishop'
-  #     moves_for_bishop
-  #   when 'queen'
-  #     moves_for_queen
-  #   when 'king'
-  #     moves_for_king
-  #   when 'knight'
-  #     moves_for_knight
-  #   when 'pawn'
-  #     moves_for_pawn
-  #   end
-  # end
 
   def valid_move?(game_pieces, move)
     new_pieces = game_move_logic.pieces_with_next_move(game_pieces, position_index.to_s + move)

@@ -8,8 +8,8 @@ class AttackLogic
 
   def self.create_signature(game_data)
     pieces = game_data[:pieces]
-
     targets = pieces.map(&:enemy_targets).flatten
+
     pieces.select { |piece| piece.enemy_targets.present? }.reduce(0) do |sum, piece|
       max_target_id = piece.enemy_targets.max_by do |target_id|
         defended = Piece.defenders(target_id, pieces).present?
