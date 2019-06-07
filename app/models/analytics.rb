@@ -9,8 +9,8 @@ class Analytics
 
   def move_analytics(analytics_params)
     find_setup(analytics_params[:pieces], analytics_params[:turn])
-    if in_cache?(@setup.position_signature)
-      JSON.parse(get_from_cache(@setup.position_signature))
+    if in_cache?('analytics_' + @setup.position_signature)
+      JSON.parse(get_from_cache('analytics_' + @setup.position_signature))
     else
       game = load_game(analytics_params[:moves])
 
@@ -20,7 +20,7 @@ class Analytics
       analyzed_moves = analyzed_moves(possible_moves, turn)
 
       serialized_moves = AnalyticsSerializer.serialize(analyzed_moves)
-      add_to_cache(@setup.position_signature, serialized_moves)
+      add_to_cache('analytics_' + @setup.position_signature, serialized_moves)
       serialized_moves
     end
   end
