@@ -32,7 +32,7 @@ class AiLogic
     moves_key = 'next_moves_' + Setup.create_signature(game.pieces, game_turn)
 
     if in_cache?(moves_key)
-      fetch_next_moves_from_cache(moves_key)
+      get_next_moves_from_cache(moves_key)
     else
       opponent_color_code = game_turn == 'white' ? 'b' : 'w'
       next_moves = game.pieces.select { |piece| piece.color == game_turn }.map do |piece|
@@ -79,11 +79,11 @@ class AiLogic
     crossed_pawn?(move_value) ? 'queen' : ''
   end
 
-  def fetch_next_moves_from_cache(key)
-    get_from_cache(JSON.parse(key)).map { |move_data| Move.new(move_data) }
+  def get_next_moves_from_cache(key)
+    JSON.parse(get_from_cache(key)).map { |move_data| Move.new(move_data) }
   end
 
   def add_next_moves_from_cache(key, next_moves)
-    add_to_cache(key, next_moves.to_json)
+    add_to_cache(key, next_moves)
   end
 end
