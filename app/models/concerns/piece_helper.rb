@@ -42,6 +42,7 @@ module PieceHelper
       })
     end
     game_move_logic.load_move_attributes(@pieces)
+    binding.pry if moves.size > 5
     @pieces
   end
 
