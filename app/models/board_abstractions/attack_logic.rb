@@ -11,13 +11,10 @@ class AttackLogic
     targets = pieces.map(&:enemy_targets).flatten
 
     pieces.select { |piece| piece.enemy_targets.present? }.reduce(0) do |sum, piece|
-      max_target_id = piece.enemy_targets.max_by do |target_id|
-        defended = Piece.defenders(target_id, pieces).present?
-        recapture_cost = defended ? piece.find_piece_value : 0
-        TARGET_VALUE[target_id] - recapture_cost
-      end
 
       if should_evaluate?(targets, piece, pieces, game_data[:turn])
+        max_target_id = find_max_target_id(pieces)
+
         if piece.color == 'white'
           sum + TARGET_VALUE[max_target_id]
         else
@@ -35,5 +32,13 @@ class AttackLogic
       !targets.include?(piece.position_index),
       Piece.defenders(piece.position_index, pieces).present?
     ].any?
+  end
+
+  def self.find_max_target_id(pieces)
+    piece.enemy_targets.max_by do |target_id|
+      defended = Piece.defenders(target_id, pieces).present?
+      recapture_cost = defended ? piece.find_piece_value : 0
+      TARGET_VALUE[target_id] - recapture_cost
+    end
   end
 end
