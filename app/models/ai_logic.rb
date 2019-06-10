@@ -39,7 +39,7 @@ class AiLogic
         all_next_moves_for_piece(piece, opponent_color_code)
       end.flatten
 
-      add_next_moves_from_cache(moves_key, next_moves)
+      add_to_cache(moves_key, next_moves)
       next_moves
     end
   end
@@ -81,9 +81,5 @@ class AiLogic
 
   def get_next_moves_from_cache(key)
     JSON.parse(get_from_cache(key)).map { |move_data| Move.new(move_data) }
-  end
-
-  def add_next_moves_from_cache(key, next_moves)
-    add_to_cache(key, next_moves)
   end
 end
