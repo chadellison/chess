@@ -31,7 +31,7 @@ class AiLogic
   def find_next_moves(game_turn)
     moves_key = 'next_moves_' + Setup.create_signature(game.pieces, game_turn)
 
-    if in_cache?(moves_key)
+    if in_cache?(moves_key) && get_next_moves_from_cache(moves_key).all?(&:setup)
       get_next_moves_from_cache(moves_key)
     else
       opponent_color_code = game_turn == 'white' ? 'b' : 'w'
