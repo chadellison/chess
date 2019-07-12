@@ -15,7 +15,7 @@ class AiLogic
     if find_checkmate(possible_moves, game_turn).present?
       checkmate_opponent(possible_moves, game_turn)
     else
-      weighted_moves = neural_network.move_analysis(possible_moves, game_turn)
+      weighted_moves = neural_network.analyze(possible_moves, game_turn)
       best_move_value = find_best_move(weighted_moves, game_turn)
       game.handle_move(best_move_value, promote_pawn(best_move_value))
     end

@@ -6,20 +6,14 @@ module MoveLogic
   end
 
   def moves_for_piece
-    case piece_type
-    when 'rook'
-      moves_for_rook
-    when 'bishop'
-      moves_for_bishop
-    when 'queen'
-      moves_for_queen
-    when 'king'
-      moves_for_king
-    when 'knight'
-      moves_for_knight
-    when 'pawn'
-      moves_for_pawn
-    end
+    {
+      'rook' => moves_for_rook,
+      'bishop' => moves_for_bishop,
+      'queen' => moves_for_queen,
+      'king' => moves_for_king,
+      'knight' => moves_for_knight,
+      'pawn' => moves_for_pawn
+    }[piece_type]
   end
 
   def moves_for_rook

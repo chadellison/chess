@@ -10,7 +10,10 @@ class Setup < ApplicationRecord
     attack: AttackLogic,
     material: MaterialLogic,
     check: CheckLogic,
-    threat: ThreatLogic
+    threat: ThreatLogic,
+    exposed: ExposedLogic,
+    offense: OffenseLogic,
+    x_ray: XRayLogic
   }
 
   include OutcomeCalculator

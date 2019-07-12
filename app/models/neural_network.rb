@@ -1,12 +1,12 @@
 class NeuralNetwork
   ALPHA = 0.01
-  WEIGHT_COUNTS = [30, 18, 3]
-  OFFSETS = [0, 30, 48]
-  VECTOR_COUNTS = [5, 6, 3]
+  WEIGHT_COUNTS = [48, 18, 3]
+  OFFSETS = [0, 48, 66]
+  VECTOR_COUNTS = [8, 6, 3]
 
   include CacheLogic
 
-  def move_analysis(possible_moves, game_turn)
+  def analyze(possible_moves, game_turn)
     weighted_moves = {}
 
     layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
@@ -29,7 +29,7 @@ class NeuralNetwork
 
   def weighted_sum(input, weights)
     total_weight = 0
-    raise raise NeuralNetworkError, 'arrays are not equal length' if input.size != weights.size
+    raise NeuralNetworkError 'arrays are not equal length' if input.size != weights.size
     input.size.times do |index|
       total_weight += input[index] * weights[index].value.to_f
     end

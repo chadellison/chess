@@ -26,7 +26,7 @@ class Analytics
   end
 
   def analyzed_moves(possible_moves, turn)
-    neural_network.move_analysis(possible_moves, turn).map do |next_move, prediction|
+    neural_network.analyze(possible_moves, turn).map do |next_move, prediction|
       { move: next_move, white: prediction, black: prediction * -1 }
     end
   end
