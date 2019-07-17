@@ -101,11 +101,8 @@ class Game < ApplicationRecord
   end
 
   def update_game(position_index, new_position, upgraded_type = '')
-    move_count = moves.count
-    move_key = notation.split('.')[0..(move_count)].join('.')
-
-    if move_count < 30 && in_cache?(move_key)
-      moves << get_move(move_key)
+    if move_count < 30 && in_cache?(notation)
+      moves << get_move(notation)
       reload_pieces
     else
       piece = find_piece_by_index(position_index)
@@ -120,7 +117,7 @@ class Game < ApplicationRecord
 
     game_move = Move.new(
       value: (piece.position_index.to_s + updated_piece.position),
-      move_count: (moves.count + 1),
+      move_count: (move_count + 1),
       promoted_pawn: (promoted_pawn?(updated_piece) ? updated_piece.piece_type : nil)
     )
 
@@ -130,10 +127,9 @@ class Game < ApplicationRecord
 
     game_move.setup = setup
     if moves.size < 30
-      add_to_cache(notation.split('.')[0..(moves.count)].join('.'), game_move)
+      add_to_cache(notation, game_move)
     end
     moves << game_move
-    game_move.save
   end
 
   def promoted_pawn?(piece)
@@ -179,10 +175,14 @@ class Game < ApplicationRecord
   def machine_vs_machine
     until outcome.present? do
       ai_logic.ai_move(current_turn)
-      update(outcome: 0) if moves.count > 400
+      update(outcome: 0) if move_count > 400
       puts moves.order(:move_count).last.value
       puts '******************'
     end
+  end
+
+  def move_count
+    notation.split('.').count
   end
 
   def update_outcomes
