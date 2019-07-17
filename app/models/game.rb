@@ -29,14 +29,20 @@ class Game < ApplicationRecord
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
     update_game(position_index, new_position, upgraded_type)
-    handle_human_game if game_type.include?('human')
-    return handle_outcome if game_over?(pieces, current_turn)
-    ai_logic.ai_move(current_turn) if ai_turn?
+    handle_move_events
   end
 
-  def handle_human_game
-    GameEventBroadcastJob.perform_later(self)
-    reload_pieces
+  def handle_move_events
+    if game_type.include?('human') || game_type == 'machine vs machine'
+      GameEventBroadcastJob.perform_later(self)
+    end
+    turn = current_turn
+
+    if game_over?(pieces, turn)
+      handle_outcome
+    elsif ai_turn?(turn)
+      AiMoveJob.perform_later(self, turn) if ai_turn?(turn)
+    end
   end
 
   def handle_move(move_value, upgraded_type = '')
@@ -44,7 +50,11 @@ class Game < ApplicationRecord
     new_position = move_value[-2..-1]
     update_notation(move_value.to_i, new_position, upgraded_type)
     update_game(position_index, new_position, upgraded_type)
-    handle_human_game if game_type.include?('human')
+
+    if game_type.include?('human') || game_type == 'machine vs machine'
+      GameEventBroadcastJob.perform_later(self)
+    end
+
     return handle_outcome if game_over?(pieces, current_turn)
   end
 
@@ -53,8 +63,9 @@ class Game < ApplicationRecord
   end
 
   def handle_outcome
-    if checkmate?(pieces, current_turn)
-      outcome = current_turn == 'black' ? WHITE_WINS : BLACK_WINS
+    turn = current_turn
+    if checkmate?(pieces, turn)
+      outcome = turn == 'black' ? WHITE_WINS : BLACK_WINS
     else
       outcome = DRAW
     end
@@ -71,8 +82,8 @@ class Game < ApplicationRecord
     GameEventBroadcastJob.perform_later(self)
   end
 
-  def ai_turn?
-    ai_player.present? && current_turn == ai_player.color
+  def ai_turn?(turn)
+    ai_player.present? && turn == ai_player.color
   end
 
   def current_turn
@@ -135,9 +146,10 @@ class Game < ApplicationRecord
   end
 
   def stalemate?(game_pieces, turn)
-    king = pieces.detect { |piece| piece.color == current_turn }
+    game_turn = current_turn
+    king = pieces.detect { |piece| piece.color == game_turn }
     [
-      no_valid_moves?(game_pieces, turn) && king.king_is_safe?(current_turn, game_pieces),
+      no_valid_moves?(game_pieces, turn) && king.king_is_safe?(game_turn, game_pieces),
       insufficient_pieces?,
       three_fold_repitition?
     ].any?
