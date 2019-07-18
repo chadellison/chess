@@ -20,14 +20,14 @@ class Notation
     new_notation + '.'
   end
 
-  def update_game_from_notation(move_notation, turn)
-    piece = find_piece(move_notation, turn)
-    begin
-      game.update_game(piece.position_index, find_move_position(move_notation), upgrade_value(move_notation))
-    rescue
-      log_error(move_notation, turn)
-    end
-  end
+  # def update_game_from_notation(move_notation, turn)
+  #   piece = find_piece(move_notation, turn)
+  #   begin
+  #     game.update_game(piece.position_index, find_move_position(move_notation), upgrade_value(move_notation))
+  #   rescue
+  #     log_error(move_notation, turn)
+  #   end
+  # end
 
   def find_move_position(move_notation)
     if move_notation.include?('=')

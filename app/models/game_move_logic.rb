@@ -1,4 +1,37 @@
 class GameMoveLogic
+  include CacheLogic
+
+  def find_next_moves(game_pieces, game_turn, move_count)
+    moves_key = 'next_moves_' + Setup.create_signature(game_pieces, game_turn)
+
+    if in_cache?(moves_key) && get_next_moves_from_cache(moves_key).all?(&:setup)
+      get_next_moves_from_cache(moves_key)
+    else
+      opponent_color_code = game_turn == 'white' ? 'b' : 'w'
+      next_moves = game_pieces.select { |piece| piece.color == game_turn }.map do |piece|
+        all_next_moves_for_piece(piece, opponent_color_code, move_count, game_pieces)
+      end.flatten
+
+      add_to_cache(moves_key, next_moves)
+      next_moves
+    end
+  end
+
+  def get_next_moves_from_cache(key)
+    JSON.parse(get_from_cache(key)).map { |move_data| Move.new(move_data) }
+  end
+
+  def all_next_moves_for_piece(piece, opponent_color_code, move_count, game_pieces)
+    piece.valid_moves.map do |move|
+      move_value = piece.position_index.to_s + move
+      game_move = Move.new(value: move_value, move_count: move_count)
+      game_pieces = refresh_board(game_pieces, move_value)
+      setup = Setup.find_setup(game_pieces, opponent_color_code)
+      game_move.setup = setup
+      game_move
+    end
+  end
+
   def pieces_with_next_move(game_pieces, move)
     castle = false
     en_passant = false
