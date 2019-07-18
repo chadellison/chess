@@ -6,7 +6,10 @@ class Game < ApplicationRecord
   include PieceHelper
   include CacheLogic
 
-  scope :user_games, ->(user_id) { where(white_player: user_id).or(where(black_player: user_id))}
+  scope :user_games, (lambda do |user_id|
+    where(white_player: user_id)
+      .or(where(black_player: user_id))
+  end)
 
   scope :find_open_games, (lambda do |user_id|
     where.not(white_player: user_id)
@@ -15,7 +18,7 @@ class Game < ApplicationRecord
   end)
 
   def ai_logic
-    @ai_logic ||= AiLogic.new(self)
+    @ai_logic ||= AiLogic.new
   end
 
   def notation_logic
@@ -41,21 +44,8 @@ class Game < ApplicationRecord
     if game_over?(pieces, turn)
       handle_outcome
     elsif ai_turn?(turn)
-      AiMoveJob.perform_later(self, turn) if ai_turn?(turn)
+      AiMoveJob.perform_later(self)
     end
-  end
-
-  def handle_move(move_value, upgraded_type = '')
-    position_index = move_value.to_i
-    new_position = move_value[-2..-1]
-    update_notation(move_value.to_i, new_position, upgraded_type)
-    update_game(position_index, new_position, upgraded_type)
-
-    if game_type.include?('human') || game_type == 'machine vs machine'
-      GameEventBroadcastJob.perform_later(self)
-    end
-
-    return handle_outcome if game_over?(pieces, current_turn)
   end
 
   def game_over?(pieces, game_turn)
@@ -87,7 +77,7 @@ class Game < ApplicationRecord
   end
 
   def current_turn
-    moves.count.even? ? 'white' : 'black'
+    move_count.even? ? 'white' : 'black'
   end
 
   def opponent_color
@@ -174,14 +164,42 @@ class Game < ApplicationRecord
 
   def machine_vs_machine
     until outcome.present? do
-      ai_logic.ai_move(current_turn)
+      turn = current_turn
+      possible_moves = game_move_logic.find_next_moves(pieces, turn, move_count)
+
+      if find_checkmate(possible_moves, turn).present?
+        move_value = find_checkmate(possible_moves, turn).value
+      else
+        move_value = ai_logic.ai_move(possible_moves, turn)
+      end
+
+      move(move_value.to_i, move_value[-2..-1], promote_pawn(move_value))
+
       update(outcome: 0) if move_count > 400
       puts moves.order(:move_count).last.value
       puts '******************'
     end
   end
 
+  def crossed_pawn?(move_value)
+    (9..24).include?(move_value.to_i) &&
+      (move_value[-1] == '1' || move_value[-1] == '8')
+  end
+
+  def promote_pawn(move_value)
+    crossed_pawn?(move_value) ? 'queen' : ''
+  end
+
+  def find_checkmate(possible_moves, game_turn)
+    other_color = game_turn == 'white' ? 'black' : 'white'
+    possible_moves.detect do |next_move|
+      game_pieces = game_move_logic.refresh_board(pieces, next_move.value)
+      checkmate?(game_pieces, other_color)
+    end
+  end
+
   def move_count
+    return 0 if notation.blank?
     notation.split('.').count
   end
 

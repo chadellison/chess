@@ -8,19 +8,17 @@ class Analytics
   end
 
   def move_analytics(analytics_params)
-    find_setup(analytics_params[:pieces], analytics_params[:turn])
-    if in_cache?('analytics_' + @setup.position_signature)
-      JSON.parse(get_from_cache('analytics_' + @setup.position_signature))
+    setup = find_setup(analytics_params[:pieces], analytics_params[:turn])
+    if in_cache?('analytics_' + setup.position_signature)
+      JSON.parse(get_from_cache('analytics_' + setup.position_signature))
     else
-      game = load_game(analytics_params[:moves])
-
-      turn = game.moves.size.even? ? 'white' : 'black'
-      ai = AiLogic.new(game)
-      possible_moves = ai.find_next_moves(turn)
+      game = load_game(analytics_params[:moves], setup)
+      turn = game.current_turn
+      possible_moves = game_move_logic.find_next_moves(game.pieces, turn, game.move_count)
       analyzed_moves = analyzed_moves(possible_moves, turn)
 
       serialized_moves = AnalyticsSerializer.serialize(analyzed_moves)
-      add_to_cache('analytics_' + @setup.position_signature, serialized_moves)
+      add_to_cache('analytics_' + setup.position_signature, serialized_moves)
       serialized_moves
     end
   end
@@ -32,11 +30,8 @@ class Analytics
   end
 
   def find_setup(pieces, turn_code)
-    return @setup if @setup.present?
-
     formatted_pieces = dersialize_pieces(pieces)
-    @setup = Setup.find_setup(formatted_pieces, turn_code)
-    @setup
+    Setup.find_setup(formatted_pieces, turn_code)
   end
 
   def dersialize_pieces(pieces)
@@ -58,14 +53,14 @@ class Analytics
     moves.map { |attributes| Move.new(attributes) }
   end
 
-  def load_game(moves)
+  def load_game(moves, setup)
     game = Game.new
     game.moves = dersialize_moves(moves)
 
     if game.moves.blank?
       game.pieces
     else
-      game.last_move.setup = @setup
+      game.last_move.setup = setup
     end
     game
   end
