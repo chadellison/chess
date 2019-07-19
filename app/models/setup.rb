@@ -20,7 +20,7 @@ class Setup < ApplicationRecord
     setup = Setup.find_by(position_signature: game_signature)
     return setup if setup.present?
 
-    setup = Setup.new(position_signature: game_signature)
+    setup = Setup.create(position_signature: game_signature)
     setup.add_signatures(new_pieces, opponent_color_code)
     setup
   end
@@ -47,7 +47,7 @@ class Setup < ApplicationRecord
       value: signature_value
     )
     if signature.blank?
-      signature = Signature.new(signature_type: signature_type, value: signature_value)
+      signature = Signature.create(signature_type: signature_type, value: signature_value)
     end
 
     self.signatures << signature
