@@ -3,7 +3,6 @@ class AiMoveJob < ApplicationJob
 
   def perform(game)
     turn = game.current_turn
-
     possible_moves = game.game_move_logic.find_next_moves(game.pieces, turn, game.move_count)
     if game.find_checkmate(possible_moves, turn).present?
       move_value = game.find_checkmate(possible_moves, turn).value

@@ -1,5 +1,5 @@
-desc "load_training_data"
-task load_training_data: :environment do
+desc "load_chess_games"
+task load_chess_games: :environment do
   chess_file_numbers = (1..72).to_a
 
   while chess_file_numbers.present?
@@ -35,7 +35,26 @@ def create_training_game(moves)
     move_notation = moves[-7..-1] == '1/2-1/2' ? moves[0..-8] : moves[0..-4]
 
     outcome = find_outcome(result)
-    game = Game.create(notation: move_notation, outcome: outcome)
+
+    game = Game.create(outcome: outcome, analyzed: true)
+    notation_logic = Notation.new
+
+    move_notation.split('.').each_with_index do |each_move, index|
+      turn = index.even? ? 'white' : 'black'
+
+      begin
+        piece = notation_logic.find_piece(each_move.sub('#', ''), turn, game.pieces)
+        game.notation = game.notation.to_s + each_move + '.'
+        game.update_game(piece.position_index, notation_logic.find_move_position(each_move, turn, game.pieces), notation_logic.upgrade_value(each_move))
+        game.reload_pieces
+        puts 'MOVE: ' + each_move
+      rescue
+        puts 'boooooooooo!!!'
+      end
+    end
+
+    game.save
+    game.update_outcomes
 
     puts(outcome)
   end

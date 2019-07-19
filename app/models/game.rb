@@ -22,7 +22,7 @@ class Game < ApplicationRecord
   end
 
   def notation_logic
-    @notation_logic ||= Notation.new(self)
+    @notation_logic ||= Notation.new
   end
 
   def game_move_logic
@@ -85,7 +85,7 @@ class Game < ApplicationRecord
   end
 
   def update_notation(position_index, new_position, upgraded_type)
-    new_notation = notation_logic.create_notation(position_index, new_position, upgraded_type)
+    new_notation = notation_logic.create_notation(position_index, new_position, upgraded_type, pieces)
 
     update(notation: (notation.to_s + new_notation.to_s))
   end
@@ -204,12 +204,6 @@ class Game < ApplicationRecord
   end
 
   def update_outcomes
-    moves.each_slice(4) do |move_chunks|
-      move_threads = move_chunks.map do |move|
-        Thread.new { move.setup.update_outcomes(outcome) }
-      end
-
-      move_threads.each(&:join)
-    end
+    moves.each { |move| move.setup.update_outcomes(outcome) }
   end
 end

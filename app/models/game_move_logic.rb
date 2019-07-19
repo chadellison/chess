@@ -1,32 +1,44 @@
 class GameMoveLogic
   include CacheLogic
 
-  def find_next_moves(game_pieces, game_turn, move_count)
-    moves_key = 'next_moves_' + Setup.create_signature(game_pieces, game_turn)
+  def find_next_moves(pieces, turn, move_count)
 
-    if in_cache?(moves_key) && get_next_moves_from_cache(moves_key).all?(&:setup)
-      get_next_moves_from_cache(moves_key)
+    all_moves_key = 'next_moves_' + Setup.create_signature(pieces, turn)
+
+    if get_next_moves_from_cache(all_moves_key).present?
+      get_next_moves_from_cache(all_moves_key)
     else
-      opponent_color_code = game_turn == 'white' ? 'b' : 'w'
-      next_moves = game_pieces.select { |piece| piece.color == game_turn }.map do |piece|
-        all_next_moves_for_piece(piece, opponent_color_code, move_count, game_pieces)
+      opponent_color_code = turn == 'white' ? 'b' : 'w'
+      next_moves = pieces.select { |piece| piece.color == turn }.map do |piece|
+        all_next_moves_for_piece(piece, opponent_color_code, move_count, pieces)
       end.flatten
 
-      add_to_cache(moves_key, next_moves)
+      add_to_cache(all_moves_key, next_moves)
       next_moves
     end
   end
 
   def get_next_moves_from_cache(key)
-    JSON.parse(get_from_cache(key)).map { |move_data| Move.new(move_data) }
+    if in_cache?(key)
+      JSON.parse(get_from_cache(key)).map { |move_data| Move.new(move_data) }
+    else
+      []
+    end
   end
 
   def all_next_moves_for_piece(piece, opponent_color_code, move_count, game_pieces)
     piece.valid_moves.map do |move|
       move_value = piece.position_index.to_s + move
       game_move = Move.new(value: move_value, move_count: move_count)
+      start_time = Time.now
       game_pieces = refresh_board(game_pieces, move_value)
+      end_time = Time.now
+      puts "#{end_time - start_time} *******refresh the board"
+
+      start_setup_time = Time.now
       setup = Setup.find_setup(game_pieces, opponent_color_code)
+      end_setup_time = Time.now
+      puts "#{end_setup_time - start_setup_time} *******finding setup with sigs"
       game_move.setup = setup
       game_move
     end
@@ -61,6 +73,8 @@ class GameMoveLogic
 
   def load_move_attributes(game_pieces)
     game_pieces.each do |piece|
+      # use previous move to disregard pieces that will be unaffected
+      # if should update piece?
       piece.valid_moves = piece.moves_for_piece.select do |move|
         if piece.valid_move?(game_pieces, move)
           load_enemy_targets(move, game_pieces, piece)
