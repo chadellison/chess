@@ -36,7 +36,7 @@ class Game < ApplicationRecord
   end
 
   def handle_move_events
-    if game_type.include?('human') || game_type == 'machine vs machine'
+    if for_human?
       GameEventBroadcastJob.perform_later(self)
     end
     turn = current_turn
@@ -60,7 +60,11 @@ class Game < ApplicationRecord
       outcome = DRAW
     end
     update(outcome: outcome.to_s)
-    GameEventBroadcastJob.perform_later(self) if game_type.include?('human')
+    GameEventBroadcastJob.perform_later(self) if for_human?
+  end
+
+  def for_human?
+    game_type.include?('human') || game_type == 'machine vs machine'
   end
 
   def join_user_to_game(user_id)
