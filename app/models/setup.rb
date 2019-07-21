@@ -20,7 +20,7 @@ class Setup < ApplicationRecord
     setup = Setup.find_by(position_signature: game_signature)
     return setup if setup.present?
 
-    setup = Setup.create(position_signature: game_signature)
+    setup = Setup.new(position_signature: game_signature)
     setup.add_signatures(new_pieces, opponent_color_code)
     setup
   end

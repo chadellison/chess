@@ -10,7 +10,6 @@ class Piece
   def self.defenders(index, game_pieces)
     target_piece = game_pieces.detect { |piece| piece.position_index == index }
     square = target_piece.position
-    destination_color = target_piece.color
 
     game_pieces.select do |piece|
       [
