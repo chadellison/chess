@@ -30,15 +30,9 @@ class GameMoveLogic
     piece.valid_moves.map do |move|
       move_value = piece.position_index.to_s + move
       game_move = Move.new(value: move_value, move_count: move_count)
-      start_time = Time.now
       game_pieces = refresh_board(game_pieces, move_value)
-      end_time = Time.now
-      puts "#{end_time - start_time} *******refresh the board"
 
-      start_setup_time = Time.now
       setup = Setup.find_setup(game_pieces, opponent_color_code)
-      end_setup_time = Time.now
-      puts "#{end_setup_time - start_setup_time} *******finding setup with sigs"
       game_move.setup = setup
       game_move
     end
