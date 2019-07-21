@@ -11,8 +11,7 @@ class UserGameLogic
       game.status = 'awaiting player'
     end
     game.save
-    turn = game.current_turn
-    game.ai_logic.ai_move(turn) if game.ai_turn?(turn)
+    AiMoveJob.perform_later(game) if game.ai_turn?(game.current_turn)
     game
   end
 
