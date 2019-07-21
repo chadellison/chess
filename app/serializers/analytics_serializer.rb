@@ -6,7 +6,7 @@ class AnalyticsSerializer
           type: 'analytics',
           attributes: attributes
         }
-      }
+      }.to_json
     end
   end
 end
