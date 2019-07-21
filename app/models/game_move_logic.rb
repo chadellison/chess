@@ -3,17 +3,17 @@ class GameMoveLogic
 
   def find_next_moves(pieces, turn, move_count)
 
-    all_moves_key = 'next_moves_' + Setup.create_signature(pieces, turn)
+    key = 'next_moves_' + Setup.create_signature(pieces, turn)
 
-    if get_next_moves_from_cache(all_moves_key).present?
-      get_next_moves_from_cache(all_moves_key)
+    if in_cache?(key) && get_next_moves_from_cache(key).all?(&:setup)
+      get_next_moves_from_cache(key)
     else
       opponent_color_code = turn == 'white' ? 'b' : 'w'
       next_moves = pieces.select { |piece| piece.color == turn }.map do |piece|
         all_next_moves_for_piece(piece, opponent_color_code, move_count, pieces)
       end.flatten
 
-      add_to_cache(all_moves_key, next_moves)
+      add_to_cache(key, next_moves)
       next_moves
     end
   end
@@ -67,18 +67,16 @@ class GameMoveLogic
 
   def load_move_attributes(game_pieces)
     game_pieces.each do |piece|
-      # use previous move to disregard pieces that will be unaffected
-      # if should update piece?
       piece.valid_moves = piece.moves_for_piece.select do |move|
         if piece.valid_move?(game_pieces, move)
-          load_enemy_targets(move, game_pieces, piece)
+          load_enemy_target(move, game_pieces, piece)
           true
         end
       end
     end
   end
 
-  def load_enemy_targets(move, game_pieces, piece)
+  def load_enemy_target(move, game_pieces, piece)
     destination_piece = game_pieces.detect { |piece| piece.position == move }
     if destination_piece.present?
       piece.enemy_targets.push(destination_piece.position_index)

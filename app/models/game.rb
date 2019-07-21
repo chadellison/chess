@@ -36,9 +36,7 @@ class Game < ApplicationRecord
   end
 
   def handle_move_events
-    if for_human?
-      GameEventBroadcastJob.perform_later(self)
-    end
+    GameEventBroadcastJob.perform_later(self) if for_human?
     turn = current_turn
 
     if game_over?(pieces, turn)
@@ -167,22 +165,24 @@ class Game < ApplicationRecord
   end
 
   def machine_vs_machine
-    until outcome.present? do
-      turn = current_turn
-      possible_moves = game_move_logic.find_next_moves(pieces, turn, move_count)
-
-      if find_checkmate(possible_moves, turn).present?
-        move_value = find_checkmate(possible_moves, turn).value
-      else
-        move_value = ai_logic.ai_move(possible_moves, turn)
-      end
-
-      move(move_value.to_i, move_value[-2..-1], promote_pawn(move_value))
-
+    until outcome.present?
+      ai_move
       update(outcome: 0) if move_count > 400
       puts moves.order(:move_count).last.value
       puts '******************'
     end
+  end
+
+  def ai_move
+    turn = current_turn
+    possible_moves = game_move_logic.find_next_moves(pieces, turn, move_count)
+    if find_checkmate(possible_moves, turn).present?
+      move_value = find_checkmate(possible_moves, turn).value
+    else
+      move_value = ai_logic.ai_move(possible_moves, turn)
+    end
+
+    move(move_value.to_i, move_value[-2..-1], promote_pawn(move_value))
   end
 
   def crossed_pawn?(move_value)
