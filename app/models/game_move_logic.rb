@@ -5,24 +5,15 @@ class GameMoveLogic
 
     key = 'next_moves_' + Setup.create_signature(pieces, turn)
 
-    if in_cache?(key) && get_next_moves_from_cache(key).all?(&:setup)
-      get_next_moves_from_cache(key)
+    if in_cache?(key)
+      JSON.parse(get_from_cache(key)).map { |move| MoveSerializer.deserialize(move) }
     else
       opponent_color_code = turn == 'white' ? 'b' : 'w'
       next_moves = pieces.select { |piece| piece.color == turn }.map do |piece|
         all_next_moves_for_piece(piece, opponent_color_code, move_count, pieces)
       end.flatten
-
-      add_to_cache(key, next_moves)
+      add_to_cache(key, next_moves.map { |move| MoveSerializer.serialize(move) })
       next_moves
-    end
-  end
-
-  def get_next_moves_from_cache(key)
-    if in_cache?(key)
-      JSON.parse(get_from_cache(key)).map { |move_data| Move.new(move_data) }
-    else
-      []
     end
   end
 
