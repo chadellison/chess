@@ -42,7 +42,11 @@ class Game < ApplicationRecord
     if game_over?(pieces, turn)
       handle_outcome
     elsif ai_turn?(turn)
-      AiMoveJob.perform_later(self)
+      if game_type == 'human vs stockfish'
+        StockfishMoveJob.perform_later(self)
+      else
+        AiMoveJob.perform_later(self)
+      end
     end
   end
 
