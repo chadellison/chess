@@ -5,7 +5,7 @@ class AiLogic
     @neural_network = NeuralNetwork.new
   end
 
-  def ai_move(possible_moves, game_turn)
+  def analyze(possible_moves, game_turn)
     weighted_moves = neural_network.move_analysis(possible_moves, game_turn)
     best_move_value = find_best_move(weighted_moves, game_turn)
   end

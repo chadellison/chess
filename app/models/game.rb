@@ -183,7 +183,7 @@ class Game < ApplicationRecord
     if find_checkmate(possible_moves, turn).present?
       move_value = find_checkmate(possible_moves, turn).value
     else
-      move_value = ai_logic.ai_move(possible_moves, turn)
+      move_value = ai_logic.analyze(possible_moves, turn)
     end
 
     move(move_value.to_i, move_value[-2..-1], promote_pawn(move_value))
@@ -207,8 +207,11 @@ class Game < ApplicationRecord
   end
 
   def move_count
-    return 0 if notation.blank?
-    notation.split('.').count
+    if notation.present?
+      notation.split('.').count
+    else
+      moves.size
+    end
   end
 
   def update_outcomes

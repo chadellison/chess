@@ -5,15 +5,15 @@ class Setup < ApplicationRecord
   has_many :setup_signatures
   has_many :signatures, through: :setup_signatures
 
+  include OutcomeCalculator
+
   SIGNATURES = {
     activity: ActivityLogic,
     attack: AttackLogic,
-    material: MaterialLogic,
     check: CheckLogic,
-    threat: ThreatLogic
+    material: MaterialLogic,
+    center: CenterLogic
   }
-
-  include OutcomeCalculator
 
   def self.find_setup(new_pieces, opponent_color_code)
     game_signature = Setup.create_signature(new_pieces, opponent_color_code)
@@ -32,12 +32,11 @@ class Setup < ApplicationRecord
   end
 
   def add_signatures(new_pieces, game_turn_code)
-    turn = game_turn_code == 'w' ? 'white' : 'black'
-    game_data = { turn: turn, pieces: new_pieces }
+    game_data = GameData.new(new_pieces, game_turn_code)
 
     SIGNATURES.each do |signature_type, signature_class|
       signature_value = signature_class.create_signature(game_data)
-      handle_signature(signature_type.to_s, signature_value)
+      handle_signature(signature_type, signature_value)
     end
   end
 
