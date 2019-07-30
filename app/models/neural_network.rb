@@ -1,5 +1,5 @@
 class NeuralNetwork
-  ALPHA = 0.01
+  ALPHA = 0.05
   WEIGHT_COUNTS = [30, 18, 3]
   OFFSETS = [0, 30, 48]
   VECTOR_COUNTS = [5, 6, 3]
@@ -8,10 +8,10 @@ class NeuralNetwork
 
   def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
-
     layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
     layer_two_weights = find_weights(WEIGHT_COUNTS[1], OFFSETS[1], VECTOR_COUNTS[1])
     layer_three_weights = find_weights(WEIGHT_COUNTS[2], OFFSETS[2], VECTOR_COUNTS[2])
+
     possible_moves.each do |possible_move|
       final_prediction = calculate_prediction(possible_move.setup, layer_one_weights, layer_two_weights, layer_three_weights)
       weighted_moves[possible_move.value] = final_prediction
@@ -116,7 +116,7 @@ class NeuralNetwork
   # def leaky_relu(input)
   #   input.map { |value| value > 0 ? value : 0.01 }
   # end
-
+  #
   # def relu_derivative(output)
   #   output.map { |value| value > 0 ? 1 : 0.01 }
   # end

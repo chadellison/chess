@@ -8,13 +8,15 @@ class Analytics
   end
 
   def move_analytics(analytics_params)
-    setup = find_setup(analytics_params[:pieces], analytics_params[:turn])
+    opponent_color_code = analytics_params[:turn] == 'w' ? 'b' : 'w'
+    setup = find_setup(analytics_params[:pieces], opponent_color_code)
     if in_cache?('analytics_' + setup.position_signature)
       JSON.parse(get_from_cache('analytics_' + setup.position_signature))
     else
       game = load_game(analytics_params[:moves], setup)
-      turn = game.current_turn
-      possible_moves = game_move_logic.find_next_moves(game.pieces, turn, game.move_count)
+      turn = analytics_params[:turn] == 'w' ? 'white' : 'black'
+      move_count = analytics_params[:moves].count
+      possible_moves = game_move_logic.find_next_moves(game.pieces, turn, move_count)
       analyzed_moves = analyzed_moves(possible_moves, turn)
 
       serialized_moves = AnalyticsSerializer.serialize(analyzed_moves)
