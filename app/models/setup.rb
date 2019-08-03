@@ -10,9 +10,16 @@ class Setup < ApplicationRecord
   SIGNATURES = {
     activity: ActivityLogic,
     attack: AttackLogic,
+    bishop: BishopLogic,
+    center: CenterLogic,
     check: CheckLogic,
+    # king: KingLogic,
+    knight: KnightLogic,
     material: MaterialLogic,
-    center: CenterLogic
+    pawn: PawnLogic,
+    queen: QueenLogic,
+    rook: RookLogic,
+    # threat: ThreatLogic
   }
 
   def self.find_setup(new_pieces, opponent_color_code)

@@ -210,7 +210,7 @@ class Game < ApplicationRecord
     if notation.present?
       notation.split('.').count
     else
-      moves.size
+      moves.count
     end
   end
 
