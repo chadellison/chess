@@ -1,4 +1,4 @@
-class GameData
+class SetupData
   attr_reader :pieces, :turn, :targets
 
   def initialize(pieces, turn_code)

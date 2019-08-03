@@ -39,10 +39,10 @@ class Setup < ApplicationRecord
   end
 
   def add_signatures(new_pieces, game_turn_code)
-    game_data = GameData.new(new_pieces, game_turn_code)
+    setup_data = SetupData.new(new_pieces, game_turn_code)
 
     SIGNATURES.each do |signature_type, signature_class|
-      signature_value = signature_class.create_signature(game_data)
+      signature_value = signature_class.create_signature(setup_data)
       handle_signature(signature_type, signature_value)
     end
   end

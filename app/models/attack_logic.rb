@@ -1,8 +1,8 @@
 class AttackLogic
-  def self.create_signature(game_data)
-    pieces = game_data.pieces
-    targets = game_data.targets
-    turn = game_data.turn
+  def self.create_signature(setup_data)
+    pieces = setup_data.pieces
+    targets = setup_data.targets
+    turn = setup_data.turn
 
     attackers = pieces.select { |piece| piece.enemy_targets.present? }.select do |piece|
       [

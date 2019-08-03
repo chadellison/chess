@@ -1,7 +1,7 @@
 class MaterialLogic
-  def self.create_signature(game_data)
-    game_data.pieces.reduce(0) do |total, piece|
-      if game_data.turn == piece.color && game_data.targets.include?(piece.position_index)
+  def self.create_signature(setup_data)
+    setup_data.pieces.reduce(0) do |total, piece|
+      if setup_data.turn == piece.color && setup_data.targets.include?(piece.position_index)
         total
       else
         piece_value = piece.find_piece_value
