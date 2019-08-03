@@ -6,7 +6,7 @@ class AttackLogic
 
     attackers = pieces.select { |piece| piece.enemy_targets.present? }.select do |piece|
       [
-        piece.color == turn,
+        piece.color != turn,
         !targets.include?(piece.position_index),
         Piece.defenders(piece.position_index, pieces).present?
       ].any?

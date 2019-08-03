@@ -2,28 +2,26 @@ class GameMoveLogic
   include CacheLogic
 
   def find_next_moves(pieces, turn, move_count)
-
-    key = 'next_moves_' + Setup.create_signature(pieces, turn)
+    key = 'next_moves_' + Setup.create_signature(pieces, turn[0])
 
     if in_cache?(key)
       JSON.parse(get_from_cache(key)).map { |move| MoveSerializer.deserialize(move) }
     else
-      opponent_color_code = turn == 'white' ? 'b' : 'w'
       next_moves = pieces.select { |piece| piece.color == turn }.map do |piece|
-        all_next_moves_for_piece(piece, opponent_color_code, move_count, pieces)
+        all_next_moves_for_piece(piece, turn[0], move_count, pieces)
       end.flatten
       add_to_cache(key, next_moves.map { |move| MoveSerializer.serialize(move) })
       next_moves
     end
   end
 
-  def all_next_moves_for_piece(piece, opponent_color_code, move_count, game_pieces)
+  def all_next_moves_for_piece(piece, turn_code, move_count, game_pieces)
     piece.valid_moves.map do |move|
       move_value = piece.position_index.to_s + move
       game_move = Move.new(value: move_value, move_count: move_count)
       game_pieces = refresh_board(game_pieces, move_value)
 
-      setup = Setup.find_setup(game_pieces, opponent_color_code)
+      setup = Setup.find_setup(game_pieces, turn_code)
       game_move.setup = setup
       game_move
     end
