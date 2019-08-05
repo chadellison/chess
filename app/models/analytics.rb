@@ -9,7 +9,9 @@ class Analytics
 
   def move_analytics(analytics_params)
     opponent_color_code = analytics_params[:turn] == 'w' ? 'b' : 'w'
-    setup = find_setup(analytics_params[:pieces], opponent_color_code)
+    last_move = analytics_params[:moves].sort_by { |m| m[:move_count] }
+    move = last_move.present? ? Move.new(value: last_move.last[:value]) : Move.new
+    setup = find_setup(analytics_params[:pieces], opponent_color_code, move)
     if in_cache?('analytics_' + setup.position_signature)
       JSON.parse(get_from_cache('analytics_' + setup.position_signature))
     else
@@ -31,9 +33,9 @@ class Analytics
     end
   end
 
-  def find_setup(pieces, turn_code)
+  def find_setup(pieces, turn_code, last_move)
     formatted_pieces = dersialize_pieces(pieces)
-    Setup.find_setup(formatted_pieces, turn_code)
+    Setup.find_setup(formatted_pieces, turn_code, Move.new)
   end
 
   def dersialize_pieces(pieces)

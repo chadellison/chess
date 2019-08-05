@@ -46,7 +46,7 @@ def train_network
   neural_network = NeuralNetwork.new
   REDIS.set('error_rate', { error: 0, count: 0 }.to_json)
 
-  Setup.count.times do |count|
+  1000.times do |count|
     setup = Setup.where.not(outcome: {}).order('RANDOM()').first
 
     neural_network.train(setup)

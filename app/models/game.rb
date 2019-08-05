@@ -117,7 +117,7 @@ class Game < ApplicationRecord
       promoted_pawn: (promoted_pawn?(updated_piece) ? updated_piece.piece_type : nil)
     )
 
-    setup = Setup.find_setup(new_pieces, opponent_color[0])
+    setup = Setup.find_setup(new_pieces, opponent_color[0], game_move)
     setup.signatures.each(&:save)
     setup.save
 
@@ -180,6 +180,7 @@ class Game < ApplicationRecord
   def ai_move
     turn = current_turn
     possible_moves = game_move_logic.find_next_moves(pieces, turn, move_count)
+    # no need to do this .... check as it will be in signature
     if find_checkmate(possible_moves, turn).present?
       move_value = find_checkmate(possible_moves, turn).value
     else
