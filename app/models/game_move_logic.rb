@@ -21,7 +21,7 @@ class GameMoveLogic
       game_move = Move.new(value: move_value, move_count: move_count)
       game_pieces = refresh_board(game_pieces, move_value)
 
-      setup = Setup.find_setup(game_pieces, turn_code)
+      setup = Setup.find_setup(game_pieces, turn_code, game_move)
       game_move.setup = setup
       game_move
     end

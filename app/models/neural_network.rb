@@ -1,5 +1,5 @@
 class NeuralNetwork
-  ALPHA = 0.05
+  ALPHA = 0.1
   # WEIGHT_COUNTS = [30, 18, 3]
   # OFFSETS = [0, 30, 48]
   # VECTOR_COUNTS = [5, 6, 3]

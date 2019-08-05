@@ -1,10 +1,11 @@
 class SetupData
-  attr_reader :pieces, :turn, :targets
+  attr_reader :pieces, :turn, :targets, :move
 
-  def initialize(pieces, turn_code)
+  def initialize(pieces, turn_code, move)
     @pieces = pieces
     @turn = turn_code == 'w' ? 'white' : 'black'
     @targets = pieces.map(&:enemy_targets).flatten
+    @move = move
   end
 
   def calculate_piece_quality(pieces)
@@ -19,6 +20,18 @@ class SetupData
       end
       total + value_to_increment
     end
+  end
+
+  def opponent_color
+    turn == 'white' ? 'black' : 'white'
+  end
+
+  def opponents
+    pieces.select { |piece| piece.color != turn }
+  end
+
+  def allies
+    pieces.select { |piece| piece.color == turn }
   end
 
   def enemy_territory?(piece)
