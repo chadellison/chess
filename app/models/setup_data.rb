@@ -1,10 +1,10 @@
 class SetupData
   attr_reader :pieces, :turn, :targets, :move
 
-  def initialize(pieces, turn_code, move)
+  def initialize(pieces, turn_code, targets, move)
     @pieces = pieces
     @turn = turn_code == 'w' ? 'white' : 'black'
-    @targets = pieces.map(&:enemy_targets).flatten
+    @targets = targets
     @move = move
   end
 

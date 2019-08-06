@@ -23,13 +23,13 @@ class Setup < ApplicationRecord
     # threat: ThreatLogic
   }
 
-  def self.find_setup(new_pieces, opponent_color_code, move)
-    game_signature = Setup.create_signature(new_pieces, opponent_color_code)
+  def self.find_setup(new_pieces, turn_code, move)
+    game_signature = Setup.create_signature(new_pieces, turn_code)
     setup = Setup.find_by(position_signature: game_signature)
     return setup if setup.present?
 
     setup = Setup.new(position_signature: game_signature)
-    setup.add_signatures(new_pieces, opponent_color_code, move)
+    setup.add_signatures(new_pieces, turn_code, move)
     setup
   end
 
@@ -40,7 +40,8 @@ class Setup < ApplicationRecord
   end
 
   def add_signatures(new_pieces, game_turn_code, move)
-    setup_data = SetupData.new(new_pieces, game_turn_code, move)
+    targets = new_pieces.map(&:enemy_targets).flatten
+    setup_data = SetupData.new(new_pieces, game_turn_code, targets, move)
 
     SIGNATURES.each do |signature_type, signature_class|
       signature_value = signature_class.create_signature(setup_data)

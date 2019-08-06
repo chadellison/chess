@@ -15,12 +15,11 @@ class GameMoveLogic
     end
   end
 
-  def all_next_moves_for_piece(piece, turn_code, move_count, game_pieces)
+  def all_next_moves_for_piece(piece, turn_code, move_count, pieces)
     piece.valid_moves.map do |move|
       move_value = piece.position_index.to_s + move
       game_move = Move.new(value: move_value, move_count: move_count)
-      game_pieces = refresh_board(game_pieces, move_value)
-
+      game_pieces = refresh_board(pieces, move_value)
       setup = Setup.find_setup(game_pieces, turn_code, game_move)
       game_move.setup = setup
       game_move
