@@ -7,6 +7,8 @@ class NeuralNetwork
   OFFSETS = [0, 120, 216]
   VECTOR_COUNTS = [10, 12, 8]
 
+  include CacheLogic
+
   def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
     layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
