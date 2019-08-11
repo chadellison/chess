@@ -3,7 +3,7 @@ class UserGameLogic
     game = Game.new(game_type: game_params[:game_type])
     game_params[:color] == 'white' ? game.white_player = user.id : game.black_player = user.id
 
-    if ['human vs machine', 'human vs stockfish'].include?(game_params[:game_type])
+    if 'human vs machine' == game_params[:game_type]
       machine_player = create_ai_player(game_params[:color])
       game.ai_player = machine_player
       game.status = 'active'
@@ -11,16 +11,8 @@ class UserGameLogic
       game.status = 'awaiting player'
     end
     game.save
-    handle_first_move(game) if game.ai_turn?(game.current_turn)
+    AiMoveJob.perform_later(game) if game.ai_turn?(game.current_turn)
     game
-  end
-
-  def handle_first_move(game)
-    if game.game_type == 'human vs stockfish'
-      StockfishMoveJob.perform_later(game)
-    else
-      AiMoveJob.perform_later(game)
-    end
   end
 
   def create_ai_player(color)

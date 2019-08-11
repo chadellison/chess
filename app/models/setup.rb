@@ -12,24 +12,21 @@ class Setup < ApplicationRecord
     attack: AttackLogic,
     bishop: BishopLogic,
     center: CenterLogic,
-    # checkmate: CheckmateLogic,
-    # king: KingLogic,
     knight: KnightLogic,
     material: MaterialLogic,
     pawn: PawnLogic,
     queen: QueenLogic,
     rook: RookLogic,
     tempo: TempoLogic
-    # threat: ThreatLogic
   }
 
-  def self.find_setup(new_pieces, turn_code, move)
-    game_signature = Setup.create_signature(new_pieces, turn_code)
-    setup = Setup.find_by(position_signature: game_signature)
+  def self.find_setup(game_data)
+    signature = Setup.create_signature(game_data.pieces, game_data.turn[0])
+    setup = Setup.find_by(position_signature: signature)
     return setup if setup.present?
 
-    setup = Setup.new(position_signature: game_signature)
-    setup.add_signatures(new_pieces, turn_code, move)
+    setup = Setup.new(position_signature: signature)
+    setup.add_signatures(game_data)
     setup
   end
 
@@ -39,12 +36,9 @@ class Setup < ApplicationRecord
     end.join('.') + game_turn_code
   end
 
-  def add_signatures(new_pieces, game_turn_code, move)
-    targets = new_pieces.map(&:enemy_targets).flatten
-    setup_data = SetupData.new(new_pieces, game_turn_code, targets, move)
-
+  def add_signatures(game_data)
     SIGNATURES.each do |signature_type, signature_class|
-      signature_value = signature_class.create_signature(setup_data)
+      signature_value = signature_class.create_signature(game_data)
       handle_signature(signature_type, signature_value)
     end
   end

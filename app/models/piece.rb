@@ -2,7 +2,7 @@ class Piece
   include MoveLogic
 
   PIECE_CODE = { king: 'k', queen: 'q', rook: 'r', bishop: 'b', knight: 'n', pawn: 'p' }
-  PIECE_VALUE = { king: 0, queen: 9, rook: 5, bishop: 3, knight: 3, pawn: 1 }
+  PIECE_VALUE = { king: 10, queen: 9, rook: 5, bishop: 3, knight: 3, pawn: 1 }
 
   attr_accessor :game_id, :piece_type, :color, :position, :position_index,
     :moved_two, :has_moved, :valid_moves, :enemy_targets, :game_move_logic

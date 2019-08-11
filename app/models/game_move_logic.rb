@@ -8,20 +8,23 @@ class GameMoveLogic
       JSON.parse(get_from_cache(key)).map { |move| MoveSerializer.deserialize(move) }
     else
       next_moves = pieces.select { |piece| piece.color == turn }.map do |piece|
-        all_next_moves_for_piece(piece, turn[0], move_count, pieces)
+        all_next_moves_for_piece(piece, turn, move_count, pieces)
       end.flatten
       add_to_cache(key, next_moves.map { |move| MoveSerializer.serialize(move) })
       next_moves
     end
   end
 
-  def all_next_moves_for_piece(piece, turn_code, move_count, pieces)
+  def all_next_moves_for_piece(piece, turn, move_count, pieces)
+    material_value = find_material_value(pieces)
     piece.valid_moves.map do |move|
       move_value = piece.position_index.to_s + move
       game_move = Move.new(value: move_value, move_count: move_count)
       game_pieces = refresh_board(pieces, move_value)
-      setup = Setup.find_setup(game_pieces, turn_code, game_move)
+      game_data = GameData.new(game_move, game_pieces, turn, material_value)
+      setup = Setup.find_setup(game_data)
       game_move.setup = setup
+      game_move.checkmate = CheckmateLogic.is_checkmate?(game_data)
       game_move
     end
   end
@@ -125,5 +128,15 @@ class GameMoveLogic
     new_piece.piece_type = 'queen' if should_promote_pawn?(move)
     new_piece.position = move[-2..-1]
     new_piece.has_moved = true
+  end
+
+  def find_material_value(game_pieces)
+    game_pieces.reduce(0) do |total, piece|
+      if piece.color == 'white'
+        total + piece.find_piece_value
+      else
+        total - piece.find_piece_value
+      end
+    end
   end
 end

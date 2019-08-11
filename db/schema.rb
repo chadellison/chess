@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_28_001649) do
+ActiveRecord::Schema.define(version: 2019_08_11_195933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 2019_05_28_001649) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "promoted_pawn"
-    t.integer "material_value"
+    t.boolean "checkmate"
     t.index ["game_id"], name: "index_moves_on_game_id"
     t.index ["setup_id"], name: "index_moves_on_setup_id"
     t.index ["value"], name: "index_moves_on_value"

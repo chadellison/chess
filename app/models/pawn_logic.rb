@@ -1,10 +1,10 @@
 class PawnLogic
-  def self.create_signature(setup_data)
-    pawns = setup_data.pieces.select { |piece| piece.piece_type == 'pawn' }
+  def self.create_signature(game_data)
+    pawns = game_data.pieces.select { |piece| piece.piece_type == 'pawn' }
     pawns_by_color = pawns.group_by(&:color)
 
     if should_evaluate_pawn?(pawns_by_color)
-      setup_data.calculate_piece_quality(pawns)
+      game_data.calculate_piece_quality(pawns)
     else
       0
     end
