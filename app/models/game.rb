@@ -103,22 +103,19 @@ class Game < ApplicationRecord
     else
       piece = find_piece_by_index(position_index)
       updated_piece = Piece.new_piece(piece, new_position, upgraded_type)
-      update_board(piece, updated_piece)
+      update_board(updated_piece)
     end
   end
 
-  def update_board(piece, updated_piece)
+  def update_board(updated_piece)
+    material_value = game_move_logic.find_material_value(pieces) # <-- needs to be called BEFORE refresh_board
     new_pieces = game_move_logic.refresh_board(pieces, updated_piece.position_index.to_s + updated_piece.position)
     update_pieces(new_pieces)
 
-    game_move = Move.new(
-      value: (piece.position_index.to_s + updated_piece.position),
-      move_count: (move_count + 1),
-      promoted_pawn: (promoted_pawn?(updated_piece) ? updated_piece.piece_type : nil)
-    )
+    game_move = initialize_move(updated_piece)
+    game_data = GameData.new(game_move, new_pieces, opponent_color, material_value)
 
-    setup = Setup.find_setup(new_pieces, opponent_color[0], game_move)
-    setup.signatures.each(&:save)
+    setup = Setup.find_setup(game_data)
     setup.save
 
     game_move.setup = setup
@@ -126,6 +123,14 @@ class Game < ApplicationRecord
       add_to_cache(notation, game_move)
     end
     moves << game_move
+  end
+
+  def initialize_move(updated_piece)
+    Move.new(
+      value: (updated_piece.position_index.to_s + updated_piece.position),
+      move_count: (move_count + 1),
+      promoted_pawn: (promoted_pawn?(updated_piece) ? updated_piece.piece_type : nil)
+    )
   end
 
   def promoted_pawn?(piece)
@@ -180,9 +185,11 @@ class Game < ApplicationRecord
   def ai_move
     turn = current_turn
     possible_moves = game_move_logic.find_next_moves(pieces, turn, move_count)
-    # no need to do this .... check as it will be in signature
-    if find_checkmate(possible_moves, turn).present?
-      move_value = find_checkmate(possible_moves, turn).value
+
+    checkmate_move = possible_moves.detect { |move| move.checkmate.present? }
+
+    if checkmate_move.present?
+      move_value = checkmate_move.value
     else
       move_value = ai_logic.analyze(possible_moves, turn)
     end
@@ -197,14 +204,6 @@ class Game < ApplicationRecord
 
   def promote_pawn(move_value)
     crossed_pawn?(move_value) ? 'queen' : ''
-  end
-
-  def find_checkmate(possible_moves, game_turn)
-    other_color = game_turn == 'white' ? 'black' : 'white'
-    possible_moves.detect do |next_move|
-      game_pieces = game_move_logic.refresh_board(pieces, next_move.value)
-      checkmate?(game_pieces, other_color)
-    end
   end
 
   def move_count

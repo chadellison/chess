@@ -1,11 +1,12 @@
-class SetupData
-  attr_reader :pieces, :turn, :targets, :move
+class GameData
+  attr_reader :move, :pieces, :turn, :material_value, :targets
 
-  def initialize(pieces, turn_code, targets, move)
-    @pieces = pieces
-    @turn = turn_code == 'w' ? 'white' : 'black'
-    @targets = targets
+  def initialize(move, pieces, turn, material_value)
     @move = move
+    @pieces = pieces
+    @material_value = material_value
+    @turn = turn
+    @targets = pieces.map(&:enemy_targets).flatten
   end
 
   def calculate_piece_quality(pieces)

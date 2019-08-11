@@ -7,5 +7,5 @@ task import_weights: :environment do
   json_weights.each do |json_weight|
     Weight.create(json_weight)
   end
-  puts 'weights updated'
+  puts 'updated weights from json/weights.json'
 end

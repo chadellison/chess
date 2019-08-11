@@ -13,7 +13,6 @@ task train_on_stockfish: :environment do
 
     until game.outcome.present? do
       turn = game.current_turn
-
       if turn == stockfish.stockfish_color(game_number)
         puts stockfish.fen_notation.find_fen_notation
 

@@ -9,20 +9,20 @@ class Analytics
 
   def move_analytics(analytics_params)
     opponent_color_code = analytics_params[:turn] == 'w' ? 'b' : 'w'
-    last_move = analytics_params[:moves].sort_by { |m| m[:move_count] }
-    move = last_move.present? ? Move.new(value: last_move.last[:value]) : Move.new
-    setup = find_setup(analytics_params[:pieces], opponent_color_code, move)
-    if in_cache?('analytics_' + setup.position_signature)
-      JSON.parse(get_from_cache('analytics_' + setup.position_signature))
+    deserialized_pieces = dersialize_pieces(analytics_params[:pieces])
+    setup_signature = Setup.create_signature(deserialized_pieces, opponent_color_code)
+
+    if in_cache?('analytics_' + setup_signature)
+      JSON.parse(get_from_cache('analytics_' + setup_signature))
     else
-      game = load_game(analytics_params[:moves], setup)
+      game = load_game(analytics_params[:moves], setup_signature)
       turn = analytics_params[:turn] == 'w' ? 'white' : 'black'
       move_count = analytics_params[:moves].count
       possible_moves = game_move_logic.find_next_moves(game.pieces, turn, move_count)
       analyzed_moves = analyzed_moves(possible_moves, turn)
 
       serialized_moves = AnalyticsSerializer.serialize(analyzed_moves)
-      add_to_cache('analytics_' + setup.position_signature, serialized_moves)
+      add_to_cache('analytics_' + setup_signature, serialized_moves)
       serialized_moves
     end
   end
@@ -31,11 +31,6 @@ class Analytics
     neural_network.move_analysis(possible_moves, turn).map do |next_move, prediction|
       { move: next_move, white: prediction, black: prediction * -1 }
     end
-  end
-
-  def find_setup(pieces, turn_code, last_move)
-    formatted_pieces = dersialize_pieces(pieces)
-    Setup.find_setup(formatted_pieces, turn_code, Move.new)
   end
 
   def dersialize_pieces(pieces)
@@ -57,14 +52,12 @@ class Analytics
     moves.map { |attributes| Move.new(attributes) }
   end
 
-  def load_game(moves, setup)
+  def load_game(moves, setup_signature)
     game = Game.new
     game.moves = dersialize_moves(moves)
 
-    if game.moves.blank?
-      game.pieces
-    else
-      game.last_move.setup = setup
+    if !game.moves.blank?
+      game.last_move.setup = Setup.new(position_signature: setup_signature)
     end
     game
   end
