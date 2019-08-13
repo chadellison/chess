@@ -128,7 +128,7 @@ class Game < ApplicationRecord
   def initialize_move(updated_piece)
     Move.new(
       value: (updated_piece.position_index.to_s + updated_piece.position),
-      move_count: (move_count + 1),
+      move_count: move_count,
       promoted_pawn: (promoted_pawn?(updated_piece) ? updated_piece.piece_type : nil)
     )
   end
@@ -184,7 +184,7 @@ class Game < ApplicationRecord
 
   def ai_move
     turn = current_turn
-    possible_moves = game_move_logic.find_next_moves(pieces, turn, move_count)
+    possible_moves = game_move_logic.find_next_moves(pieces, turn, move_count + 1)
 
     checkmate_move = possible_moves.detect { |move| move.checkmate.present? }
 
