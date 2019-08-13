@@ -18,7 +18,7 @@ class Analytics
       game = load_game(analytics_params[:moves], setup_signature)
       turn = analytics_params[:turn] == 'w' ? 'white' : 'black'
       move_count = analytics_params[:moves].count
-      possible_moves = game_move_logic.find_next_moves(game.pieces, turn, move_count)
+      possible_moves = game_move_logic.find_next_moves(game.pieces, turn, move_count + 1)
       analyzed_moves = analyzed_moves(possible_moves, turn)
 
       serialized_moves = AnalyticsSerializer.serialize(analyzed_moves)
