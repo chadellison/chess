@@ -58,10 +58,12 @@ class GameMoveLogic
 
   def load_move_attributes(game_pieces)
     game_pieces.each do |piece|
-      piece.valid_moves = piece.moves_for_piece.select do |move|
+      piece.enemy_targets = []
+      piece.valid_moves = []
+      piece.moves_for_piece.each do |move|
         if piece.valid_move?(game_pieces, move)
+          piece.valid_moves.push(move)
           load_enemy_target(move, game_pieces, piece)
-          true
         end
       end
     end
