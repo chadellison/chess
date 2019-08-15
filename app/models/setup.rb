@@ -2,23 +2,18 @@ class Setup < ApplicationRecord
   serialize :outcomes, Hash
   validates_uniqueness_of :position_signature
 
+  belongs_to :abstraction
   has_many :setup_signatures
   has_many :signatures, through: :setup_signatures
 
   include OutcomeCalculator
 
-  SIGNATURES = {
-    activity: ActivityLogic,
-    attack: AttackLogic,
-    bishop: BishopLogic,
-    center: CenterLogic,
-    knight: KnightLogic,
-    material: MaterialLogic,
-    pawn: PawnLogic,
-    queen: QueenLogic,
-    rook: RookLogic,
-    tempo: TempoLogic
-  }
+  PATTERNS = [
+    ActivityLogic,
+    AttackLogic,
+    MaterialLogic,
+    ThreatLogic
+  ]
 
   def self.find_setup(game_data)
     signature = Setup.create_signature(game_data.pieces, game_data.turn[0])
@@ -26,7 +21,7 @@ class Setup < ApplicationRecord
     return setup if setup.present?
 
     setup = Setup.new(position_signature: signature)
-    setup.add_signatures(game_data)
+    setup.abstraction = create_abstraction(game_data)
     setup
   end
 
@@ -36,22 +31,21 @@ class Setup < ApplicationRecord
     end.join('.') + game_turn_code
   end
 
-  def add_signatures(game_data)
-    SIGNATURES.each do |signature_type, signature_class|
-      signature_value = signature_class.create_signature(game_data)
-      handle_signature(signature_type, signature_value)
-    end
-  end
+  def self.create_abstraction(game_data)
+    piece_sets = [
+      game_data.pawns,
+      game_data.knights,
+      game_data.bishops,
+      game_data.rooks,
+      game_data.queens,
+      game_data.kings
+    ]
+    pattern_signature = PATTERNS.map do |pattern_class|
+      piece_sets.map do |piece_set|
+        pattern_class.create_signature(game_data, piece_set)
+      end.join('.')
+    end.join('.')
 
-  def handle_signature(signature_type, signature_value)
-    signature = Signature.find_by(
-      signature_type: signature_type,
-      value: signature_value
-    )
-    if signature.blank?
-      signature = Signature.create(signature_type: signature_type, value: signature_value)
-    end
-
-    self.signatures << signature
+    Abstraction.find_or_create_by(pattern: pattern_signature)
   end
 end

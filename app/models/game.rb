@@ -178,7 +178,6 @@ class Game < ApplicationRecord
       ai_move
       update(outcome: 0) if move_count > 400
       puts moves.order(:move_count).last.value
-      puts '******************'
     end
   end
 

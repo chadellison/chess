@@ -13,16 +13,21 @@ class NeuralNetwork
     layer_three_weights = find_weights(WEIGHT_COUNTS[2], OFFSETS[2], VECTOR_COUNTS[2])
 
     possible_moves.each do |possible_move|
-      final_prediction = calculate_prediction(possible_move.setup, layer_one_weights, layer_two_weights, layer_three_weights)
+      final_prediction = calculate_prediction(
+        possible_move.setup.abstraction,
+        layer_one_weights,
+        layer_two_weights,
+        layer_three_weights
+      )
+
       weighted_moves[possible_move.value] = final_prediction
       puts "#{possible_move.value} ==> #{weighted_moves[possible_move.value]}"
     end
     weighted_moves
   end
 
-  def calculate_prediction(setup, layer_one_weights, layer_two_weights, layer_three_weights)
-    initial_input = signature_input(setup.signatures)
-    layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
+  def calculate_prediction(abstraction, layer_one_weights, layer_two_weights, layer_three_weights)
+    layer_one_predictions = multiply_vector(abstraction.pattern, layer_one_weights)
     layer_two_predictions = multiply_vector(layer_one_predictions, layer_two_weights)
     multiply_vector(layer_two_predictions, layer_three_weights).first
   end
@@ -51,14 +56,13 @@ class NeuralNetwork
     weights.each_slice(slice_value).to_a
   end
 
-  def train(setup)
-    outcome = Math.tanh(setup.outcome_ratio)
+  def train(abstraction)
+    initial_input = abstraction.pattern.split('.').map(&:to_i)
+    outcome = calculate_outcome(abstraction)
 
     layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
     layer_two_weights = find_weights(WEIGHT_COUNTS[1], OFFSETS[1], VECTOR_COUNTS[1])
     layer_three_weights = find_weights(WEIGHT_COUNTS[2], OFFSETS[2], VECTOR_COUNTS[2])
-
-    initial_input = signature_input(setup.signatures)
 
     layer_one_predictions = tanh(multiply_vector(initial_input, layer_one_weights))
     layer_two_predictions = tanh(multiply_vector(layer_one_predictions, layer_two_weights))
@@ -109,9 +113,11 @@ class NeuralNetwork
     weighted_deltas
   end
 
-  def signature_input(signatures)
-    signatures.sort_by(&:signature_type).map(&:value)
-  end
+  # def signature_input(signatures)
+  #   signatures.sort_by(&:signature_type).map do |signature|
+  #     Math.tanh(signature.value * 0.1)
+  #   end
+  # end
 
   # def leaky_relu(input)
   #   input.map { |value| value > 0 ? value : 0.01 }
@@ -120,6 +126,20 @@ class NeuralNetwork
   # def relu_derivative(output)
   #   output.map { |value| value > 0 ? 1 : 0.01 }
   # end
+
+  def calculate_outcome(abstraction)
+    outcome_key = 'outcome_' + abstraction.pattern
+    if in_cache?(outcome_key)
+      JSON.parse(get_from_cache(outcome_key))
+    else
+      outcome = abstraction.setups.reduce(0) do |total, setup|
+        total + setup.outcome_ratio
+      end
+      squashed_outcome = MATH.tanh(outcome)
+      add_to_cache(outcome_key, squashed_outcome)
+      squashed_outcome
+    end
+  end
 
   def tanh(input)
     input.map { |value| Math.tanh(value) }
@@ -130,9 +150,10 @@ class NeuralNetwork
   end
 
   def update_error_rate(error)
+    value = error > 1 ? 1 : 0
     error_object = JSON.parse(get_from_cache('error_rate')).symbolize_keys
     error_object[:count] += 1
-    error_object[:error] += error
+    error_object[:error] += value
     add_to_cache('error_rate', error_object)
   end
 end
