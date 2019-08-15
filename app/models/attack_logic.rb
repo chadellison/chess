@@ -1,33 +1,7 @@
 class AttackLogic
-  def self.create_signature(game_data)
-    pieces = game_data.pieces
-    targets = game_data.targets
-
-    attackers = pieces.select { |piece| piece.enemy_targets.present? }.select do |piece|
-      [
-        piece.color != game_data.turn,
-        !targets.include?(piece.position_index),
-        Piece.defenders(piece.position_index, pieces).present?
-      ].any?
-    end
-
-    target_pieces = pieces.select { |piece| targets.include?(piece.position_index) }
-
-    target_pieces.reduce(0) do |total, piece|
-      attacker_values = attackers.select do |attacker|
-        attacker.enemy_targets.include?(piece.position_index)
-      end.map(&:find_piece_value).sort
-
-      defender_values = Piece.defenders(piece.position_index, pieces)
-        .map(&:find_piece_value).sort
-
-      attack_value = calculate_attack(piece.find_piece_value, attacker_values, defender_values)
-      if piece.color == 'white'
-        total - attack_value
-      else
-        total + attack_value
-      end
-    end
+  def self.create_signature(game_data, pieces_to_evaluate)
+    attackers = game_data.next_attackers(pieces_to_evaluate)
+    self.find_signature_value(attackers, game_data.target_pieces, game_data.pieces)
   end
 
   def self.calculate_attack(current_target_value, attacker_values, defender_values)
@@ -42,5 +16,27 @@ class AttackLogic
       end
     end
     attack_value > 0 ? attack_value : 0
+  end
+
+  def self.find_signature_value(attackers, target_pieces, pieces)
+    signature_value = target_pieces.reduce(0) do |total, piece|
+      attacker_values = attackers.select do |attacker|
+        attacker.enemy_targets.include?(piece.position_index)
+      end.map(&:find_piece_value).sort
+
+      defender_values = Piece.defenders(piece.position_index, pieces)
+        .map(&:find_piece_value).sort
+
+      attack_value = calculate_attack(piece.find_piece_value, attacker_values, defender_values)
+      if piece.color == 'white'
+        total - attack_value
+      else
+        total + attack_value
+      end
+    end
+
+    return 1 if signature_value > 1
+    return -1 if signature_value < -1
+    0
   end
 end

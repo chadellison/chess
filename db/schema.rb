@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_11_195933) do
+ActiveRecord::Schema.define(version: 2019_08_13_172340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "abstractions", force: :cascade do |t|
+    t.text "pattern"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "ai_players", force: :cascade do |t|
     t.string "color"
@@ -78,6 +84,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_195933) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "outcomes"
+    t.integer "abstraction_id"
     t.index ["position_signature"], name: "index_setups_on_position_signature", unique: true
   end
 

@@ -131,12 +131,15 @@ class GameMoveLogic
   end
 
   def find_material_value(game_pieces)
-    game_pieces.reduce(0) do |total, piece|
-      if piece.color == 'white'
-        total + piece.find_piece_value
+    material_value = {}
+    game_pieces.each do |piece|
+      value_to_increment = piece.color == 'white' ? 1 : -1
+      if material_value[piece.piece_type].present?
+        material_value[piece.piece_type] += value_to_increment
       else
-        total - piece.find_piece_value
+        material_value[piece.piece_type] = value_to_increment
       end
     end
+    material_value
   end
 end
