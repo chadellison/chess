@@ -1,8 +1,8 @@
 class NeuralNetwork
   ALPHA = 0.1
-  WEIGHT_COUNTS = [120, 96, 8]
-  OFFSETS = [0, 120, 216]
-  VECTOR_COUNTS = [10, 12, 8]
+  WEIGHT_COUNTS = [288, 96, 8]
+  OFFSETS = [0, 288, 384]
+  VECTOR_COUNTS = [24, 12, 8]
 
   include CacheLogic
 
@@ -14,7 +14,7 @@ class NeuralNetwork
 
     possible_moves.each do |possible_move|
       final_prediction = calculate_prediction(
-        possible_move.setup.abstraction,
+        possible_move.setup.abstraction.pattern.split('.').map(&:to_i),
         layer_one_weights,
         layer_two_weights,
         layer_three_weights
@@ -26,8 +26,8 @@ class NeuralNetwork
     weighted_moves
   end
 
-  def calculate_prediction(abstraction, layer_one_weights, layer_two_weights, layer_three_weights)
-    layer_one_predictions = multiply_vector(abstraction.pattern, layer_one_weights)
+  def calculate_prediction(initial_input, layer_one_weights, layer_two_weights, layer_three_weights)
+    layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
     layer_two_predictions = multiply_vector(layer_one_predictions, layer_two_weights)
     multiply_vector(layer_two_predictions, layer_three_weights).first
   end
@@ -128,17 +128,11 @@ class NeuralNetwork
   # end
 
   def calculate_outcome(abstraction)
-    outcome_key = 'outcome_' + abstraction.pattern
-    if in_cache?(outcome_key)
-      JSON.parse(get_from_cache(outcome_key))
-    else
-      outcome = abstraction.setups.reduce(0) do |total, setup|
-        total + setup.outcome_ratio
-      end
-      squashed_outcome = MATH.tanh(outcome)
-      add_to_cache(outcome_key, squashed_outcome)
-      squashed_outcome
+    outcome = abstraction.setups.reduce(0) do |total, setup|
+      total + setup.outcome_ratio
     end
+    squashed_outcome = Math.tanh(outcome)
+    squashed_outcome
   end
 
   def tanh(input)
