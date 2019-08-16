@@ -13,7 +13,7 @@ task train_with_setups: :environment do
     if count % 100 == 0
       error_object = JSON.parse(REDIS.get('error_rate')).symbolize_keys
       accuracy = error_object[:count] - error_object[:error]
-      puts 'ACCURACY: ********************' + (accuracy / error_object[:count]).to_s
+      puts 'ACCURACY: ********************' + (accuracy.to_f / error_object[:count].to_f).to_s
     end
   end
 end
