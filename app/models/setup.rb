@@ -12,6 +12,7 @@ class Setup < ApplicationRecord
     ActivityLogic,
     AttackLogic,
     MaterialLogic,
+    TempoLogic,
     ThreatLogic
   ]
 
