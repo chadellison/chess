@@ -6,18 +6,20 @@ class NeuralNetwork
 
   include CacheLogic
 
+  attr_reader :layer_one_weights, :layer_two_weights, :layer_three_weights
+
+  def initialize
+    @layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
+    @layer_two_weights = find_weights(WEIGHT_COUNTS[1], OFFSETS[1], VECTOR_COUNTS[1])
+    @layer_three_weights = find_weights(WEIGHT_COUNTS[2], OFFSETS[2], VECTOR_COUNTS[2])
+  end
+
   def move_analysis(possible_moves, game_turn)
     weighted_moves = {}
-    layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
-    layer_two_weights = find_weights(WEIGHT_COUNTS[1], OFFSETS[1], VECTOR_COUNTS[1])
-    layer_three_weights = find_weights(WEIGHT_COUNTS[2], OFFSETS[2], VECTOR_COUNTS[2])
 
     possible_moves.each do |possible_move|
       final_prediction = calculate_prediction(
-        possible_move.setup.abstraction.pattern.split('.').map(&:to_i),
-        layer_one_weights,
-        layer_two_weights,
-        layer_three_weights
+        possible_move.setup.abstraction.pattern.split('.').map(&:to_i)
       )
 
       weighted_moves[possible_move.value] = final_prediction
@@ -26,7 +28,7 @@ class NeuralNetwork
     weighted_moves
   end
 
-  def calculate_prediction(initial_input, layer_one_weights, layer_two_weights, layer_three_weights)
+  def calculate_prediction(initial_input)
     layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
     layer_two_predictions = multiply_vector(layer_one_predictions, layer_two_weights)
     multiply_vector(layer_two_predictions, layer_three_weights).first
@@ -60,10 +62,6 @@ class NeuralNetwork
     initial_input = abstraction.pattern.split('.').map(&:to_i)
     outcomes = calculate_outcomes(abstraction)
 
-    layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
-    layer_two_weights = find_weights(WEIGHT_COUNTS[1], OFFSETS[1], VECTOR_COUNTS[1])
-    layer_three_weights = find_weights(WEIGHT_COUNTS[2], OFFSETS[2], VECTOR_COUNTS[2])
-
     layer_one_predictions = tanh(multiply_vector(initial_input, layer_one_weights))
     layer_two_predictions = tanh(multiply_vector(layer_one_predictions, layer_two_weights))
     final_predictions = tanh(multiply_vector(layer_two_predictions, layer_three_weights))
@@ -79,6 +77,12 @@ class NeuralNetwork
     update_weights(layer_three_weights, layer_three_weighted_deltas)
     update_weights(layer_two_weights, layer_two_weighted_deltas)
     update_weights(layer_one_weights, layer_one_weighted_deltas)
+  end
+
+  def save_weights
+    layer_one_weights.each(&:save)
+    layer_two_weights.each(&:save)
+    layer_three_weights.each(&:save)
   end
 
   def find_deltas(predictions, outcomes)
@@ -97,7 +101,7 @@ class NeuralNetwork
       weight_matrix[index].size.times do |count|
         weight = weight_matrix[index][count]
         adjusted_value = (weight.value.to_f - (ALPHA * weighted_deltas[index][count]))
-        weight.update(value: adjusted_value.to_s) if adjusted_value > 0
+        weight.value = adjusted_value.to_s if adjusted_value > 0
       end
     end
   end
