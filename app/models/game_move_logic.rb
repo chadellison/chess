@@ -119,7 +119,6 @@ class GameMoveLogic
       color: piece.color,
       piece_type: piece.piece_type,
       position_index: piece.position_index,
-      game_id: piece.game_id,
       position: piece.position,
       has_moved: piece.has_moved
     )
