@@ -139,14 +139,12 @@ class Game < ApplicationRecord
 
   def checkmate?(game_pieces, turn)
     no_valid_moves?(game_pieces, turn) &&
-      !pieces.detect { |piece| piece.color == turn }.king_is_safe?(turn, game_pieces)
+      !Piece.king_is_safe?(turn, game_pieces)
   end
 
   def stalemate?(game_pieces, turn)
-    game_turn = current_turn
-    king = pieces.detect { |piece| piece.color == game_turn }
     [
-      no_valid_moves?(game_pieces, turn) && king.king_is_safe?(game_turn, game_pieces),
+      no_valid_moves?(game_pieces, turn) && Piece.king_is_safe?(turn, game_pieces),
       insufficient_pieces?,
       three_fold_repitition?
     ].any?

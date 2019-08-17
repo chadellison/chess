@@ -90,6 +90,17 @@ class NeuralNetwork
     delta
   end
 
+  # def find_deltas(predictions, outcomes)
+  #   deltas = []
+  #   predictions.size.times do |index|
+  #     delta = predictions[index] - outcomes[index]
+  #     deltas[index] = delta
+  #     puts 'ERROR: ' + (delta ** 2).to_s
+  #   end
+  #
+  #   deltas
+  # end
+
   def update_weights(weight_matrix, weighted_deltas)
     weight_matrix.size.times do |index|
       weight_matrix[index].size.times do |count|

@@ -2,14 +2,7 @@ module PieceHelper
   extend ActiveSupport::Concern
 
   def add_pieces
-    json_pieces = JSON.parse(File.read(Rails.root + 'json/pieces.json'))
-                      .map(&:symbolize_keys)
-
-    game_pieces = json_pieces.map do |json_piece|
-      json_piece[:game_id] = id
-      Piece.new(json_piece)
-    end
-
+    game_pieces = Marshal.load(Marshal.dump(PIECES))
     game_move_logic.load_move_attributes(game_pieces)
     game_pieces
   end

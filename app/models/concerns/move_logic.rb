@@ -206,24 +206,6 @@ module MoveLogic
       .present?
   end
 
-  def king_is_safe?(allied_color, game_pieces)
-    king = game_pieces.detect do |piece|
-      piece.piece_type == 'king' && piece.color == allied_color
-    end
-
-    return false if king.blank?
-
-    occupied_spaces = game_pieces.map(&:position)
-    opponent_pieces = game_pieces.reject { |piece| piece.color == allied_color }
-
-    opponent_pieces.none? do |piece|
-      piece.moves_for_piece.include?(king.position) &&
-        piece.valid_move_path?(king.position, occupied_spaces) &&
-        piece.valid_destination?(king.position, game_pieces) &&
-        (piece.piece_type != 'pawn' || piece.valid_for_pawn?(king.position, game_pieces))
-    end
-  end
-
   def valid_for_piece?(next_move, game_pieces)
     return can_castle?(next_move, game_pieces) if king_moved_two?(next_move)
     return valid_for_pawn?(next_move, game_pieces) if piece_type == 'pawn'
@@ -246,8 +228,8 @@ module MoveLogic
       rook.present? && rook.has_moved.blank?,
       has_moved.blank?,
       knight_is_gone?(next_move, game_pieces),
-      king_is_safe?(color, game_pieces),
-      king_is_safe?(color, through_castle)
+      Piece.king_is_safe?(color, game_pieces),
+      Piece.king_is_safe?(color, through_castle)
     ].all?
   end
 
