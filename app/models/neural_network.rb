@@ -1,8 +1,8 @@
 class NeuralNetwork
   ALPHA = 0.1
-  WEIGHT_COUNTS = [288, 96, 8]
-  OFFSETS = [0, 288, 384]
-  VECTOR_COUNTS = [24, 12, 8]
+  WEIGHT_COUNTS = [600, 160, 24]
+  OFFSETS = [0, 600, 760]
+  VECTOR_COUNTS = [30, 20, 8]
 
   include CacheLogic
 
@@ -58,7 +58,7 @@ class NeuralNetwork
 
   def train(abstraction)
     initial_input = abstraction.pattern.split('.').map(&:to_i)
-    outcome = calculate_outcome(abstraction)
+    outcomes = calculate_outcomes(abstraction)
 
     layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
     layer_two_weights = find_weights(WEIGHT_COUNTS[1], OFFSETS[1], VECTOR_COUNTS[1])
@@ -68,11 +68,11 @@ class NeuralNetwork
     layer_two_predictions = tanh(multiply_vector(layer_one_predictions, layer_two_weights))
     final_predictions = tanh(multiply_vector(layer_two_predictions, layer_three_weights))
 
-    final_delta = find_delta(tanh(final_predictions).first, outcome)
-    layer_two_deltas = tanh_derivative(multiply_vector([final_delta], layer_three_weights.transpose))
+    final_deltas = find_deltas(final_predictions, outcomes)
+    layer_two_deltas = tanh_derivative(multiply_vector(final_deltas, layer_three_weights.transpose))
     layer_one_deltas = tanh_derivative(multiply_vector(layer_two_deltas, layer_two_weights.transpose))
 
-    layer_three_weighted_deltas = calculate_deltas(layer_two_predictions, [final_delta])
+    layer_three_weighted_deltas = calculate_deltas(layer_two_predictions, final_deltas)
     layer_two_weighted_deltas = calculate_deltas(layer_one_predictions, layer_two_deltas)
     layer_one_weighted_deltas = calculate_deltas(initial_input, layer_one_deltas)
 
@@ -81,25 +81,16 @@ class NeuralNetwork
     update_weights(layer_one_weights, layer_one_weighted_deltas)
   end
 
-  def find_delta(prediction, outcome)
-    delta = prediction - outcome
-    error = delta ** 2
-    update_error_rate(error)
-    puts 'ERROR: ' + error.to_s
-    puts 'DELTA: ' + delta.to_s
-    delta
-  end
+  def find_deltas(predictions, outcomes)
+    deltas = []
+    predictions.size.times do |index|
+      delta = predictions[index] - outcomes[index]
+      deltas[index] = delta
+      puts 'ERROR: ' + (delta ** 2).to_s
+    end
 
-  # def find_deltas(predictions, outcomes)
-  #   deltas = []
-  #   predictions.size.times do |index|
-  #     delta = predictions[index] - outcomes[index]
-  #     deltas[index] = delta
-  #     puts 'ERROR: ' + (delta ** 2).to_s
-  #   end
-  #
-  #   deltas
-  # end
+    deltas
+  end
 
   def update_weights(weight_matrix, weighted_deltas)
     weight_matrix.size.times do |index|
@@ -138,12 +129,22 @@ class NeuralNetwork
   #   output.map { |value| value > 0 ? 1 : 0.01 }
   # end
 
-  def calculate_outcome(abstraction)
-    outcome = abstraction.setups.reduce(0) do |total, setup|
-      total + setup.outcome_ratio
+  def calculate_outcomes(abstraction)
+    white_wins = 0.0
+    black_wins = 0.0
+    draws = 0.0
+    outcome = abstraction.setups.each do |setup|
+      white_wins += setup.outcomes[:white_wins].to_i
+      black_wins += setup.outcomes[:black_wins].to_i
+      draws += setup.outcomes[:draws].to_i
     end
-    squashed_outcome = Math.tanh(outcome)
-    squashed_outcome
+
+    total_games = white_wins + black_wins + draws
+    [
+      white_wins / total_games,
+      (white_wins - black_wins) / total_games,
+      black_wins / total_games * -1
+    ]
   end
 
   def tanh(input)
