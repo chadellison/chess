@@ -3,8 +3,6 @@ class Setup < ApplicationRecord
   validates_uniqueness_of :position_signature
 
   belongs_to :abstraction
-  has_many :setup_signatures
-  has_many :signatures, through: :setup_signatures
 
   include OutcomeCalculator
 

@@ -1,6 +1,6 @@
 class NeuralNetwork
   ALPHA = 0.1
-  WEIGHT_COUNTS = [600, 160, 24]
+  WEIGHT_COUNTS = [600, 160, 8]
   OFFSETS = [0, 600, 760]
   VECTOR_COUNTS = [30, 20, 8]
 
@@ -18,12 +18,12 @@ class NeuralNetwork
     weighted_moves = {}
 
     possible_moves.each do |possible_move|
-      final_prediction = calculate_prediction(
+      final_predictions = calculate_prediction(
         possible_move.setup.abstraction.pattern.split('.').map(&:to_i)
       )
 
-      weighted_moves[possible_move.value] = final_prediction
-      puts "#{possible_move.value} ==> #{weighted_moves[possible_move.value]}"
+      weighted_moves[possible_move.value] = final_predictions
+      puts "#{possible_move.value} ==> #{final_predictions}"
     end
     weighted_moves
   end
@@ -31,7 +31,7 @@ class NeuralNetwork
   def calculate_prediction(initial_input)
     layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
     layer_two_predictions = multiply_vector(layer_one_predictions, layer_two_weights)
-    multiply_vector(layer_two_predictions, layer_three_weights).first
+    multiply_vector(layer_two_predictions, layer_three_weights)
   end
 
   def weighted_sum(input, weights)
@@ -80,9 +80,9 @@ class NeuralNetwork
   end
 
   def save_weights
-    layer_one_weights.each(&:save)
-    layer_two_weights.each(&:save)
-    layer_three_weights.each(&:save)
+    layer_one_weights.flatten.each(&:save)
+    layer_two_weights.flatten.each(&:save)
+    layer_three_weights.flatten.each(&:save)
   end
 
   def find_deltas(predictions, outcomes)
@@ -90,7 +90,9 @@ class NeuralNetwork
     predictions.size.times do |index|
       delta = predictions[index] - outcomes[index]
       deltas[index] = delta
-      puts 'ERROR: ' + (delta ** 2).to_s
+      error = delta ** 2
+      puts 'ERROR: ' + error.to_s
+      update_error_rate(error)
     end
 
     deltas
@@ -119,12 +121,6 @@ class NeuralNetwork
     weighted_deltas
   end
 
-  # def signature_input(signatures)
-  #   signatures.sort_by(&:signature_type).map do |signature|
-  #     Math.tanh(signature.value * 0.1)
-  #   end
-  # end
-
   # def leaky_relu(input)
   #   input.map { |value| value > 0 ? value : 0.01 }
   # end
@@ -137,18 +133,20 @@ class NeuralNetwork
     white_wins = 0.0
     black_wins = 0.0
     draws = 0.0
-    outcome = abstraction.setups.each do |setup|
+    outcome = abstraction.setups.find_each do |setup|
       white_wins += setup.outcomes[:white_wins].to_i
       black_wins += setup.outcomes[:black_wins].to_i
       draws += setup.outcomes[:draws].to_i
     end
 
     total_games = white_wins + black_wins + draws
-    [
-      white_wins / total_games,
-      (white_wins - black_wins) / total_games,
-      black_wins / total_games * -1
-    ]
+
+    [handle_ratio(white_wins - black_wins, total_games)]
+  end
+
+  def handle_ratio(numerator, denominator)
+    return 0 if numerator == 0 || denominator == 0
+    numerator / denominator
   end
 
   def tanh(input)
@@ -160,7 +158,7 @@ class NeuralNetwork
   end
 
   def update_error_rate(error)
-    value = error > 1 ? 1 : 0
+    value = error > 0.5 ? 1 : 0
     error_object = JSON.parse(get_from_cache('error_rate')).symbolize_keys
     error_object[:count] += 1
     error_object[:error] += value
