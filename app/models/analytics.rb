@@ -19,7 +19,7 @@ class Analytics
       turn = analytics_params[:turn] == 'w' ? 'white' : 'black'
       move_count = analytics_params[:moves].count
       possible_moves = game_move_logic.find_next_moves(game.pieces, turn, move_count + 1)
-      analyzed_moves = analyzed_moves(possible_moves, turn)
+      analyzed_moves = analyze_moves(possible_moves, turn)
 
       serialized_moves = AnalyticsSerializer.serialize(analyzed_moves)
       add_to_cache('analytics_' + setup_signature, serialized_moves)
@@ -27,9 +27,14 @@ class Analytics
     end
   end
 
-  def analyzed_moves(possible_moves, turn)
-    neural_network.move_analysis(possible_moves, turn).map do |next_move, prediction|
-      { move: next_move, white: prediction, black: prediction * -1 }
+  def analyze_moves(possible_moves, turn)
+    neural_network.move_analysis(possible_moves, turn).map do |next_move, predictions|
+      {
+        move: next_move,
+        white: predictions[0],
+        draws: predictions[1],
+        black: predictions[2]
+      }
     end
   end
 
