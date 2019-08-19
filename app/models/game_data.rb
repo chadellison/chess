@@ -9,6 +9,10 @@ class GameData
     @targets = pieces.map(&:enemy_targets).flatten
   end
 
+  def opponent_color
+    turn == 'white' ? 'black' : 'white'
+  end
+
   def opponents
     pieces.select { |piece| piece.color != turn }
   end
@@ -68,6 +72,10 @@ class GameData
 
   def kings
     @kings ||= pieces_by_type('king')
+  end
+
+  def piece_sets
+    [pawns, knights, bishops, rooks, queens, kings]
   end
 
   def pieces_by_type(piece_type)

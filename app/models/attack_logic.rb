@@ -19,7 +19,7 @@ class AttackLogic
   end
 
   def self.find_signature_value(attackers, target_pieces, pieces)
-    signature_value = target_pieces.reduce(0) do |total, piece|
+    target_pieces.reduce(0) do |total, piece|
       attacker_values = attackers.select do |attacker|
         attacker.enemy_targets.include?(piece.position_index)
       end.map(&:find_piece_value).sort
@@ -34,9 +34,5 @@ class AttackLogic
         total + attack_value
       end
     end
-
-    return 1 if signature_value > 1
-    return -1 if signature_value < -1
-    0
   end
 end
