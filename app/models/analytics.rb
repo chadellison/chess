@@ -32,8 +32,7 @@ class Analytics
       {
         move: next_move,
         white: predictions[0],
-        draws: predictions[1],
-        black: predictions[2]
+        black: predictions[0] * -1
       }
     end
   end

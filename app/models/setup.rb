@@ -6,13 +6,8 @@ class Setup < ApplicationRecord
 
   include OutcomeCalculator
 
-  PATTERNS = [
-    ActivityLogic,
-    AttackLogic,
-    MaterialLogic,
-    TempoLogic,
-    ThreatLogic
-  ]
+  PIECE_PATTERNS = [ActivityLogic, AttackLogic, ThreatLogic]
+  SETUP_PATTERNS = [ CenterLogic, MaterialLogic, MaterialLogic]
 
   def self.find_setup(game_data)
     signature = Setup.create_signature(game_data.pieces, game_data.turn[0])
@@ -31,20 +26,16 @@ class Setup < ApplicationRecord
   end
 
   def self.create_abstraction(game_data)
-    piece_sets = [
-      game_data.pawns,
-      game_data.knights,
-      game_data.bishops,
-      game_data.rooks,
-      game_data.queens,
-      game_data.kings
-    ]
-    pattern_signature = PATTERNS.map do |pattern_class|
-      piece_sets.map do |piece_set|
+    patterns_by_piece = PIECE_PATTERNS.map do |pattern_class|
+      game_data.piece_sets.map do |piece_set|
         pattern_class.create_signature(game_data, piece_set)
-      end.join('.')
-    end.join('.')
+      end
+    end
 
+    patterns_by_setup = SETUP_PATTERNS.map do|pattern_class|
+      pattern_class.create_signature(game_data)
+    end
+    pattern_signature = (patterns_by_piece + patterns_by_setup).join('.')
     Abstraction.find_or_create_by(pattern: pattern_signature)
   end
 end

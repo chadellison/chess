@@ -1,5 +1,5 @@
 class NeuralNetwork
-  ALPHA = 0.1
+  ALPHA = 0.01
   WEIGHT_COUNTS = [600, 160, 8]
   OFFSETS = [0, 600, 760]
   VECTOR_COUNTS = [30, 20, 8]
@@ -158,7 +158,7 @@ class NeuralNetwork
   end
 
   def update_error_rate(error)
-    value = error > 0.5 ? 1 : 0
+    value = error > 1 ? 1 : 0
     error_object = JSON.parse(get_from_cache('error_rate')).symbolize_keys
     error_object[:count] += 1
     error_object[:error] += value
