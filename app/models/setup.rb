@@ -7,7 +7,7 @@ class Setup < ApplicationRecord
   include OutcomeCalculator
 
   PIECE_PATTERNS = [ActivityLogic, AttackLogic, ThreatLogic]
-  SETUP_PATTERNS = [ CenterLogic, MaterialLogic, TempoLogic]
+  SETUP_PATTERNS = [CenterLogic, MaterialLogic, TempoLogic]
 
   def self.find_setup(game_data)
     signature = Setup.create_signature(game_data.pieces, game_data.turn[0])
@@ -32,7 +32,7 @@ class Setup < ApplicationRecord
       end
     end
 
-    patterns_by_setup = SETUP_PATTERNS.map do|pattern_class|
+    patterns_by_setup = SETUP_PATTERNS.map do |pattern_class|
       pattern_class.create_signature(game_data)
     end
     pattern_signature = (patterns_by_piece + patterns_by_setup).join('.')
