@@ -46,15 +46,15 @@ def train_network
   neural_network = NeuralNetwork.new
   REDIS.set('error_rate', { error: 0, count: 0 }.to_json)
 
-  100.times do |count|
+  abstractions = Abstraction.order('RANDOM()').limit(100)
+  abstractions.each do |abstraction|
     setup = Setup.where.not(outcome: {}).order('RANDOM()').first
 
-    neural_network.train(setup)
-    puts 'COUNT: ' + count.to_s
+    neural_network.train(abstraction)
+    # puts 'COUNT: ' + count.to_s
 
-    if count % 100 == 0
-      error_object = JSON.parse(REDIS.get('error_rate')).symbolize_keys
-      puts 'ERROR RATE: ********************' + (error_object[:error] / error_object[:count]).to_s
-    end
+    error_object = JSON.parse(REDIS.get('error_rate')).symbolize_keys
+    accuracy = error_object[:count] - error_object[:error]
+    puts 'ACCURACY: ********************' + (accuracy.to_f / error_object[:count].to_f).to_s
   end
 end

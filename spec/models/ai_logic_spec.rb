@@ -10,24 +10,6 @@ RSpec.describe AiLogic, type: :module do
     end
   end
 
-  describe 'find_next_moves' do
-    it 'returns all the next moves for a color' do
-      game = Game.create
-
-      values = [
-        "31f3", "31h3", "26a3", "26c3", "24h3", "24h4", "23g3", "23g4", "22f3",
-        "22f4", "21e3", "21e4", "20d3", "20d4", "19c3", "19c4", "18b3", "18b4",
-        "17a3", "17a4"
-      ]
-
-      ai_logic = AiLogic.new(game)
-
-      actual = ai_logic.find_next_moves('white').pluck(:value).all? { |value| values.include?(value) }
-
-      expect(actual).to be true
-    end
-  end
-
   describe 'all_next_moves_for_piece' do
     xit 'test' do
     end

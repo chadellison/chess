@@ -1,26 +1,44 @@
 class NeuralNetwork
-  ALPHA = 0.01
-  WEIGHT_COUNTS = [600, 160, 8]
-  OFFSETS = [0, 600, 760]
-  VECTOR_COUNTS = [30, 20, 8]
+  ALPHA = 0.1
+  WEIGHT_COUNTS = [24, 18, 3]
+  OFFSETS = [0, 24, 42]
+  VECTOR_COUNTS = [4, 6, 3]
 
   include CacheLogic
 
-  attr_reader :layer_one_weights, :layer_two_weights, :layer_three_weights
+  attr_reader :layer_one_predictions, :layer_two_predictions,
+    :layer_three_predictions, :layer_one_deltas, :layer_two_deltas,
+    :layer_three_deltas
 
   def initialize
-    @layer_one_weights = find_weights(WEIGHT_COUNTS[0], OFFSETS[0], VECTOR_COUNTS[0])
-    @layer_two_weights = find_weights(WEIGHT_COUNTS[1], OFFSETS[1], VECTOR_COUNTS[1])
-    @layer_three_weights = find_weights(WEIGHT_COUNTS[2], OFFSETS[2], VECTOR_COUNTS[2])
+    @layer_one_predictions = []
+    @layer_two_predictions = []
+    @layer_three_predictions = []
+    @layer_one_deltas = []
+    @layer_two_deltas = []
+    @layer_three_deltas = []
   end
 
-  def move_analysis(possible_moves, game_turn)
+  def layer_one_weights
+    @layer_one_weights ||= find_weights(0)
+  end
+
+  def layer_two_weights
+    @layer_two_weights ||= find_weights(1)
+  end
+
+  def layer_three_weights
+    @layer_three_weights ||= find_weights(2)
+  end
+
+  def move_analysis(possible_moves)
     weighted_moves = {}
 
     possible_moves.each do |possible_move|
-      final_predictions = calculate_prediction(
-        possible_move.setup.abstraction.pattern.split('.').map(&:to_i)
-      )
+      initial_input = possible_move.setup.abstraction.pattern.split('.').map do |value|
+        normalize_value(value.to_f)
+      end
+      final_predictions = calculate_prediction(initial_input)
 
       weighted_moves[possible_move.value] = final_predictions
       puts "#{possible_move.value} ==> #{final_predictions}"
@@ -29,9 +47,10 @@ class NeuralNetwork
   end
 
   def calculate_prediction(initial_input)
-    layer_one_predictions = multiply_vector(initial_input, layer_one_weights)
-    layer_two_predictions = multiply_vector(layer_one_predictions, layer_two_weights)
-    multiply_vector(layer_two_predictions, layer_three_weights)
+    @layer_one_predictions = leaky_relu(multiply_vector(initial_input, layer_one_weights))
+    @layer_two_predictions = leaky_relu(multiply_vector(layer_one_predictions, layer_two_weights))
+    @layer_three_predictions = tanh(multiply_vector(layer_two_predictions, layer_three_weights))
+    @layer_three_predictions
   end
 
   def weighted_sum(input, weights)
@@ -51,7 +70,8 @@ class NeuralNetwork
     predictions
   end
 
-  def find_weights(weight_amount, offset, slice_value)
+  def find_weights(index)
+    weight_amount, offset, slice_value = WEIGHT_COUNTS[index], OFFSETS[index], VECTOR_COUNTS[index]
     range = ((offset + 1)..(offset + weight_amount))
     weights = Weight.where(weight_count: range).order(:weight_count)
 
@@ -59,24 +79,27 @@ class NeuralNetwork
   end
 
   def train(abstraction)
-    initial_input = abstraction.pattern.split('.').map(&:to_i)
+    initial_input = abstraction.pattern.split('.').map do |value|
+      normalize_value(value.to_f)
+    end
+
+    calculate_prediction(initial_input)
     outcomes = calculate_outcomes(abstraction)
 
-    layer_one_predictions = tanh(multiply_vector(initial_input, layer_one_weights))
-    layer_two_predictions = tanh(multiply_vector(layer_one_predictions, layer_two_weights))
-    final_predictions = tanh(multiply_vector(layer_two_predictions, layer_three_weights))
-
-    final_deltas = find_deltas(final_predictions, outcomes)
-    layer_two_deltas = tanh_derivative(multiply_vector(final_deltas, layer_three_weights.transpose))
-    layer_one_deltas = tanh_derivative(multiply_vector(layer_two_deltas, layer_two_weights.transpose))
-
-    layer_three_weighted_deltas = calculate_deltas(layer_two_predictions, final_deltas)
+    update_deltas(outcomes)
+    layer_three_weighted_deltas = calculate_deltas(layer_two_predictions, layer_three_deltas)
     layer_two_weighted_deltas = calculate_deltas(layer_one_predictions, layer_two_deltas)
     layer_one_weighted_deltas = calculate_deltas(initial_input, layer_one_deltas)
 
     update_weights(layer_three_weights, layer_three_weighted_deltas)
     update_weights(layer_two_weights, layer_two_weighted_deltas)
     update_weights(layer_one_weights, layer_one_weighted_deltas)
+  end
+
+  def update_deltas(outcomes)
+    @layer_three_deltas = find_deltas(layer_three_predictions, outcomes)
+    @layer_two_deltas = relu_derivative(multiply_vector(layer_three_deltas, layer_three_weights.transpose))
+    @layer_one_deltas = relu_derivative(multiply_vector(layer_two_deltas, layer_two_weights.transpose))
   end
 
   def save_weights
@@ -91,7 +114,7 @@ class NeuralNetwork
       delta = predictions[index] - outcomes[index]
       deltas[index] = delta
       error = delta ** 2
-      puts 'ERROR: ' + error.to_s
+      # puts 'ERROR: ' + error.to_s
       update_error_rate(error)
     end
 
@@ -121,19 +144,19 @@ class NeuralNetwork
     weighted_deltas
   end
 
-  # def leaky_relu(input)
-  #   input.map { |value| value > 0 ? value : 0.01 }
-  # end
-  #
-  # def relu_derivative(output)
-  #   output.map { |value| value > 0 ? 1 : 0.01 }
-  # end
+  def leaky_relu(input)
+    input.map { |value| value > 0 ? value : 0.01 }
+  end
+
+  def relu_derivative(output)
+    output.map { |value| value > 0 ? 1 : 0.01 }
+  end
 
   def calculate_outcomes(abstraction)
     white_wins = 0.0
     black_wins = 0.0
     draws = 0.0
-    outcome = abstraction.setups.find_each do |setup|
+    outcome = abstraction.setups.each do |setup|
       white_wins += setup.outcomes[:white_wins].to_i
       black_wins += setup.outcomes[:black_wins].to_i
       draws += setup.outcomes[:draws].to_i
@@ -141,7 +164,10 @@ class NeuralNetwork
 
     total_games = white_wins + black_wins + draws
 
-    [handle_ratio(white_wins - black_wins, total_games)]
+    white_ratio = handle_ratio(white_wins, total_games)
+    black_ratio = handle_ratio(black_wins, total_games)
+    final_ratio = [white_ratio, black_ratio].reduce(0, :+) / 2.0
+    [final_ratio]
   end
 
   def handle_ratio(numerator, denominator)
@@ -158,10 +184,17 @@ class NeuralNetwork
   end
 
   def update_error_rate(error)
-    value = error > 1 ? 1 : 0
     error_object = JSON.parse(get_from_cache('error_rate')).symbolize_keys
     error_object[:count] += 1
-    error_object[:error] += value
+    error_object[:error] += error
     add_to_cache('error_rate', error_object)
+  end
+
+  def normalize_value(value)
+    if value > 10
+      value * 0.1
+    else
+      value
+    end
   end
 end

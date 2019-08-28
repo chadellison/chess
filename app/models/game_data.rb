@@ -14,71 +14,14 @@ class GameData
   end
 
   def opponents
-    pieces.select { |piece| piece.color != turn }
+    @opponents ||= pieces.select { |piece| piece.color != turn }
   end
 
   def allies
-    pieces.select { |piece| piece.color == turn }
-  end
-
-  def enemy_territory?(piece)
-    [
-      (piece.color == 'white' && piece.position[1].to_i > 4),
-      (piece.color == 'black' && piece.position[1].to_i < 5)
-    ].any?
-  end
-
-  def next_attackers(pieces_to_evaluate)
-    pieces_to_evaluate.select do |piece|
-      [
-        piece.enemy_targets.present?,
-        piece.color == turn
-      ].all?
-    end
-  end
-
-  def find_threats(pieces_to_evaluate)
-    pieces_to_evaluate.select do |piece|
-      [
-        piece.enemy_targets.present?,
-        piece.color != turn
-      ].all?
-    end
+    @allies ||= pieces.select { |piece| piece.color == turn }
   end
 
   def target_pieces
     @target_pieces ||= pieces.select { |piece| targets.include?(piece.position_index) }
-  end
-
-  def pawns
-    @pawns ||= pieces_by_type('pawn')
-  end
-
-  def knights
-    @knights ||= pieces_by_type('knight')
-  end
-
-  def bishops
-    @bishops ||= pieces_by_type('bishop')
-  end
-
-  def rooks
-    @rooks ||= pieces_by_type('rook')
-  end
-
-  def queens
-    @queens ||= pieces_by_type('queen')
-  end
-
-  def kings
-    @kings ||= pieces_by_type('king')
-  end
-
-  def piece_sets
-    [pawns, knights, bishops, rooks, queens, kings]
-  end
-
-  def pieces_by_type(piece_type)
-    pieces.select { |piece| piece.piece_type == piece_type }
   end
 end

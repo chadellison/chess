@@ -72,10 +72,6 @@ class Piece
       Piece.king_is_safe?(color, new_pieces)
   end
 
-  def game
-    @game ||= Game.find(game_id)
-  end
-
   def find_piece_code
     piece_code = PIECE_CODE[piece_type.to_sym]
     color == 'white' ? piece_code.capitalize : piece_code
