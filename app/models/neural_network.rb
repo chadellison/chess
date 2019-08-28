@@ -57,7 +57,7 @@ class NeuralNetwork
     total_weight = 0
     raise raise NeuralNetworkError, 'arrays are not equal length' if input.size != weights.size
     input.size.times do |index|
-      total_weight += input[index] * weights[index].value.to_f
+      total_weight += input[index] * weights[index]
     end
     total_weight
   end
@@ -73,7 +73,9 @@ class NeuralNetwork
   def find_weights(index)
     weight_amount, offset, slice_value = WEIGHT_COUNTS[index], OFFSETS[index], VECTOR_COUNTS[index]
     range = ((offset + 1)..(offset + weight_amount))
-    weights = Weight.where(weight_count: range).order(:weight_count)
+    weights = Weight.where(weight_count: range).order(:weight_count).map do |weight|
+      weight.value.to_f
+    end
 
     weights.each_slice(slice_value).to_a
   end
@@ -103,9 +105,13 @@ class NeuralNetwork
   end
 
   def save_weights
-    layer_one_weights.flatten.each(&:save)
-    layer_two_weights.flatten.each(&:save)
-    layer_three_weights.flatten.each(&:save)
+    all_weight_values = layer_one_weights.flatten +
+                        layer_two_weights.flatten +
+                        layer_three_weights.flatten
+
+    Weight.order(:weight_count).each_with_index do |weight, index|
+      weight.update(value: all_weight_values[index].to_s)
+    end
   end
 
   def find_deltas(predictions, outcomes)
@@ -125,8 +131,8 @@ class NeuralNetwork
     weight_matrix.size.times do |index|
       weight_matrix[index].size.times do |count|
         weight = weight_matrix[index][count]
-        adjusted_value = (weight.value.to_f - (ALPHA * weighted_deltas[index][count]))
-        weight.value = adjusted_value.to_s if adjusted_value > 0
+        adjusted_value = (weight - (ALPHA * weighted_deltas[index][count]))
+        weight = adjusted_value.to_s if adjusted_value > 0
       end
     end
   end
