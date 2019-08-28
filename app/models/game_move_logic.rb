@@ -16,7 +16,7 @@ class GameMoveLogic
   end
 
   def all_next_moves_for_piece(piece, turn, move_count, pieces)
-    material_value = find_material_value(pieces)
+    material_value = find_material_value(pieces, turn)
     piece.valid_moves.map do |move|
       move_value = piece.position_index.to_s + move
       game_move = Move.new(value: move_value, move_count: move_count)
@@ -131,12 +131,12 @@ class GameMoveLogic
     new_piece.has_moved = true
   end
 
-  def find_material_value(game_pieces)
+  def find_material_value(game_pieces, turn)
     game_pieces.reduce(0) do |total, piece|
-      if piece.color == 'white'
+      if piece.color != turn
         total + piece.find_piece_value
       else
-        total - piece.find_piece_value
+        total
       end
     end
   end

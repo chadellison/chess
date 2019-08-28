@@ -5,16 +5,15 @@ task train_with_abstractions: :environment do
 
   count = 0
   abstractions = Abstraction.order('RANDOM()').limit(ENV['COUNT'].to_i)
-  abstractions.find_each do |abstraction|
+  abstractions.each do |abstraction|
     neural_network.train(abstraction)
     count += 1
-    puts 'COUNT: ' + count.to_s
 
     if count % 100 == 0
       error_object = JSON.parse(REDIS.get('error_rate')).symbolize_keys
       accuracy = error_object[:count] - error_object[:error]
       puts 'ACCURACY: ********************' + (accuracy.to_f / error_object[:count].to_f).to_s
+      neural_network.save_weights
     end
   end
-  neural_network.save_weights
 end

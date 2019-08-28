@@ -1,6 +1,6 @@
 class AttackLogic
-  def self.create_signature(game_data, pieces_to_evaluate)
-    attackers = game_data.next_attackers(pieces_to_evaluate)
+  def self.create_signature(game_data)
+    attackers = game_data.allies.select { |piece| piece.enemy_targets.present? }
     self.find_signature_value(attackers, game_data.target_pieces, game_data.pieces)
   end
 
@@ -27,12 +27,12 @@ class AttackLogic
       defender_values = Piece.defenders(piece.position_index, pieces)
         .map(&:find_piece_value).sort
 
-      attack_value = calculate_attack(piece.find_piece_value, attacker_values, defender_values)
-      if piece.color == 'white'
-        total - attack_value
-      else
-        total + attack_value
-      end
+      attack_value = calculate_attack(
+        piece.find_piece_value,
+        attacker_values,
+        defender_values
+      )
+      total + attack_value
     end
   end
 end

@@ -108,7 +108,7 @@ class Game < ApplicationRecord
   end
 
   def update_board(updated_piece)
-    material_value = game_move_logic.find_material_value(pieces) # <-- needs to be called BEFORE refresh_board
+    material_value = game_move_logic.find_material_value(pieces, current_turn) # <-- needs to be called BEFORE refresh_board
     new_pieces = game_move_logic.refresh_board(pieces, updated_piece.position_index.to_s + updated_piece.position)
     update_pieces(new_pieces)
 
@@ -188,7 +188,7 @@ class Game < ApplicationRecord
     if checkmate_move.present?
       move_value = checkmate_move.value
     else
-      move_value = ai_logic.analyze(possible_moves, turn)
+      move_value = ai_logic.analyze(possible_moves)
     end
 
     move(move_value.to_i, move_value[-2..-1], promote_pawn(move_value))
