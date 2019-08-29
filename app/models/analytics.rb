@@ -1,9 +1,9 @@
 class Analytics
-  attr_reader :neural_network, :game_move_logic
+  attr_reader :ai_logic, :game_move_logic
   include CacheLogic
 
   def initialize
-    @neural_network = NeuralNetwork.new
+    @ai_logic = AiLogic.new
     @game_move_logic = GameMoveLogic.new
   end
 
@@ -28,7 +28,7 @@ class Analytics
   end
 
   def analyze_moves(possible_moves)
-    neural_network.move_analysis(possible_moves).map do |next_move, predictions|
+    ai_logic.move_analysis(possible_moves).map do |next_move, predictions|
       {
         move: next_move,
         white: predictions[0],
