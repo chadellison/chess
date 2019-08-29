@@ -22,23 +22,9 @@ class NeuralNetwork
     @layer_three_deltas = []
   end
 
-  def move_analysis(possible_moves)
-    weighted_moves = {}
-
-    possible_moves.each do |possible_move|
-      initial_input = possible_move.setup.abstraction.pattern.split('.').map do |value|
-        normalize_value(value.to_f)
-      end
-      calculate_prediction(initial_input)
-
-      weighted_moves[possible_move.value] = layer_three_predictions
-      puts "#{possible_move.value} ==> #{layer_three_predictions}"
-    end
-    weighted_moves
-  end
-
-  def calculate_prediction(initial_input)
-    @layer_one_predictions = leaky_relu(multiply_vector(initial_input, layer_one_weights))
+  def calculate_prediction(abstraction)
+    input = normalize_values(abstraction)
+    @layer_one_predictions = leaky_relu(multiply_vector(input, layer_one_weights))
     @layer_two_predictions = leaky_relu(multiply_vector(layer_one_predictions, layer_two_weights))
     @layer_three_predictions = tanh(multiply_vector(layer_two_predictions, layer_three_weights))
   end
@@ -71,21 +57,19 @@ class NeuralNetwork
   end
 
   def train(abstraction)
-    initial_input = abstraction.pattern.split('.').map do |value|
-      normalize_value(value.to_f)
-    end
+    input = normalize_values(abstraction)
 
-    calculate_prediction(initial_input)
+    calculate_prediction(abstraction)
     outcomes = calculate_outcomes(abstraction)
 
     update_deltas(outcomes)
-    layer_three_weighted_deltas = calculate_deltas(layer_two_predictions, layer_three_deltas)
-    layer_two_weighted_deltas = calculate_deltas(layer_one_predictions, layer_two_deltas)
-    layer_one_weighted_deltas = calculate_deltas(initial_input, layer_one_deltas)
+    l_3_weighted_deltas = calculate_deltas(layer_two_predictions, layer_three_deltas)
+    l_2_weighted_deltas = calculate_deltas(layer_one_predictions, layer_two_deltas)
+    l_1_weighted_deltas = calculate_deltas(input, layer_one_deltas)
 
-    update_weights(layer_three_weights, layer_three_weighted_deltas)
-    update_weights(layer_two_weights, layer_two_weighted_deltas)
-    update_weights(layer_one_weights, layer_one_weighted_deltas)
+    update_weights(layer_three_weights, l_3_weighted_deltas)
+    update_weights(layer_two_weights, l_2_weighted_deltas)
+    update_weights(layer_one_weights, l_1_weighted_deltas)
   end
 
   def update_deltas(outcomes)
@@ -183,11 +167,13 @@ class NeuralNetwork
     add_to_cache('error_rate', error_object)
   end
 
-  def normalize_value(value)
-    if value > 10
-      value * 0.1
-    else
-      value
+  def normalize_values(abstraction)
+    abstraction.pattern.split('.').map do |value|
+      if value.to_f > 10
+        value.to_f * 0.1
+      else
+        value.to_f
+      end
     end
   end
 end
