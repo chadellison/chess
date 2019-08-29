@@ -1,8 +1,8 @@
 class NeuralNetwork
   ALPHA = 0.1
-  WEIGHT_COUNTS = [24, 36, 18]
-  OFFSETS = [0, 24, 60]
-  VECTOR_COUNTS = [4, 6, 6]
+  WEIGHT_COUNTS = [24, 18, 3]
+  OFFSETS = [0, 24, 42]
+  VECTOR_COUNTS = [4, 6, 3]
 
   include CacheLogic
 
@@ -21,18 +21,6 @@ class NeuralNetwork
     @layer_two_deltas = []
     @layer_three_deltas = []
   end
-
-  # def layer_one_weights
-  #   @layer_one_weights ||= find_weights(0)
-  # end
-  #
-  # def layer_two_weights
-  #   @layer_two_weights ||= find_weights(1)
-  # end
-  #
-  # def layer_three_weights
-  #   @layer_three_weights ||= find_weights(2)
-  # end
 
   def move_analysis(possible_moves)
     weighted_moves = {}
@@ -161,20 +149,18 @@ class NeuralNetwork
   end
 
   def calculate_outcomes(abstraction)
-    white_wins = 0.0
-    black_wins = 0.0
-    draws = 0.0
-    outcome = abstraction.setups.each do |setup|
-      white_wins += setup.outcomes[:white_wins].to_i
-      black_wins += setup.outcomes[:black_wins].to_i
-      draws += setup.outcomes[:draws].to_i
+    numerator = 0.0
+    total = 0.0
+
+    abstraction.setups.each do |setup|
+      if setup.position_signature[-1] == 'w'
+        numerator += setup.outcomes[:white_wins].to_i
+      else
+        numerator += setup.outcomes[:black_wins].to_i
+      end
+      total += setup.outcomes[:white_wins].to_i + setup.outcomes[:black_wins].to_i
     end
-    total_games = white_wins + black_wins + draws
-    [
-      handle_ratio(white_wins, total_games),
-      handle_ratio(black_wins, total_games),
-      handle_ratio(draws, total_games),
-    ]
+    [handle_ratio(numerator, total)]
   end
 
   def handle_ratio(numerator, denominator)
