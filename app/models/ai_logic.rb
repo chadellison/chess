@@ -10,7 +10,7 @@ class AiLogic
     best_move_value = find_best_move(weighted_moves)
   end
 
-  def move_analysis
+  def move_analysis(possible_moves)
     weighted_moves = {}
 
     possible_moves.each do |possible_move|

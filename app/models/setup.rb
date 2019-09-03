@@ -26,9 +26,12 @@ class Setup < ApplicationRecord
     pattern_signature = [
       ActivityLogic.create_signature(game_data),
       AttackLogic.create_signature(game_data),
+      CenterLogic.create_signature(game_data),
+      DevelopmentLogic.create_signature(game_data),
       MaterialLogic.create_signature(game_data),
+      TempoLogic.create_signature(game_data),
       ThreatLogic.create_signature(game_data)
-    ].join('.')
+    ].join('-')
     Abstraction.find_or_create_by(pattern: pattern_signature)
   end
 end
