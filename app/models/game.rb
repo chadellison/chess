@@ -108,7 +108,7 @@ class Game < ApplicationRecord
   end
 
   def update_board(updated_piece)
-    material_value = game_move_logic.find_material_value(pieces, current_turn) # <-- needs to be called BEFORE refresh_board
+    material_value = game_move_logic.find_material_value(pieces, opponent_color) # <-- needs to be called BEFORE refresh_board
     new_pieces = game_move_logic.refresh_board(pieces, updated_piece.position_index.to_s + updated_piece.position)
     update_pieces(new_pieces)
 

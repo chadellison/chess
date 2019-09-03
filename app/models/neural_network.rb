@@ -1,8 +1,8 @@
 class NeuralNetwork
-  ALPHA = 0.1
-  WEIGHT_COUNTS = [24, 18, 3]
-  OFFSETS = [0, 24, 42]
-  VECTOR_COUNTS = [4, 6, 3]
+  ALPHA = 0.01
+  WEIGHT_COUNTS = [63, 27, 3]
+  OFFSETS = [0, 63, 90]
+  VECTOR_COUNTS = [7, 9, 3]
 
   include CacheLogic
 
@@ -63,19 +63,17 @@ class NeuralNetwork
     outcomes = calculate_outcomes(abstraction)
 
     update_deltas(outcomes)
-    l_3_weighted_deltas = calculate_deltas(layer_two_predictions, layer_three_deltas)
-    l_2_weighted_deltas = calculate_deltas(layer_one_predictions, layer_two_deltas)
-    l_1_weighted_deltas = calculate_deltas(input, layer_one_deltas)
-
-    update_weights(layer_three_weights, l_3_weighted_deltas)
-    update_weights(layer_two_weights, l_2_weighted_deltas)
-    update_weights(layer_one_weights, l_1_weighted_deltas)
+    update_weights(layer_three_deltas, layer_three_weights)
+    update_weights(layer_two_deltas, layer_two_weights)
+    update_weights(layer_one_deltas, layer_one_weights)
   end
 
   def update_deltas(outcomes)
     @layer_three_deltas = find_deltas(layer_three_predictions, outcomes)
-    @layer_two_deltas = relu_derivative(multiply_vector(layer_three_deltas, layer_three_weights.transpose))
-    @layer_one_deltas = relu_derivative(multiply_vector(layer_two_deltas, layer_two_weights.transpose))
+    l_3_weighted = multiply_vector(layer_three_deltas, layer_three_weights.transpose)
+    @layer_two_deltas = back_propagation_multiplyer(l_3_weighted, relu_derivative(layer_two_predictions))
+    l_2_weighted = multiply_vector(layer_two_deltas, layer_two_weights.transpose)
+    @layer_one_deltas = back_propagation_multiplyer(l_2_weighted, relu_derivative(layer_one_predictions))
   end
 
   def save_weights
@@ -101,12 +99,12 @@ class NeuralNetwork
     deltas
   end
 
-  def update_weights(weight_matrix, weighted_deltas)
+  def update_weights(weighted_deltas, weight_matrix)
     weight_matrix.size.times do |index|
       weight_matrix[index].size.times do |count|
         weight = weight_matrix[index][count]
-        adjusted_value = (weight - (ALPHA * weighted_deltas[index][count]))
-        weight_matrix[index][count] = adjusted_value
+        adjusted_value = (weight - (ALPHA * weighted_deltas[index]))
+        weight_matrix[index][count] = adjusted_value if adjusted_value > 0
       end
     end
   end
@@ -156,9 +154,9 @@ class NeuralNetwork
     input.map { |value| Math.tanh(value) }
   end
 
-  def tanh_derivative(output)
-    output.map { |output| 1 - Math.tanh(output) ** 2 }
-  end
+  # def tanh_derivative(output)
+  #   output.map { |output| 1 - Math.tanh(output) ** 2 }
+  # end
 
   def update_error_rate(error)
     error_object = JSON.parse(get_from_cache('error_rate')).symbolize_keys
@@ -168,12 +166,10 @@ class NeuralNetwork
   end
 
   def normalize_values(abstraction)
-    abstraction.pattern.split('.').map do |value|
-      if value.to_f > 10
-        value.to_f * 0.1
-      else
-        value.to_f
-      end
-    end
+    abstraction.pattern.split('-').map { |value| value.to_f }
+  end
+
+  def back_propagation_multiplyer(v1, v2)
+    v1.zip(v2).map { |set| set[0] * set[1] }
   end
 end
