@@ -24,14 +24,18 @@ class Setup < ApplicationRecord
 
   def self.create_abstraction(game_data)
     pattern_signature = [
-      ActivityLogic.create_signature(game_data),
-      AttackLogic.create_signature(game_data),
-      CenterLogic.create_signature(game_data),
-      DevelopmentLogic.create_signature(game_data),
-      MaterialLogic.create_signature(game_data),
-      TempoLogic.create_signature(game_data),
-      ThreatLogic.create_signature(game_data)
-    ].join('-')
-    Abstraction.find_or_create_by(pattern: pattern_signature)
+      ActivityLogic.activity_pattern(game_data),
+      AttackLogic.attack_pattern(game_data),
+      AttackLogic.threat_pattern(game_data),
+      AttackLogic.threatened_attacker_pattern(game_data),
+      # CenterLogic.create_signature(game_data),
+      DefenseLogic.ally_defense_pattern(game_data),
+      DefenseLogic.opponent_defense_pattern(game_data),
+      DevelopmentLogic.development_pattern(game_data),
+      # MaterialLogic.create_signature(game_data),
+      # TempoLogic.create_signature(game_data),
+      # ThreatLogic.create_signature(game_data)
+    ]
+    Abstraction.find_or_create_by(pattern: pattern_signature.join('-'))
   end
 end

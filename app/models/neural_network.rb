@@ -1,8 +1,8 @@
 class NeuralNetwork
   ALPHA = 0.01
-  WEIGHT_COUNTS = [63, 27, 3]
-  OFFSETS = [0, 63, 90]
-  VECTOR_COUNTS = [7, 9, 3]
+  WEIGHT_COUNTS = [140, 200, 10]
+  OFFSETS = [0, 140, 200]
+  VECTOR_COUNTS = [7, 20, 10]
 
   include CacheLogic
 
@@ -26,7 +26,7 @@ class NeuralNetwork
     input = normalize_values(abstraction)
     @layer_one_predictions = leaky_relu(multiply_vector(input, layer_one_weights))
     @layer_two_predictions = leaky_relu(multiply_vector(layer_one_predictions, layer_two_weights))
-    @layer_three_predictions = tanh(multiply_vector(layer_two_predictions, layer_three_weights))
+    @layer_three_predictions = (multiply_vector(layer_two_predictions, layer_three_weights))
   end
 
   def weighted_sum(input, weights)
@@ -132,17 +132,21 @@ class NeuralNetwork
 
   def calculate_outcomes(abstraction)
     numerator = 0.0
-    total = 0.0
+    denominator = 0.0
 
     abstraction.setups.each do |setup|
+      white_wins = setup.outcomes[:white_wins].to_f
+      black_wins = setup.outcomes[:black_wins].to_f
+
       if setup.position_signature[-1] == 'w'
-        numerator += setup.outcomes[:white_wins].to_i
+        numerator += white_wins
       else
-        numerator += setup.outcomes[:black_wins].to_i
+        numerator += black_wins
       end
-      total += setup.outcomes[:white_wins].to_i + setup.outcomes[:black_wins].to_i
+      denominator += white_wins + black_wins
     end
-    [handle_ratio(numerator, total)]
+
+    [handle_ratio(numerator, denominator)]
   end
 
   def handle_ratio(numerator, denominator)
@@ -154,9 +158,9 @@ class NeuralNetwork
     input.map { |value| Math.tanh(value) }
   end
 
-  # def tanh_derivative(output)
-  #   output.map { |output| 1 - Math.tanh(output) ** 2 }
-  # end
+  def tanh_derivative(output)
+    output.map { |output| 1 - (Math.tanh(output) ** 2) }
+  end
 
   def update_error_rate(error)
     error_object = JSON.parse(get_from_cache('error_rate')).symbolize_keys

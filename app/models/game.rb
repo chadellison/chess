@@ -188,7 +188,7 @@ class Game < ApplicationRecord
     if checkmate_move.present?
       move_value = checkmate_move.value
     else
-      move_value = ai_logic.analyze(possible_moves)
+      move_value = ai_logic.analyze(possible_moves, turn)
     end
 
     move(move_value.to_i, move_value[-2..-1], promote_pawn(move_value))

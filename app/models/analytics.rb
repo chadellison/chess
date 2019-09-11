@@ -19,7 +19,7 @@ class Analytics
       turn = analytics_params[:turn] == 'w' ? 'white' : 'black'
       move_count = analytics_params[:moves].count
       possible_moves = game_move_logic.find_next_moves(game.pieces, turn, move_count + 1)
-      analyzed_moves = analyze_moves(possible_moves)
+      analyzed_moves = analyze_moves(possible_moves, analytics_params[:turn])
 
       serialized_moves = AnalyticsSerializer.serialize(analyzed_moves)
       add_to_cache('analytics_' + setup_signature, serialized_moves)
@@ -27,12 +27,16 @@ class Analytics
     end
   end
 
-  def analyze_moves(possible_moves)
+  def analyze_moves(possible_moves, turn_code)
     ai_logic.move_analysis(possible_moves).map do |next_move, predictions|
+      prediction = predictions[0]
+
+      white_prediction = turn_code == 'w' ? prediction : prediction * -1
+      black_prediction = turn_code == 'b' ? prediction : prediction * -1
       {
         move: next_move,
-        white: predictions[0],
-        black: predictions[0] * -1
+        white: white_prediction,
+        black: black_prediction
       }
     end
   end
