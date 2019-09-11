@@ -46,7 +46,7 @@ def train_network
   neural_network = NeuralNetwork.new
   REDIS.set('error_rate', { error: 0, count: 0 }.to_json)
 
-  abstractions = Abstraction.order('RANDOM()').limit(1000)
+  abstractions = Abstraction.order('RANDOM()').limit(10000)
   abstractions.each do |abstraction|
     neural_network.train(abstraction)
     # puts 'COUNT: ' + count.to_s

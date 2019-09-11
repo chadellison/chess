@@ -24,4 +24,16 @@ class GameData
   def target_pieces
     @target_pieces ||= pieces.select { |piece| targets.include?(piece.position_index) }
   end
+
+  def ally_attackers
+    allies.select { |ally| ally.enemy_targets.present? }
+  end
+
+  def ally_targets
+    target_pieces.select { |target_piece| target_piece == turn }
+  end
+
+  def opponent_targets
+    target_pieces.select { |target_piece| target_piece == opponent_color }
+  end
 end

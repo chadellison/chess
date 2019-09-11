@@ -2,7 +2,7 @@ class Weight < ApplicationRecord
   def self.initialize_weights
     Weight.destroy_all
 
-    93.times do |count|
+    350.times do |count|
       Weight.create(weight_count: count + 1, value: rand)
     end
   end
