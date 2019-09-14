@@ -10,22 +10,6 @@ RSpec.describe AiLogic, type: :module do
     end
   end
 
-  describe 'find_next_moves' do
-    it 'returns all the next moves for a color' do
-      game = Game.create
-
-      values = [
-        "31f3", "31h3", "26a3", "26c3", "24h3", "24h4", "23g3", "23g4", "22f3",
-        "22f4", "21e3", "21e4", "20d3", "20d4", "19c3", "19c4", "18b3", "18b4",
-        "17a3", "17a4"
-      ]
-
-      actual = game.find_next_moves('white').pluck(:value).all? { |value| values.include?(value) }
-
-      expect(actual).to be true
-    end
-  end
-
   describe 'all_next_moves_for_piece' do
     xit 'test' do
     end
@@ -102,30 +86,6 @@ RSpec.describe AiLogic, type: :module do
 
   describe 'crossed_pawn?' do
     xit 'test' do
-    end
-  end
-
-  describe 'promote_pawn' do
-    context 'when there is a crossed pawn' do
-      it 'calls crossed_pawn? and returns queen' do
-        game = Game.new
-        expect(game).to receive(:crossed_pawn?).with('17a8')
-          .and_return(true)
-
-        actual = game.promote_pawn('17a8')
-        expect(actual).to eq 'queen'
-      end
-    end
-
-    context 'when there is not a crossed pawn' do
-      it 'calls crossed_pawn? and returns an empty string' do
-        game = Game.new
-        expect(game).to receive(:crossed_pawn?).with('17a7')
-          .and_return(false)
-
-        actual = game.promote_pawn('17a7')
-        expect(actual).to eq ''
-      end
     end
   end
 

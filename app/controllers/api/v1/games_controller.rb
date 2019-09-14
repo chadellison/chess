@@ -11,7 +11,8 @@ module Api
       end
 
       def create
-        game = Game.create_user_game(@user, game_params)
+        user_game_logic = UserGameLogic.new
+        game = user_game_logic.create_user_game(@user, game_params)
         render json: { data: GameSerializer.serialize(game) }
       end
 

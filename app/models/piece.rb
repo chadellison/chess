@@ -2,24 +2,26 @@ class Piece
   include MoveLogic
 
   PIECE_CODE = { king: 'k', queen: 'q', rook: 'r', bishop: 'b', knight: 'n', pawn: 'p' }
-  PIECE_VALUE = { king: 0, queen: 9, rook: 5, bishop: 3, knight: 3, pawn: 1 }
+  PIECE_VALUE = { king: 10, queen: 9, rook: 5, bishop: 3, knight: 3, pawn: 1 }
 
-  attr_accessor :game_id, :piece_type, :color, :position, :position_index,
-    :moved_two, :has_moved, :valid_moves, :enemy_targets
+  attr_accessor :piece_type, :color, :position, :position_index, :moved_two,
+    :has_moved, :valid_moves, :enemy_targets, :game_move_logic
 
   def self.defenders(index, game_pieces)
     target_piece = game_pieces.detect { |piece| piece.position_index == index }
     square = target_piece.position
-    destination_color = target_piece.color
 
     game_pieces.select do |piece|
-      [
-        target_piece.color == piece.color,
-        piece != target_piece,
-        piece.valid_move_path?(square, game_pieces.map(&:position)),
-        piece.valid_for_piece?(square, game_pieces),
-        piece.king_is_safe?(piece.color, Game.pieces_with_next_move(game_pieces, piece.position_index.to_s + square))
-      ].all?
+      target_piece.color == piece.color &&
+        piece.moves_for_piece.include?(square) &&
+        piece.valid_move_path?(square, game_pieces.map(&:position)) &&
+        piece.valid_for_piece?(square, game_pieces) &&
+        Piece.king_is_safe?(
+          piece.color,
+          piece.game_move_logic.pieces_with_next_move(
+            game_pieces, piece.position_index.to_s + square
+          )
+        )
     end
   end
 
@@ -32,61 +34,42 @@ class Piece
     )
   end
 
+  def self.king_is_safe?(allied_color, game_pieces)
+    king = game_pieces.detect do |piece|
+      piece.piece_type == 'king' && piece.color == allied_color
+    end
+
+    return false if king.blank?
+
+    occupied_spaces = game_pieces.map(&:position)
+    opponent_pieces = game_pieces.reject { |piece| piece.color == allied_color }
+
+    opponent_pieces.none? do |piece|
+      piece.moves_for_piece.include?(king.position) &&
+        piece.valid_move_path?(king.position, occupied_spaces) &&
+        piece.valid_destination?(king.position, game_pieces) &&
+        (piece.piece_type != 'pawn' || piece.valid_for_pawn?(king.position, game_pieces))
+    end
+  end
+
   def initialize(attributes = {})
     @piece_type = attributes[:piece_type]
     @color = attributes[:color]
     @position = attributes[:position]
     @position_index = attributes[:position_index]
-    @game_id = attributes[:game_id]
     @has_moved = attributes[:has_moved]
     @moved_two = attributes[:moved_two]
     @enemy_targets = []
-  end
-
-  def moves_for_piece
-    case piece_type
-    when 'rook'
-      moves_for_rook
-    when 'bishop'
-      moves_for_bishop
-    when 'queen'
-      moves_for_queen
-    when 'king'
-      moves_for_king
-    when 'knight'
-      moves_for_knight
-    when 'pawn'
-      moves_for_pawn
-    end
-  end
-
-  def valid_moves(game_pieces)
-    @valid_moves ||= moves_for_piece.select do |move|
-      if valid_move?(game_pieces, move)
-        load_enemy_targets(move, game_pieces)
-        true
-      end
-    end
+    @valid_moves = []
+    @game_move_logic = GameMoveLogic.new
   end
 
   def valid_move?(game_pieces, move)
-    [
-      valid_move_path?(move, game_pieces.map(&:position)),
-      valid_destination?(move, game_pieces),
-      valid_for_piece?(move, game_pieces),
-      king_is_safe?(color, Game.pieces_with_next_move(game_pieces, position_index.to_s + move))
-    ].all?
-  end
-
-  def load_enemy_targets(move, game_pieces)
-    destination_piece = game_pieces.detect { |piece| piece.position == move }
-    if destination_piece.present?
-      @enemy_targets.push(destination_piece.position_index)
-    end
-  end
-
-  def game
-    @game ||= Game.find(game_id)
+    new_pieces = game_move_logic.pieces_with_next_move(game_pieces, position_index.to_s + move)
+    valid_move_path?(move, game_pieces.map(&:position)) &&
+      valid_destination?(move, game_pieces) &&
+      valid_for_piece?(move, game_pieces) &&
+      Piece.king_is_safe?(color, new_pieces)
   end
 
   def find_piece_code

@@ -2,40 +2,17 @@ class Setup < ApplicationRecord
   serialize :outcomes, Hash
   validates_uniqueness_of :position_signature
 
-  has_many :setup_signatures
-  has_many :signatures, through: :setup_signatures
-
-  SIGNATURES = {
-    activity: ActivityLogic,
-    attack: AttackLogic,
-    material: MaterialLogic,
-    pawn: PawnStructureLogic
-  }
+  belongs_to :abstraction
 
   include OutcomeCalculator
 
-  def self.save_setup_and_signatures(new_pieces, opponent_color_code)
-    game_signature = Setup.create_signature(new_pieces, opponent_color_code)
-    setup = Setup.find_by(position_signature: game_signature)
+  def self.find_setup(game_data)
+    signature = Setup.create_signature(game_data.pieces, game_data.turn[0])
+    setup = Setup.find_by(position_signature: signature)
     return setup if setup.present?
 
-    setup = Setup.new(position_signature: game_signature)
-    new_pieces.each { |piece| piece.valid_moves(new_pieces) }
-    setup.add_signatures(new_pieces, opponent_color_code)
-    setup.signatures.each(&:save)
-    setup.save
-    setup
-  end
-
-  def self.find_setup(new_pieces, opponent_color_code)
-    game_signature = Setup.create_signature(new_pieces, opponent_color_code)
-    setup = Setup.find_by(position_signature: game_signature)
-
-    return setup if setup.present?
-
-    setup = Setup.new(position_signature: game_signature) if setup.blank?
-    new_pieces.each { |piece| piece.valid_moves(new_pieces) }
-    setup.add_signatures(new_pieces, opponent_color_code)
+    setup = Setup.new(position_signature: signature)
+    setup.abstraction = create_abstraction(game_data)
     setup
   end
 
@@ -45,26 +22,20 @@ class Setup < ApplicationRecord
     end.join('.') + game_turn_code
   end
 
-  def add_signatures(new_pieces, game_turn_code)
-    SIGNATURES.each do |signature_type, signature_class|
-      signature_value = signature_class.create_signature(new_pieces)
-      handle_signature(signature_type.to_s, signature_value)
-    end
-
-    signature_value = ColorLogic.create_signature(game_turn_code)
-    handle_signature('color signature', signature_value)
-  end
-
-  def handle_signature(signature_type, signature_value)
-    signature = Signature.find_by(
-      signature_type: signature_type,
-      value: signature_value
-    )
-
-    if signature.blank?
-      signature = Signature.new(signature_type: signature_type, value: signature_value)
-    end
-
-    self.signatures << signature
+  def self.create_abstraction(game_data)
+    pattern_signature = [
+      ActivityLogic.activity_pattern(game_data),
+      AttackLogic.attack_pattern(game_data),
+      AttackLogic.threat_pattern(game_data),
+      AttackLogic.threatened_attacker_pattern(game_data),
+      # CenterLogic.create_signature(game_data),
+      DefenseLogic.ally_defense_pattern(game_data),
+      DefenseLogic.opponent_defense_pattern(game_data),
+      DevelopmentLogic.development_pattern(game_data),
+      # MaterialLogic.create_signature(game_data),
+      # TempoLogic.create_signature(game_data),
+      # ThreatLogic.create_signature(game_data)
+    ]
+    Abstraction.find_or_create_by(pattern: pattern_signature.join('-'))
   end
 end

@@ -1,12 +1,15 @@
 class AnalyticsSerializer
   class << self
-    def serialize(attributes)
+    def serialize(moves, turn)
       {
         data: {
           type: 'analytics',
-          attributes: attributes
+          attributes: {
+            moves: moves,
+            turn: turn
+          }
         }
-      }
+      }.to_json
     end
   end
 end

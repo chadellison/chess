@@ -2,13 +2,9 @@ module PieceHelper
   extend ActiveSupport::Concern
 
   def add_pieces
-    json_pieces = JSON.parse(File.read(Rails.root + 'json/pieces.json'))
-                      .map(&:symbolize_keys)
-
-    json_pieces.map do |json_piece|
-      json_piece[:game_id] = id
-      Piece.new(json_piece)
-    end
+    game_pieces = Marshal.load(Marshal.dump(PIECES))
+    game_move_logic.load_move_attributes(game_pieces)
+    game_pieces
   end
 
   def pieces
@@ -19,10 +15,13 @@ module PieceHelper
     end
   end
 
+  def game_move_logic
+    @game_move_logic ||= GameMoveLogic.new
+  end
+
   def reload_pieces
     move_indices = moves.map { |move| move.value.to_i }
     pawn_moved_two = pawn_moved_two?
-
     @pieces = last_move.setup.position_signature[0..-2].split('.').map do |piece_value|
       position_index = piece_value.to_i
       Piece.new({
@@ -35,6 +34,8 @@ module PieceHelper
         moved_two: pawn_moved_two
       })
     end
+    game_move_logic.load_move_attributes(@pieces)
+    @pieces
   end
 
   def update_pieces(pieces)

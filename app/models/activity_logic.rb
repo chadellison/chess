@@ -1,18 +1,17 @@
 class ActivityLogic
-  INITIAL_VALUE = 0.01
+  def self.activity_pattern(game_data)
+    return 0 if game_data.targets.include?(5) || game_data.targets.include?(29)
 
-  def self.create_signature(new_pieces)
-    white_activity = INITIAL_VALUE
-    black_activity = INITIAL_VALUE
+    ally_move_count = 0
+    total_move_count = 0
 
-    new_pieces.each do |piece|
-      if piece.color == 'white'
-        white_activity += piece.valid_moves(new_pieces).size
-      else
-        black_activity += piece.valid_moves(new_pieces).size
+    game_data.pieces.each do |piece|
+      move_count = piece.valid_moves.size
+      if piece.color == game_data.turn
+        ally_move_count += move_count
       end
+      total_move_count += move_count
     end
-
-    (white_activity / black_activity).to_s
+    (ally_move_count.to_f / total_move_count.to_f).round(1)
   end
 end

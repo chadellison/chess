@@ -1,6 +1,27 @@
 module MoveLogic
   extend ActiveSupport::Concern
 
+  def game_move_logic
+    @game_move_logic ||= GameMoveLogic.new
+  end
+
+  def moves_for_piece
+    case piece_type
+    when 'rook'
+      moves_for_rook
+    when 'bishop'
+      moves_for_bishop
+    when 'queen'
+      moves_for_queen
+    when 'king'
+      moves_for_king
+    when 'knight'
+      moves_for_knight
+    when 'pawn'
+      moves_for_pawn
+    end
+  end
+
   def moves_for_rook
     moves_up + moves_down + moves_left + moves_right
   end
@@ -185,36 +206,6 @@ module MoveLogic
       .present?
   end
 
-  def king_is_safe?(allied_color, game_pieces)
-    king = game_pieces.detect do |piece|
-      piece.piece_type == 'king' && piece.color == allied_color
-    end
-
-    return false if king.nil? || kings_too_close?(game_pieces)
-
-    occupied_spaces = game_pieces.map(&:position)
-    opponent_pieces = game_pieces.reject do |piece|
-      piece.color == allied_color || piece.piece_type == 'king'
-    end
-
-    opponent_pieces.none? do |piece|
-      piece.moves_for_piece.include?(king.position) &&
-        piece.valid_move_path?(king.position, occupied_spaces) &&
-        piece.valid_destination?(king.position, game_pieces) &&
-        piece.valid_for_piece?(king.position, game_pieces)
-    end
-  end
-
-  def kings_too_close?(game_pieces)
-    positions = game_pieces.select { |piece| piece.piece_type == 'king' }
-                       .map(&:position)
-
-    [
-      (positions.first[0].ord - positions.last[0].ord).abs,
-      (positions.first[1].to_i - positions.last[1].to_i).abs
-    ].all? { |value| value < 2 }
-  end
-
   def valid_for_piece?(next_move, game_pieces)
     return can_castle?(next_move, game_pieces) if king_moved_two?(next_move)
     return valid_for_pawn?(next_move, game_pieces) if piece_type == 'pawn'
@@ -228,7 +219,7 @@ module MoveLogic
   def can_castle?(next_move, game_pieces)
     through_column = next_move[0] == 'c' ? 'd' : 'f'
     through_value = position_index.to_s + through_column + next_move[1]
-    through_castle = Game.pieces_with_next_move(game_pieces, through_value)
+    through_castle = game_move_logic.pieces_with_next_move(game_pieces, through_value)
 
     column = next_move[0] == 'c' ? 'a' : 'h'
     rook = game_pieces.detect { |piece| piece.position == (column + next_move[1]) }
@@ -237,8 +228,8 @@ module MoveLogic
       rook.present? && rook.has_moved.blank?,
       has_moved.blank?,
       knight_is_gone?(next_move, game_pieces),
-      king_is_safe?(color, game_pieces),
-      king_is_safe?(color, through_castle)
+      Piece.king_is_safe?(color, game_pieces),
+      Piece.king_is_safe?(color, through_castle)
     ].all?
   end
 

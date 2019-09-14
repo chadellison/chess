@@ -434,7 +434,7 @@ RSpec.describe MoveLogic, type: :module do
 
         game.find_piece_by_index(5).position = 'd6'
 
-        expect(piece.king_is_safe?('black', game.pieces)).to be true
+        expect(Piece.king_is_safe?('black', game.pieces)).to be true
       end
     end
 
@@ -446,7 +446,7 @@ RSpec.describe MoveLogic, type: :module do
         piece.position = 'd4'
 
         game.find_piece_by_index(5).position = 'd6'
-        expect(piece.king_is_safe?('black', game.pieces)).to be false
+        expect(Piece.king_is_safe?('black', game.pieces)).to be false
       end
     end
 
@@ -458,7 +458,7 @@ RSpec.describe MoveLogic, type: :module do
         piece.position = 'h3'
 
         game.find_piece_by_index(5).position = 'e6'
-        expect(piece.king_is_safe?('black', game.pieces)).to be false
+        expect(Piece.king_is_safe?('black', game.pieces)).to be false
       end
     end
 
@@ -470,7 +470,7 @@ RSpec.describe MoveLogic, type: :module do
         piece.position = 'f5'
 
         game.find_piece_by_index(5).position = 'e6'
-        expect(piece.king_is_safe?('black', game.pieces)).to be false
+        expect(Piece.king_is_safe?('black', game.pieces)).to be false
       end
     end
 
@@ -481,7 +481,7 @@ RSpec.describe MoveLogic, type: :module do
         game.find_piece_by_index(2).position = 'f3'
 
         piece = game.pieces.detect { |piece| piece.color == 'white' && piece.piece_type == 'king' }
-        expect(piece.king_is_safe?('white', game.pieces)).to be false
+        expect(Piece.king_is_safe?('white', game.pieces)).to be false
       end
     end
   end

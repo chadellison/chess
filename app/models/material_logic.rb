@@ -1,20 +1,16 @@
 class MaterialLogic
-  INITIAL_VALUE = 0.01
+  MAX_MATERIAL_GAIN = 9.0
 
-  def self.create_signature(new_pieces)
-    white_material = INITIAL_VALUE
-    black_material = INITIAL_VALUE
+  def self.create_signature(game_data)
+    current_material_value = find_material_value(game_data.opponents)
+    difference = game_data.material_value - current_material_value
 
-    new_pieces.each do |piece|
-      piece_value = piece.find_piece_value
+    return 0 if difference <= 0
 
-      if piece.color == 'white'
-        white_material += piece_value
-      else
-        black_material += piece_value
-      end
-    end
+    (difference.to_f / MAX_MATERIAL_GAIN).round(1)
+  end
 
-    (white_material / black_material).to_s
+  def self.find_material_value(pieces)
+    pieces.reduce(0) { |total, piece| total + piece.find_piece_value }
   end
 end

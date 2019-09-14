@@ -1,13 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe FenNotationLogic, type: :module do
+RSpec.describe FenNotation, type: :module do
   describe 'find_fen_notation' do
     context 'when there are no game moves' do
       let(:game) { Game.new }
 
       it 'returns the new board setup' do
         expected = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
-        expect(game.find_fen_notation).to eq expected
+        fen_notation = FenNotation.new(game)
+
+        expect(fen_notation.find_fen_notation).to eq expected
       end
     end
 
@@ -16,13 +18,16 @@ RSpec.describe FenNotationLogic, type: :module do
 
       it 'calls fen_piece_positions and fen_game_data' do
         game.moves << Move.new
-        expect(game).to receive(:fen_piece_positions)
+
+        fen_notation = FenNotation.new(game)
+
+        expect(fen_notation).to receive(:fen_piece_positions)
           .and_return('fen_position')
 
-        expect(game).to receive(:fen_game_data)
+        expect(fen_notation).to receive(:fen_game_data)
           .and_return('fen_game_data')
 
-        game.find_fen_notation
+        fen_notation.find_fen_notation
       end
     end
   end

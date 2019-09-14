@@ -3,38 +3,23 @@ class Notation
     king: 'K', queen: 'Q', bishop: 'B', knight: 'N', rook: 'R', pawn: ''
   }
 
-  attr_reader :game
-
-  def initialize(game)
-    @game = game
-  end
-
-  def create_notation(position_index, new_position, upgraded_type)
-    piece = game.pieces.detect { |p| p.position_index == position_index }
+  def create_notation(position_index, new_position, upgraded_type, pieces)
+    piece = pieces.detect { |p| p.position_index == position_index }
     return castle_notation(new_position) if piece.king_moved_two?(new_position)
     new_notation = PIECE_CODE[piece.piece_type.to_sym]
-    new_notation += start_notation(piece, new_position) unless ['king', 'queen'].include?(piece.piece_type)
-    new_notation += capture_notation(new_notation, piece, new_position)
+    new_notation += start_notation(piece, new_position, pieces) unless ['king', 'queen'].include?(piece.piece_type)
+    new_notation += capture_notation(new_notation, piece, new_position, pieces)
     new_notation += new_position
     new_notation += '=' + PIECE_CODE[upgraded_type.to_sym] if upgraded_type.present?
     new_notation + '.'
   end
 
-  def update_game_from_notation(move_notation, turn)
-    piece = find_piece(move_notation, turn)
-    begin
-      game.update_game(piece.position_index, find_move_position(move_notation), upgrade_value(move_notation))
-    rescue
-      log_error(move_notation, turn)
-    end
-  end
-
-  def find_move_position(move_notation)
+  def find_move_position(move_notation, turn, pieces)
     if move_notation.include?('=')
       move_notation[-4..-3]
     elsif move_notation.include?('O')
-      king = game.pieces.detect do |piece|
-        piece.piece_type == 'king' && piece.color == game.current_turn
+      king = pieces.detect do |piece|
+        piece.piece_type == 'king' && piece.color == turn
       end
       column = move_notation == 'O-O' ? 'g' : 'c'
       column + king.position[1]
@@ -48,14 +33,14 @@ class Notation
     PIECE_CODE.invert[piece_code].to_s if move_notation.include?('=')
   end
 
-  def find_piece(move_notation, turn)
-    piece = piece_from_crossed_pawn(move_notation, turn) if move_notation.include?('=')
+  def find_piece(move_notation, turn, pieces)
+    piece = piece_from_crossed_pawn(move_notation, turn, pieces) if move_notation.include?('=')
 
-    piece = piece_from_castle(turn) if move_notation.include?('O')
+    piece = piece_from_castle(turn, pieces) if move_notation.include?('O')
     return piece if piece.present?
 
     piece_type = find_piece_type(move_notation)
-    game_pieces = matching_pieces(piece_type, turn, move_notation[-2..-1])
+    game_pieces = matching_pieces(piece_type, turn, move_notation[-2..-1], pieces)
 
     if game_pieces.count == 1
       game_pieces.first
@@ -78,17 +63,17 @@ class Notation
     end
   end
 
-  def piece_from_castle(turn)
-    game.pieces.detect { |piece| piece.piece_type == 'king' && piece.color == turn }
+  def piece_from_castle(turn, pieces)
+    pieces.detect { |piece| piece.piece_type == 'king' && piece.color == turn }
   end
 
-  def piece_from_crossed_pawn(move_notation, turn)
+  def piece_from_crossed_pawn(move_notation, turn, pieces)
     if move_notation.include?('x')
-      pawns = matching_pieces('pawn', turn, move_notation[-4..-3])
+      pawns = matching_pieces('pawn', turn, move_notation[-4..-3], pieces)
       pawns.detect { |pawn| pawn.position.include?(move_notation[0]) }
     else
       start_row = move_notation[1] == '8' ? '7' : '2'
-      game.pieces.detect { |piece| piece.position == (move_notation[0] + start_row) }
+      pieces.detect { |piece| piece.position == (move_notation[0] + start_row) }
     end
   end
 
@@ -105,23 +90,23 @@ class Notation
     new_position[0] == 'c' ? 'O-O-O.' : 'O-O.'
   end
 
-  def start_notation(piece, next_move)
-    same_pieces = matching_pieces(piece.piece_type, piece.color, next_move)
+  def start_notation(piece, next_move, pieces)
+    same_pieces = matching_pieces(piece.piece_type, piece.color, next_move, pieces)
     return '' if same_pieces.count < 2
 
     column_is_unique?(same_pieces, piece.position) ? piece.position[0] : piece.position[1]
   end
 
-  def matching_pieces(piece_type, piece_color, new_position)
-    game.pieces.select do |piece|
+  def matching_pieces(piece_type, piece_color, new_position, pieces)
+    pieces.select do |piece|
       piece.piece_type == piece_type &&
         piece.color == piece_color &&
-        piece.valid_moves(game.pieces).include?(new_position)
+        piece.valid_moves.include?(new_position)
     end
   end
 
-  def capture_notation(notation, piece, new_position)
-    if game.pieces.select { |piece| piece.position == new_position }.present?
+  def capture_notation(notation, piece, new_position, pieces)
+    if pieces.select { |piece| piece.position == new_position }.present?
       notation.blank? ? piece.position[0] + 'x' : 'x'
     else
       ''

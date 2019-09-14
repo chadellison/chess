@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_11_153800) do
+ActiveRecord::Schema.define(version: 2019_08_17_134508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "abstractions", force: :cascade do |t|
+    t.text "pattern"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pattern"], name: "index_abstractions_on_pattern"
+  end
 
   create_table "ai_players", force: :cascade do |t|
     t.string "color"
@@ -58,19 +65,10 @@ ActiveRecord::Schema.define(version: 2019_04_11_153800) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "promoted_pawn"
-    t.integer "material_value"
+    t.boolean "checkmate"
     t.index ["game_id"], name: "index_moves_on_game_id"
     t.index ["setup_id"], name: "index_moves_on_setup_id"
     t.index ["value"], name: "index_moves_on_value"
-  end
-
-  create_table "setup_signatures", force: :cascade do |t|
-    t.integer "setup_id"
-    t.integer "signature_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["setup_id"], name: "index_setup_signatures_on_setup_id"
-    t.index ["signature_id"], name: "index_setup_signatures_on_signature_id"
   end
 
   create_table "setups", force: :cascade do |t|
@@ -78,15 +76,8 @@ ActiveRecord::Schema.define(version: 2019_04_11_153800) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "outcomes"
+    t.integer "abstraction_id"
     t.index ["position_signature"], name: "index_setups_on_position_signature", unique: true
-  end
-
-  create_table "signatures", force: :cascade do |t|
-    t.string "value"
-    t.string "signature_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["value"], name: "index_signatures_on_value"
   end
 
   create_table "users", force: :cascade do |t|

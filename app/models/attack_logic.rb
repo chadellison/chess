@@ -1,35 +1,41 @@
 class AttackLogic
-  INITIAL_VALUE = 0.01
-
-  VALUE_BY_INDEX = {
-    1 => 5, 2 => 3, 3 => 3, 4 => 9, 5 => 0, 6 => 3, 7 => 3, 8 => 5, 9 => 1,
-    10 => 1, 11 => 1, 12 => 1, 13 => 1, 14 => 1, 15 => 1, 16 => 1, 17 => 1,
-    18 => 1, 19 => 1, 20 => 1, 21 => 1, 22 => 1, 23 => 1, 24 => 1, 25 => 5,
-    26 => 3, 27 => 3, 28 => 9, 29 => 0, 30 => 3, 31 => 3, 32 => 5
-  }
-
-  def self.create_signature(new_pieces)
-    attackers = new_pieces.select { |piece| piece.enemy_targets.present? }
-    white_attackers = attackers.select { |attacker| attacker.color == 'white' }
-    black_attackers = attackers.select { |attacker| attacker.color == 'black' }
-
-    white_attack_ratio = attack_ratio(white_attackers, new_pieces)
-    black_attack_ratio = attack_ratio(black_attackers, new_pieces)
-
-    (white_attack_ratio / black_attack_ratio).to_s
+  def self.attack_pattern(game_data)
+    (calculate_attack(game_data.target_pieces, game_data.opponent_color)).round(1)
   end
 
-  def self.attack_ratio(attackers, new_pieces)
-    target_value = INITIAL_VALUE
-    defense_value = INITIAL_VALUE
+  def self.threat_pattern(game_data)
+    (1.0 - calculate_attack(game_data.target_pieces, game_data.turn)).round(1)
+  end
 
-    attackers.each do |attacker|
-      attacker.enemy_targets.each do |target|
-        target_value += VALUE_BY_INDEX[target]
-        defense_value += Piece.defenders(target, new_pieces).size * attacker.find_piece_value
-      end
+  def self.calculate_attack(pieces, turn)
+    attack_value = 0
+    total_target_value = 0
+
+    pieces.each do |target_piece|
+      piece_value = target_piece.find_piece_value
+      attack_value += piece_value if target_piece.color == turn
+
+      total_target_value += piece_value
     end
 
-    target_value / defense_value
+    return 0 if total_target_value == 0
+    attack_value.to_f / total_target_value.to_f
+  end
+
+  def self.threatened_attacker_pattern(game_data)
+    threatened_attacker_value = game_data.ally_attackers.reduce(0) do |total, ally_attacker|
+      if game_data.targets.include?(ally_attacker.position_index)
+        total += ally_attacker.find_piece_value
+      end
+      total
+    end
+
+    total_attack_value = game_data.target_pieces.reduce(0) do |total, opponent_target|
+      total + opponent_target.find_piece_value
+    end
+
+    return 0 if total_attack_value == 0
+    
+    (1.0 - (threatened_attacker_value.to_f / total_attack_value.to_f)).round(1)
   end
 end

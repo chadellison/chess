@@ -18,9 +18,4 @@ class GameChannel < ApplicationCable::Channel
     game = Game.find(opts['game_id'])
     game.move(opts['position_index'], opts['new_position'], opts['upgraded_type'])
   end
-
-  def ai_move(opts)
-    game = Game.find(opts['game_id'])
-    game.ai_move
-  end
 end
