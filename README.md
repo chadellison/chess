@@ -10,12 +10,19 @@ intelligent moves. This AI uses professional chess matches (in pgn format),
 self-play, and the stockfish chess engine (an open source chess engine) to train
 and analyze the results of games.
 
-* Ruby version: 2.5.0
-* Rails version: 5.2.0
+- Ruby version: 2.5.0
+- Rails version: 5.2.0
 
-* Database
-```rails db:create```
-```rails db:migrate```
+- Database
+  `rails db:create`
+  `rails db:migrate`
 
-* The test suite can be run with:
-```rspec```
+- The test suite can be run with:
+  `rspec`
+
+rake:
+
+1. load_chess_games
+1. initialize_weights
+1. train_with_abstractions
+1. export_weights
