@@ -1,32 +1,48 @@
 class NeuralNetwork
   ALPHA = 0.01
-  WEIGHT_COUNTS = [200, 200, 10]
-  OFFSETS = [0, 200, 200]
-  VECTOR_COUNTS = [10, 20, 10]
+  WEIGHT_COUNTS = [200, 300, 150, 10]
+  OFFSETS = [0, 200, 500, 650]
+  VECTOR_COUNTS = [10, 20, 15, 10]
 
   include CacheLogic
 
-  attr_accessor :layer_one_weights, :layer_two_weights, :layer_three_weights,
-    :layer_one_predictions, :layer_two_predictions, :layer_three_predictions,
-    :layer_one_deltas, :layer_two_deltas, :layer_three_deltas
+  attr_accessor :layer_one_predictions, :layer_two_predictions,
+    :layer_three_predictions, :layer_four_predictions, :layer_one_deltas,
+    :layer_two_deltas, :layer_three_deltas, :layer_four_deltas,
 
   def initialize
-    @layer_one_weights = find_weights(0)
-    @layer_two_weights = find_weights(1)
-    @layer_three_weights = find_weights(2)
     @layer_one_predictions = []
     @layer_two_predictions = []
     @layer_three_predictions = []
+    @layer_four_predictions = []
     @layer_one_deltas = []
     @layer_two_deltas = []
     @layer_three_deltas = []
+    @layer_four_deltas = []
+  end
+
+  def layer_one_weights
+    @layer_one_weights ||= find_weights(0)
+  end
+
+  def layer_two_weights
+    @layer_two_weights ||= find_weights(1)
+  end
+
+  def layer_three_weights
+    @layer_three_weights ||= find_weights(2)
+  end
+
+  def layer_four_weights
+    @layer_four_weights ||= find_weights(3)
   end
 
   def calculate_prediction(abstraction)
     input = normalize_values(abstraction)
     @layer_one_predictions = leaky_relu(multiply_vector(input, layer_one_weights))
     @layer_two_predictions = leaky_relu(multiply_vector(layer_one_predictions, layer_two_weights))
-    @layer_three_predictions = (multiply_vector(layer_two_predictions, layer_three_weights))
+    @layer_three_predictions = leaky_relu(multiply_vector(layer_two_predictions, layer_three_weights))
+    @layer_four_predictions = (multiply_vector(layer_three_predictions, layer_four_weights))
   end
 
   def weighted_sum(input, weights)
@@ -63,16 +79,22 @@ class NeuralNetwork
     outcomes = calculate_outcomes(abstraction)
 
     update_deltas(outcomes)
+    update_weights(layer_four_deltas, layer_four_weights)
     update_weights(layer_three_deltas, layer_three_weights)
     update_weights(layer_two_deltas, layer_two_weights)
     update_weights(layer_one_deltas, layer_one_weights)
   end
 
   def update_deltas(outcomes)
-    @layer_three_deltas = find_deltas(layer_three_predictions, outcomes)
+    @layer_four_deltas = find_deltas(layer_four_predictions, outcomes)
+    l_4_weighted = multiply_vector(layer_four_deltas, layer_four_weights.transpose)
+
+    @layer_three_deltas = back_propagation_multiplyer(l_4_weighted, relu_derivative(layer_three_predictions))
     l_3_weighted = multiply_vector(layer_three_deltas, layer_three_weights.transpose)
+
     @layer_two_deltas = back_propagation_multiplyer(l_3_weighted, relu_derivative(layer_two_predictions))
     l_2_weighted = multiply_vector(layer_two_deltas, layer_two_weights.transpose)
+
     @layer_one_deltas = back_propagation_multiplyer(l_2_weighted, relu_derivative(layer_one_predictions))
   end
 
