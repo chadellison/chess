@@ -1,8 +1,8 @@
 class NeuralNetwork
   ALPHA = 0.01
-  WEIGHT_COUNTS = [140, 200, 10]
-  OFFSETS = [0, 140, 200]
-  VECTOR_COUNTS = [7, 20, 10]
+  WEIGHT_COUNTS = [200, 200, 10]
+  OFFSETS = [0, 200, 200]
+  VECTOR_COUNTS = [10, 20, 10]
 
   include CacheLogic
 
@@ -154,13 +154,13 @@ class NeuralNetwork
     numerator / denominator
   end
 
-  def tanh(input)
-    input.map { |value| Math.tanh(value) }
-  end
-
-  def tanh_derivative(output)
-    output.map { |output| 1 - (Math.tanh(output) ** 2) }
-  end
+  # def tanh(input)
+  #   input.map { |value| Math.tanh(value) }
+  # end
+  #
+  # def tanh_derivative(output)
+  #   output.map { |output| 1 - (Math.tanh(output) ** 2) }
+  # end
 
   def update_error_rate(error)
     error_object = JSON.parse(get_from_cache('error_rate')).symbolize_keys
