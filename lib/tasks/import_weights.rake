@@ -16,6 +16,10 @@ task import_weights: :environment do
   Weight.destroy_all
   puts 'OLD WEIGHTS DESTROYED'
 
+  puts 'FLUSHING REDIS'
+  REDIS.flushall
+  puts 'REDIS FLUSHED'
+
   json_weights = JSON.parse(File.read(Rails.root + 'json/weights.json'))
                     .map(&:symbolize_keys)
 
