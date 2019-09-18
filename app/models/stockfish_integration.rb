@@ -2,7 +2,7 @@ class StockfishIntegration
   attr_reader :fen_notation, :engine
 
   def initialize(game)
-    @engine = Stockfish::Engine.new('lib/stockfish-9-mac/Mac/stockfish-9-bmi2')
+    @engine = Stockfish::Engine.new
     @fen_notation = FenNotation.new(game)
   end
 
