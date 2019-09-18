@@ -1,27 +1,48 @@
 desc "load_chess_games"
 task load_chess_games: :environment do
-  chess_file_numbers = (1..72).to_a
+  first_file_num = 1
+  last_file_num = 72
+
+  range_args = ARGV[1]
+
+  if range_args != nil && range_args != '' && range_args.include?('-')
+    range = range_args.split('-')
+
+    first_file_num = range[0].to_i
+    last_file_num = range[1].to_i
+  end
+
+  chess_file_numbers = (first_file_num..last_file_num).to_a
+
+  puts "---------------LOADING #{first_file_num}-#{last_file_num} GAME FILES---------------"
 
   while chess_file_numbers.present?
     file_number = chess_file_numbers.shuffle.pop
     parse_file(file_number)
   end
+
   puts '---------------GAMES LOADED---------------'
 end
 
 def parse_file(file_number)
-  File.read("#{Rails.root}/training_data/game_set#{file_number}.pgn")
-      .gsub(/\[.*?\]/, 'game')
-      .split('game')
-      .map { |moves| moves.gsub("\r\n", ' ') }
-      .reject(&:blank?)
-      .map { |moves| make_substitutions(moves) }[1..-1]
-      .each { |moves| create_training_game(moves) }
+  File
+    .read("#{Rails.root}/training_data/game_set#{file_number}.pgn")
+    .gsub(/\[.*?\]/, 'game')
+    .split('game')
+    .map { |moves| moves.gsub("\r\n", ' ') }
+    .reject(&:blank?)
+    .map { |moves| make_substitutions(moves) }[1..-1]
+    .each { |moves| create_training_game(moves) }
 end
 
 def make_substitutions(moves)
-  moves.gsub(/[\r\n+]/, '').gsub(/\{.*?\}/, '').gsub('.', '. ').split(' ')
-       .reject { |move| move.include?('.') }.join('.')
+  moves
+    .gsub(/[\r\n+]/, '')
+    .gsub(/\{.*?\}/, '')
+    .gsub('.', '. ')
+    .split(' ')
+    .reject { |move| move.include?('.') }
+    .join('.')
 end
 
 def create_training_game(moves)
@@ -49,7 +70,7 @@ def create_training_game(moves)
         game.reload_pieces
         puts 'MOVE: ' + each_move
       rescue
-        puts 'boooooooooo!!!'
+        puts 'INVALID FORMAT'
       end
     end
 
