@@ -1,0 +1,6 @@
+data
+.git
+.rake*
+.DS_Store
+*.exe
+main
