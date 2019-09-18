@@ -4,3 +4,5 @@ data
 .DS_Store
 *.exe
 main
+log
+tmp

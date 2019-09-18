@@ -19,3 +19,10 @@ services:
       - 6379
     volumes:
       - ./data/redis:/var/lib/redis/data
+  rake_tasks:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - cache
