@@ -17,6 +17,7 @@ class CenterLogic
         end
       end
     end
+    return 0 if control_count == 0
     (control_count.to_f / total_center_coverage.to_f).round(1)
   end
 end
