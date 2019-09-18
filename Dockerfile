@@ -16,4 +16,4 @@ COPY . ${APP_PATH}
 
 RUN bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
 
-CMD ["sleep", "infinity"]
+CMD ["sleep", "365d"]
