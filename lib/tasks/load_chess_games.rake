@@ -70,7 +70,7 @@ def create_training_game(moves)
         game.update_game(piece.position_index, notation_logic.find_move_position(each_move, turn, game.pieces), notation_logic.upgrade_value(each_move))
         game.reload_pieces
       rescue
-        puts 'INVALID FORMAT'
+        # puts 'INVALID FORMAT'
       end
     end
 
