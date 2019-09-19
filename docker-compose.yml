@@ -1,4 +1,4 @@
-version: '3.1'
+version: "3.1"
 
 services:
   db:
@@ -6,15 +6,15 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     ports:
-      - '5432:5432'
+      - "5432:5432"
     environment:
-      - POSTGRES_NAME=chess_test
+      - POSTGRES_NAME=chess_development
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   cache:
     image: redis
     ports:
-      - '6379:6379'
+      - "6379:6379"
     expose:
       - 6379
     volumes:

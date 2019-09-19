@@ -16,9 +16,10 @@ task load_chess_games: :environment do
 
   puts "---------------LOADING #{first_file_num}-#{last_file_num} GAME FILES---------------"
 
-  while chess_file_numbers.present?
-    file_number = chess_file_numbers.shuffle.pop
-    parse_file(file_number)
+  files = chess_file_numbers.shuffle
+
+  Parallel.each(files) do |num|
+    parse_file(num)
   end
 
   puts '---------------GAMES LOADED---------------'
@@ -68,7 +69,6 @@ def create_training_game(moves)
         game.notation = game.notation.to_s + each_move + '.'
         game.update_game(piece.position_index, notation_logic.find_move_position(each_move, turn, game.pieces), notation_logic.upgrade_value(each_move))
         game.reload_pieces
-        puts 'MOVE: ' + each_move
       rescue
         puts 'INVALID FORMAT'
       end
