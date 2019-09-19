@@ -7,4 +7,3 @@ then
 fi
 
 docker-compose -f docker-compose.digital-ocean.yml up
-

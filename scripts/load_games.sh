@@ -14,4 +14,3 @@ PG_HOST=$2 rake db:migrate || echo 'PROLLY FINE'
 
 echo 'LOADING CHESS GAMES'
 PG_HOST=$2 rake load_chess_games
-
