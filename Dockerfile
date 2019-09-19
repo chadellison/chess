@@ -8,14 +8,15 @@ RUN apk add --no-cache --update build-base \
     nodejs \
     tzdata
 
-ENV APP_PATH /usr/src/app
+ENV APP_PATH /usr/src/app/
 
 WORKDIR ${APP_PATH}
 
-COPY . ${APP_PATH}
+COPY Gemfile Gemfile.lock ${APP_PATH}
 
 RUN bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
 
-RUN chmod +x scripts/*.sh
+COPY . ${APP_PATH}
 
-CMD ["./scripts/load_games.sh"]
+CMD ["./scripts/load_games.sh", "10", "db"]
+
