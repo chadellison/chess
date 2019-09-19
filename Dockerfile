@@ -8,7 +8,8 @@ RUN apk add --no-cache --update build-base \
     nodejs \
     tzdata
 
-ENV APP_PATH /usr/src/app/ REDISTOGO_URL redis://cache:6379/1
+ENV APP_PATH /usr/src/app/
+ENV REDISTOGO_URL redis://cache:6379/1
 
 WORKDIR ${APP_PATH}
 
