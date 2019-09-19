@@ -10,7 +10,6 @@ module CacheLogic
   end
 
   def get_move(notation)
-    # puts 'YAYAAYAY WE ARE USING THE CACHE+++++++++++++++++++++++++'
     Move.new(JSON.parse(REDIS.get(notation)))
   end
 
