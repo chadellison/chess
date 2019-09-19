@@ -16,4 +16,6 @@ COPY . ${APP_PATH}
 
 RUN bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
 
-CMD ["sleep", "365d"]
+RUN chmod +x scripts/*.sh
+
+CMD ["./scripts/load_games.sh"]
