@@ -10,6 +10,7 @@ task train_with_abstractions: :environment do
 
   if count_var != nil || count_var != ''
     abstractions = Abstraction.order('RANDOM()').limit(count_var.to_i)
+    random = true
   else
     abstractions = Abstraction.all
   end
