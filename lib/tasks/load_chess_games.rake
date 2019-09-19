@@ -60,7 +60,7 @@ def create_training_game(moves)
     game.save
     game.update_outcomes
 
-    # puts "OUTCOME: #{outcome}"
+    puts "OUTCOME: #{outcome}"
   end
 end
 
