@@ -1,12 +1,12 @@
 #!/bin/sh
 
-echo 'sleeping for 20 seconds'
+echo "sleeping for $1 seconds"
 
-/bin/sleep 20
+/bin/sleep $1
 
 echo 'performing operations'
 
-PG_HOST=db rake db:create;
-PG_HOST=db rake db:migrate;
-PG_HOST=db rake load_chess_games;
+PG_HOST=$2 rake db:create;
+PG_HOST=$2 rake db:migrate;
+PG_HOST=$2 rake load_chess_games;
 
