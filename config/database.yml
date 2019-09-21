@@ -8,14 +8,14 @@ development:
   database: chess_development
   username: postgres
   password: postgres
-  host: 0.0.0.0
+  host: <%= ENV['PG_HOST'] || '0.0.0.0' %>
 
 test:
   <<: *default
   database: chess_test
   username: postgres
   password: postgres
-  host: 0.0.0.0
+  host: <%= ENV['PG_HOST'] || '0.0.0.0' %>
 
 production:
   <<: *default

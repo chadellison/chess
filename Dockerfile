@@ -8,6 +8,7 @@ RUN apk add --no-cache --update build-base \
     nodejs \
     tzdata
 
+ENV PG_HOST db
 ENV APP_PATH /usr/src/app/
 ENV REDISTOGO_URL redis://cache:6379/1
 
@@ -19,5 +20,4 @@ RUN bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` 
 
 COPY . ${APP_PATH}
 
-CMD ["./scripts/load_games.sh", "10", "db"]
-
+CMD ["./scripts/load_games.sh", "5"]

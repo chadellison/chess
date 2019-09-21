@@ -6,4 +6,4 @@ then
   docker-compose rm -f
 fi
 
-docker-compose -f docker-compose.digital-ocean.yml up
+docker-compose -f docker-compose.digital-ocean.yml up $1
