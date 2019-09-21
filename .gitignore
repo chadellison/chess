@@ -24,3 +24,4 @@ data
 /coverage/*
 
 ./dump.rdb
+.rake_tasks~

@@ -2,7 +2,9 @@ desc 'Train on stockfish'
 task train_on_stockfish: :environment do
   neural_network = NeuralNetwork.new
 
-  ENV['COUNT'].to_i.times do |game_number|
+  range = 0..ENV['COUNT'].to_i
+
+  Parallel.each(range) do |game_number|
     game = Game.create(analyzed: true)
     openings = ['17a3', '20d4', '21e4', '31f3', '19c4', '23g4', '23g3', '24h3']
     random_opening = openings.sample
@@ -38,12 +40,12 @@ task train_on_stockfish: :environment do
 end
 
 def make_random_move(game, turn)
-    game_pieces = game.pieces.select { |piece| piece.color == turn }
-    game_moves = game_pieces.map do |piece|
-      piece.valid_moves.map { |move| piece.position_index.to_s + move }
-    end.flatten
+  game_pieces = game.pieces.select { |piece| piece.color == turn }
+  game_moves = game_pieces.map do |piece|
+    piece.valid_moves.map { |move| piece.position_index.to_s + move }
+  end.flatten
 
-    move_value = game_moves.sample
+  move_value = game_moves.sample
 
-    game.move(move_value.to_i, move_value[-2..-1], game.promote_pawn(move_value))
+  game.move(move_value.to_i, move_value[-2..-1], game.promote_pawn(move_value))
 end
