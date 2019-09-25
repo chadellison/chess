@@ -99,9 +99,10 @@ class NeuralNetwork
   end
 
   def save_weights
-    all_weight_values = layer_one_weights.flatten +
+      all_weight_values = layer_one_weights.flatten +
                         layer_two_weights.flatten +
-                        layer_three_weights.flatten
+                        layer_three_weights.flatten +
+                        layer_four_weights.flatten
 
     Weight.order(:weight_count).each_with_index do |weight, index|
       weight.update(value: all_weight_values[index].to_s)
