@@ -2,7 +2,7 @@ class GameMoveLogic
   include CacheLogic
 
   def find_next_moves(pieces, turn, move_count)
-    key = 'next_moves_' + Setup.create_signature(pieces, turn[0])
+    key = 'next_moves_' + Signature.create_signature(pieces, turn[0])
 
     if in_cache?(key)
       JSON.parse(get_from_cache(key)).map { |move| MoveSerializer.deserialize(move) }
@@ -16,12 +16,11 @@ class GameMoveLogic
   end
 
   def all_next_moves_for_piece(piece, turn, move_count, pieces)
-    material_value = find_material_value(pieces, turn)
     piece.valid_moves.map do |move|
       move_value = piece.position_index.to_s + move
       game_move = Move.new(value: move_value, move_count: move_count)
       game_pieces = refresh_board(pieces, move_value)
-      game_data = GameData.new(game_move, game_pieces, turn, material_value)
+      game_data = GameData.new(game_pieces, turn)
       setup = Setup.find_setup(game_data)
       game_move.setup = setup
       game_move.checkmate = CheckmateLogic.is_checkmate?(game_data)
@@ -63,13 +62,13 @@ class GameMoveLogic
       piece.moves_for_piece.each do |move|
         if piece.valid_move?(game_pieces, move)
           piece.valid_moves.push(move)
-          load_enemy_target(move, game_pieces, piece)
+          load_enemy_targets(move, game_pieces, piece)
         end
       end
     end
   end
 
-  def load_enemy_target(move, game_pieces, piece)
+  def load_enemy_targets(move, game_pieces, piece)
     destination_piece = game_pieces.detect { |piece| piece.position == move }
     if destination_piece.present?
       piece.enemy_targets.push(destination_piece.position_index)
@@ -129,15 +128,5 @@ class GameMoveLogic
     new_piece.piece_type = 'queen' if should_promote_pawn?(move)
     new_piece.position = move[-2..-1]
     new_piece.has_moved = true
-  end
-
-  def find_material_value(game_pieces, turn)
-    game_pieces.reduce(0) do |total, piece|
-      if piece.color != turn
-        total + piece.find_piece_value
-      else
-        total
-      end
-    end
   end
 end

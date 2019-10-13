@@ -10,7 +10,7 @@ class Analytics
   def move_analytics(analytics_params)
     opponent_color_code = analytics_params[:turn] == 'w' ? 'b' : 'w'
     deserialized_pieces = dersialize_pieces(analytics_params[:pieces])
-    setup_signature = Setup.create_signature(deserialized_pieces, opponent_color_code)
+    setup_signature = Signature.create_signature(deserialized_pieces, opponent_color_code)
 
     if in_cache?('analytics_' + setup_signature)
       JSON.parse(get_from_cache('analytics_' + setup_signature))
@@ -27,8 +27,8 @@ class Analytics
   end
 
   def analyze_moves(possible_moves)
-    ai_logic.move_analysis(possible_moves).map do |next_move, predictions|
-      { move: next_move, evaluation: predictions[0] }
+    ai_logic.move_analysis(possible_moves).map do |next_move, evaluation|
+      { move: next_move, evaluation: evaluation }
     end
   end
 

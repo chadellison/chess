@@ -37,6 +37,7 @@ class Game < ApplicationRecord
 
   def handle_move_events
     GameEventBroadcastJob.perform_later(self) if for_human?
+    AllGamesEventBroadcastJob.perform_later(self) if for_human?
     turn = current_turn
 
     if game_over?(pieces, turn)
@@ -97,7 +98,7 @@ class Game < ApplicationRecord
   end
 
   def update_game(position_index, new_position, upgraded_type = '')
-    if move_count < 30 && in_cache?(notation)
+    if in_cache?(notation)
       moves << get_move(notation)
       reload_pieces
     else
@@ -108,20 +109,18 @@ class Game < ApplicationRecord
   end
 
   def update_board(updated_piece)
-    material_value = game_move_logic.find_material_value(pieces, opponent_color) # <-- needs to be called BEFORE refresh_board
+    # material_value = game_move_logic.find_material_value(pieces, opponent_color) # <-- needs to be called BEFORE refresh_board
     new_pieces = game_move_logic.refresh_board(pieces, updated_piece.position_index.to_s + updated_piece.position)
     update_pieces(new_pieces)
 
     game_move = initialize_move(updated_piece)
-    game_data = GameData.new(game_move, new_pieces, opponent_color, material_value)
+    game_data = GameData.new(new_pieces, opponent_color)
 
     setup = Setup.find_setup(game_data)
     setup.save
 
     game_move.setup = setup
-    if moves.size < 30
-      add_to_cache(notation, game_move)
-    end
+    add_to_cache(notation, game_move)
     moves << game_move
   end
 
@@ -212,6 +211,11 @@ class Game < ApplicationRecord
   end
 
   def update_outcomes
-    moves.each { |move| move.setup.update_outcomes(outcome) }
+    moves.each do |move|
+      setup = move.setup
+      setup.update_outcomes(outcome)
+      setup.abstractions.each { |abs| abs.update_outcomes(outcome) }
+      move.save
+    end
   end
 end

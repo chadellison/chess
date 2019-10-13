@@ -1,4 +1,8 @@
 class Abstraction < ApplicationRecord
-  validates_uniqueness_of :pattern
-  has_many :setups
+  serialize :outcomes, Hash
+  validates :pattern, uniqueness: { scope: :abstraction_type }
+  has_many :setup_abstractions
+  has_many :setups, through: :setup_abstractions
+
+  include OutcomeCalculator
 end
