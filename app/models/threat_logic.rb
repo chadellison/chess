@@ -1,11 +1,12 @@
 class ThreatLogic
-  def self.create_signature(game_data)
-    threats = game_data.opponents.select { |piece| piece.enemy_targets.present? }
+  def self.find_pattern(game_data)
+    attackers = []
+    game_data.pieces.each do |piece|
+      if piece.enemy_targets.present?
+        attackers << piece.find_piece_code + piece.enemy_targets.join('.')
+      end
+    end
 
-    AttackLogic.find_signature_value(
-      threats,
-      game_data.target_pieces,
-      game_data.pieces
-    )
+    attackers.join(':') + game_data.turn[0]
   end
 end

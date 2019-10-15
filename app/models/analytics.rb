@@ -20,7 +20,8 @@ class Analytics
       move_count = analytics_params[:moves].count
       possible_moves = game_move_logic.find_next_moves(game.pieces, turn, move_count + 1)
       analyzed_moves = analyze_moves(possible_moves)
-      serialized_moves = AnalyticsSerializer.serialize(analyzed_moves, turn)
+      outcomes = game.last_move.present? ? game.last_move.setup.outcomes : { white_wins: 1, black_wins: 1, draws: 1 }
+      serialized_moves = AnalyticsSerializer.serialize(analyzed_moves, outcomes)
       add_to_cache('analytics_' + setup_signature, serialized_moves)
       serialized_moves
     end
@@ -56,7 +57,12 @@ class Analytics
     game.moves = dersialize_moves(moves)
 
     if !game.moves.blank?
-      game.last_move.setup = Setup.new(position_signature: setup_signature)
+      setup = Setup.find_by(position_signature: setup_signature)
+      if setup.present?
+        game.last_move.setup = setup
+      else
+        game.last_move.setup = Setup.new(position_signature: setup_signature)
+      end
     end
     game
   end

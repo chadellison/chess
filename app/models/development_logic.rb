@@ -1,20 +1,10 @@
 class DevelopmentLogic
-  def self.development_pattern(game_data)
-    ally_development = 0
-    total_development = 0
-    game_data.pieces.each do |piece|
-      if piece.has_moved
-        ally_development += 1 if piece.color == game_data.turn
-        total_development += 1
-      end
+  def self.find_pattern(game_data)
+    developed_pieces = game_data.pieces.select do |piece|
+      piece.has_moved &&
+        piece.enemy_targets.blank? &&
+        !game_data.targets.include?(piece.position_index)
     end
-
-    if game_data.turn == 'white'
-      ally_development -= 1
-      total_development -= 1
-    end
-
-    return 0 if total_development == 0
-    (ally_development.to_f / total_development.to_f).round(1)
+    Signature.create_signature(developed_pieces, game_data.turn[0])
   end
 end

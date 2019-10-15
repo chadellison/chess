@@ -1,2 +1,0 @@
-class NeuralNetworkError < StandardError
-end

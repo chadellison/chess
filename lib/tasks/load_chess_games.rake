@@ -17,7 +17,7 @@ task load_chess_games: :environment do
   puts "---------------LOADING #{first_file_num}-#{last_file_num} GAME FILES---------------"
 
   while chess_file_numbers.present?
-    file_number = chess_file_numbers.shuffle.pop
+    file_number = chess_file_numbers.pop
     parse_file(file_number)
   end
 

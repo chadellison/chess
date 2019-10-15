@@ -33,14 +33,21 @@ class Setup < ApplicationRecord
       # ThreatLogic.create_signature(game_data)
     # ]
     [
-      Abstraction.find_or_create_by(
-        abstraction_type: 'attack',
-        pattern: AttackLogic.find_pattern(game_data)
-      ),
-      Abstraction.find_or_create_by(
-        abstraction_type: 'king_threat',
-        pattern: KingThreatLogic.find_pattern(game_data)
-      ),
+      find_abstraction('activity', ActivityLogic.find_pattern(game_data)),
+      find_abstraction('attack', AttackLogic.find_pattern(game_data)),
+      find_abstraction('center', CenterLogic.find_pattern(game_data)),
+      find_abstraction('development', DevelopmentLogic.find_pattern(game_data)),
+      find_abstraction('general_activity', ActivityLogic.general_activity(game_data)),
+      find_abstraction('king_threat', KingThreatLogic.find_pattern(game_data)),
+      find_abstraction('pawn', PawnLogic.find_pattern(game_data)),
+      find_abstraction('threat', ThreatLogic.find_pattern(game_data)),
     ]
+  end
+
+  def self.find_abstraction(abstraction_type, pattern)
+    Abstraction.find_or_create_by(
+      abstraction_type: abstraction_type,
+      pattern: pattern
+    )
   end
 end

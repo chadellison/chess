@@ -4,20 +4,10 @@ class CenterLogic
     'c3', 'd3', 'e3', 'f3'
   ]
 
-  def self.center_control_pattern(game_data)
-    control_count = 0
-    total_center_coverage = 0
-    CENTER_SQUARES.each do |square|
-      game_data.pieces.each do |piece|
-        if piece.valid_moves.include?(square) || piece.position == square
-          if piece.color == game_data.turn
-            control_count += 1
-          end
-          total_center_coverage += 1
-        end
-      end
+  def self.find_pattern(game_data)
+    center_pieces = game_data.pieces.select do |piece|
+      CENTER_SQUARES.include?(piece.position)
     end
-    return 0 if control_count == 0
-    (control_count.to_f / total_center_coverage.to_f).round(1)
+    Signature.create_signature(center_pieces, game_data.turn[0])
   end
 end

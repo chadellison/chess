@@ -17,6 +17,25 @@ class Game < ApplicationRecord
          .where(status: 'awaiting player')
   end)
 
+  def self.handle_game_observations
+    (1..4).map do
+      move = Move.offset(rand(0...Move.count)).first
+      game_moves = move.game.moves.order(:move_count)[0...move.move_count]
+      game_notation = move.game.notation.split('.')[0...move.move_count].join('.') + '.'
+      random_game = Game.create(
+        notation: game_notation,
+        game_type: 'machine vs machine',
+        status: 'active'
+      )
+      random_game.moves = game_moves.map do |m|
+        m.game = random_game
+        m
+      end
+      MachineVsMachineJob.perform_later(random_game)
+      random_game
+    end
+  end
+
   def ai_logic
     @ai_logic ||= AiLogic.new
   end
@@ -64,6 +83,7 @@ class Game < ApplicationRecord
     end
     update(outcome: outcome.to_s)
     GameEventBroadcastJob.perform_later(self) if for_human?
+    AllGamesEventBroadcastJob.perform_later(self) if for_human?
   end
 
   def for_human?
@@ -109,7 +129,6 @@ class Game < ApplicationRecord
   end
 
   def update_board(updated_piece)
-    # material_value = game_move_logic.find_material_value(pieces, opponent_color) # <-- needs to be called BEFORE refresh_board
     new_pieces = game_move_logic.refresh_board(pieces, updated_piece.position_index.to_s + updated_piece.position)
     update_pieces(new_pieces)
 
@@ -214,8 +233,11 @@ class Game < ApplicationRecord
     moves.each do |move|
       setup = move.setup
       setup.update_outcomes(outcome)
-      setup.abstractions.each { |abs| abs.update_outcomes(outcome) }
-      move.save
+      setup.save
+      setup.abstractions.each do |abs|
+        abs.update_outcomes(outcome)
+        abs.save
+      end
     end
   end
 end
