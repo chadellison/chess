@@ -8,6 +8,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 gem 'rack-cors'
 gem 'faker'
+gem 'pgn'
 gem 'redis'
 gem 'bcrypt'
 gem 'bootsnap', '>= 1.1.0', require: false

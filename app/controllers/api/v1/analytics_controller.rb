@@ -8,10 +8,11 @@ module Api
       private
 
       def analytics_params
-        params.permit(
+        params.require(:analytic).permit(
           :turn,
+          :notation,
           pieces: [:positionIndex, :pieceType, :color, :position, :movedTwo, :hasMoved],
-          moves: [:value, :move_count]
+          moves: [:value, :move_count],
         )
       end
     end

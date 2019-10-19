@@ -1,10 +1,9 @@
 class GameData
-  attr_reader :move, :pieces, :turn, :material_value, :targets
+  attr_reader :move, :pieces, :turn, :targets
 
-  def initialize(move, pieces, turn, material_value)
+  def initialize(move, pieces, turn)
     @move = move
     @pieces = pieces
-    @material_value = material_value
     @turn = turn
     @targets = pieces.map(&:enemy_targets).flatten
   end

@@ -8,6 +8,16 @@ module OutcomeCalculator
     else
       outcomes[key] = 1
     end
-    save
+  end
+
+  def find_outcome
+    white_wins = outcomes[:white_wins].to_f
+    black_wins = outcomes[:black_wins].to_f
+    draws = outcomes[:draws].to_f
+
+    numerator = (white_wins - black_wins)
+    denominator = (white_wins + black_wins + draws).to_f
+    return 0 if numerator == 0
+    numerator / denominator
   end
 end

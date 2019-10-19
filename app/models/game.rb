@@ -29,24 +29,46 @@ class Game < ApplicationRecord
     @game_move_logic ||= GameMoveLogic.new
   end
 
+  def pgn_logic
+    @pgn_logic || PgnLogic.new
+  end
+
   def move(position_index, new_position, upgraded_type = '')
-    update_notation(position_index, new_position, upgraded_type)
+    self.notation = update_notation(position_index, new_position, upgraded_type)
     update_game(position_index, new_position, upgraded_type)
+    self.piece_signature = update_piece_signature
+    self.save
     handle_move_events
   end
 
   def handle_move_events
     GameEventBroadcastJob.perform_later(self) if for_human?
+    AllGamesEventBroadcastJob.perform_later(self) if for_human?
     turn = current_turn
 
     if game_over?(pieces, turn)
       handle_outcome
     elsif ai_turn?(turn)
-      if game_type == 'human vs stockfish'
-        StockfishMoveJob.perform_later(self)
-      else
-        AiMoveJob.perform_later(self)
+      AiMoveJob.perform_later(self)
+    end
+  end
+
+  def self.handle_game_observations
+    (1..4).map do
+      move = Move.offset(rand(0...Move.count)).first
+      game_moves = move.game.moves.order(:move_count)[0...move.move_count]
+      game_notation = move.game.notation.split('.')[0...move.move_count].join('.') + '.'
+      random_game = Game.create(
+        notation: game_notation,
+        game_type: 'machine vs machine',
+        status: 'active'
+      )
+      random_game.moves = game_moves.map do |m|
+        m.game = random_game
+        m
       end
+      MachineVsMachineJob.perform_later(random_game)
+      random_game
     end
   end
 
@@ -63,6 +85,7 @@ class Game < ApplicationRecord
     end
     update(outcome: outcome.to_s)
     GameEventBroadcastJob.perform_later(self) if for_human?
+    AllGamesEventBroadcastJob.perform_later(self) if for_human?
   end
 
   def for_human?
@@ -91,38 +114,35 @@ class Game < ApplicationRecord
   end
 
   def update_notation(position_index, new_position, upgraded_type)
-    new_notation = notation_logic.create_notation(position_index, new_position, upgraded_type, pieces)
-
-    update(notation: (notation.to_s + new_notation.to_s))
+    new_notation = notation_logic.create_notation(
+      position_index,
+      new_position,
+      upgraded_type,
+      pieces
+    )
+    (notation.to_s.split('.') << new_notation.to_s).join('.')
   end
 
   def update_game(position_index, new_position, upgraded_type = '')
-    if move_count < 30 && in_cache?(notation)
-      moves << get_move(notation)
-      reload_pieces
-    else
-      piece = find_piece_by_index(position_index)
-      updated_piece = Piece.new_piece(piece, new_position, upgraded_type)
-      update_board(updated_piece)
-    end
-  end
-
-  def update_board(updated_piece)
-    material_value = game_move_logic.find_material_value(pieces, opponent_color) # <-- needs to be called BEFORE refresh_board
+    piece = find_piece_by_index(position_index)
+    updated_piece = Piece.new_piece(piece, new_position, upgraded_type)
     new_pieces = game_move_logic.refresh_board(pieces, updated_piece.position_index.to_s + updated_piece.position)
     update_pieces(new_pieces)
+    handle_move(updated_piece)
+  end
 
-    game_move = initialize_move(updated_piece)
-    game_data = GameData.new(game_move, new_pieces, opponent_color, material_value)
-
-    setup = Setup.find_setup(game_data)
-    setup.save
-
-    game_move.setup = setup
-    if moves.size < 30
-      add_to_cache(notation, game_move)
+  def handle_move(updated_piece)
+    if move_count < 50 && in_cache?(notation)
+      moves << get_move(notation)
+    else
+      game_move = initialize_move(updated_piece)
+      fen_data = pgn_logic.convert_to_fen(notation)
+      setup = Setup.find_setup(fen_data)
+      setup.save
+      game_move.setup = setup
+      add_to_cache(notation, game_move) if moves.size < 50
+      moves << game_move
     end
-    moves << game_move
   end
 
   def initialize_move(updated_piece)
@@ -181,8 +201,7 @@ class Game < ApplicationRecord
 
   def ai_move
     turn = current_turn
-    possible_moves = game_move_logic.find_next_moves(pieces, turn, move_count + 1)
-
+    possible_moves = game_move_logic.find_next_moves(pieces, turn, notation)
     checkmate_move = possible_moves.detect { |move| move.checkmate.present? }
 
     if checkmate_move.present?
@@ -205,7 +224,7 @@ class Game < ApplicationRecord
 
   def move_count
     if notation.present?
-      notation.split('.').count
+      notation.split('.').size
     else
       moves.count
     end
@@ -213,5 +232,11 @@ class Game < ApplicationRecord
 
   def update_outcomes
     moves.each { |move| move.setup.update_outcomes(outcome) }
+  end
+
+  def update_piece_signature
+    pieces.sort_by(&:position_index).map do |piece|
+      piece.position_index.to_s + piece.position
+    end.join('.')
   end
 end

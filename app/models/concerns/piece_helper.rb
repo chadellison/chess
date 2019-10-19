@@ -1,18 +1,8 @@
 module PieceHelper
   extend ActiveSupport::Concern
 
-  def add_pieces
-    game_pieces = Marshal.load(Marshal.dump(PIECES))
-    game_move_logic.load_move_attributes(game_pieces)
-    game_pieces
-  end
-
   def pieces
-    if moves.present?
-      @pieces ||= reload_pieces
-    else
-      @pieces ||= add_pieces
-    end
+    @pieces ||= reload_pieces
   end
 
   def game_move_logic
@@ -22,7 +12,7 @@ module PieceHelper
   def reload_pieces
     move_indices = moves.map { |move| move.value.to_i }
     pawn_moved_two = pawn_moved_two?
-    @pieces = last_move.setup.position_signature[0..-2].split('.').map do |piece_value|
+    @pieces = piece_signature.split('.').map do |piece_value|
       position_index = piece_value.to_i
       Piece.new({
         game_id: id,
@@ -77,6 +67,7 @@ module PieceHelper
   end
 
   def pawn_moved_two?
+    return false if last_move.blank?
     last_moved_piece_type = piece_type_from_position_index(last_move.value.to_i)
     return false unless last_moved_piece_type == 'pawn'
 

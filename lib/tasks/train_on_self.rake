@@ -1,7 +1,5 @@
 desc 'Train on self'
 task train_on_self: :environment do
-  neural_network = NeuralNetwork.new
-
   ENV['COUNT'].to_i.times do
     game = Game.create(analyzed: true)
     start_time = Time.now
