@@ -1,6 +1,21 @@
 module CacheLogic
   extend ActiveSupport::Concern
 
+  class_methods do
+    def in_cache?(key)
+      get_from_cache(key).present?
+    end
+
+    def get_from_cache(key)
+      REDIS.get(key)
+    end
+
+    def add_to_cache(key, value)
+      REDIS.set(key, value.to_json)
+      REDIS.expire(key, 1.day.to_i)
+    end
+  end
+
   def in_cache?(key)
     get_from_cache(key).present?
   end
