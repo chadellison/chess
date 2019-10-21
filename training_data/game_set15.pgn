@@ -44421,21 +44421,6 @@
 [Site "?"]
 [Date "1996.??.??"]
 [Round "?"]
-[White "Carrasco Aulestia, Beatriz"]
-[Black "Campos, Marcelo"]
-[Result "*"]
-[WhiteElo ""]
-[BlackElo ""]
-[ECO "E94"]
-
-1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3 O-O 6.Be2 e5 7.d5 Nbd7 8.O-O Nh5
-9.Ne1 Nf4 10.Nd3 Nxe2+ 11.Qxe2 f5 12.f4 Qe7 13.Nb5 Nb6 14.fxe5 Nxc4 15.Qc2 Nxe5
-16.Nxc7 Rb8 17.Nf4 fxe4
-
-[Event "Pan American-ch "]
-[Site "?"]
-[Date "1996.??.??"]
-[Round "?"]
 [White "Valenzuela, Luis"]
 [Black "Peralta, Fernando"]
 [Result "1-0"]

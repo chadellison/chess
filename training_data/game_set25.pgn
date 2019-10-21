@@ -31153,24 +31153,6 @@
 [Event "Pizol op"]
 [Site "Pizol"]
 [Date "1998.??.??"]
-[Round "2"]
-[White "Ziger, Silvestar"]
-[Black "Buergi, Ivo"]
-[Result "*"]
-[WhiteElo "2280"]
-[BlackElo ""]
-[ECO "A44"]
-
-1.d4 c5 2.d5 e5 3.Nc3 d6 4.e4 Nf6 5.Be2 Be7 6.Nf3 a6 7.a4 O-O 8.O-O Ne8 9.Nd2 Bg5
-10.Nc4 Bxc1 11.Rxc1 Nd7 12.a5 b5 13.axb6 Nxb6 14.Ne3 Qg5 15.Ra1 Nf6 16.Kh1 Qf4
-17.g3 Qh6 18.Ra3 Qg6 19.f3 Ne8 20.Qa1 Qg5 21.f4 exf4 22.gxf4 Qe7 23.Bxa6 Nf6
-24.Bxc8 Rfxc8 25.Nf5 Qd7 26.Rxa8 Rxa8 27.Qe1 Re8 28.Qg3 g6 29.Qg2 Nc4 30.b3 Nxe4
-31.Nh6+ Kg7 32.Nxe4 Ne3 33.Qf3 Nxf1 34.Qc3+ Kxh6 35.Nf6 Qe7 36.Ng4+ Kh5 37.Qh3+ Qh4
-38.Nf6+ Kh6 39.Qxh4+ Kg7 40.Nxe8+
-
-[Event "Pizol op"]
-[Site "Pizol"]
-[Date "1998.??.??"]
 [Round "6"]
 [White "Mauerhofer, Adrian"]
 [Black "Schneuwly, Achim"]

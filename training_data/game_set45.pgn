@@ -39621,24 +39621,6 @@
 24.dxe6 Bxe6 25.f4 gxf3 26.Bxf3 Nxf3+ 27.Qxf3 Qg6 28.Kh2 Rd8 29.Rcd1 Bxb3
 30.axb3 Rxd6 31.Qxb7 f4 32.Rxf4  1-0
 
-[Event "GER-ch U13"]
-[Site "Friedrichroda"]
-[Date "1997.??.??"]
-[Round "2"]
-[White "Fey, Franziska"]
-[Black "Silber, Henning"]
-[Result "*"]
-[WhiteElo ""]
-[BlackElo ""]
-[ECO "A87"]
-
-1.d4 f5 2.g3 g6 3.Bg2 Nf6 4.Nf3 Bg7 5.O-O O-O 6.c4 d6 7.Nc3 Qe8 8.Bf4 Nh5
-9.Nd5 Na6 10.Qb3 Kh8 11.Nc3 c6 12.d5 Nc5 13.Qc2 Nxf4 14.gxf4 Bd7 15.Rab1 a5
-16.Rfd1 Rb8 17.e3 b5 18.b3 b4 19.Ne2 cxd5 20.cxd5 Rc8 21.Ned4 Ne4 22.Qd3 Nc3
-23.Ng5 Nxb1 24.Rxb1 Rc3 25.Qd2 h6 26.Nge6 Bxe6 27.Nxe6 Rg8 28.Nxg7 Kxg7 29.Qd4+ Kh7
-30.a3 Qb5 31.Bf1 Qc5 32.Qd2 Rc2 33.axb4 axb4 34.Qd1 Qc3 35.Bc4 Ra8 36.Bd3 Rd2
-37.Qf1 Qxd3 38.Qc1
-
 [Event "Frydek-Mistek op-A"]
 [Site "Frydek-Mistek"]
 [Date "1997.??.??"]
@@ -41103,24 +41085,6 @@
 16.cxd5 Nxd5 17.Bg5 Qb6 18.Rad1 Qxb2 19.Rd2 Qxa3 20.Qg4 a5 21.Re6 Qb4 22.Kg2 Nf6
 23.Qf4 Kg8 24.Bh6 Nd5 25.Qg5 Rf6 26.Rde2 Raf8 27.Bxg7 Kxg7 28.Qe5 Kg8 29.f4 Qb1
 30.Rxf6 Rxf6 31.Nf3 a4 32.Ng5  0-1
-
-[Event "Ostrava op"]
-[Site "Ostrava"]
-[Date "1997.??.??"]
-[Round "?"]
-[White "Kanok, J."]
-[Black "Soban, J."]
-[Result "*"]
-[WhiteElo ""]
-[BlackElo ""]
-[ECO "A89"]
-
-1.d4 f5 2.Nf3 Nf6 3.g3 g6 4.Bg2 Bg7 5.O-O O-O 6.c4 d6 7.Nc3 Nc6 8.Bf4 Ne4
-9.Nxe4 fxe4 10.Ng5 Nxd4 11.Nxe4 Bg4 12.f3 Bf5 13.Nc3 e5 14.Bd2 Be6 15.b3 Qd7
-16.e3 Nc6 17.Rc1 Rad8 18.Nd5 Ne7 19.Nxe7+ Qxe7 20.e4 Rf7 21.Be3 Qf8 22.Qd2 b6
-23.Rc3 h5 24.Rd3 Kh7 25.Bg5 Bh6 26.h4 Bxg5 27.Qxg5 Qe7 28.Qxe7 Rxe7 29.Kh2 Rf8
-30.Bh3 Kh6 31.Bxe6 Rxe6 32.Kg2 Ref6 33.b4 a6 34.Rc1 Rb8 35.Ra3 a5 36.bxa5 bxa5
-37.Rc2 Rg8 38.Rb3
 
 [Event "Ozery op1 Seniors"]
 [Site "Ozery"]
