@@ -24,8 +24,15 @@ class Setup < ApplicationRecord
       setup
     end
 
-    def create_abstraction(fen_notation)
+    def create_abstraction(fen_data)
       pattern_signature = [0]
+      # fen_data.board_string
+      # get 1st through 6th + turn
+      # get 2nd through 7th + turn
+      # get 3rd through 8th + turn
+      # 3 -- 6 + turn + castle data
+      # 1,2 and 7,8 + turn + castle data
+      # pattern for all attackers
       Abstraction.find_or_create_by(pattern: pattern_signature.join('-'))
     end
     # def create_abstraction(game_data)
