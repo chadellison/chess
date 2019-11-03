@@ -9,7 +9,11 @@ class StockfishIntegration
 
   def find_stockfish_move
     engine.multipv(3)
-    stockfish_result = engine.analyze(pgn_logic.convert_to_fen(game.notation), { depth: 12 })
+    begin
+      stockfish_result = engine.analyze(pgn_logic.convert_to_fen(game.notation), { depth: 12 })
+    rescue
+      binding.pry
+    end
     stockfish_result.split('bestmove').last.split('ponder').first.strip
   end
 

@@ -1,7 +1,6 @@
 class ActivityLogic
   def self.activity_pattern(game_data)
     return 0 if game_data.targets.include?(5) || game_data.targets.include?(29)
-
     ally_move_count = 0
     total_move_count = 0
 

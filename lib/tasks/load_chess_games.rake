@@ -32,8 +32,7 @@ def parse_file(file_number)
     setups = pgn_game.positions.map do |position|
       setup = Setup.find_setup(position.to_fen)
       setup.update_outcomes(outcome)
-      setup.save
-      REDIS.set('setup_' + setup.position_signature, setup.to_json)
+      REDIS.set('setup_' + setup.position_signature, SetupSerializer.serialize(setup))
     end
 
     puts 'OUTCOME: ' + outcome

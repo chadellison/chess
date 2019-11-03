@@ -7,13 +7,13 @@ class AttackLogic
     (1.0 - calculate_attack(game_data.target_pieces, game_data.turn)).round(1)
   end
 
-  def self.calculate_attack(pieces, turn)
+  def self.calculate_attack(pieces, opponent_color)
     attack_value = 0
     total_target_value = 0
 
     pieces.each do |target_piece|
       piece_value = target_piece.find_piece_value
-      attack_value += piece_value if target_piece.color == turn
+      attack_value += piece_value if target_piece.color == opponent_color
 
       total_target_value += piece_value
     end
@@ -35,7 +35,7 @@ class AttackLogic
     end
 
     return 0 if total_attack_value == 0
-    
+
     (1.0 - (threatened_attacker_value.to_f / total_attack_value.to_f)).round(1)
   end
 end

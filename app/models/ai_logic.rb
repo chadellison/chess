@@ -1,11 +1,9 @@
 class AiLogic
-  # attr_reader :neural_network
+  attr_reader :neural_network
 
-  include CacheLogic
-
-  # def initialize
-    # @neural_network = NeuralNetwork.new
-  # end
+  def initialize
+    @neural_network = NeuralNetwork.new
+  end
 
   def analyze(possible_moves, turn)
     weighted_moves = move_analysis(possible_moves)
@@ -30,20 +28,19 @@ class AiLogic
   end
 
   def evaluate_move(possible_move)
-    setup = possible_move.setup
-    position_signature = setup.position_signature
-    outcome = setup.find_outcome
-    # abstractions = setup.abstractions
-
-    if in_cache?('eval_' + position_signature)
-      get_from_cache('eval_' + position_signature)
-    elsif outcome.present?
-      outcome
-    else
-      0
-      # abstractions.map(&:find_outcome).sum / abstractions.size
-      # input = abstractions.map(&:find_outcome)
-      # neural_network.calculate_prediction(input)
-    end
+    # setup = possible_move.setup
+    # position_signature = setup.position_signature
+    # outcome = setup.find_outcome
+    #
+    # if in_cache?('eval_' + position_signature)
+    #   get_from_cache('eval_' + position_signature)
+    # elsif outcome != 0
+    #   outcome
+    # else
+    #   abstractions = setup.abstractions
+    #   abstractions.map(&:find_outcome).sum / abstractions.size
+    # end
+    input = possible_move.setup.abstraction
+    neural_network.calculate_prediction(input)
   end
 end

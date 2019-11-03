@@ -35,11 +35,14 @@ class GameMoveLogic
       )
 
       updated_notation = (notation.to_s.split('.') << new_notation)
-      fen_data = pgn_logic.convert_to_fen(updated_notation.join('.'))
       move_value = piece.position_index.to_s + move
       game_move = Move.new(value: move_value, move_count: updated_notation.size + 1)
+      fen_data = pgn_logic.convert_to_fen(updated_notation.join('.'))
 
-      setup = Setup.find_setup(fen_data)
+      game_pieces = refresh_board(pieces, move_value)
+      game_data = GameData.new(game_pieces, fen_data)
+
+      setup = Setup.find_setup(game_data)
       game_move.setup = setup
       game_move
     end

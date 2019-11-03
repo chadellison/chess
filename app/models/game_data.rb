@@ -1,15 +1,23 @@
 class GameData
-  attr_reader :move, :pieces, :turn, :targets
+  attr_reader :pieces, :targets, :fen_data, :turn
 
-  def initialize(move, pieces, turn)
-    @move = move
+  def initialize(pieces, fen_data)
     @pieces = pieces
-    @turn = turn
+    @fen_data = fen_data
+    @turn = fen_data.active == 'w' ? 'white' : 'black'
     @targets = pieces.map(&:enemy_targets).flatten
   end
 
   def opponent_color
     turn == 'white' ? 'black' : 'white'
+  end
+
+  def opponent_king
+    @opponent_king ||= opponents.detect { |piece| piece.piece_type == 'king' }
+  end
+
+  def ally_king
+    @ally_king ||= allies.detect { |piece| piece.piece_type == 'king' }
   end
 
   def opponents

@@ -137,7 +137,8 @@ class Game < ApplicationRecord
     else
       game_move = initialize_move(updated_piece)
       fen_data = pgn_logic.convert_to_fen(notation)
-      setup = Setup.find_setup(fen_data)
+      game_data = GameData.new(pieces, fen_data)
+      setup = Setup.find_setup(game_data)
       setup.save
       game_move.setup = setup
       add_to_cache(notation, game_move) if moves.size < 50
@@ -231,7 +232,11 @@ class Game < ApplicationRecord
   end
 
   def update_outcomes
-    moves.each { |move| move.setup.update_outcomes(outcome) }
+    moves.each do |move|
+      setup = move.setup
+      setup.update_outcomes(outcome)
+      setup.save
+    end
   end
 
   def update_piece_signature

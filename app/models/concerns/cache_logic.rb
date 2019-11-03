@@ -14,6 +14,10 @@ module CacheLogic
       REDIS.set(key, value.to_json)
       REDIS.expire(key, 1.day.to_i)
     end
+
+    def cache_setup(key, value)
+      REDIS.set(key, value)
+    end
   end
 
   def in_cache?(key)

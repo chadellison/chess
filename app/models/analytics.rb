@@ -11,8 +11,9 @@ class Analytics
   def move_analytics(analytics_params)
     deserialized_pieces = dersialize_pieces(analytics_params[:pieces])
     notation = analytics_params[:notation]
-
-    setup = Setup.find_setup(pgn_logic.convert_to_fen(notation))
+    fen_data = pgn_logic.convert_to_fen(notation)
+    game_data = GameData.new(deserialized_pieces, fen_data)
+    setup = Setup.find_setup(game_data)
 
     if in_cache?('analytics_' + setup.position_signature)
       JSON.parse(get_from_cache('analytics_' + setup.position_signature))
