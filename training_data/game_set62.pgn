@@ -857,20 +857,6 @@
 23.dxc6 Nxc6 24.Bd5 Nxd4 25.cxd4 Bd7 26.f5 Rde8 27.Qe4 Kh8 28.fxe6 Bc8 29.Rf7 Qg5
 30.Rxf8+ Rxf8 31.e7 Re8 32.Bc6 Bf5 33.Qe3 Qg6 34.Bxe8 Qxe8 35.Rf1  1-0
 
-[Event "Lodz"]
-[Site "Lodz"]
-[Date "1935.??.??"]
-[Round "5"]
-[White "Fine, Reuben"]
-[Black "Steiner, Lajos"]
-[Result "*"]
-[WhiteElo ""]
-[BlackElo ""]
-[ECO "E24"]
-
-1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.a3 Bxc3+ 5.bxc3 c5 6.f3 d5 7.e3 O-O 8.Bd3 Qc7
-9.cxd5 cxd4 10.Qc2 dxe3 11.dxe6 Bxe6 12.Bxe3 Bc4
-
 [Event "Moscow"]
 [Site "Moscow"]
 [Date "1935.??.??"]
@@ -22169,30 +22155,6 @@
 30.Be5 Nb6 31.Rxd7 Rxd7 32.Rxd7 Nxd7 33.Bc3 Kf7 34.Kf2 g6 35.Ke3 Ke6 36.Ke4 Nb6
 37.Bd2 Nc4 38.Bc1 Nd6+ 39.Kd3 Kd5 40.Bd2 Nc4 41.Bc1 a5 42.Kc2 a4 43.Kd3 b4
 44.axb4 cxb4 45.Kc2 Kd4 46.Bf4 b3+ 47.Kb1 a3 48.Ka1 Ne3 49.Bd6 Nc2+  0-1
-
-[Event "Pinneberg op"]
-[Site "Pinneberg"]
-[Date "1994.??.??"]
-[Round "?"]
-[White "Sausmikat, Michael"]
-[Black "Eggers, Uwe"]
-[Result "*"]
-[WhiteElo ""]
-[BlackElo ""]
-[ECO "E24"]
-
-1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.a3 Bxc3+ 5.bxc3 h6 6.Nh3 b6 7.f3 Bb7 8.e4 d6
-9.Bd3 e5 10.d5 Nbd7 11.Be3 Nc5 12.Be2 O-O 13.O-O c6 14.Nf2 cxd5 15.cxd5 Qd7
-16.c4 Ba6 17.a4 Rac8 18.Qb1 Nb7 19.Qa2 Na5 20.Rfc1 Rc7 21.Rc2 Rfc8 22.Rac1 Qe8
-23.Nd1 Qd7 24.Bf2 Qe7 25.Ne3 g6 26.Nd1 Kg7 27.Bh4 Qd8 28.Ne3 Qd7 29.Rf1 Nh5
-30.Rfc1 Nf4 31.Bd1 Nh5 32.Be1 Nb7 33.Bb4 Nf4 34.Rc3 Nc5 35.Bxc5 Rxc5 36.g3 Nh5
-37.Qd2 Qh3 38.Be2 Qd7 39.R3c2 Bb7 40.Ra2 Ba6 41.Rac2 Bb7 42.Ng4 Rh8 43.Ra1 f5
-44.Nf2 Nf6 45.a5 fxe4 46.fxe4 Qc7 47.axb6 axb6 48.Raa2 Ra8 49.Rxa8 Bxa8 50.Qb4 Nd7
-51.Ng4 Ra5 52.Qd2 Ra1+ 53.Kg2 g5 54.h4 Qc5 55.Bf1 Qd4 56.Qxd4 exd4 57.hxg5 hxg5
-58.Rd2 Nc5 59.Rxd4 Re1 60.Nf2 Bb7 61.Bd3 Nb3 62.c5 Nxd4 63.cxd6 Bc8 64.e5 Kf8
-65.e6 Nxe6 66.dxe6 Rxe6 67.Bf5 Bb7+ 68.Kh3 Rxd6 69.Kg4 Rd2 70.Nh3 b5 71.Kxg5 b4
-72.Nf4 b3 73.Ne6+ Ke7 74.Nc5 Bd5 75.Na4 Bc6 76.Nc3 Bd7 77.Be4 b2 78.Kf4 Kf6
-79.Ke3 Rh2 80.Kf4 Be6 81.Ke3 Ke5 82.Kf3 Kd4 83.Ne2+ Rxe2 84.Kxe2 Kxe4 85.Kd2 b1=Q
 
 [Event "POR-ch"]
 [Site "?"]

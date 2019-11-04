@@ -25627,20 +25627,6 @@
 51.Kf3 Rxe5 52.Rd6 g4+ 53.Kg3 Kg5 54.Bd7 Rxa5 55.Rxe6 h4+ 56.Kg2 Ra2+ 57.Kg1 h3
 58.Re4 Rg2+ 59.Kh1 Kh4 60.Ra4 Rg3 61.Kh2  1/2-1/2
 
-[Event "Konik op"]
-[Site "?"]
-[Date "1995.??.??"]
-[Round "?"]
-[White "Cempel, Jaroslav"]
-[Black "Hlubina, P."]
-[Result "*"]
-[WhiteElo "2235"]
-[BlackElo "2050"]
-[ECO "D78"]
-
-1.d4 d5 2.c4 Nf6 3.Nf3 g6 4.g3 Bg7 5.Bg2 O-O 6.O-O c6 7.Nc3 Nbd7 8.e4 e5
-9.h3 Re8 10.dxe5 dxe4
-
 [Event "La Coruna TH op"]
 [Site "La Coruna"]
 [Date "1995.??.??"]
@@ -32595,22 +32581,6 @@
 9.Bf4 Nxc3 10.bxc3 Nc6 11.Rb1 Qa5 12.Qd2 Qa6 13.Rfe1 Bf5 14.Rbd1 Be4 15.Bf1 Na5
 16.Ne5 Bxe5 17.dxe5 Nc4 18.Qd4 Qb6 19.f3 Bc2 20.Rc1 Qxd4+ 21.cxd4 Na3 22.e4 Rfd8
 23.Re3  1-0
-
-[Event "EE Internet sim"]
-[Site "Cannes"]
-[Date "1998.02.28"]
-[Round "?"]
-[White "Karpov, Anatoly"]
-[Black "Pribyl, Martin"]
-[Result "*"]
-[WhiteElo "2735"]
-[BlackElo "2350"]
-[ECO "D77"]
-
-1.d4 Nf6 2.c4 g6 3.g3 Bg7 4.Bg2 d5 5.Nf3 O-O 6.O-O dxc4 7.Na3 c3 8.bxc3 c5
-9.e3 Nc6 10.Qe2 Bf5 11.Bb2 e5 12.h3 exd4 13.cxd4 Be4 14.Rfd1 cxd4 15.Nxd4 Bxg2
-16.Kxg2 Nxd4 17.Bxd4 Qd5+ 18.Qf3 Rfd8 19.Rac1 b6 20.Nb5 Qxf3+ 21.Kxf3 Rd5
-22.a4
 
 [Event "CZE-chT 9798"]
 [Site "CZE"]

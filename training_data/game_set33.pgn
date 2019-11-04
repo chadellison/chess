@@ -10498,25 +10498,6 @@
 [Event "World op"]
 [Site "Philadelphia"]
 [Date "1990.??.??"]
-[Round "3"]
-[White "Fishbein, Alexander"]
-[Black "Browne, Walter S"]
-[Result "*"]
-[WhiteElo "2470"]
-[BlackElo "2560"]
-[ECO "E00"]
-
-1.d4 Nf6 2.c4 e6 3.g3 Bb4+ 4.Nd2 c5 5.a3 Bxd2+ 6.Qxd2 cxd4 7.Nf3 d5 8.Bg2 Nc6
-9.Nxd4 O-O 10.cxd5 exd5 11.O-O Re8 12.b4 Nxd4 13.Qxd4 Rxe2 14.Bg5 Be6 15.Rfc1 h6
-16.Bf3 hxg5 17.Bxe2 Qd6 18.Re1 Nd7 19.Bg4 Bxg4 20.Qxg4 Ne5 21.Qe2 f6 22.h3 Qd7
-23.Kg2 d4 24.Qe4 Kf7 25.Rad1 Rd8 26.Re2 d3 27.Red2 Qd4 28.Qxd4 Rxd4 29.f3 Ke6
-30.Rc1 b5 31.Rcd1 Kd5 32.Kf2 f5 33.Ra2 a6 34.Rb2 f4 35.Rbd2 Kc4 36.gxf4 gxf4
-37.Rg1 Kc3 38.Rdd1 d2 39.Rxg7 Nd3+ 40.Ke2 Nc1+ 41.Kf2 Nd3+ 42.Ke2 Nc1+ 43.Kf2 Kc2
-44.Rgg1 Rd5 45.Rdf1 Nd3+ 46.Kg2 Rg5+ 47.Kh2 Rxg1 48.Rxg1 Ne1
-
-[Event "World op"]
-[Site "Philadelphia"]
-[Date "1990.??.??"]
 [Round "4"]
 [White "Griego, David W"]
 [Black "Rashkovsky, Nukhim N"]
