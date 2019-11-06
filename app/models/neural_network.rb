@@ -1,6 +1,6 @@
 class NeuralNetwork
-  ALPHA = 0.01
-  WEIGHT_COUNTS = [200, 300, 150, 10]
+  ALPHA = 0.001
+  WEIGHT_COUNTS = [200, 300, 150, 30]
   OFFSETS = [0, 200, 500, 650]
   VECTOR_COUNTS = [10, 20, 15, 10]
 
@@ -42,7 +42,7 @@ class NeuralNetwork
     @layer_one_predictions = leaky_relu(multiply_vector(input, layer_one_weights))
     @layer_two_predictions = leaky_relu(multiply_vector(layer_one_predictions, layer_two_weights))
     @layer_three_predictions = leaky_relu(multiply_vector(layer_two_predictions, layer_three_weights))
-    @layer_four_predictions = (multiply_vector(layer_three_predictions, layer_four_weights))
+    @layer_four_predictions = softmax((multiply_vector(layer_three_predictions, layer_four_weights)))
   end
 
   def weighted_sum(input, weights)
@@ -76,9 +76,10 @@ class NeuralNetwork
     input = normalize_values(abstraction)
 
     calculate_prediction(abstraction)
-    outcomes = calculate_outcomes(abstraction)
+    outcomes = softmax(calculate_outcomes(abstraction))
 
     update_deltas(outcomes)
+    # binding.pry
     update_weights(layer_four_deltas, layer_four_weights)
     update_weights(layer_three_deltas, layer_three_weights)
     update_weights(layer_two_deltas, layer_two_weights)
@@ -101,7 +102,8 @@ class NeuralNetwork
   def save_weights
     all_weight_values = layer_one_weights.flatten +
                         layer_two_weights.flatten +
-                        layer_three_weights.flatten
+                        layer_three_weights.flatten +
+                        layer_four_weights.flatten
 
     Weight.order(:weight_count).each_with_index do |weight, index|
       weight.update(value: all_weight_values[index].to_s)
@@ -153,23 +155,51 @@ class NeuralNetwork
   end
 
   def calculate_outcomes(abstraction)
-    numerator = 0.0
+    current_turn_numerator = 0.0
+    next_turn_numerator = 0.0
+    draw_numerator = 0.0
     denominator = 0.0
 
     abstraction.setups.each do |setup|
       white_wins = setup.outcomes[:white_wins].to_f
       black_wins = setup.outcomes[:black_wins].to_f
-
+      draws = setup.outcomes[:draws].to_f
       if setup.position_signature[-1] == 'w'
-        numerator += white_wins
+        current_turn_numerator += white_wins
+        next_turn_numerator += black_wins
       else
-        numerator += black_wins
+        current_turn_numerator += black_wins
+        next_turn_numerator += white_wins
       end
+
+      draw_numerator += draws
       denominator += white_wins + black_wins
     end
 
-    [handle_ratio(numerator, denominator)]
+    [
+      handle_ratio(current_turn_numerator, denominator),
+      handle_ratio(next_turn_numerator, denominator),
+      handle_ratio(draw_numerator, denominator),
+    ]
   end
+  # def calculate_outcomes(abstraction)
+  #   numerator = 0.0
+  #   denominator = 0.0
+  #
+  #   abstraction.setups.each do |setup|
+  #     white_wins = setup.outcomes[:white_wins].to_f
+  #     black_wins = setup.outcomes[:black_wins].to_f
+  #
+  #     if setup.position_signature[-1] == 'w'
+  #       numerator += white_wins
+  #     else
+  #       numerator += black_wins
+  #     end
+  #     denominator += white_wins + black_wins
+  #   end
+  #
+  #   [handle_ratio(numerator, denominator)]
+  # end
 
   def handle_ratio(numerator, denominator)
     return 0 if numerator == 0 || denominator == 0
@@ -197,5 +227,16 @@ class NeuralNetwork
 
   def back_propagation_multiplyer(v1, v2)
     v1.zip(v2).map { |set| set[0] * set[1] }
+  end
+
+  def softmax(vector)
+    sum = vector.sum.to_f
+    vector.map do |value|
+      if value == 0
+        0
+      else
+        value / sum
+      end
+    end
   end
 end
