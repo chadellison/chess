@@ -23,4 +23,14 @@ class AiLogic
   def find_best_move(weighted_moves, turn)
     weighted_moves.max_by { |move_value, predictions| predictions.first }.first
   end
+
+  def random_move(game)
+    turn = game.current_turn
+    game_pieces = game.pieces.select { |piece| piece.color == turn }
+    game_moves = game_pieces.map do |piece|
+      piece.valid_moves.map { |move| piece.position_index.to_s + move }
+    end.flatten
+
+    game_moves.sample
+  end
 end

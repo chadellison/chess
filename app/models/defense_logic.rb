@@ -1,4 +1,16 @@
 class DefenseLogic
+  def self.general_defense_pattern(game_data)
+    numerator = 0.0
+    denominator = 0.0
+    game_data.pieces.each do |piece|
+      defender_size = Piece.defenders(piece.position_index, game_data.pieces).size
+      numerator += defender_size if piece.color == game_data.turn
+      denominator += defender_size
+    end
+
+    (numerator / denominator).round(1)
+  end
+
   def self.ally_defense_pattern(game_data)
     (calculate_defense(game_data.pieces, game_data.ally_targets)).round(1)
   end

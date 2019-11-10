@@ -1,6 +1,6 @@
 desc 'Train on stockfish'
 task train_on_stockfish: :environment do
-  neural_network = NeuralNetwork.new
+  ai_logic = AiLogic.new
 
   ENV['COUNT'].to_i.times do |game_number|
     game = Game.create(analyzed: true)
@@ -22,7 +22,8 @@ task train_on_stockfish: :environment do
 
         game.move(position_index, stockfish_move[2..3], upgraded_type)
       else
-        make_random_move(game, turn)
+        move_value = ai_logic.random_move(game)
+        game.move(move_value.to_i, move_value[-2..-1], game.promote_pawn(move_value))
       end
     end
 
@@ -35,15 +36,4 @@ task train_on_stockfish: :environment do
     puts "OUTCOME:  #{game.outcome}"
     puts '---------------THE END---------------'
   end
-end
-
-def make_random_move(game, turn)
-    game_pieces = game.pieces.select { |piece| piece.color == turn }
-    game_moves = game_pieces.map do |piece|
-      piece.valid_moves.map { |move| piece.position_index.to_s + move }
-    end.flatten
-
-    move_value = game_moves.sample
-
-    game.move(move_value.to_i, move_value[-2..-1], game.promote_pawn(move_value))
 end

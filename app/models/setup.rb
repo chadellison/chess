@@ -31,8 +31,12 @@ class Setup < ApplicationRecord
       CenterLogic.center_control_pattern(game_data),
       DefenseLogic.ally_defense_pattern(game_data),
       DefenseLogic.opponent_defense_pattern(game_data),
+      # DefenseLogic.general_defense_pattern(game_data),
+      DiagonalLogic.ally_diagonal_pattern(game_data),
+      DiagonalLogic.opponent_diagonal_pattern(game_data),
       DevelopmentLogic.development_pattern(game_data),
       MaterialLogic.material_pattern(game_data),
+      PinLogic.pin_pattern(game_data),
       KingThreatLogic.king_threat_pattern(game_data),
       # TempoLogic.create_signature(game_data),
       # ThreatLogic.create_signature(game_data)

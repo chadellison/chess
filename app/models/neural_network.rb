@@ -1,8 +1,8 @@
 class NeuralNetwork
   ALPHA = 0.001
-  WEIGHT_COUNTS = [200, 300, 150, 30]
-  OFFSETS = [0, 200, 500, 650]
-  VECTOR_COUNTS = [10, 20, 15, 10]
+  WEIGHT_COUNTS = [260, 300, 150, 30]
+  OFFSETS = [0, 260, 560, 710]
+  VECTOR_COUNTS = [13, 20, 15, 10]
 
   include CacheLogic
 
@@ -42,7 +42,7 @@ class NeuralNetwork
     @layer_one_predictions = leaky_relu(multiply_vector(input, layer_one_weights))
     @layer_two_predictions = leaky_relu(multiply_vector(layer_one_predictions, layer_two_weights))
     @layer_three_predictions = leaky_relu(multiply_vector(layer_two_predictions, layer_three_weights))
-    @layer_four_predictions = softmax((multiply_vector(layer_three_predictions, layer_four_weights)))
+    @layer_four_predictions = (multiply_vector(layer_three_predictions, layer_four_weights))
   end
 
   def weighted_sum(input, weights)
@@ -79,7 +79,6 @@ class NeuralNetwork
     outcomes = softmax(calculate_outcomes(abstraction))
 
     update_deltas(outcomes)
-    # binding.pry
     update_weights(layer_four_deltas, layer_four_weights)
     update_weights(layer_three_deltas, layer_three_weights)
     update_weights(layer_two_deltas, layer_two_weights)
@@ -116,7 +115,6 @@ class NeuralNetwork
       delta = predictions[index] - outcomes[index]
       deltas[index] = delta
       error = delta ** 2
-      # puts 'ERROR: ' + error.to_s
       update_error_rate(error)
     end
 
@@ -182,24 +180,6 @@ class NeuralNetwork
       handle_ratio(draw_numerator, denominator),
     ]
   end
-  # def calculate_outcomes(abstraction)
-  #   numerator = 0.0
-  #   denominator = 0.0
-  #
-  #   abstraction.setups.each do |setup|
-  #     white_wins = setup.outcomes[:white_wins].to_f
-  #     black_wins = setup.outcomes[:black_wins].to_f
-  #
-  #     if setup.position_signature[-1] == 'w'
-  #       numerator += white_wins
-  #     else
-  #       numerator += black_wins
-  #     end
-  #     denominator += white_wins + black_wins
-  #   end
-  #
-  #   [handle_ratio(numerator, denominator)]
-  # end
 
   def handle_ratio(numerator, denominator)
     return 0 if numerator == 0 || denominator == 0
