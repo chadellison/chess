@@ -1,8 +1,8 @@
 class NeuralNetwork
   ALPHA = 0.001
-  WEIGHT_COUNTS = [260, 300, 150, 30]
-  OFFSETS = [0, 260, 560, 710]
-  VECTOR_COUNTS = [13, 20, 15, 10]
+  WEIGHT_COUNTS = [300, 300, 150, 30]
+  OFFSETS = [0, 300, 600, 750]
+  VECTOR_COUNTS = [15, 20, 15, 10]
 
   include CacheLogic
 
@@ -153,38 +153,69 @@ class NeuralNetwork
   end
 
   def calculate_outcomes(abstraction)
-    current_turn_numerator = 0.0
-    next_turn_numerator = 0.0
-    draw_numerator = 0.0
-    denominator = 0.0
+    # current_turn_numerator = 0.0
+    # next_turn_numerator = 0.0
+    # draw_numerator = 0.0
+    # denominator = 0.0
+    #
+    # abstraction.setups.each do |setup|
+    #   white_wins = setup.outcomes[:white_wins].to_f
+    #   black_wins = setup.outcomes[:black_wins].to_f
+    #   draws = setup.outcomes[:draws].to_f
+    #
+    #   if setup.position_signature[-1] == 'w'
+    #     current_turn_numerator += white_wins
+    #     next_turn_numerator += black_wins
+    #   else
+    #     current_turn_numerator += black_wins
+    #     next_turn_numerator += white_wins
+    #   end
+    #
+    #   draw_numerator += draws
+    #   denominator += white_wins + black_wins
+    # end
+    #
+    # [
+    #   handle_ratio(current_turn_numerator, denominator),
+    #   handle_ratio(next_turn_numerator, denominator),
+    #   handle_ratio(draw_numerator, denominator),
+    # ]
+
+    first = 0.0
+    second = 0.0
+    third = 0.0
+    # denominator = 0.0
 
     abstraction.setups.each do |setup|
       white_wins = setup.outcomes[:white_wins].to_f
       black_wins = setup.outcomes[:black_wins].to_f
       draws = setup.outcomes[:draws].to_f
+
       if setup.position_signature[-1] == 'w'
-        current_turn_numerator += white_wins
-        next_turn_numerator += black_wins
+        first += white_wins
+        second += black_wins
       else
-        current_turn_numerator += black_wins
-        next_turn_numerator += white_wins
+        second += black_wins
+        first += white_wins
       end
 
-      draw_numerator += draws
-      denominator += white_wins + black_wins
+      third = draws
+      # draw_numerator += draws
+      # denominator += white_wins + black_wins
     end
 
-    [
-      handle_ratio(current_turn_numerator, denominator),
-      handle_ratio(next_turn_numerator, denominator),
-      handle_ratio(draw_numerator, denominator),
-    ]
+    [first, second, third]
+    # [
+    #   handle_ratio(current_turn_numerator, denominator),
+    #   handle_ratio(next_turn_numerator, denominator),
+    #   handle_ratio(draw_numerator, denominator),
+    # ]
   end
 
-  def handle_ratio(numerator, denominator)
-    return 0 if numerator == 0 || denominator == 0
-    numerator / denominator
-  end
+  # def handle_ratio(numerator, denominator)
+  #   return 0 if numerator == 0 || denominator == 0
+  #   numerator / denominator
+  # end
 
   # def tanh(input)
   #   input.map { |value| Math.tanh(value) }

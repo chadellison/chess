@@ -9,6 +9,19 @@ class GameData
     @targets = pieces.map(&:enemy_targets).flatten
   end
 
+  def defender_index
+    if @defender_index.present?
+      @defender_index
+    else
+      @defender_index = {}
+      pieces.each do |piece|
+        key = piece.position_index
+        @defender_index[key] = Piece.defenders(key, pieces)
+      end
+      @defender_index
+    end
+  end
+
   def opponent_color
     turn == 'white' ? 'black' : 'white'
   end
@@ -35,5 +48,9 @@ class GameData
 
   def opponent_targets
     target_pieces.select { |target_piece| target_piece == opponent_color }
+  end
+
+  def pawns
+    @pawns ||= pieces.select { |piece| piece.piece_type == 'pawn' }
   end
 end

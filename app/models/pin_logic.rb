@@ -16,7 +16,9 @@ class PinLogic
       total + calculate_pins(piece, game_data.allies)
     end
 
-    return 0 if numerator == 0
+    return 0.0 if numerator == 0.0
+    x = (numerator.to_f / (numerator + opponent_pin_value).to_f).round(1)
+    binding.pry if x.blank?
     (numerator.to_f / (numerator + opponent_pin_value).to_f).round(1)
   end
 

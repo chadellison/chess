@@ -4,6 +4,6 @@ class KingThreatLogic
       (ally.enemy_targets.include?(5) || ally.enemy_targets.include?(29)) &&
         !game_data.targets.include?(ally.position_index)
     end
-    can_threaten ? 1 : 0
+    can_threaten ? 1.0 : 0.0
   end
 end

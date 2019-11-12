@@ -30,12 +30,12 @@ class AttackLogic
       total
     end
 
-    total_attack_value = game_data.target_pieces.reduce(0) do |total, opponent_target|
-      total + opponent_target.find_piece_value
+    total_attack_value = game_data.target_pieces.reduce(0) do |total, target|
+      total + target.find_piece_value
     end
 
     return 0 if total_attack_value == 0
-    
+
     (1.0 - (threatened_attacker_value.to_f / total_attack_value.to_f)).round(1)
   end
 end
