@@ -145,11 +145,11 @@ class NeuralNetwork
   end
 
   def leaky_relu(input)
-    input.map { |value| value > 0 ? value : 0.01 }
+    input.map { |value| value > 0 ? value : 0.0001 }
   end
 
   def relu_derivative(output)
-    output.map { |value| value > 0 ? 1 : 0.01 }
+    output.map { |value| value > 0 ? 1 : 0.0001 }
   end
 
   def calculate_outcomes(abstraction)
