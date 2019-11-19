@@ -39,18 +39,38 @@ class GameData
   end
 
   def ally_attackers
-    allies.select { |ally| ally.enemy_targets.present? }
+    @ally_attackers ||= allies.select { |ally| ally.enemy_targets.present? }
+  end
+
+  def opponent_attackers
+    @opponent_attackers ||= opponents.select do |opponent|
+      opponent.enemy_targets.present?
+    end
   end
 
   def ally_targets
-    target_pieces.select { |target_piece| target_piece == turn }
+    @ally_targets ||= target_pieces.select { |target_piece| target_piece == turn }
   end
 
   def opponent_targets
-    target_pieces.select { |target_piece| target_piece == opponent_color }
+    @opponent_targets ||= target_pieces.select { |target_piece| target_piece == opponent_color }
   end
 
   def pawns
     @pawns ||= pieces.select { |piece| piece.piece_type == 'pawn' }
+  end
+
+  def duplicated_targets
+    @duplicated_targets ||= pieces.select do |piece|
+      piece.enemy_targets.present?
+    end.map(&:enemy_targets).flatten.map do |target_id|
+      target_pieces.detect { |target| target.position_index == target_id }
+    end
+  end
+
+  def non_targeted_ally_attackers
+    @non_targeted_ally_attackers ||= ally_attackers.select do |ally|
+      !targets.include?(ally.position_index)
+    end
   end
 end

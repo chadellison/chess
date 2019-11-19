@@ -15,7 +15,7 @@ class AiLogic
     possible_moves.each do |possible_move|
       neural_network.calculate_prediction(possible_move.setup.abstraction)
       weighted_moves[possible_move.value] = neural_network.layer_four_predictions
-      puts "#{possible_move.value} ==> #{neural_network.layer_four_predictions}"
+      # puts "#{possible_move.value} ==> #{neural_network.layer_four_predictions}"
     end
     weighted_moves
   end

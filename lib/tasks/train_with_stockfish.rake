@@ -39,20 +39,28 @@ def play_stockfish
   puts "FINISHED GAME IN #{Time.at(total_time).utc.strftime("%H:%M:%S")}!"
   puts "OUTCOME: #{game.outcome}"
   train_network
-  play_stockfish
+  begin
+    play_stockfish
+  rescue
+    play_stockfish
+  end
 end
 
 def train_network
   neural_network = NeuralNetwork.new
   REDIS.set('error_rate', { error: 0, count: 0 }.to_json)
 
-  abstractions = Abstraction.order('RANDOM()').limit(10000)
-  abstractions.each do |abstraction|
-    neural_network.train(abstraction)
+  setups = Setup.order('RANDOM()').limit(1000)
+  count = 0
+  setups.each do |setup|
+    neural_network.train(setup.abstraction)
     # puts 'COUNT: ' + count.to_s
 
     error_object = JSON.parse(REDIS.get('error_rate')).symbolize_keys
     accuracy = error_object[:count] - error_object[:error]
-    puts 'ACCURACY: ********************' + (accuracy.to_f / error_object[:count].to_f).to_s
+    count += 1
+    if count % 100 == 0
+      puts 'ACCURACY: ********************' + (accuracy.to_f / error_object[:count].to_f).to_s
+    end
   end
 end
