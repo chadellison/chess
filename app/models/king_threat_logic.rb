@@ -1,6 +1,6 @@
 class KingThreatLogic
-  def self.king_threat_pattern(game_data)
-    can_threaten = game_data.allies.any? do |ally|
+  def self.check_pattern(game_data)
+    can_threaten = game_data.ally_attackers.any? do |ally|
       (ally.enemy_targets.include?(5) || ally.enemy_targets.include?(29)) &&
         !game_data.targets.include?(ally.position_index)
     end

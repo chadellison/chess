@@ -37,7 +37,7 @@ class Setup < ApplicationRecord
       DevelopmentLogic.development_pattern(game_data),
       MaterialLogic.material_pattern(game_data),
       PinLogic.pin_pattern(game_data),
-      KingThreatLogic.king_threat_pattern(game_data),
+      KingThreatLogic.check_pattern(game_data),
       TempoLogic.tempo_pattern(game_data),
     ]
     Abstraction.find_or_create_by(pattern: pattern_signature.join('-'))

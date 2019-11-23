@@ -60,6 +60,10 @@ class GameData
     @pawns ||= pieces.select { |piece| piece.piece_type == 'pawn' }
   end
 
+  def kings
+    @kings ||= pieces.select { |piece| piece.piece_type == 'king' }
+  end
+
   def duplicated_targets
     @duplicated_targets ||= pieces.select do |piece|
       piece.enemy_targets.present?

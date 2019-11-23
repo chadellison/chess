@@ -3,6 +3,10 @@ task train_with_stockfish: :environment do
   play_stockfish
 end
 
+def ai_logic
+  @ai_logic ||= AiLogic.new
+end
+
 def play_stockfish
   game = Game.create(analyzed: true)
   openings = ['17a3', '20d4', '21e4', '31f3', '19c4', '23g4', '23g3', '24h3']
@@ -27,7 +31,13 @@ def play_stockfish
 
       game.move(position_index, stockfish_move[2..3], upgraded_type)
     else
-      game.ai_move
+      value = rand(10)
+      if value < 8
+        game.ai_move
+      else
+        move_value = ai_logic.random_move(game)
+        game.move(move_value.to_i, move_value[-2..-1], game.promote_pawn(move_value))
+      end
     end
   end
 
@@ -54,13 +64,14 @@ def train_network
   count = 0
   setups.each do |setup|
     neural_network.train(setup.abstraction)
-    # puts 'COUNT: ' + count.to_s
 
     error_object = JSON.parse(REDIS.get('error_rate')).symbolize_keys
     accuracy = error_object[:count] - error_object[:error]
     count += 1
     if count % 100 == 0
       puts 'ACCURACY: ********************' + (accuracy.to_f / error_object[:count].to_f).to_s
+      REDIS.set('error_rate', { error: 0, count: 0 }.to_json)
+      neural_network.save_weights
     end
   end
 end
