@@ -49,11 +49,11 @@ class GameData
   end
 
   def ally_targets
-    @ally_targets ||= target_pieces.select { |target_piece| target_piece == turn }
+    @ally_targets ||= target_pieces.select { |target_piece| target_piece.color == turn }
   end
 
   def opponent_targets
-    @opponent_targets ||= target_pieces.select { |target_piece| target_piece == opponent_color }
+    @opponent_targets ||= target_pieces.select { |target_piece| target_piece.color == opponent_color }
   end
 
   def pawns
