@@ -1,8 +1,8 @@
 class NeuralNetwork
   ALPHA = 0.001
-  WEIGHT_COUNTS = [300, 300, 150, 30]
-  OFFSETS = [0, 300, 600, 750]
-  VECTOR_COUNTS = [15, 20, 15, 10]
+  WEIGHT_COUNTS = [320, 300, 150, 30]
+  OFFSETS = [0, 320, 620, 770]
+  VECTOR_COUNTS = [16, 20, 15, 10]
 
   include CacheLogic
 
@@ -88,13 +88,10 @@ class NeuralNetwork
   def update_deltas(outcomes)
     @layer_four_deltas = find_deltas(layer_four_predictions, outcomes)
     l_4_weighted = multiply_vector(layer_four_deltas, layer_four_weights.transpose)
-
     @layer_three_deltas = back_propagation_multiplyer(l_4_weighted, relu_derivative(layer_three_predictions))
     l_3_weighted = multiply_vector(layer_three_deltas, layer_three_weights.transpose)
-
     @layer_two_deltas = back_propagation_multiplyer(l_3_weighted, relu_derivative(layer_two_predictions))
     l_2_weighted = multiply_vector(layer_two_deltas, layer_two_weights.transpose)
-
     @layer_one_deltas = back_propagation_multiplyer(l_2_weighted, relu_derivative(layer_one_predictions))
   end
 

@@ -20,13 +20,27 @@ class GameMoveLogic
     piece.valid_moves.map do |move|
       move_value = piece.position_index.to_s + move
       game_move = Move.new(value: move_value, move_count: move_count)
-      game_pieces = refresh_board(pieces, move_value)
-      game_data = GameData.new(game_move, game_pieces, turn, material_value)
+      game_data = create_game_data(piece, pieces, game_move, turn, material_value)
+
+      # moved_piece = game_data.pieces.detect { |p| p.position_index == piece.position_index }
+      # children = moved_piece.valid_moves.map do |new_move|
+      #   new_move_value = moved_piece.position_index.to_s + new_move
+      #   new_game_move = Move.new(value: new_move_value)
+      #   new_material_value = find_material_value(game_data.pieces, turn)
+      #   create_game_data(moved_piece, game_data.pieces, new_game_move, turn, new_material_value)
+      # end
+
+      # game_data.set_children(children)
       setup = Setup.find_setup(game_data)
       game_move.setup = setup
       game_move.checkmate = CheckmateLogic.is_checkmate?(game_data)
       game_move
     end
+  end
+
+  def create_game_data(piece, pieces, game_move, turn, material_value)
+    game_pieces = refresh_board(pieces, game_move.value)
+    GameData.new(game_move, game_pieces, turn, material_value)
   end
 
   def pieces_with_next_move(game_pieces, move)
@@ -80,7 +94,7 @@ class GameMoveLogic
     [
       piece.piece_type == 'pawn',
       piece.position[0] != position[0],
-      game_pieces.detect { |p| p.position == position }.blank?
+      game_pieces.none? { |p| p.position == position }
     ].all?
   end
 
@@ -108,7 +122,7 @@ class GameMoveLogic
   end
 
   def handle_en_passant(pawn_move_value, pieces)
-    captured_row = pawn_move_value[-1] == '6' ? '5' : '3'
+    captured_row = pawn_move_value[-1] == '6' ? '5' : '4'
     pieces.reject do |game_piece|
       game_piece.position == pawn_move_value[-2] + captured_row
     end

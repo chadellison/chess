@@ -7,7 +7,12 @@ class GameData
     @material_value = material_value
     @turn = turn
     @targets = pieces.map(&:enemy_targets).flatten
+    # @children = []
   end
+
+  # def set_children(children)
+  #   @children = children
+  # end
 
   def defender_index
     if @defender_index.present?
@@ -65,9 +70,7 @@ class GameData
   end
 
   def duplicated_targets
-    @duplicated_targets ||= pieces.select do |piece|
-      piece.enemy_targets.present?
-    end.map(&:enemy_targets).flatten.map do |target_id|
+    @duplicated_targets ||= targets.map do |target_id|
       target_pieces.detect { |target| target.position_index == target_id }
     end
   end
@@ -75,6 +78,18 @@ class GameData
   def non_targeted_ally_attackers
     @non_targeted_ally_attackers ||= ally_attackers.select do |ally|
       !targets.include?(ally.position_index)
+    end
+  end
+
+  def moved_piece
+    if @moved_piece.present?
+      @moved_piece
+    else
+      last_moved_index = move.value.to_i
+      @moved_piece = allies.detect do |ally|
+        ally.position_index == last_moved_index
+      end
+      @moved_piece
     end
   end
 end

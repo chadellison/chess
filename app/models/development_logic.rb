@@ -14,7 +14,7 @@ class DevelopmentLogic
       total_development -= 1
     end
 
-    return 0 if total_development == 0
+    return 0.0 if total_development == 0
     (ally_development.to_f / total_development.to_f).round(1)
   end
 end

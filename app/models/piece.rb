@@ -15,13 +15,13 @@ class Piece
       target_piece.color == piece.color &&
         piece.moves_for_piece.include?(square) &&
         piece.valid_move_path?(square, game_pieces.map(&:position)) &&
-        piece.valid_for_piece?(square, game_pieces) &&
-        Piece.king_is_safe?(
-          piece.color,
-          piece.game_move_logic.pieces_with_next_move(
-            game_pieces, piece.position_index.to_s + square
-          )
-        )
+        piece.valid_for_piece?(square, game_pieces) #&&
+        # Piece.king_is_safe?(
+        #   piece.color,
+        #   piece.game_move_logic.pieces_with_next_move(
+        #     game_pieces, piece.position_index.to_s + square
+        #   )
+        # )
     end
   end
 

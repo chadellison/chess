@@ -17,8 +17,6 @@ class PinLogic
     end
 
     return 0.0 if numerator == 0.0
-    x = (numerator.to_f / (numerator + opponent_pin_value).to_f).round(1)
-    binding.pry if x.blank?
     (numerator.to_f / (numerator + opponent_pin_value).to_f).round(1)
   end
 
