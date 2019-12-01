@@ -4,7 +4,7 @@ class AttackLogic
                                    .map(&:enemy_targets)
                                    .flatten
                                    .uniq
-                                   
+
     calculate_attack(opponent_target_ids, game_data.duplicated_targets).round(1)
   end
 
@@ -29,6 +29,7 @@ class AttackLogic
   end
 
   def self.threatened_attacker_pattern(game_data)
+    # ally targets who are also defenders
     threatened_attacker_value = game_data.ally_attackers.reduce(0) do |total, ally_attacker|
       if game_data.targets.include?(ally_attacker.position_index)
         total += DefenseLogic.target_defense_value(game_data.pieces, ally_attacker, game_data.defender_index)
@@ -37,6 +38,6 @@ class AttackLogic
     end
 
     return 0.0 if threatened_attacker_value < 0
-    threatened_attacker_value
+    threatened_attacker_value.to_f
   end
 end
