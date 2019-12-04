@@ -48,7 +48,7 @@ class FenNotation
     position_index = game.last_move.value.to_i
     piece = game.find_piece_by_index(position_index)
 
-    if game.pawn_moved_two?
+    if game.pawn_moved_two_index.present?
       position_row = piece.color == 'black' ? piece.position[1].to_i + 1 : piece.position[1].to_i - 1
       " #{piece.position[0]}#{position_row}"
     else
