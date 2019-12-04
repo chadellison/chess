@@ -29,9 +29,17 @@ class AttackLogic
   end
 
   def self.threatened_attacker_pattern(game_data)
-    # ally targets who are also defenders
     threatened_attacker_value = game_data.ally_attackers.reduce(0) do |total, ally_attacker|
       if game_data.targets.include?(ally_attacker.position_index)
+        target_defenders = game_data.defender_index[ally_attacker.position_index]
+                                    .select do |defender|
+                                      !game_data.ally_attackers
+                                                .map(&:position_index)
+                                                .include?(defender.position_index) &&
+                                                  game_data.targets.include?(defender.position_index)
+                                    end
+                                    
+        total += (target_defenders.map(&:find_piece_value).sum * -1)
         total += DefenseLogic.target_defense_value(game_data.pieces, ally_attacker, game_data.defender_index)
       end
       total

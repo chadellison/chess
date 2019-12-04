@@ -258,11 +258,11 @@ module MoveLogic
   end
 
   def can_en_pessant?(next_move, game_pieces)
-    game_pieces.select do |piece|
+    game_pieces.any? do |piece|
       piece.position == (next_move[0] + position[1]) &&
       piece.moved_two &&
       piece.color == opposite_color
-    end.present?
+    end
   end
 
   def opposite_color

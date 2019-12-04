@@ -1,7 +1,7 @@
 class LastMoveLogic
   DENOMINATOR = 9.0
 
-  def self.last_move_defense_pattern(game_data)
+  # def self.last_move_defense_pattern(game_data)
     # if game_data.moved_piece.blank?
     #   puts 'en passant issue....!!!!!!!'
     #   return 0.0
@@ -14,8 +14,7 @@ class LastMoveLogic
     # else
     #   1.0
     # end
-    0.0
-  end
+  # end
 
   # def self.last_move_general_defense_pattern(game_data)
   #   if game_data.moved_piece.blank?
@@ -26,7 +25,7 @@ class LastMoveLogic
   #   game_data.defender_index[game_data.moved_piece.position_index].present? ? 1.0 : 0.0
   # end
 
-  def self.last_move_offense_pattern(game_data)
+  # def self.last_move_offense_pattern(game_data)
     # moved_piece = game_data.moved_piece
     # if moved_piece.blank?
     #   puts 'en passant issue....!!!!!!!'
@@ -40,6 +39,5 @@ class LastMoveLogic
     #   (moved_piece.find_piece_value < opponent.find_piece_value || game_data.defender_index[opponent.position_index].blank?)
     # end
     # vulnerable_opponents.size.to_f
-    0.0
-  end
+  # end
 end

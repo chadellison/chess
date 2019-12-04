@@ -21,17 +21,16 @@ module PieceHelper
 
   def reload_pieces
     move_indices = moves.map { |move| move.value.to_i }
-    pawn_moved_two = pawn_moved_two?
+    moved_two_index = pawn_moved_two_index
     @pieces = last_move.setup.position_signature[0..-2].split('.').map do |piece_value|
       position_index = piece_value.to_i
       Piece.new({
-        game_id: id,
         position: piece_value[-2..-1],
         position_index: position_index,
         color: color_from_position_index(position_index),
         piece_type: piece_type_from_position_index(position_index),
         has_moved: move_indices.include?(position_index),
-        moved_two: pawn_moved_two
+        moved_two: (moved_two_index == position_index)
       })
     end
     game_move_logic.load_move_attributes(@pieces)
@@ -76,12 +75,12 @@ module PieceHelper
     moves.sort_by(&:move_count)
   end
 
-  def pawn_moved_two?
-    last_moved_piece_type = piece_type_from_position_index(last_move.value.to_i)
-    return false unless last_moved_piece_type == 'pawn'
+  def pawn_moved_two_index
+    last_move_index = last_move.value.to_i
 
-    ['4', '5'].include?(last_move.value[-1]) && moves.one? do |move|
-      move.value.to_i == last_move.value.to_i
-    end
+    return nil unless piece_type_from_position_index(last_move_index) == 'pawn'
+    return nil unless ['4', '5'].include?(last_move.value[-1])
+    return nil unless moves.one? { |move| move.value.to_i == last_move_index }
+    last_move_index
   end
 end

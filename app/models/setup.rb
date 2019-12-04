@@ -35,13 +35,15 @@ class Setup < ApplicationRecord
       DiagonalLogic.ally_diagonal_pattern(game_data),
       DiagonalLogic.opponent_diagonal_pattern(game_data),
       DevelopmentLogic.development_pattern(game_data),
-      LastMoveLogic.last_move_offense_pattern(game_data),
+      # LastMoveLogic.last_move_offense_pattern(game_data),
       # LastMoveLogic.last_move_general_defense_pattern(game_data),
-      LastMoveLogic.last_move_defense_pattern(game_data),
+      # LastMoveLogic.last_move_defense_pattern(game_data),
+      0,
       MaterialLogic.material_pattern(game_data),
       PinLogic.pin_pattern(game_data),
       KingThreatLogic.check_pattern(game_data),
       KingThreatLogic.threat_pattern(game_data),
+      KingThreatLogic.threat_preparation_pattern(game_data),
       # TempoLogic.tempo_pattern(game_data),
     ]
     Abstraction.find_or_create_by(pattern: pattern_signature.join('-'))
