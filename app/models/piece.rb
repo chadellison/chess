@@ -5,7 +5,7 @@ class Piece
   PIECE_VALUE = { king: 10, queen: 9, rook: 5, bishop: 3, knight: 3, pawn: 1 }
 
   attr_accessor :piece_type, :color, :position, :position_index, :moved_two,
-    :has_moved, :valid_moves, :enemy_targets, :game_move_logic, :defenders
+    :has_moved, :valid_moves, :enemy_targets, :defenders
 
   def self.defenders(index, game_pieces)
     target_piece = game_pieces.detect { |piece| piece.position_index == index }
@@ -61,11 +61,10 @@ class Piece
     @moved_two = attributes[:moved_two]
     @enemy_targets = []
     @valid_moves = []
-    @game_move_logic = GameMoveLogic.new
   end
 
   def valid_move?(game_pieces, move)
-    new_pieces = game_move_logic.pieces_with_next_move(game_pieces, position_index.to_s + move)
+    new_pieces = GameMoveLogic.pieces_with_next_move(game_pieces, position_index.to_s + move)
     valid_move_path?(move, game_pieces.map(&:position)) &&
       valid_destination?(move, game_pieces) &&
       valid_for_piece?(move, game_pieces) &&
