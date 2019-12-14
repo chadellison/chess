@@ -3,7 +3,7 @@ module PieceHelper
 
   def add_pieces
     game_pieces = Marshal.load(Marshal.dump(PIECES))
-    game_move_logic.load_move_attributes(game_pieces)
+    GameMoveLogic.load_move_attributes(game_pieces)
     game_pieces
   end
 
@@ -13,10 +13,6 @@ module PieceHelper
     else
       @pieces ||= add_pieces
     end
-  end
-
-  def game_move_logic
-    @game_move_logic ||= GameMoveLogic.new
   end
 
   def reload_pieces
@@ -33,7 +29,7 @@ module PieceHelper
         moved_two: (moved_two_index == position_index)
       })
     end
-    game_move_logic.load_move_attributes(@pieces)
+    GameMoveLogic.load_move_attributes(@pieces)
     @pieces
   end
 

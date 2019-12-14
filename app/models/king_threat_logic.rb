@@ -17,7 +17,7 @@ class KingThreatLogic
     threat_value = 0
     game_data.allies.each do |ally|
       if !game_data.targets.include?(ally.position_index) ||
-          DefenseLogic.target_defense_value(game_data.pieces, ally, game_data.defender_index) > 0
+          DefenseLogic.target_defense_value(game_data.pieces, ally) > 0
               threat_value += (spaces_near_king & ally.valid_moves).size
       end
     end
@@ -35,7 +35,7 @@ class KingThreatLogic
     threat_value = 0
     game_data.allies.each do |ally|
       if !game_data.targets.include?(ally.position_index) ||
-          DefenseLogic.target_defense_value(game_data.pieces, ally, game_data.defender_index) > 0
+          DefenseLogic.target_defense_value(game_data.pieces, ally) > 0
               threat_value += (spaces_near_king & ally.moves_for_piece).size
       end
     end

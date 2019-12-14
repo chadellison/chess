@@ -25,10 +25,6 @@ class Game < ApplicationRecord
     @notation_logic ||= Notation.new
   end
 
-  def game_move_logic
-    @game_move_logic ||= GameMoveLogic.new
-  end
-
   def move(position_index, new_position, upgraded_type = '')
     update_notation(position_index, new_position, upgraded_type)
     update_game(position_index, new_position, upgraded_type)
@@ -104,8 +100,8 @@ class Game < ApplicationRecord
   end
 
   def update_board(updated_piece)
-    material_value = game_move_logic.find_material_value(pieces, opponent_color) # <-- needs to be called BEFORE refresh_board
-    new_pieces = game_move_logic.refresh_board(pieces, updated_piece.position_index.to_s + updated_piece.position)
+    material_value = GameMoveLogic.find_material_value(pieces, opponent_color) # <-- needs to be called BEFORE refresh_board
+    new_pieces = GameMoveLogic.refresh_board(pieces, updated_piece.position_index.to_s + updated_piece.position)
     update_pieces(new_pieces)
 
     game_move = initialize_move(updated_piece)
@@ -177,7 +173,7 @@ class Game < ApplicationRecord
 
   def ai_move
     turn = current_turn
-    possible_moves = game_move_logic.find_next_moves(pieces, turn, move_count + 1)
+    possible_moves = GameMoveLogic.find_next_moves(pieces, turn, move_count + 1)
 
     checkmate_move = possible_moves.detect { |move| move.checkmate.present? }
 
