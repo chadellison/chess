@@ -1,5 +1,5 @@
 class TempoLogic
-  TEMPO_DENOMINATOR = 20.0
+  TEMPO_DENOMINATOR = 10.0
 
   def self.tempo_pattern(game_data)
     ally_attacking_moves = remove_pawn_advances(game_data.allies).uniq
@@ -37,7 +37,7 @@ class TempoLogic
     multiplyer = 0
     tempo_value = game_data.allies.reduce(0) do |sum, ally|
       if opponent_moves.include?(ally.position)
-        if game_data.defender_index[ally.position_index].present?
+        if ally.defenders.present?
           difference = ally.find_piece_value - cloned_opponent_value
           if difference > 0
             multiplyer += 1

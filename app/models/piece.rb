@@ -5,7 +5,7 @@ class Piece
   PIECE_VALUE = { king: 10, queen: 9, rook: 5, bishop: 3, knight: 3, pawn: 1 }
 
   attr_accessor :piece_type, :color, :position, :position_index, :moved_two,
-    :has_moved, :valid_moves, :enemy_targets, :game_move_logic
+    :has_moved, :valid_moves, :enemy_targets, :game_move_logic, :defenders
 
   def self.defenders(index, game_pieces)
     target_piece = game_pieces.detect { |piece| piece.position_index == index }

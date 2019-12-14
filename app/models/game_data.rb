@@ -7,25 +7,20 @@ class GameData
     @material_value = material_value
     @turn = turn
     @targets = pieces.map(&:enemy_targets).flatten
-    # @children = []
   end
 
-  # def set_children(children)
-  #   @children = children
+  # def defender_index
+  #   if @defender_index.present?
+  #     @defender_index
+  #   else
+  #     @defender_index = {}
+  #     pieces.each do |piece|
+  #       key = piece.position_index
+  #       @defender_index[key] = Piece.defenders(key, pieces)
+  #     end
+  #     @defender_index
+  #   end
   # end
-
-  def defender_index
-    if @defender_index.present?
-      @defender_index
-    else
-      @defender_index = {}
-      pieces.each do |piece|
-        key = piece.position_index
-        @defender_index[key] = Piece.defenders(key, pieces)
-      end
-      @defender_index
-    end
-  end
 
   def opponent_color
     turn == 'white' ? 'black' : 'white'

@@ -70,6 +70,7 @@ class GameMoveLogic
           load_enemy_target(move, game_pieces, piece)
         end
       end
+      piece.defenders = Piece.defenders(piece.position_index, game_pieces)
     end
   end
 
