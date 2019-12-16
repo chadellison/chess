@@ -9,20 +9,34 @@ class Piece
 
   def self.defenders(index, game_pieces)
     target_piece = game_pieces.detect { |piece| piece.position_index == index }
-    square = target_piece.position
 
-    game_pieces.select do |piece|
-      target_piece.color == piece.color &&
+    defending_pieces = []
+    game_pieces.each do |piece|
+      if valid_defender?(target_piece, piece, game_pieces)
+        defending_pieces << Piece.new({
+          piece_type: piece.piece_type,
+          color: piece.color,
+          position: piece.position,
+          has_moved: piece.has_moved,
+          moved_two: piece.moved_two
+        })
+      end
+    end
+    defending_pieces
+  end
+
+  def self.valid_defender?(target_piece, piece, game_pieces)
+    square = target_piece.position
+    target_piece.color == piece.color &&
         piece.moves_for_piece.include?(square) &&
         piece.valid_move_path?(square, game_pieces.map(&:position)) &&
-        piece.valid_for_piece?(square, game_pieces) #&&
+        piece.valid_for_piece?(square, game_pieces)
         # Piece.king_is_safe?(
         #   piece.color,
         #   piece.game_move_logic.pieces_with_next_move(
         #     game_pieces, piece.position_index.to_s + square
         #   )
         # )
-    end
   end
 
   def self.new_piece(piece, new_position, upgraded_type)
