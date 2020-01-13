@@ -13,6 +13,7 @@ gem 'bcrypt'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'stockfish'
 gem 'rubocop'
+gem 'ruby_nn'
 
 group :development, :test do
   gem 'rspec-rails'
