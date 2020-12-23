@@ -1,10 +1,7 @@
 class Game < ApplicationRecord
-  has_many :moves, dependent: :destroy
-  has_many :chat_messages, dependent: :destroy
-  belongs_to :ai_player, optional: true, dependent: :destroy
-
-  include PieceHelper
-  include CacheLogic
+  # has_many :moves, dependent: :destroy
+  # has_many :chat_messages, dependent: :destroy
+  # belongs_to :ai_player, optional: true, dependent: :destroy
 
   scope :user_games, (lambda do |user_id|
     where(white_player: user_id)
@@ -25,10 +22,14 @@ class Game < ApplicationRecord
     @notation_logic ||= Notation.new
   end
 
-  def move(position_index, new_position, upgraded_type = '')
-    update_notation(position_index, new_position, upgraded_type)
-    update_game(position_index, new_position, upgraded_type)
-    handle_move_events
+  def move(notation)
+    fen = PGN::Game.new(notation.split).positions.last.to_fen
+    board = ChessValidator::BoardLogic.build_board(fen)
+    ChessValidator::MoveLogic.next_moves(fen).each do |piece|
+      board[piece.square_index] = piece
+    end
+    game_data = GameSerializer.serialize(self, board, notation)
+    GameEventBroadcastJob.perform_later(game_data)
   end
 
   def handle_move_events
@@ -74,94 +75,133 @@ class Game < ApplicationRecord
     ai_player.present? && turn == ai_player.color
   end
 
-  def current_turn
-    move_count.even? ? 'white' : 'black'
+  def is_game_over?(board, fen_notation)
+    pieces = board.values
+    turn = fen_notation.split[1]
+    insufficient_material?(pieces) || is_checkmate?(pieces, fen_notation)
   end
 
-  def opponent_color
-    current_turn == 'white' ? 'black' : 'white'
-  end
+  def is_checkmate?(pieces, fen_notation)
+    no_moves = pieces.none? { |piece| piece.valid_moves.present? }
+    next_notation = fen_notation.split(' ')
+    next_notation[1] = next_notation[1] == 'w' ? 'b' : 'w'
+    next_notation = next_notation.join(' ')
 
-  def update_notation(position_index, new_position, upgraded_type)
-    new_notation = notation_logic.create_notation(position_index, new_position, upgraded_type, pieces)
-
-    update(notation: (notation.to_s + new_notation.to_s))
-  end
-
-  def update_game(position_index, new_position, upgraded_type = '')
-    if move_count < 30 && in_cache?(notation)
-      moves << get_move(notation)
-      reload_pieces
-    else
-      piece = find_piece_by_index(position_index)
-      updated_piece = Piece.new_piece(piece, new_position, upgraded_type)
-      update_board(updated_piece)
+    next_moves = ChessValidator::Engine.find_next_moves(next_notation)
+    in_check = next_moves.any? do |piece|
+      piece.targets.any? { |target| target.piece_type.downcase == 'k'}
     end
+
+    no_moves && in_check
   end
 
-  def update_board(updated_piece)
-    material_value = GameMoveLogic.find_material_value(pieces, opponent_color) # <-- needs to be called BEFORE refresh_board
-    new_pieces = GameMoveLogic.refresh_board(pieces, updated_piece.position_index.to_s + updated_piece.position)
-    update_pieces(new_pieces)
+  
+  # def current_turn
+  #   move_count.even? ? 'white' : 'black'
+  # end
+  #
+  # def opponent_color
+  #   current_turn == 'white' ? 'black' : 'white'
+  # end
 
-    game_move = initialize_move(updated_piece)
-    game_data = GameData.new(game_move, new_pieces, opponent_color, material_value)
+  # def update_notation(position_index, new_position, upgraded_type)
+  #   new_notation = notation_logic.create_notation(position_index, new_position, upgraded_type, pieces)
+  #
+  #   update(notation: (notation.to_s + new_notation.to_s))
+  # end
 
-    setup = Setup.find_setup(game_data)
-    setup.save
+  # def update_game(position_index, new_position, upgraded_type = '')
+  #   if move_count < 30 && in_cache?(notation)
+  #     moves << get_move(notation)
+  #     reload_pieces
+  #   else
+  #     piece = find_piece_by_index(position_index)
+  #     updated_piece = Piece.new_piece(piece, new_position, upgraded_type)
+  #     update_board(updated_piece)
+  #   end
+  # end
 
-    game_move.setup = setup
-    if moves.size < 30
-      add_to_cache(notation, game_move)
+  # def update_board(updated_piece)
+  #   material_value = GameMoveLogic.find_material_value(pieces, opponent_color) # <-- needs to be called BEFORE refresh_board
+  #   new_pieces = GameMoveLogic.refresh_board(pieces, updated_piece.position_index.to_s + updated_piece.position)
+  #   update_pieces(new_pieces)
+  #
+  #   game_move = initialize_move(updated_piece)
+  #   game_data = GameData.new(game_move, new_pieces, opponent_color, material_value)
+  #
+  #   setup = Setup.find_setup(game_data)
+  #   setup.save
+  #
+  #   game_move.setup = setup
+  #   if moves.size < 30
+  #     add_to_cache(notation, game_move)
+  #   end
+  #   moves << game_move
+  # end
+
+  # def initialize_move(updated_piece)
+  #   Move.new(
+  #     value: (updated_piece.position_index.to_s + updated_piece.position),
+  #     move_count: move_count,
+  #     promoted_pawn: (promoted_pawn?(updated_piece) ? updated_piece.piece_type : nil)
+  #   )
+  # end
+
+  # def promoted_pawn?(piece)
+  #   (9..24).include?(piece.position_index) && piece.piece_type != 'pawn'
+  # end
+
+  # def checkmate?(game_pieces, turn)
+  #   no_valid_moves?(game_pieces, turn) &&
+  #     !Piece.king_is_safe?(turn, game_pieces)
+  # end
+  #
+  # def stalemate?(game_pieces, turn)
+  #   [
+  #     no_valid_moves?(game_pieces, turn) && Piece.king_is_safe?(turn, game_pieces),
+  #     insufficient_pieces?,
+  #     three_fold_repitition?
+  #   ].any?
+  # end
+  #
+  # def insufficient_pieces?
+  #   black_pieces = pieces.select { |piece| piece.color == 'black' }.map(&:piece_type)
+  #   white_pieces = pieces.select { |piece| piece.color == 'white' }.map(&:piece_type)
+  #   piece_types = ['queen', 'pawn', 'rook']
+  #
+  #   [black_pieces, white_pieces].all? do |pieces_left|
+  #     pieces_left.count < 3 &&
+  #       pieces_left.none? { |piece| piece_types.include?(piece) }
+  #   end
+  # end
+
+  def insufficient_material?(pieces)
+    white_pieces = []
+    black_pieces = []
+    pieces.each do |piece|
+      if piece.color == 'w'
+        white_pieces << piece.piece_type.downcase
+      else
+        black_pieces << piece.piece_type.downcase
+      end
     end
-    moves << game_move
-  end
-
-  def initialize_move(updated_piece)
-    Move.new(
-      value: (updated_piece.position_index.to_s + updated_piece.position),
-      move_count: move_count,
-      promoted_pawn: (promoted_pawn?(updated_piece) ? updated_piece.piece_type : nil)
-    )
-  end
-
-  def promoted_pawn?(piece)
-    (9..24).include?(piece.position_index) && piece.piece_type != 'pawn'
-  end
-
-  def checkmate?(game_pieces, turn)
-    no_valid_moves?(game_pieces, turn) &&
-      !Piece.king_is_safe?(turn, game_pieces)
-  end
-
-  def stalemate?(game_pieces, turn)
-    [
-      no_valid_moves?(game_pieces, turn) && Piece.king_is_safe?(turn, game_pieces),
-      insufficient_pieces?,
-      three_fold_repitition?
-    ].any?
-  end
-
-  def insufficient_pieces?
-    black_pieces = pieces.select { |piece| piece.color == 'black' }.map(&:piece_type)
-    white_pieces = pieces.select { |piece| piece.color == 'white' }.map(&:piece_type)
-    piece_types = ['queen', 'pawn', 'rook']
+    piece_types = ['q', 'p', 'r']
 
     [black_pieces, white_pieces].all? do |pieces_left|
       pieces_left.count < 3 &&
         pieces_left.none? { |piece| piece_types.include?(piece) }
     end
   end
-
-  def three_fold_repitition?
-    moves.count > 9 && moves.last(8).map(&:value).uniq.count < 5
-  end
-
-  def no_valid_moves?(game_pieces, turn)
-    game_pieces.select { |piece| piece.color == turn }.all? do |piece|
-      piece.valid_moves.blank?
-    end
-  end
+  #
+  # def three_fold_repitition?
+  #   moves.count > 9 && moves.last(8).map(&:value).uniq.count < 5
+  # end
+  #
+  # def no_valid_moves?(game_pieces, turn)
+  #   game_pieces.select { |piece| piece.color == turn }.all? do |piece|
+  #     piece.valid_moves.blank?
+  #   end
+  # end
 
   def machine_vs_machine
     until outcome.present?
@@ -186,24 +226,24 @@ class Game < ApplicationRecord
     move(move_value.to_i, move_value[-2..-1], promote_pawn(move_value))
   end
 
-  def crossed_pawn?(move_value)
-    (9..24).include?(move_value.to_i) &&
-      (move_value[-1] == '1' || move_value[-1] == '8')
-  end
-
-  def promote_pawn(move_value)
-    crossed_pawn?(move_value) ? 'queen' : ''
-  end
-
-  def move_count
-    if notation.present?
-      notation.split('.').count
-    else
-      moves.count
-    end
-  end
-
-  def update_outcomes
-    moves.each { |move| move.setup.update_outcomes(outcome) }
-  end
+  # def crossed_pawn?(move_value)
+  #   (9..24).include?(move_value.to_i) &&
+  #     (move_value[-1] == '1' || move_value[-1] == '8')
+  # end
+  #
+  # def promote_pawn(move_value)
+  #   crossed_pawn?(move_value) ? 'queen' : ''
+  # end
+  #
+  # def move_count
+  #   if notation.present?
+  #     notation.split('.').count
+  #   else
+  #     moves.count
+  #   end
+  # end
+  #
+  # def update_outcomes
+  #   moves.each { |move| move.setup.update_outcomes(outcome) }
+  # end
 end

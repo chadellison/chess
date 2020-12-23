@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       resources :authentication, only: [:create]
       resources :users, only: [:create]
       resources :games, only: [:index, :create]
-      resources :analytics, only: [:index, :create]
+      resources :analytics, only: [:index]
       get '/find_game', to: 'games#join_game'
       post '/machine_vs_machine', to: 'games#machine_vs_machine'
     end

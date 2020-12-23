@@ -15,7 +15,11 @@ class GameChannel < ApplicationCable::Channel
   end
 
   def update(opts)
-    game = Game.find(opts['game_id'])
-    game.move(opts['position_index'], opts['new_position'], opts['upgraded_type'])
+    if opts['game_id'] == 'default'
+      game = Game.new
+    else
+      game = Game.find(opts['game_id'])
+    end
+    game.move(opts['notation'])
   end
 end

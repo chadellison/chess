@@ -3,12 +3,13 @@ task train_on_stockfish: :environment do
   ai_logic = AiLogic.new
 
   ENV['COUNT'].to_i.times do |game_number|
-    game = Game.create(analyzed: true)
+    # game = Game.create(analyzed: true)
     openings = ['17a3', '20d4', '21e4', '31f3', '19c4', '23g4', '23g3', '24h3']
     random_opening = openings.sample
-    game.move(random_opening.to_i, random_opening[-2..-1])
-    stockfish = StockfishIntegration.new(game)
-
+    # game.move(random_opening.to_i, random_opening[-2..-1])
+    # stockfish = StockfishIntegration.new(game)
+    # Stockfish.analyze fen, { :depth => 12 }
+    game = Game.new
     start_time = Time.now
 
     until game.outcome.present? do

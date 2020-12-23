@@ -1,18 +1,14 @@
 module Api
   module V1
     class AnalyticsController < ApplicationController
-      def create
-        render json: Analytics.new.move_analytics(analytics_params)
+      def index
+        render json: Analytics.analyze_position(analytics_params[:notation])
       end
 
       private
 
       def analytics_params
-        params.permit(
-          :turn,
-          pieces: [:positionIndex, :pieceType, :color, :position, :movedTwo, :hasMoved],
-          moves: [:value, :move_count]
-        )
+        params.permit(:notation)
       end
     end
   end

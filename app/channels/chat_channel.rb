@@ -7,6 +7,8 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def create(opts)
-    ChatMessage.create(content: opts.fetch('content'), game_id: opts.fetch('game_id'))
+    game_id = opts.fetch('game_id')
+    chat_message = opts.fetch('content')
+    ChatMessageEventBroadcastJob.perform_later(game_id, chat_message)
   end
 end

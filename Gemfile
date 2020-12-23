@@ -1,19 +1,21 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.4'
+ruby '2.7.1'
 
-gem 'rails', '~> 6.0.0'
+gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.12'
 gem 'rack-cors'
 gem 'faker'
 gem 'redis'
 gem 'bcrypt'
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', '>= 1.4.2', require: false
 gem 'stockfish'
 gem 'rubocop'
 gem 'ruby_nn'
+gem 'chess_validator'
+gem 'pgn'
 
 group :development, :test do
   gem 'rspec-rails'

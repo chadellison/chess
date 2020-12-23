@@ -7,6 +7,6 @@ class GroupChatChannel < ApplicationCable::Channel
   end
 
   def create(opts)
-    GroupChat.create(content: opts.fetch('content'))
+    GroupChatMessageEventBroadcastJob.perform_later(opts.fetch('content'))
   end
 end

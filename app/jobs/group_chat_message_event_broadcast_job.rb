@@ -1,4 +1,4 @@
-class GroupChatCreationEventBroadcastJob < ApplicationJob
+class GroupChatMessageEventBroadcastJob < ApplicationJob
   queue_as :default
 
   def perform(chat_message)
@@ -6,7 +6,7 @@ class GroupChatCreationEventBroadcastJob < ApplicationJob
       .server
       .broadcast(
         'group_chat',
-        ChatMessageSerializer.serialize(chat_message)
+        { content: chat_message }
       )
   end
 end

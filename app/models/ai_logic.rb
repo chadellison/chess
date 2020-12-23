@@ -1,76 +1,95 @@
 class AiLogic
-  attr_reader :neural_network
+  attr_reader :neural_network, :engine
 
   def initialize
-    @neural_network = RubyNN::NeuralNetwork.new([16, 20, 15, 10, 3])
-    @neural_network.set_weights(JSON.parse(File.read(Rails.root + 'json/weights.json')))
-  end
-
-  def analyze(possible_moves, turn)
-    weighted_moves = move_analysis(possible_moves)
-    best_move_value = find_best_move(weighted_moves, turn)
-  end
-
-  def move_analysis(possible_moves)
-    weighted_moves = {}
-    possible_moves.each do |possible_move|
-      input = normalize_values(possible_move.setup.abstraction)
-      predictions = neural_network.calculate_prediction(input).last
-      weighted_moves[possible_move.value] = predictions
-      # puts "#{possible_move.value} ==> #{neural_network.layer_four_predictions}"
+    @neural_network = RubyNN::NeuralNetwork.new([10, 20, 10, 1], 0.001)
+    file_path = Rails.root + 'json/weights.json'
+    begin
+      json_weights = File.read(file_path)
+      @neural_network.set_weights(JSON.parse(json_weights))
+    rescue
+      puts "FILE '#{file_path}' DOES NOT EXIST"
+      @neural_network.initialize_weights
     end
-    weighted_moves
+
+    @engine = ChessValidator::Engine
   end
 
-  def normalize_values(abstraction)
-    abstraction.pattern.split('-').map { |value| value.to_f }
+  def evaluate_position(fen_notation)
+    turn = fen_notation.split[1]
+    position = Position.create_position(fen_notation)
+    pieces_with_moves = engine.find_next_moves(fen_notation).sort_by(&:piece_type)
+    inputs = create_abstractions(pieces_with_moves, position)
+
+    # predictions = neural_network.calculate_prediction(inputs).last
+    # predictions.last
+    inputs
   end
 
-  def find_best_move(weighted_moves, turn)
-    weighted_moves.max_by { |move_value, predictions| predictions.first }.first
-  end
-
-  def random_move(game)
-    turn = game.current_turn
-    game_pieces = game.pieces.select { |piece| piece.color == turn }
-    game_moves = game_pieces.map do |piece|
-      piece.valid_moves.map { |move| piece.position_index.to_s + move }
-    end.flatten
-
-    game_moves.sample
-  end
-
-  def softmax(vector)
-    sum = vector.sum.to_f
-    vector.map do |value|
-      if value == 0
-        0
-      else
-        value / sum
+  def find_max_move_value(fen_notation)
+    max = 0
+    pieces_with_moves = engine.find_next_moves(fen_notation)
+    pieces_with_moves.each do |piece|
+      piece.valid_moves.each do |move|
+        next_fen_notation = engine.move(piece, move, fen_notation)
+        current_value = evaluate_position(next_fen_notation)
+        max = current_value if current_value > max
       end
     end
+    max
   end
 
-  def calculate_outcomes(abstraction)
-    first = 0.0
-    second = 0.0
-    third = 0.0
-    abstraction.setups.each do |setup|
-      white_wins = setup.outcomes[:white_wins].to_f
-      black_wins = setup.outcomes[:black_wins].to_f
-      draws = setup.outcomes[:draws].to_f
+  def analyze_position(fen_notation)
+    pieces_with_next_moves = engine.find_next_moves(fen_notation)
+    moves = []
+    pieces_with_next_moves.each do |piece|
+      piece.valid_moves.each do |move|
+        next_fen_notation = engine.move(piece, move, fen_notation)
 
-      if setup.position_signature[-1] == 'w'
-        first += white_wins
-        second += black_wins
-      else
-        second += black_wins
-        first += white_wins
+        # evaluation = abc123(pieces_with_next_moves, Position.create_position(fen_notation)).last
+        evaluation = evaluate_position(next_fen_notation)
+
+        # opponent_pieces_with_next_moves = engine.move(piece, move, next_fen_notation)
+        # max_opponent_value = find_max_move_value(next_fen_notation)
+
+        # evaluation = abc123(pieces, Position.create_position(fen_notation)).last
+
+        # stockfish_data = Stockfish.analyze next_fen_notation, { :depth => 12 }
+        # stockfish_evaluation = stockfish_data[:variations].first[:score] * -1
+        # moves << { move: piece.piece_type.capitalize + move, stockfish_evaluation: stockfish_evaluation }
+        moves << { move: piece.piece_type.capitalize + move, evaluation: evaluation }
       end
-
-      third = draws
     end
+    moves
+  end
 
-    [first, second, third]
+  def create_abstractions(pieces, position)
+    fen_notation = position['signature'] + ' 0 1'
+
+    if position['abstractions'].present?
+      position['abstractions'].map do |abstraction|
+        CacheService.hget(abstraction['type'], abstraction['signature'])
+      end
+    else
+      all_pieces = ChessValidator::Engine.pieces(fen_notation).sort_by(&:piece_type)
+      next_pieces = AbstractionHelper.next_pieces(fen_notation)
+      [
+        Activity.create_abstraction(pieces, next_pieces),
+        Material.create_abstraction(all_pieces, pieces, fen_notation),
+        Attack.create_evade_abstraction(pieces),
+        Attack.create_attack_abstraction(pieces, next_pieces),
+      ].sum
+    end
+  end
+
+  def extract_outputs(position, turn)
+    if turn == 'w'
+      wins = position['white_wins']
+      losses = position['black_wins']
+    else
+      wins = position['black_wins']
+      losses = position['white_wins']
+    end
+    [wins, losses, position['draws']]
   end
 end
