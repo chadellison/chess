@@ -1,6 +1,6 @@
 class Activity
   def self.create_abstraction(pieces, new_pieces)
-    if new_pieces.any? { |piece| piece.targets.any? { |target| target.piece_type.downcase == 'k'} }
+    if in_check?(new_pieces)
       1
     else
       move_count = count_moves(pieces, new_pieces)
@@ -21,6 +21,12 @@ class Activity
         end
       end
       sum + move_count
+    end
+  end
+
+  def self.in_check?(pieces)
+    pieces.any? do |piece|
+      piece.targets.any? { |target| target.piece_type.downcase == 'k'}
     end
   end
 end
