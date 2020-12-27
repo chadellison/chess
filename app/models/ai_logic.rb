@@ -78,6 +78,7 @@ class AiLogic
         Material.create_abstraction(all_pieces, pieces, fen_notation),
         Attack.create_evade_abstraction(pieces),
         Attack.create_attack_abstraction(pieces, next_pieces),
+        King.create_abstraction(pieces, next_pieces, all_pieces),
       ].sum
     end
   end

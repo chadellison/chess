@@ -95,7 +95,7 @@ class Game < ApplicationRecord
     no_moves && in_check
   end
 
-  
+
   # def current_turn
   #   move_count.even? ? 'white' : 'black'
   # end
