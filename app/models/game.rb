@@ -3,24 +3,31 @@ class Game < ApplicationRecord
   # has_many :chat_messages, dependent: :destroy
   # belongs_to :ai_player, optional: true, dependent: :destroy
 
-  scope :user_games, (lambda do |user_id|
-    where(white_player: user_id)
-      .or(where(black_player: user_id))
-  end)
+  # scope :user_games, (lambda do |user_id|
+  #   where(white_player: user_id)
+  #     .or(where(black_player: user_id))
+  # end)
+  #
+  # scope :find_open_games, (lambda do |user_id|
+  #   where.not(white_player: user_id)
+  #        .or(where.not(black_player: user_id))
+  #        .where(status: 'awaiting player')
+  # end)
 
-  scope :find_open_games, (lambda do |user_id|
-    where.not(white_player: user_id)
-         .or(where.not(black_player: user_id))
-         .where(status: 'awaiting player')
-  end)
+  # def ai_logic
+  #   @ai_logic ||= AiLogic.new
+  # end
 
-  def ai_logic
-    @ai_logic ||= AiLogic.new
-  end
+  # def notation_logic
+  #   @notation_logic ||= Notation.new
+  # end
 
-  def notation_logic
-    @notation_logic ||= Notation.new
-  end
+  # def game_over?(fen_notation)
+  #   result = ChessValidator::GameLogic.find_game_result(fen_notation)
+  #   if result.present?
+  #     outcome = result
+  #   end
+  # end
 
   def move(notation)
     fen = PGN::Game.new(notation.split).positions.last.to_fen
@@ -32,68 +39,68 @@ class Game < ApplicationRecord
     GameEventBroadcastJob.perform_later(game_data)
   end
 
-  def handle_move_events
-    GameEventBroadcastJob.perform_later(self) if for_human?
-    turn = current_turn
+  # def handle_move_events
+  #   GameEventBroadcastJob.perform_later(self) if for_human?
+  #   turn = current_turn
+  #
+  #   if game_over?(pieces, turn)
+  #     handle_outcome
+  #   elsif ai_turn?(turn)
+  #     AiMoveJob.perform_later(self)
+  #   end
+  # end
 
-    if game_over?(pieces, turn)
-      handle_outcome
-    elsif ai_turn?(turn)
-      AiMoveJob.perform_later(self)
-    end
-  end
+  # def game_over?(pieces, game_turn)
+  #   checkmate?(pieces, game_turn) || stalemate?(pieces, game_turn)
+  # end
 
-  def game_over?(pieces, game_turn)
-    checkmate?(pieces, game_turn) || stalemate?(pieces, game_turn)
-  end
-
-  def handle_outcome
-    turn = current_turn
-    if checkmate?(pieces, turn)
-      outcome = turn == 'black' ? WHITE_WINS : BLACK_WINS
-    else
-      outcome = DRAW
-    end
-    update(outcome: outcome.to_s)
-    GameEventBroadcastJob.perform_later(self) if for_human?
-  end
-
-  def for_human?
-    game_type.include?('human') || game_type == 'machine vs machine'
-  end
-
-  def join_user_to_game(user_id)
-    if white_player.blank?
-      update(white_player: user_id, status: 'active')
-    else
-      update(black_player: user_id, status: 'active')
-    end
-    GameEventBroadcastJob.perform_later(self)
-  end
-
-  def ai_turn?(turn)
-    ai_player.present? && turn == ai_player.color
-  end
-
-  def is_game_over?(board, fen_notation)
-    pieces = board.values
-    turn = fen_notation.split[1]
-    insufficient_material?(pieces) || is_checkmate?(pieces, fen_notation)
-  end
-
-  def is_checkmate?(pieces, fen_notation)
-    no_moves = pieces.none? { |piece| piece.valid_moves.present? }
-    next_notation = fen_notation.split(' ')
-    next_notation[1] = next_notation[1] == 'w' ? 'b' : 'w'
-    next_notation = next_notation.join(' ')
-
-    next_moves = ChessValidator::Engine.find_next_moves(next_notation)
-    in_check = next_moves.any? do |piece|
-      piece.targets.any? { |target| target.piece_type.downcase == 'k'}
-    end
-
-    no_moves && in_check
-  end
+  # def handle_outcome
+  #   turn = current_turn
+  #   if checkmate?(pieces, turn)
+  #     outcome = turn == 'black' ? WHITE_WINS : BLACK_WINS
+  #   else
+  #     outcome = DRAW
+  #   end
+  #   update(outcome: outcome.to_s)
+  #   GameEventBroadcastJob.perform_later(self) if for_human?
+  # end
+  #
+  # def for_human?
+  #   game_type.include?('human') || game_type == 'machine vs machine'
+  # end
+  #
+  # def join_user_to_game(user_id)
+  #   if white_player.blank?
+  #     update(white_player: user_id, status: 'active')
+  #   else
+  #     update(black_player: user_id, status: 'active')
+  #   end
+  #   GameEventBroadcastJob.perform_later(self)
+  # end
+  #
+  # def ai_turn?(turn)
+  #   ai_player.present? && turn == ai_player.color
+  # end
+  #
+  # def is_game_over?(board, fen_notation)
+  #   pieces = board.values
+  #   turn = fen_notation.split[1]
+  #   insufficient_material?(pieces) || is_checkmate?(pieces, fen_notation)
+  # end
+  #
+  # def is_checkmate?(pieces, fen_notation)
+  #   no_moves = pieces.none? { |piece| piece.valid_moves.present? }
+  #   next_notation = fen_notation.split(' ')
+  #   next_notation[1] = next_notation[1] == 'w' ? 'b' : 'w'
+  #   next_notation = next_notation.join(' ')
+  #
+  #   next_moves = ChessValidator::Engine.find_next_moves(next_notation)
+  #   in_check = next_moves.any? do |piece|
+  #     piece.targets.any? { |target| target.piece_type.downcase == 'k'}
+  #   end
+  #
+  #   no_moves && in_check
+  # end
 
 
   # def current_turn
@@ -175,23 +182,23 @@ class Game < ApplicationRecord
   #   end
   # end
 
-  def insufficient_material?(pieces)
-    white_pieces = []
-    black_pieces = []
-    pieces.each do |piece|
-      if piece.color == 'w'
-        white_pieces << piece.piece_type.downcase
-      else
-        black_pieces << piece.piece_type.downcase
-      end
-    end
-    piece_types = ['q', 'p', 'r']
-
-    [black_pieces, white_pieces].all? do |pieces_left|
-      pieces_left.count < 3 &&
-        pieces_left.none? { |piece| piece_types.include?(piece) }
-    end
-  end
+  # def insufficient_material?(pieces)
+  #   white_pieces = []
+  #   black_pieces = []
+  #   pieces.each do |piece|
+  #     if piece.color == 'w'
+  #       white_pieces << piece.piece_type.downcase
+  #     else
+  #       black_pieces << piece.piece_type.downcase
+  #     end
+  #   end
+  #   piece_types = ['q', 'p', 'r']
+  #
+  #   [black_pieces, white_pieces].all? do |pieces_left|
+  #     pieces_left.count < 3 &&
+  #       pieces_left.none? { |piece| piece_types.include?(piece) }
+  #   end
+  # end
   #
   # def three_fold_repitition?
   #   moves.count > 9 && moves.last(8).map(&:value).uniq.count < 5
@@ -203,28 +210,28 @@ class Game < ApplicationRecord
   #   end
   # end
 
-  def machine_vs_machine
-    until outcome.present?
-      ai_move
-      update(outcome: 0) if move_count > 400
-      puts moves.order(:move_count).last.value
-    end
-  end
-
-  def ai_move
-    turn = current_turn
-    possible_moves = GameMoveLogic.find_next_moves(pieces, turn, move_count + 1)
-
-    checkmate_move = possible_moves.detect { |move| move.checkmate.present? }
-
-    if checkmate_move.present?
-      move_value = checkmate_move.value
-    else
-      move_value = ai_logic.analyze(possible_moves, turn)
-    end
-
-    move(move_value.to_i, move_value[-2..-1], promote_pawn(move_value))
-  end
+  # def machine_vs_machine
+  #   until outcome.present?
+  #     ai_move
+  #     update(outcome: 0) if move_count > 400
+  #     puts moves.order(:move_count).last.value
+  #   end
+  # end
+  #
+  # def ai_move
+  #   turn = current_turn
+  #   possible_moves = GameMoveLogic.find_next_moves(pieces, turn, move_count + 1)
+  #
+  #   checkmate_move = possible_moves.detect { |move| move.checkmate.present? }
+  #
+  #   if checkmate_move.present?
+  #     move_value = checkmate_move.value
+  #   else
+  #     move_value = ai_logic.analyze(possible_moves, turn)
+  #   end
+  #
+  #   move(move_value.to_i, move_value[-2..-1], promote_pawn(move_value))
+  # end
 
   # def crossed_pawn?(move_value)
   #   (9..24).include?(move_value.to_i) &&

@@ -1,8 +1,6 @@
 desc 'Train'
 task train_network: :environment do
   ai_logic = AiLogic.new
-  # ai_logic.neural_network.set_weights([])
-  # ai_logic.neural_network.initialize_weights
 
   REDIS.set('error_rate', { error: 0, count: 0 }.to_json)
 
@@ -10,9 +8,10 @@ task train_network: :environment do
   REDIS.hscan_each('positions') do |position_data|
     position = JSON.parse(position_data.last)
 
-    if [position['white_wins'], position['black_wins'], position['draws']].any? { |value| value > 3 }
+    if [position['white_wins'], position['black_wins'], position['draws']].any? { |value| value > 2 }
       turn = position['signature'].split[1]
-      input = ai_logic.extract_inputs(position, turn)
+
+      input = ai_logic.create_abstractions(position['signature'])
       ai_logic.neural_network.train(input, [ai_logic.calculate_ratio(position, turn)])
 
       count += 1

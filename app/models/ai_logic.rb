@@ -2,7 +2,7 @@ class AiLogic
   attr_reader :neural_network, :engine
 
   def initialize
-    @neural_network = RubyNN::NeuralNetwork.new([10, 20, 10, 1], 0.001)
+    @neural_network = RubyNN::NeuralNetwork.new([7, 14, 14, 1], 0.001)
     file_path = Rails.root + 'json/weights.json'
     begin
       json_weights = File.read(file_path)
@@ -18,12 +18,26 @@ class AiLogic
   def evaluate_position(fen_notation)
     turn = fen_notation.split[1]
     position = Position.create_position(fen_notation)
-    pieces_with_moves = engine.find_next_moves(fen_notation).sort_by(&:piece_type)
-    inputs = create_abstractions(pieces_with_moves, position)
+    inputs = create_abstractions(position['signature'])
+    predictions = neural_network.calculate_prediction(inputs).last
+    predictions.last
+  end
 
-    # predictions = neural_network.calculate_prediction(inputs).last
-    # predictions.last
-    inputs
+  def create_abstractions(signature)
+    fen_notation = signature + ' 0 1'
+    pieces = engine.find_next_moves(fen_notation)
+    all_pieces = engine.pieces(fen_notation)
+    next_pieces = AbstractionHelper.next_pieces(fen_notation)
+    turn = fen_notation.split[1]
+    [
+      Activity.create_abstraction(pieces, next_pieces),
+      Material.create_abstraction(all_pieces, pieces, fen_notation),
+      Attack.create_evade_abstraction(pieces),
+      Attack.create_attack_abstraction(pieces, next_pieces),
+      King.create_abstraction(pieces, next_pieces, all_pieces, turn),
+      King.create_threat_abstraction(pieces, next_pieces, all_pieces, turn, fen_notation),
+      Development.create_abstraction(all_pieces, turn),
+    ]
   end
 
   def find_max_move_value(fen_notation)
@@ -46,44 +60,26 @@ class AiLogic
       piece.valid_moves.each do |move|
         next_fen_notation = engine.move(piece, move, fen_notation)
 
-        # evaluation = abc123(pieces_with_next_moves, Position.create_position(fen_notation)).last
         evaluation = evaluate_position(next_fen_notation)
 
-        # opponent_pieces_with_next_moves = engine.move(piece, move, next_fen_notation)
-        # max_opponent_value = find_max_move_value(next_fen_notation)
-
-        # evaluation = abc123(pieces, Position.create_position(fen_notation)).last
-
-        # stockfish_data = Stockfish.analyze next_fen_notation, { :depth => 12 }
-        # stockfish_evaluation = stockfish_data[:variations].first[:score] * -1
-        # moves << { move: piece.piece_type.capitalize + move, stockfish_evaluation: stockfish_evaluation }
         moves << { move: piece.piece_type.capitalize + move, evaluation: evaluation }
       end
     end
     moves
   end
 
-  def create_abstractions(pieces, position)
-    fen_notation = position['signature'] + ' 0 1'
+  # def extract_outputs(position, turn)
+  #   if turn == 'w'
+  #     wins = position['white_wins']
+  #     losses = position['black_wins']
+  #   else
+  #     wins = position['black_wins']
+  #     losses = position['white_wins']
+  #   end
+  #   [wins, losses, position['draws']]
+  # end
 
-    if position['abstractions'].present?
-      position['abstractions'].map do |abstraction|
-        CacheService.hget(abstraction['type'], abstraction['signature'])
-      end
-    else
-      all_pieces = ChessValidator::Engine.pieces(fen_notation).sort_by(&:piece_type)
-      next_pieces = AbstractionHelper.next_pieces(fen_notation)
-      [
-        Activity.create_abstraction(pieces, next_pieces),
-        Material.create_abstraction(all_pieces, pieces, fen_notation),
-        Attack.create_evade_abstraction(pieces),
-        Attack.create_attack_abstraction(pieces, next_pieces),
-        King.create_abstraction(pieces, next_pieces, all_pieces),
-      ].sum
-    end
-  end
-
-  def extract_outputs(position, turn)
+  def calculate_ratio(position, turn)
     if turn == 'w'
       wins = position['white_wins']
       losses = position['black_wins']
@@ -91,6 +87,16 @@ class AiLogic
       wins = position['black_wins']
       losses = position['white_wins']
     end
-    [wins, losses, position['draws']]
+    half_draws = position['draws'] / 2.0
+    numerator = wins + half_draws
+    denominator = losses + half_draws
+
+    if denominator == 0
+      numerator
+    elsif numerator == 0
+      -denominator
+    else
+      (numerator / denominator) - 1
+    end
   end
 end

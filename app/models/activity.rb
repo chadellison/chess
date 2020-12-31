@@ -1,11 +1,11 @@
 class Activity
   def self.create_abstraction(pieces, new_pieces)
     if in_check?(new_pieces)
-      1
+      0
     else
       move_count = count_moves(pieces, new_pieces)
       next_move_count = count_moves(new_pieces, pieces)
-      (move_count + next_move_count).to_f / (move_count * 2)
+      (next_move_count - move_count) * 0.1
     end
   end
 
