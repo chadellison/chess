@@ -2,7 +2,7 @@ class AiLogic
   attr_reader :neural_network, :engine
 
   def initialize
-    @neural_network = RubyNN::NeuralNetwork.new([7, 14, 14, 1], 0.001)
+    @neural_network = RubyNN::NeuralNetwork.new([8, 20, 26, 18, 1], 0.001)
     file_path = Rails.root + 'json/weights.json'
     begin
       json_weights = File.read(file_path)
@@ -34,6 +34,7 @@ class AiLogic
       Material.create_abstraction(all_pieces, pieces, fen_notation),
       Attack.create_evade_abstraction(pieces),
       Attack.create_attack_abstraction(pieces, next_pieces),
+      Castle.create_abstraction(fen_notation, turn),
       King.create_abstraction(pieces, next_pieces, all_pieces, turn),
       King.create_threat_abstraction(pieces, next_pieces, all_pieces, turn, fen_notation),
       Development.create_abstraction(all_pieces, turn),

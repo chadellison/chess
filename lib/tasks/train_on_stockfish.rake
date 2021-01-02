@@ -1,6 +1,5 @@
 desc 'Train on stockfish'
 task train_on_stockfish: :environment do
-  ai_logic = AiLogic.new
   engine = ChessValidator::Engine
   stockfish = Stockfish::Engine.new
 
