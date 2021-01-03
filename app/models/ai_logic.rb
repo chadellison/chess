@@ -2,7 +2,7 @@ class AiLogic
   attr_reader :neural_network, :engine
 
   def initialize
-    @neural_network = RubyNN::NeuralNetwork.new([8, 20, 26, 18, 1], 0.001)
+    @neural_network = RubyNN::NeuralNetwork.new([10, 20, 26, 18, 1], 0.001)
     file_path = Rails.root + 'json/weights.json'
     begin
       json_weights = File.read(file_path)
@@ -18,9 +18,9 @@ class AiLogic
   def evaluate_position(fen_notation)
     turn = fen_notation.split[1]
     position = Position.create_position(fen_notation)
-    inputs = create_abstractions(position['signature'])
-    predictions = neural_network.calculate_prediction(inputs).last
-    predictions.last
+    inputs = create_abstractions(position['signature']).last
+    # predictions = neural_network.calculate_prediction(inputs).last
+    # predictions.last
   end
 
   def create_abstractions(signature)
@@ -28,16 +28,21 @@ class AiLogic
     pieces = engine.find_next_moves(fen_notation)
     all_pieces = engine.pieces(fen_notation)
     next_pieces = AbstractionHelper.next_pieces(fen_notation)
+    next_fen = AbstractionHelper.next_turn_fen(fen_notation)
     turn = fen_notation.split[1]
+    target_positions = AbstractionHelper.find_target_positions(pieces)
     [
       Activity.create_abstraction(pieces, next_pieces),
       Material.create_abstraction(all_pieces, pieces, fen_notation),
       Attack.create_evade_abstraction(pieces),
       Attack.create_attack_abstraction(pieces, next_pieces),
       Castle.create_abstraction(fen_notation, turn),
-      King.create_abstraction(pieces, next_pieces, all_pieces, turn),
+      King.create_abstraction(target_positions, pieces, next_pieces, all_pieces, turn),
+      King.potential_mate_abstraction(target_positions, pieces, next_pieces, all_pieces, turn, next_fen),
       King.create_threat_abstraction(pieces, next_pieces, all_pieces, turn, fen_notation),
       Development.create_abstraction(all_pieces, turn),
+      Pawn.create_center_abstraction(all_pieces, turn),
+      Pawn.past_pawn_abstraction(all_pieces, turn),
     ]
   end
 
@@ -68,17 +73,6 @@ class AiLogic
     end
     moves
   end
-
-  # def extract_outputs(position, turn)
-  #   if turn == 'w'
-  #     wins = position['white_wins']
-  #     losses = position['black_wins']
-  #   else
-  #     wins = position['black_wins']
-  #     losses = position['white_wins']
-  #   end
-  #   [wins, losses, position['draws']]
-  # end
 
   def calculate_ratio(position, turn)
     if turn == 'w'

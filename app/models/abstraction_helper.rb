@@ -35,6 +35,14 @@ class AbstractionHelper
     max
   end
 
+  # def self.min_target_value(pieces)
+  #   min = 0
+  #   pieces.each do |piece|
+  #     min = min_value(piece.targets, min)
+  #   end
+  #   min
+  # end
+
   def self.max_value(targets, max)
     targets.each do |target|
       value = find_piece_value(target)
@@ -42,6 +50,14 @@ class AbstractionHelper
     end
     max
   end
+  # 
+  # def self.min_value(targets, min)
+  #   targets.each do |target|
+  #     value = find_piece_value(target)
+  #     min = value if value < min
+  #   end
+  #   min
+  # end
 
   def self.next_pieces(fen_notation)
     next_fen = next_turn_fen(fen_notation)
@@ -61,5 +77,11 @@ class AbstractionHelper
     else
       [left_column + down_row, right_column + down_row]
     end
+  end
+
+  def self.find_target_positions(pieces)
+    pieces.reduce([]) do |accumulator, piece|
+      accumulator + piece.targets.map(&:position)
+    end.uniq
   end
 end
