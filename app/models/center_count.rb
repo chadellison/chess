@@ -18,15 +18,24 @@ class CenterCount
     'f3' => true,
   }
 
-  def self.build(piece)
-    center_moves = piece.move_potential.reduce(0) do |sum, move|
-      if SQUARES[move]
-        sum + 1
-      else
-        sum
+  def self.create_abstraction(pieces, next_pieces)
+    value = 0
+    pieces.each do |piece|
+      piece.valid_moves.each do |move|
+        if SQUARES[move]
+          value -= 1
+        end
       end
     end
 
-    center_moves > 0 ? piece.piece_type + center_moves.to_s : ''
+    next_pieces.each do |piece|
+      piece.valid_moves.each do |move|
+        if SQUARES[move]
+          value += 1
+        end
+      end
+    end
+
+    value * 0.1
   end
 end

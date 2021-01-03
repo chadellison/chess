@@ -2,7 +2,7 @@ class AiLogic
   attr_reader :neural_network, :engine
 
   def initialize
-    @neural_network = RubyNN::NeuralNetwork.new([10, 20, 26, 18, 1], 0.001)
+    @neural_network = RubyNN::NeuralNetwork.new([12, 20, 26, 18, 1], 0.001)
     file_path = Rails.root + 'json/weights.json'
     begin
       json_weights = File.read(file_path)
@@ -18,9 +18,9 @@ class AiLogic
   def evaluate_position(fen_notation)
     turn = fen_notation.split[1]
     position = Position.create_position(fen_notation)
-    inputs = create_abstractions(position['signature']).last
-    # predictions = neural_network.calculate_prediction(inputs).last
-    # predictions.last
+    inputs = create_abstractions(position['signature'])
+    predictions = neural_network.calculate_prediction(inputs).last
+    predictions.last
   end
 
   def create_abstractions(signature)
@@ -37,6 +37,7 @@ class AiLogic
       Attack.create_evade_abstraction(pieces),
       Attack.create_attack_abstraction(pieces, next_pieces),
       Castle.create_abstraction(fen_notation, turn),
+      CenterCount.create_abstraction(pieces, next_pieces),
       King.create_abstraction(target_positions, pieces, next_pieces, all_pieces, turn),
       King.potential_mate_abstraction(target_positions, pieces, next_pieces, all_pieces, turn, next_fen),
       King.create_threat_abstraction(pieces, next_pieces, all_pieces, turn, fen_notation),

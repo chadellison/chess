@@ -18,17 +18,6 @@ class Attack
     attack_value
   end
 
-  # def self.multiple_attack_abstraction(pieces, next_attackers)
-  #   unique_targets = find_targets(next_attackers).uniq
-  #   threat_value = AbstractionHelper.max_target_value(pieces)
-  #   if unique_targets.size > 1
-  #     min = AbstractionHelper.min_target_value(unique_targets)
-  #     min - threat_value
-  #   else
-  #     0
-  #   end
-  # end
-
   def self.find_targets(pieces)
     pieces.reduce([]) do |accumulator, piece|
       accumulator + piece.targets
