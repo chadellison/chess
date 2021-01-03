@@ -1,7 +1,11 @@
 class Material
-  def self.create_abstraction(all_pieces, pieces, fen_notation)
+  def self.create_abstraction(position_data)
+    all_pieces = position_data.all_pieces
+    pieces = position_data.pieces
+    fen_notation = position_data.fen_notation
+
     current_material_value = AbstractionHelper.find_material_value(all_pieces)
-    current_material_value = -current_material_value if fen_notation.split[1] == 'w'
+    current_material_value = -current_material_value if position_data.turn == 'w'
     (current_material_value + calculate_value(pieces, fen_notation)) * 0.1
   end
 

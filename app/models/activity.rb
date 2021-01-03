@@ -1,5 +1,8 @@
 class Activity
-  def self.create_abstraction(pieces, new_pieces)
+  def self.create_abstraction(position_data)
+    pieces = position_data.pieces
+    new_pieces = position_data.next_pieces
+    
     if in_check?(new_pieces)
       0
     else

@@ -3,12 +3,12 @@ class Attack
     -AbstractionHelper.max_target_value(pieces) * 0.1
   end
 
-  def self.create_attack_abstraction(pieces, next_attackers)
-    targets = find_targets(pieces)
+  def self.create_attack_abstraction(position_data)
+    targets = find_targets(position_data.pieces)
     max_vulnerability = AbstractionHelper.max_value(targets, 0)
 
     attack_value = 0
-    next_attackers.each do |attacker|
+    position_data.next_pieces.each do |attacker|
       if targets.none? { |target| target.position == attacker.position }
         max = AbstractionHelper.max_value(attacker.targets, 0)
         value = max - max_vulnerability

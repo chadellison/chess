@@ -24,26 +24,20 @@ class AiLogic
   end
 
   def create_abstractions(signature)
-    fen_notation = signature + ' 0 1'
-    pieces = engine.find_next_moves(fen_notation)
-    all_pieces = engine.pieces(fen_notation)
-    next_pieces = AbstractionHelper.next_pieces(fen_notation)
-    next_fen = AbstractionHelper.next_turn_fen(fen_notation)
-    turn = fen_notation.split[1]
-    target_positions = AbstractionHelper.find_target_positions(pieces)
+    position_data = PositionData.new(signature + ' 0 1')
     [
-      Activity.create_abstraction(pieces, next_pieces),
-      Material.create_abstraction(all_pieces, pieces, fen_notation),
-      Attack.create_evade_abstraction(pieces),
-      Attack.create_attack_abstraction(pieces, next_pieces),
-      Castle.create_abstraction(fen_notation, turn),
-      CenterCount.create_abstraction(pieces, next_pieces),
-      King.create_abstraction(target_positions, pieces, next_pieces, all_pieces, turn),
-      King.potential_mate_abstraction(target_positions, pieces, next_pieces, all_pieces, turn, next_fen),
-      King.create_threat_abstraction(pieces, next_pieces, all_pieces, turn, fen_notation),
-      Development.create_abstraction(all_pieces, turn),
-      Pawn.create_center_abstraction(all_pieces, turn),
-      Pawn.past_pawn_abstraction(all_pieces, turn),
+      Activity.create_abstraction(position_data),
+      Material.create_abstraction(position_data),
+      Attack.create_evade_abstraction(position_data.pieces),
+      Attack.create_attack_abstraction(position_data),
+      Castle.create_abstraction(position_data.fen_notation, position_data.turn),
+      CenterCount.create_abstraction(position_data.pieces, position_data.next_pieces),
+      King.create_abstraction(position_data),
+      King.potential_mate_abstraction(position_data),
+      King.create_threat_abstraction(position_data),
+      Development.create_abstraction(position_data.all_pieces, position_data.turn),
+      Pawn.create_center_abstraction(position_data.all_pieces, position_data.turn),
+      Pawn.past_pawn_abstraction(position_data.all_pieces, position_data.turn),
     ]
   end
 

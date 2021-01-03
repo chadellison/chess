@@ -1,11 +1,11 @@
 class King
-  def self.create_abstraction(target_positions, pieces, next_pieces, all_pieces, color)
-    return 0 if pieces.blank?
-    king = find_king(all_pieces, color)
+  def self.create_abstraction(position_data)
+    return 0 if position_data.pieces.blank?
+    king = find_king(position_data.all_pieces, position_data.turn)
     king_spaces = ChessValidator::MoveLogic.spaces_near_king(king.position)
 
-    next_pieces.reduce(0) do |sum, piece|
-      if target_positions.include?(piece.position)
+    position_data.next_pieces.reduce(0) do |sum, piece|
+      if position_data.target_positions.include?(piece.position)
         sum + 0
       else
         sum + (piece.valid_moves & king_spaces).size
@@ -13,16 +13,16 @@ class King
     end * 0.1
   end
 
-  def self.potential_mate_abstraction(target_positions, pieces, next_pieces, all_pieces, color, next_fen)
-    return 0 if pieces.blank?
-    king = find_king(all_pieces, color)
+  def self.potential_mate_abstraction(position_data)
+    return 0 if position_data.pieces.blank?
+    king = find_king(position_data.all_pieces, position_data.turn)
     king_spaces = ChessValidator::MoveLogic.spaces_near_king(king.position)
 
-    next_pieces.reduce(0) do |sum, piece|
-      if target_positions.include?(piece.position)
+    position_data.next_pieces.reduce(0) do |sum, piece|
+      if position_data.target_positions.include?(piece.position)
         sum
       else
-        sum + recapture_rank(piece, king_spaces, next_fen)
+        sum + recapture_rank(piece, king_spaces, position_data.next_fen)
       end
     end * 0.1
   end
@@ -39,17 +39,17 @@ class King
     end
   end
 
-  def self.create_threat_abstraction(pieces, next_pieces, all_pieces, color, fen_notation)
-    return 0 if next_pieces.blank?
-    ally_king = find_king(all_pieces, color == 'w' ? 'b' : 'w')
+  def self.create_threat_abstraction(position_data)
+    return 0 if position_data.next_pieces.blank?
+    ally_king = find_king(position_data.all_pieces, position_data.turn == 'w' ? 'b' : 'w')
     king_spaces = ChessValidator::MoveLogic.spaces_near_king(ally_king.position)
 
     sum = 0
-    pieces.each do |piece|
+    position_data.pieces.each do |piece|
       piece.valid_moves.each do |move|
         if king_spaces.include?(move)
-          new_fen_notation = ChessValidator::Engine.move(piece, move, fen_notation)
-          pieces_with_moves = ChessValidator::Engine.find_next_moves(new_fen_notation)
+          new_fen_notation = position_data.engine.move(piece, move, position_data.fen_notation)
+          pieces_with_moves = position_data.engine.find_next_moves(new_fen_notation)
           if pieces_with_moves.none? { |p| p.valid_moves.include?(move) }
             sum -= 1
           end
