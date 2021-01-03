@@ -28,9 +28,8 @@ class AiLogic
     [
       Activity.create_abstraction(position_data),
       Material.create_abstraction(position_data),
-      Attack.create_evade_abstraction(position_data.pieces),
-      # Attack.create_attack_abstraction(position_data),
-      Attack.tempo_abstraction(position_data),
+      Attack.create_evade_abstraction(position_data),
+      Attack.create_abstraction(position_data),
       Castle.create_abstraction(position_data.fen_notation, position_data.turn),
       CenterCount.create_abstraction(position_data.pieces, position_data.next_pieces),
       King.create_abstraction(position_data),

@@ -1,44 +1,31 @@
 class Attack
-  def self.create_evade_abstraction(pieces)
-    -AbstractionHelper.max_target_value(pieces) * 0.1
+  def self.create_evade_abstraction(position_data)
+    -position_data.max_target_value * 0.1
   end
 
-  def self.tempo_abstraction(position_data)
-    value = 0
-
+  def self.create_abstraction(position_data)
+    max_target_gain = 0
+    max_vulnerability = position_data.max_target_value
     position_data.next_pieces.each do |piece|
-      if !position_data.target_positions.include?(piece.position)
-        piece_value = AbstractionHelper.find_piece_value(piece)
-        max_opponent_value = AbstractionHelper.max_value(piece.targets, 0)
-        difference = max_opponent_value - piece_value
-        value = difference if difference > value
+      if piece.targets.present? && !position_data.target_positions.include?(piece.position)
+        piece.targets.each do |target|
+          if target.piece_type.downcase != 'k'
+            final_fen = position_data.engine.move(piece, target.position, position_data.next_fen)
+            pieces_with_moves = position_data.engine.find_next_moves(final_fen)
+            if pieces_with_moves.none? { |piece| piece.valid_moves.include?(target.position) }
+              target_value = AbstractionHelper.find_piece_value(target)
+              difference = target_value - max_vulnerability
+            else
+              piece_value = AbstractionHelper.find_piece_value(piece)
+              target_value = AbstractionHelper.find_piece_value(target)
+              difference = target_value - (piece_value + max_vulnerability)
+            end
+          end
+          max_target_gain = difference if difference > max_target_gain
+        end
       end
     end
-    value
+
+    max_target_gain
   end
-
-  def self.undefended_abstraction(position_data)
-    # max attack of undefended pieces
-  end
-
-  # def self.create_attack_abstraction(position_data)
-  #   targets = find_targets(position_data.pieces)
-  #   max_vulnerability = AbstractionHelper.max_value(targets, 0)
-  #
-  #   attack_value = 0
-  #   position_data.next_pieces.each do |attacker|
-  #     if targets.none? { |target| target.position == attacker.position }
-  #       max = AbstractionHelper.max_value(attacker.targets, 0)
-  #       value = max - max_vulnerability
-  #       attack_value = value if value > attack_value
-  #     end
-  #   end
-  #   attack_value
-  # end
-
-  # def self.find_targets(pieces)
-  #   pieces.reduce([]) do |accumulator, piece|
-  #     accumulator + piece.targets
-  #   end
-  # end
 end

@@ -1,6 +1,6 @@
 class PositionData
-  attr_reader :fen_notation, :pieces, :all_pieces, :next_pieces, :next_fen,
-    :turn, :target_positions, :engine
+  attr_reader :fen_notation, :engine, :pieces, :all_pieces, :next_pieces, :next_fen,
+    :turn, :target_positions, :max_target_value
 
   def initialize(fen_notation)
     @fen_notation = fen_notation
@@ -11,5 +11,6 @@ class PositionData
     @next_fen = AbstractionHelper.next_turn_fen(fen_notation)
     @turn = fen_notation.split[1]
     @target_positions = AbstractionHelper.find_target_positions(@pieces)
+    @max_target_value = AbstractionHelper.max_target_value(pieces)
   end
 end

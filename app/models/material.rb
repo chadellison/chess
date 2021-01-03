@@ -15,8 +15,8 @@ class Material
       piece.targets.each do |target|
         capture_value = AbstractionHelper.find_piece_value(target)
 
-        new_fen_notation = ChessValidator::Engine.move(piece, target.position, fen_notation)
-        new_pieces = ChessValidator::Engine.find_next_moves(new_fen_notation)
+        new_fen_notation = position_data.engine.move(piece, target.position, fen_notation)
+        new_pieces = position_data.engine.find_next_moves(new_fen_notation)
         max_recapture_value = AbstractionHelper.max_target_value(pieces)
 
         material_gain = capture_value - max_recapture_value
