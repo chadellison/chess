@@ -20,8 +20,8 @@ class Attack
               target_value = AbstractionHelper.find_piece_value(target)
               difference = target_value - (piece_value + max_vulnerability)
             end
+            max_target_gain = difference if difference > max_target_gain
           end
-          max_target_gain = difference if difference > max_target_gain
         end
       end
     end
