@@ -1,21 +1,33 @@
 desc 'Train on self'
 task train_on_self: :environment do
-  neural_network = NeuralNetwork.new
+  engine = ChessValidator::Engine
 
-  ENV['COUNT'].to_i.times do
-    game = Game.create(analyzed: true)
+  ENV['COUNT'].to_i.times do |game_number|
     start_time = Time.now
+    game_over = false
+    positions = []
+    fen_notation = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
 
-    game.machine_vs_machine
+    until game_over do
+      pieces_with_moves = engine.find_next_moves(fen_notation)
+      fen_notation = engine.make_random_move(fen_notation, pieces_with_moves)
 
-    game.update_outcomes
+      positions << Position.create_position(fen_notation)
+      puts PGN::FEN.new(fen_notation).board.inspect
+      puts fen_notation
 
-    end_time = Time.now
-
-    total_time = end_time - start_time
-
-    puts "FINISHED GAME IN #{Time.at(total_time).utc.strftime("%H:%M:%S")}!"
-    puts "OUTCOME:  #{game.outcome}"
+      outcome = engine.result(fen_notation)
+      if outcome.present?
+        positions.each do |position|
+          Position.update_results(position, outcome)
+          CacheService.hset('positions', position['signature'], position)
+        end
+        positions = []
+        game_over = true
+        puts "FINISHED GAME IN #{Time.at(Time.now - start_time).utc.strftime("%H:%M:%S")}!"
+        puts "OUTCOME:  #{outcome}"
+      end
+    end
   end
   puts '---------------THE END---------------'
 end

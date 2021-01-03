@@ -28,12 +28,11 @@ task train_on_stockfish: :environment do
       positions << Position.create_position(fen_notation)
       puts PGN::FEN.new(fen_notation).board.inspect
       puts fen_notation
-      puts '-------------------------------------'
 
       outcome = engine.result(fen_notation)
       if outcome.present?
         positions.each do |position|
-          ResultHelper.update_results(position, outcome)
+          Position.update_results(position, outcome)
           CacheService.hset('positions', position['signature'], position)
         end
         positions = []

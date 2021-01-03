@@ -37,7 +37,7 @@ def create_positions(game_positions, result)
     fen = position.to_fen
     fen_string = fen.to_s
     position = Position.create_position(fen_string)
-    ResultHelper.update_results(position, result)
+    Position.update_results(position, result)
     CacheService.hset('positions', position['signature'], position)
   end
 end
