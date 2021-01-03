@@ -12,12 +12,11 @@ class Attack
           if target.piece_type.downcase != 'k'
             final_fen = position_data.engine.move(piece, target.position, position_data.next_fen)
             pieces_with_moves = position_data.engine.find_next_moves(final_fen)
+            target_value = position_data.find_piece_value(target)
             if pieces_with_moves.none? { |piece| piece.valid_moves.include?(target.position) }
-              target_value = AbstractionHelper.find_piece_value(target)
               difference = target_value - max_vulnerability
             else
-              piece_value = AbstractionHelper.find_piece_value(piece)
-              target_value = AbstractionHelper.find_piece_value(target)
+              piece_value = position_data.find_piece_value(piece)
               difference = target_value - (piece_value + max_vulnerability)
             end
             max_target_gain = difference if difference > max_target_gain

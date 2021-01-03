@@ -2,7 +2,7 @@ class King
   def self.create_abstraction(position_data)
     return 0 if position_data.pieces.blank?
     king = find_king(position_data.all_pieces, position_data.turn)
-    king_spaces = ChessValidator::MoveLogic.spaces_near_king(king.position)
+    king_spaces = position_data.spaces_near_king(king.position)
 
     position_data.next_pieces.reduce(0) do |sum, piece|
       if position_data.target_positions.include?(piece.position)
@@ -16,7 +16,7 @@ class King
   def self.potential_mate_abstraction(position_data)
     return 0 if position_data.pieces.blank?
     king = find_king(position_data.all_pieces, position_data.turn)
-    king_spaces = ChessValidator::MoveLogic.spaces_near_king(king.position)
+    king_spaces = position_data.spaces_near_king(king.position)
 
     position_data.next_pieces.reduce(0) do |sum, piece|
       if position_data.target_positions.include?(piece.position)
