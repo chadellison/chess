@@ -8,7 +8,7 @@ task train_network: :environment do
   REDIS.hscan_each('positions') do |position_data|
     position = JSON.parse(position_data.last)
 
-    if [position['white_wins'], position['black_wins'], position['draws']].any? { |value| value > 2 }
+    # if [position['white_wins'], position['black_wins'], position['draws']].any? { |value| value > 2 }
       turn = position['signature'].split[1]
 
       input = ai_logic.create_abstractions(position['signature'])
@@ -24,7 +24,7 @@ task train_network: :environment do
       if count % 10000 == 0
         ai_logic.neural_network.save_weights("#{Rails.root}/json/weights.json")
       end
-    end
+    # end
   end
   ai_logic.neural_network.save_weights("#{Rails.root}/json/weights.json")
 end

@@ -3,6 +3,7 @@ class Position
     fen_array = fen_notation.split
     signature = "#{fen_array[0]} #{fen_array[1]} #{fen_array[2]} #{fen_array[3]}"
 
+    # king_snapshot ???
     position = CacheService.hget('positions', signature)
     if position.present?
       position
