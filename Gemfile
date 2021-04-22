@@ -16,6 +16,7 @@ gem 'rubocop'
 gem 'ruby_nn'
 gem 'chess_validator'
 gem 'pgn'
+gem 'chewy'
 
 group :development, :test do
   gem 'rspec-rails'

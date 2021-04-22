@@ -1,7 +1,7 @@
 class Position
   def self.create_position(fen_notation)
     fen_array = fen_notation.split
-    signature = "#{fen_array[0]} #{fen_array[1]} #{fen_array[2]} #{fen_array[3]}"
+    signature = "#{fen_array[0]} #{fen_array[1]}".gsub('/', 'z')
 
     # king_snapshot ???
     position = CacheService.hget('positions', signature)
