@@ -23,6 +23,24 @@ class AiLogic
     predictions.last
   end
 
+  def best_branches(fen_notation, depth, inputs)
+    # material
+    # activity
+    if depth == 0
+      inputs
+    else
+      engine.find_next_moves(fen_notation).each do |piece|
+        piece.valid_moves.each do |move|
+          next_fen_notation = engine.move(piece, move, fen_notation)
+          material_value = Material.find_material_value(engine.pieces(next_fen_notation))
+          # current_value = evaluate_position(next_fen_notation)
+          max = current_value if current_value > max
+          # best_branches()
+        end
+      end
+    end
+  end
+
   def create_abstractions(signature)
     position_data = PositionData.new(signature + ' 0 1')
     [
