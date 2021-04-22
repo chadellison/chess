@@ -27,6 +27,7 @@ def parse_file(file_number)
   end_time = Time.now
   puts "PARSED #{games.size} GAMES IN #{end_time - start_time} SECONDS"
   start_time = Time.now
+  # only create positions for games whose move_count is greater than 5...
   games.each { |game| create_positions(game.positions, game.result) }
   end_time = Time.now
   puts "loaded #{games.size} GAMES IN #{end_time - start_time} SECONDS"
@@ -38,6 +39,8 @@ def create_positions(game_positions, result)
     fen_string = fen.to_s
     position = Position.create_position(fen_string)
     Position.update_results(position, result)
+    # update result and save king positions as well
+    # CacheService.hget('king', King.king_snapshot(position_data))
     CacheService.hset('positions', position['signature'], position)
   end
 end

@@ -64,4 +64,17 @@ class King
       piece.piece_type.downcase == 'k' && piece.color == color
     end
   end
+
+  def self.king_snapshot(position_data)
+    snap_shot = ''
+    position_data.spaces_near_king.each do |space|
+      position_data.all_pieces.each do |piece|
+        if piece.position == space
+          snap_shot += piece.piece_type
+        end
+      end
+    end
+
+    CacheService.hget('king', snap_shot).to_f
+  end
 end

@@ -45,7 +45,7 @@ class PositionData
     ChessValidator::MoveLogic.spaces_near_king(position)
   end
 
-  def find_material_value(all_pieces)
+  def find_material_value(pieces)
     pieces.reduce(0) do |sum, piece|
       piece_value = find_piece_value(piece)
       if piece.color == 'w'

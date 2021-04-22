@@ -2,13 +2,18 @@ class Material
   VALUE_KEY = { 'P' => 1, 'P' => -1, 'N' => 3, 'n' => -3, 'B' => 3, 'b' => -3, 'R' => 5, 'r' => -5, 'Q' => 9, 'q' => -9, 'K' => 90, 'k' => -90 }
 
   def self.create_abstraction(position_data)
-    all_pieces = position_data.all_pieces
-    pieces = position_data.pieces
-    fen_notation = position_data.fen_notation
-
-    current_material_value = position_data.find_material_value(all_pieces)
+    # all_pieces = position_data.all_pieces
+    # pieces = position_data.pieces
+    # fen_notation = position_data.fen_notation
+    #
+    current_material_value = position_data.find_material_value(position_data.all_pieces)
     current_material_value = -current_material_value if position_data.turn == 'w'
-    (current_material_value + calculate_value(pieces, fen_notation, position_data)) * 0.1
+    # (current_material_value + calculate_value(pieces, fen_notation, position_data)) * 0.1
+    # position_data.max_target_value
+    # if position_data.turn == 'w'
+    current_material_value - position_data.max_target_value
+    # else
+    # end
   end
 
   def self.calculate_value(pieces, fen_notation, position_data)
